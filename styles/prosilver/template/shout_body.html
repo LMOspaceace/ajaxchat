@@ -1,0 +1,74 @@
+<!-- BEGIN chatrow -->
+<div id="p{chatrow.MESSAGE_ID}" class="post bg{chatrow.CLASS}">
+    <div class="chat-postbody">
+        <div class="chat-profile-width">
+            <div class="chat-postprofile" id="profile{chatrow.MESSAGE_ID}">
+                <dl>
+                    <dt>
+                    <div class="chat-avatars">
+                        <!-- IF S_AJAX_CHAT_AVATARS -->
+                        <!-- IF chatrow.USER_AVATAR -->
+                        <!-- IF S_AJAX_CHAT_AVATAR_HOVER --><span>{chatrow.USER_AVATAR}</span><!-- ENDIF -->{chatrow.USER_AVATAR_THUMB}
+                        <!-- ELSE -->
+                        <!-- IF S_AJAX_CHAT_AVATAR_HOVER -->
+                        <span>
+                            <img src="{T_THEME_PATH}/images/no_avatar.gif" width="128" height="128" alt="" />
+                        </span>
+                        <!-- ENDIF -->
+                        <img src="{T_THEME_PATH}/images/no_avatar.gif" width="35" height="35" alt="" />
+                        <!-- ENDIF -->
+                        <!-- ENDIF -->
+                    </div>
+                    <!-- IF S_USER_LOGGED_IN and not S_IS_BOT -->
+                    <!-- IF chatrow.USER_COLOR -->
+                    <a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/color][/b]', true);
+                            return false;" title="{L_RESPOND}">&#64;</a>
+                    <!-- ELSE -->
+                    <a href="#" onclick="insert_text('[b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b]', true);
+                            return false;" title="{L_RESPOND}">&#64;</a>
+                    <!-- ENDIF -->
+                    <!-- ELSE -->
+                    &#64;
+                    <!-- ENDIF -->
+                    {chatrow.USERNAME_FULL}
+                    <br />
+                    <b class="time" style="font-size: 0.9em;">
+                        &nbsp;&laquo;&nbsp;{chatrow.TIME}&nbsp;&raquo;
+                    </b>
+                    </dt>
+                    <dd>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="message">
+            <!-- IF U_MCP or U_ACP -->
+            <ul class="post-buttons">
+                <a href="javascript:void({chatrow.MESSAGE_ID})" title="{L_DELETE_CHAT_MESSAGE}" onClick="delete_post('{chatrow.MESSAGE_ID}')">
+                    <li style="padding: 0 3px;" class="button icon-button delete-icon">
+                    </li>
+                </a>
+            </ul>
+            <!-- ENDIF -->
+            {chatrow.MESSAGE}
+        </div>
+    </div>
+</div>
+<!-- END chatrow -->
+</div>
+</div>
+<!-- IF S_AJAX_CHAT_ONLINELIST -->
+<div class="whois<!-- IF S_CHAT or S_POPUP --> main<!-- ENDIF -->">
+    <h3 style="margin: 2px 0;">
+        {L_WHOIS_CHATTING}
+    </h3>
+    <div id="whois_online" style="text-align: left;margin-left: 10px">
+        <!-- BEGIN whoisrow -->
+        <div style="margin-top: 4px">
+            <img src="ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="online_img" alt="{whoisrow.USER_STATUS}" />
+            {whoisrow.USERNAME_FULL}
+        </div>
+        <!-- END whoisrow -->
+    </div>
+</div>
+<!-- ENDIF -->
