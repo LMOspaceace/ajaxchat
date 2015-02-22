@@ -1,0 +1,40 @@
+services:
+    spaceace.ajax.chat.listener:
+        class: spaceace\ajaxchat\event\listener
+        arguments:
+            - @path_helper
+            - @template
+            - @user
+            - @dbal.conn
+            - @auth
+            - @request
+            - @controller.helper
+            - @config
+            - %core.root_path%
+            - %core.php_ext%
+        tags:
+            - { name: event.listener }
+    spaceace.ajaxchat.chat.controller:
+        class: spaceace\ajaxchat\controller\chat
+        arguments:
+            - @template
+            - @user
+            - @dbal.conn
+            - @auth
+            - @request
+            - @controller.helper
+            - @config
+            - %core.root_path%
+            - %core.php_ext%
+    spaceace.ajaxchat.shout.controller:
+        class: spaceace\ajaxchat\controller\shout
+        arguments:
+            - @template
+            - @user
+            - @dbal.conn
+            - @auth
+            - @request
+            - @controller.helper
+            - @config
+            - %core.root_path%
+            - %core.php_ext%
