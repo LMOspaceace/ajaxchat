@@ -1,0 +1,3 @@
+spaceace.ajaxchat.chat.controller:
+    path: /chat/{mode}
+    defaults: {_controller: spaceace.ajaxchat.chat.controller:index }
