@@ -223,8 +223,8 @@ class chat
             {
                 continue;
             }
-            $row['avatar']       = ($this->user->optionget('viewavatars')) ? @\get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
-            $row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
+            $row['avatar']       = ($this->user->optionget('viewavatars')) ? @get_user_avatar($this->root_path.$row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
+            $row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($this->root_path.$row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
             if ($this->count++ == 0)
             {
                 $this->last_id = $row['message_id'];
