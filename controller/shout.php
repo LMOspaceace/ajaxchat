@@ -226,7 +226,7 @@ class shout
             'S_BBCODE_QUOTE'    => false,
             'S_BBCODE_URL'      => $url_status,
             'TIME'              => time(),
-            'FILENAME'          => append_sid("{$this->root_path}/ext/spaceace/ajaxchat/controller/shout.$this->php_ext"),
+            'FILENAME'          => $this->root_path . "chat/read",
             'LAST_ID'           => $this->last_id,
             'S_' . $this->mode  => true,
         ));
