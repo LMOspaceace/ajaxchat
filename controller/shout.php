@@ -230,7 +230,7 @@ class shout
             'S_BBCODE_QUOTE'    => false,
             'S_BBCODE_URL'      => $url_status,
             'TIME'              => time(),
-            'FILENAME'          => $this->root_path . "chat/read",
+            'FILENAME'          => $this->root_path . "chat/",
             'LAST_ID'           => $this->last_id,
             'S_' . $this->mode  => true,
         ));
