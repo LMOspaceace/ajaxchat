@@ -57,6 +57,9 @@ class chat
 
     /** @var core.php_ext */
     protected $php_ext;
+    
+    /** @var string */
+    protected $table_prefix;
 
     /** @var int */
     protected $default_delay = 15;
@@ -106,6 +109,7 @@ class chat
         $this->config    = $config;
         $this->root_path = $root_path;
         $this->php_ext   = $php_ext;
+        $this->table_prefix = $table_prefix;
         $this->user->add_lang('posting');
         $this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
         $this->times     = [
@@ -121,11 +125,11 @@ class chat
         ];
         if (!defined('CHAT_TABLE'))
         {
-            define('CHAT_TABLE', $table_prefix.'ajax_chat');
+            define('CHAT_TABLE', $this->table_prefix.'ajax_chat');
         }
         if (!defined('CHAT_SESSIONS_TABLE'))
         {
-            define('CHAT_SESSIONS_TABLE', $table_prefix.'ajax_chat_sessions');
+            define('CHAT_SESSIONS_TABLE', $this->table_prefix.'ajax_chat_sessions');
         }
         include $this->root_path . 'includes/functions_posting.' . $this->php_ext;
 
