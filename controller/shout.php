@@ -129,11 +129,11 @@ class shout
         ];
         if (!defined('CHAT_TABLE'))
         {
-            define('CHAT_TABLE', $table_prefix.'ajax_chat');
+            define('CHAT_TABLE', $this->table_prefix.'ajax_chat');
         }
         if (!defined('CHAT_SESSIONS_TABLE'))
         {
-            define('CHAT_SESSIONS_TABLE', $table_prefix.'ajax_chat_sessions');
+            define('CHAT_SESSIONS_TABLE', $this->table_prefix.'ajax_chat_sessions');
         }
         include $this->root_path . 'includes/functions_posting.' . $this->php_ext;
     }
