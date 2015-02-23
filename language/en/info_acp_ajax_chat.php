@@ -47,5 +47,4 @@ $lang = array_merge($lang, array(
     'ACL_U_AJAXCHAT_POST'         => 'Can post messages in chat',
     'ACL_U_AJAXCHAT_VIEW'         => 'Can view chat',
     'ACL_M_AJAXCHAT_DELETE'       => 'Can delete posts in chat',
-        )
-);
+        ));

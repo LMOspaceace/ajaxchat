@@ -132,5 +132,4 @@ class ucp_ajaxchat_module
         $this->tpl_name   = 'ucp_ajax_chat';
         $this->page_title = 'USER_AJAXCHAT_SETTINGS';
     }
-
 }

@@ -33,4 +33,5 @@ class acp_ajaxchat_module extends migration
                 )),
         );
     }
+
 }

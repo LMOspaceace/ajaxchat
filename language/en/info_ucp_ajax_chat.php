@@ -45,5 +45,4 @@ $lang = array_merge($lang, array(
     'USER_AJAXCHAT'               => 'Ajax Chat',
     'USER_AJAXCHAT_SETTINGS'      => 'Ajax Chat Settings',
     'NO_VIEW_CHAT'                => 'You do not have permission to view chat.',
-        )
-);
+        ));

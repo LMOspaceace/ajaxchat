@@ -112,4 +112,5 @@ class listener implements EventSubscriberInterface
         $shout = new shout($this->template, $this->user, $this->db, $this->auth, $this->request, $this->helper, $this->config, $this->phpbb_root_path, $this->php_ext);
         return $shout->index('read');
     }
+
 }

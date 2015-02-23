@@ -34,4 +34,5 @@ class update_table extends \phpbb\db\migration\migration
             )
         );
     }
+
 }

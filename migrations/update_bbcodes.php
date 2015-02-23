@@ -36,4 +36,5 @@ class update_bbcodes extends \phpbb\db\migration\migration
         $acp_manager = new \spaceace\ajaxchat\core\acp_manager($this->db, $request, $user, $this->phpbb_root_path, $this->php_ext);
         $acp_manager->install_bbcodes($bbcode_data);
     }
+
 }

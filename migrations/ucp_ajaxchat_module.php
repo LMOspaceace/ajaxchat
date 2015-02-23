@@ -32,4 +32,5 @@ class ucp_ajaxchat_module extends \phpbb\db\migration\migration
                 )),
         );
     }
+
 }

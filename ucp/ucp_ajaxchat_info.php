@@ -28,5 +28,4 @@ class ucp_ajaxchat_info
             ),
         );
     }
-
 }

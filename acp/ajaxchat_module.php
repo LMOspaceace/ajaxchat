@@ -208,4 +208,5 @@ class ajaxchat_module
             'U_ACTION'  => $this->u_action)
         );
     }
+
 }

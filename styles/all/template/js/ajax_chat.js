@@ -108,7 +108,7 @@ function handle_send(mode, f)
             type = 'delete';
             param += '&chat_id=' + f;
         }
-        xmlHttp.open("POST", '/chat/' + mode, true);
+        xmlHttp.open("POST", './chat/' + mode, true);
         xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xmlHttp.onreadystatechange = handle_return;
         xmlHttp.send(param);
@@ -259,3 +259,18 @@ window.onload = function () {
         }
     }
 };
+
+//jQuery(document).ready(function() {
+//    $.ajax({
+//        url: './chat/read',
+//        type: 'POST',
+//        datatype: 'HTML',
+//        success: function(response) {
+//            if(response.status === '1') {
+//                alert('working');
+//            } else {
+//                alert('not working');
+//            }
+//        }
+//    });
+//});

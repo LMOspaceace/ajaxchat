@@ -31,4 +31,5 @@ class add_permissions extends migration
             array('permission.permission_set', array('ROLE_MOD_FULL', 'm_ajaxchat_delete')),
         );
     }
+
 }
