@@ -1,13 +1,13 @@
 <?php
 
 /**
- *
- * Ajax Chat extension for phpBB.
- *
- * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
- * @license GNU General Public License, version 2 (GPL-2.0)
- *
- */
+*
+* Ajax Chat extension for phpBB.
+*
+* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+* @license GNU General Public License, version 2 (GPL-2.0)
+*
+*/
 
 namespace spaceace\ajaxchat\migrations;
 
@@ -26,12 +26,12 @@ class acp_ajaxchat_module extends migration
             array('module.add', array(
                     'acp',
                     'ACP_AJAX_CHAT',
-                    array(
+                array(
                         'module_basename' => '\spaceace\ajaxchat\acp\ajaxchat_module',
                         'modes'           => array('settings'),
                     ),
-                )),
+                )
+            ),
         );
     }
-
 }
