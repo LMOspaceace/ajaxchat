@@ -51,6 +51,9 @@ class shout
     /** @var core.php_ext */
     protected $php_ext;
 
+    /** @var string */
+    protected $table_prefix;
+    
     /** @var int */
     protected $default_delay = 15;
 
