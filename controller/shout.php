@@ -102,15 +102,16 @@ class shout
     public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, $root_path, $php_ext)
     {
     	global $table_prefix;
-        $this->template  = $template;
-        $this->user      = $user;
-        $this->db        = $db;
-        $this->auth      = $auth;
-        $this->request   = $request;
-        $this->helper    = $helper;
-        $this->config    = $config;
-        $this->root_path = $root_path;
-        $this->php_ext   = $php_ext;
+        $this->template  	= $template;
+        $this->user      	= $user;
+        $this->db        	= $db;
+        $this->auth      	= $auth;
+        $this->request   	= $request;
+        $this->helper    	= $helper;
+        $this->config    	= $config;
+        $this->root_path 	= $root_path;
+        $this->php_ext   	= $php_ext;
+		$this->table_prefix = $table_prefix;
         //$this->chat = new chat();
         $this->last_id   = $this->request->variable('last_id', 0);
         $this->last_post = $this->request->variable('last_post', 0);
