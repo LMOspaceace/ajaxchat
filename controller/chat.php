@@ -1,13 +1,13 @@
 <?php
 
 /**
- *
- * Ajax Chat extension for phpBB.
- *
- * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
- * @license GNU General Public License, version 2 (GPL-2.0)
- *
- */
+*
+* Ajax Chat extension for phpBB.
+*
+* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+* @license GNU General Public License, version 2 (GPL-2.0)
+*
+*/
 
 namespace spaceace\ajaxchat\controller;
 
@@ -21,13 +21,14 @@ use phpbb\config\db;
 use spaceace\ajaxchat\controller\popup;
 
 /**
- * Main Controller
- * 
- * @version 1.0.0-DEV
- * @package spaceace\ajaxchat
- * @author Kevin Roy <royk@myraytech.com>
- * @author Spaceace <spaceace@livemembersonly.com>
- */
+* Main Controller
+* 
+* @version 1.0.0-DEV
+* @package spaceace\ajaxchat
+* @author Kevin Roy <royk@myraytech.com>
+* @author Spaceace <spaceace@livemembersonly.com>
+*/
+
 class chat
 {
 
