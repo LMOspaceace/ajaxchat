@@ -1,13 +1,13 @@
 <?php
 
 /**
- *
- * Ajax Chat extension for phpBB.
- *
- * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
- * @license GNU General Public License, version 2 (GPL-2.0)
- *
- */
+*
+* Ajax Chat extension for phpBB.
+*
+* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+* @license GNU General Public License, version 2 (GPL-2.0)
+*
+*/
 
 namespace spaceace\ajaxchat\controller;
 
@@ -191,7 +191,8 @@ class shout
                 );
                 $sql     = 'INSERT INTO ' . CHAT_SESSIONS_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
                 $this->db->sql_query($sql);
-            } else
+            }
+            else
             {
                 $sql_ary = array(
                     'username'        => $this->user->data['username'],
@@ -303,5 +304,4 @@ class shout
         }
         return $status;
     }
-
 }
