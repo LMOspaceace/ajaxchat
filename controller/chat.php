@@ -96,6 +96,7 @@ class chat
 
     public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, $root_path, $php_ext)
     {
+    	global $table_prefix;
         $this->template  = $template;
         $this->user      = $user;
         $this->db        = $db;
@@ -118,8 +119,14 @@ class chat
             'idle'    => 60,
             'offline' => 300,
         ];
-        define('CHAT_TABLE', 'phpbb_ajax_chat');
-        define('CHAT_SESSIONS_TABLE', 'phpbb_ajax_chat_sessions');
+        if (!defined('CHAT_TABLE'))
+        {
+            define('CHAT_TABLE', $table_prefix.'ajax_chat');
+        }
+        if (!defined('CHAT_SESSIONS_TABLE'))
+        {
+            define('CHAT_SESSIONS_TABLE', $table_prefix.'ajax_chat_sessions');
+        }
         include $this->root_path . 'includes/functions_posting.' . $this->php_ext;
 
         $this->post = $this->request->get_super_global(\phpbb\request\request_interface::POST);
