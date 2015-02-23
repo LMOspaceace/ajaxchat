@@ -126,11 +126,13 @@ class chat
         ];
         if (!defined('CHAT_TABLE'))
         {
-            define('CHAT_TABLE', $this->table_prefix.'ajax_chat');
+            $chat_table = $this->table_prefix . 'ajax_chat';
+            define('CHAT_TABLE', $chat_table);
         }
         if (!defined('CHAT_SESSIONS_TABLE'))
         {
-            define('CHAT_SESSIONS_TABLE', $this->table_prefix.'ajax_chat_sessions');
+            $chat_session_table = $this->table_prefix . 'ajax_chat_sessions';
+            define('CHAT_SESSIONS_TABLE', $chat_session_table);
         }
         include $this->root_path . 'includes/functions_posting.' . $this->php_ext;
 
