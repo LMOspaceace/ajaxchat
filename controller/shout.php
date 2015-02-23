@@ -98,6 +98,7 @@ class shout
      */
     public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, $root_path, $php_ext)
     {
+    	global $table_prefix;
         $this->template  = $template;
         $this->user      = $user;
         $this->db        = $db;
@@ -125,11 +126,11 @@ class shout
         ];
         if (!defined('CHAT_TABLE'))
         {
-            define('CHAT_TABLE', 'phpbb_ajax_chat');
+            define('CHAT_TABLE', $table_prefix.'ajax_chat');
         }
         if (!defined('CHAT_SESSIONS_TABLE'))
         {
-            define('CHAT_SESSIONS_TABLE', 'phpbb_ajax_chat_sessions');
+            define('CHAT_SESSIONS_TABLE', $table_prefix.'ajax_chat_sessions');
         }
         include $this->root_path . 'includes/functions_posting.' . $this->php_ext;
     }
