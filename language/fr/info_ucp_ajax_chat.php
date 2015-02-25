@@ -45,6 +45,6 @@ $lang = array_merge(
         'USER_AJAX_CHAT_ONLINELIST'   => 'Voir liste des connectes',
         'USER_AJAXCHAT'               => 'Dialogue Ajax ',
         'USER_AJAXCHAT_SETTINGS'      => 'Paramétres Dialogue Ajax',
-        'NO_VIEW_CHAT'                => 'Vous n'avez pas les droits pour voir le Dialogue.',
+        'NO_VIEW_CHAT'                => 'Vous n\'avez pas les droits pour voir le Dialogue.',
     )
 );
