@@ -1,0 +1,53 @@
+<?php
+
+/**
+*
+* Ajax Chat extension for phpBB.
+*
+* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+* @license GNU General Public License, version 2 (GPL-2.0)
+*
+*/
+/**
+ * DO NOT CHANGE
+ */
+if (!defined('IN_PHPBB'))
+{
+    exit;
+}
+
+if (empty($lang) || !is_array($lang))
+{
+    $lang = array();
+}
+
+// DEVELOPERS PLEASE NOTE
+//
+// All language files should use UTF-8 as their encoding and the files must not contain a BOM.
+//
+// Placeholders can now contain order information, e.g. instead of
+// 'Page %s of %s' you can (and should) write 'Page %1$s of %2$s', this allows
+// translators to re-order the output of data while ensuring it remains correct
+//
+// You do not need this where single placeholders are used, e.g. 'Message %d' is fine
+// equally where a string contains only two placeholders which are used to wrap text
+// in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
+// TRaduction Fr par stratege1401 à www.forum.fasx.org/phpbb/
+
+$lang = array_merge(
+    $lang, array(
+        'ADMIN_AJAXCHAT_SETTINGS'     => 'Paramétres',
+        'ACP_AJAX_CHAT_TITLE'         => 'Boite Dialogue Ajax ',
+        'ACP_AJAX_CHAT'               => 'Boite Dialogue Ajax ',
+        'AJAX_CHAT_SETTINGS'          => 'paramétres Dialogue Ajax ',
+        'ACP_AJAX_CHAT_TITLE_EXPLAIN' => 'Ici vous pouvez modifier les paramétres de Dialogue Ajax.',
+        'DISPLAY_AJAX_CHAT'           => 'Activer le Dialogue Ajax',
+        'REFRESH_AJAX_CHAT'           => 'Rafraichissement en secondes',
+        'RULE_AJAX_CHAT'              => 'Inserer une régle simple',
+        'RULE_AJAX_CHAT_EXPLAIN'      => 'Example: Restez polies, merci!!!',
+        'ACL_U_AJAXCHAT_BBCODE'       => 'Vous pouvez utiliser bbcode ',
+        'ACL_U_AJAXCHAT_POST'         => 'Vous pouvez ecrire des messages',
+        'ACL_U_AJAXCHAT_VIEW'         => 'Vous pouvez voir des messages ',
+        'ACL_M_AJAXCHAT_DELETE'       => 'Vous pouvez effacer des messages',
+    )
+);
