@@ -1,13 +1,13 @@
 <?php
 
 /**
- *
- * Ajax Chat extension for phpBB.
- *
- * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
- * @license GNU General Public License, version 2 (GPL-2.0)
- *
- */
+*
+* Ajax Chat extension for phpBB.
+*
+* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+* @license GNU General Public License, version 2 (GPL-2.0)
+*
+*/
 
 namespace spaceace\ajaxchat\controller;
 
@@ -51,6 +51,9 @@ class shout
     /** @var core.php_ext */
     protected $php_ext;
 
+    /** @var string */
+    protected $table_prefix;
+    
     /** @var int */
     protected $default_delay = 15;
 
@@ -98,15 +101,17 @@ class shout
      */
     public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, $root_path, $php_ext)
     {
-        $this->template  = $template;
-        $this->user      = $user;
-        $this->db        = $db;
-        $this->auth      = $auth;
-        $this->request   = $request;
-        $this->helper    = $helper;
-        $this->config    = $config;
-        $this->root_path = $root_path;
-        $this->php_ext   = $php_ext;
+    	global $table_prefix;
+        $this->template  	= $template;
+        $this->user      	= $user;
+        $this->db        	= $db;
+        $this->auth      	= $auth;
+        $this->request   	= $request;
+        $this->helper    	= $helper;
+        $this->config    	= $config;
+        $this->root_path 	= $root_path;
+        $this->php_ext   	= $php_ext;
+		$this->table_prefix = $table_prefix;
         //$this->chat = new chat();
         $this->last_id   = $this->request->variable('last_id', 0);
         $this->last_post = $this->request->variable('last_post', 0);
@@ -125,11 +130,11 @@ class shout
         ];
         if (!defined('CHAT_TABLE'))
         {
-            define('CHAT_TABLE', 'phpbb_ajax_chat');
+            define('CHAT_TABLE', ''.$this->table_prefix.'ajax_chat');
         }
         if (!defined('CHAT_SESSIONS_TABLE'))
         {
-            define('CHAT_SESSIONS_TABLE', 'phpbb_ajax_chat_sessions');
+            define('CHAT_SESSIONS_TABLE', ''.$this->table_prefix.'ajax_chat_sessions');
         }
         include $this->root_path . 'includes/functions_posting.' . $this->php_ext;
     }
@@ -186,7 +191,8 @@ class shout
                 );
                 $sql     = 'INSERT INTO ' . CHAT_SESSIONS_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
                 $this->db->sql_query($sql);
-            } else
+            }
+            else
             {
                 $sql_ary = array(
                     'username'        => $this->user->data['username'],
@@ -225,7 +231,7 @@ class shout
             'S_BBCODE_QUOTE'    => false,
             'S_BBCODE_URL'      => $url_status,
             'TIME'              => time(),
-            'FILENAME'          => append_sid("{$this->root_path}/ext/spaceace/ajaxchat/controller/shout.$this->php_ext"),
+            'FILENAME'          => $this->root_path . "chat/",
             'LAST_ID'           => $this->last_id,
             'S_' . $this->mode  => true,
         ));
@@ -298,5 +304,4 @@ class shout
         }
         return $status;
     }
-
 }

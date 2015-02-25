@@ -1,13 +1,13 @@
 <?php
 
 /**
- *
- * Ajax Chat extension for phpBB.
- *
- * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
- * @license GNU General Public License, version 2 (GPL-2.0)
- *
- */
+*
+* Ajax Chat extension for phpBB.
+*
+* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+* @license GNU General Public License, version 2 (GPL-2.0)
+*
+*/
 
 namespace spaceace\ajaxchat\controller;
 
@@ -21,13 +21,14 @@ use phpbb\config\db;
 use spaceace\ajaxchat\controller\popup;
 
 /**
- * Main Controller
- * 
- * @version 1.0.0-DEV
- * @package spaceace\ajaxchat
- * @author Kevin Roy <royk@myraytech.com>
- * @author Spaceace <spaceace@livemembersonly.com>
- */
+* Main Controller
+* 
+* @version 1.0.0-DEV
+* @package spaceace\ajaxchat
+* @author Kevin Roy <royk@myraytech.com>
+* @author Spaceace <spaceace@livemembersonly.com>
+*/
+
 class chat
 {
 
@@ -57,6 +58,9 @@ class chat
 
     /** @var core.php_ext */
     protected $php_ext;
+    
+    /** @var string */
+    protected $table_prefix;
 
     /** @var int */
     protected $default_delay = 15;
@@ -96,6 +100,7 @@ class chat
 
     public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, $root_path, $php_ext)
     {
+    	global $table_prefix;
         $this->template  = $template;
         $this->user      = $user;
         $this->db        = $db;
@@ -105,6 +110,7 @@ class chat
         $this->config    = $config;
         $this->root_path = $root_path;
         $this->php_ext   = $php_ext;
+        $this->table_prefix = $table_prefix;
         $this->user->add_lang('posting');
         $this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
         $this->times     = [
@@ -118,8 +124,16 @@ class chat
             'idle'    => 60,
             'offline' => 300,
         ];
-        define('CHAT_TABLE', 'phpbb_ajax_chat');
-        define('CHAT_SESSIONS_TABLE', 'phpbb_ajax_chat_sessions');
+        if (!defined('CHAT_TABLE'))
+        {
+            $chat_table = $this->table_prefix . 'ajax_chat';
+            define('CHAT_TABLE', $chat_table);
+        }
+        if (!defined('CHAT_SESSIONS_TABLE'))
+        {
+            $chat_session_table = $this->table_prefix . 'ajax_chat_sessions';
+            define('CHAT_SESSIONS_TABLE', $chat_session_table);
+        }
         include $this->root_path . 'includes/functions_posting.' . $this->php_ext;
 
         $this->post = $this->request->get_super_global(\phpbb\request\request_interface::POST);
@@ -212,8 +226,8 @@ class chat
             {
                 continue;
             }
-            $row['avatar']       = ($this->user->optionget('viewavatars')) ? @\get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
-            $row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
+            $row['avatar']       = ($this->user->optionget('viewavatars')) ? @get_user_avatar($this->root_path.$row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
+            $row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($this->root_path.$row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
             if ($this->count++ == 0)
             {
                 $this->last_id = $row['message_id'];
@@ -365,8 +379,8 @@ class chat
         foreach ($rows as $row)
         {
 
-            $row['avatar']       = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
-            $row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
+            $row['avatar']       = ($this->user->optionget('viewavatars')) ? @get_user_avatar($this->root_path . $row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
+            $row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($this->root_path . $row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
             if ($this->count++ === 0)
             {
                 if ($row['message_id'] !== null)
@@ -408,38 +422,7 @@ class chat
             $result  = $this->db->sql_query($sql);
         }
         $this->get      = true;
-        $bbcode_status  = ($this->config['allow_bbcode'] && $this->config['auth_bbcode_pm'] && $this->auth->acl_get('u_ajaxchat_bbcode')) ? true : false;
-        $smilies_status = ($this->config['allow_smilies'] && $this->config['auth_smilies_pm'] && $this->auth->acl_get('u_pm_smilies')) ? true : false;
-        $img_status     = ($this->config['auth_img_pm'] && $this->auth->acl_get('u_pm_img')) ? true : false;
-        $flash_status   = ($this->config['auth_flash_pm'] && $this->auth->acl_get('u_pm_flash')) ? true : false;
-        $url_status     = ($this->config['allow_post_links']) ? true : false;
-        $this->mode     = strtoupper($this->mode);
-        //Assign the features template variable
-        $this->template->assign_vars([
-            'BBCODE_STATUS'     => ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
-            'IMG_STATUS'        => ($img_status) ? $this->user->lang['IMAGES_ARE_ON'] : $this->user->lang['IMAGES_ARE_OFF'],
-            'FLASH_STATUS'      => ($flash_status) ? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
-            'SMILIES_STATUS'    => ($smilies_status) ? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
-            'URL_STATUS'        => ($url_status) ? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
-            'S_COMPOSE_PM'      => true,
-            'S_BBCODE_ALLOWED'  => $bbcode_status,
-            'S_SMILIES_ALLOWED' => $smilies_status,
-            'S_BBCODE_IMG'      => $img_status,
-            'S_BBCODE_FLASH'    => $flash_status,
-            'S_BBCODE_QUOTE'    => false,
-            'S_BBCODE_URL'      => $url_status,
-            'LAST_ID'           => $this->last_id,
-            'LAST_POST'         => $this->last_post,
-            'REFRESH_TIMER'     => $this->read_interval,
-            'S_CHAT'            => (!$this->get) ? true : false,
-            'S_GET_CHAT'        => ($this->get) ? true : false,
-            'S_' . $this->mode  => true,
-        ]);
-        // Generate smiley listing
-        \generate_smilies('inline', 0);
-
-        // Build custom bbcodes array
-        //\display_custom_bbcodes();
+        
         return;
     }
 
@@ -503,8 +486,8 @@ class chat
         foreach ($rows as $row)
         {
 
-            $row['avatar']       = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
-            $row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
+            $row['avatar']       = ($this->user->optionget('viewavatars')) ? @get_user_avatar($this->root_path . $row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
+            $row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($this->root_path . $row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
             if ($this->count++ == 0)
             {
                 $this->last_id = $row['message_id'];

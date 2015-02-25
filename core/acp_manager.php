@@ -1,13 +1,13 @@
 <?php
 
 /**
- *
- * Ajax Chat extension for phpBB.
- *
- * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
- * @license GNU General Public License, version 2 (GPL-2.0)
- *
- */
+*
+* Ajax Chat extension for phpBB.
+*
+* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+* @license GNU General Public License, version 2 (GPL-2.0)
+*
+*/
 
 namespace spaceace\ajaxchat\core;
 
@@ -58,7 +58,8 @@ class acp_manager
             $json_response->send(array(
                 'success' => true,
             ));
-        } else
+        }
+        else
         {
             $bbcode_id = $this->request->variable('id', 0);
 
@@ -145,7 +146,8 @@ class acp_manager
 					SET ' . $this->db->sql_build_array('UPDATE', $bbcode_array) . '
 					WHERE bbcode_id = ' . $bbcode_id;
                 $this->db->sql_query($sql);
-            } else
+            }
+            else
             {
                 $sql    = 'SELECT MAX(bbcode_id) AS max_bbcode_id
 					FROM ' . BBCODES_TABLE;
@@ -161,7 +163,8 @@ class acp_manager
                     {
                         $bbcode_id = NUM_CORE_BBCODES + 1;
                     }
-                } else
+                }
+                else
                 {
                     $bbcode_id = NUM_CORE_BBCODES + 1;
                 }
@@ -176,5 +179,4 @@ class acp_manager
             }
         }
     }
-
 }

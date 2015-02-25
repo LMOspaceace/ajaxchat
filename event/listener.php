@@ -1,13 +1,13 @@
 <?php
 
 /**
- *
- * Ajax Chat extension for phpBB.
- *
- * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
- * @license GNU General Public License, version 2 (GPL-2.0)
- *
- */
+*
+* Ajax Chat extension for phpBB.
+*
+* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+* @license GNU General Public License, version 2 (GPL-2.0)
+*
+*/
 
 namespace spaceace\ajaxchat\event;
 
@@ -112,5 +112,4 @@ class listener implements EventSubscriberInterface
         $shout = new shout($this->template, $this->user, $this->db, $this->auth, $this->request, $this->helper, $this->config, $this->phpbb_root_path, $this->php_ext);
         return $shout->index('read');
     }
-
 }
