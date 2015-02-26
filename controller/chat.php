@@ -512,7 +512,7 @@ class chat
         /* if ($this->read_interval != $this->delay['online']) {
           $this->whois_online();
           } */
-        return $this->readAction();
+        $this->readAction();
     }
 
     private function smiliesAction()
