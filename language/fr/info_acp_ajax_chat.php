@@ -6,7 +6,7 @@
 *
 * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
 * @license GNU General Public License, version 2 (GPL-2.0)
-*
+* traduction FR par stratege1401 à www.forum.fasx.org/phpbb/
 */
 /**
  * DO NOT CHANGE
@@ -32,7 +32,6 @@ if (empty($lang) || !is_array($lang))
 // You do not need this where single placeholders are used, e.g. 'Message %d' is fine
 // equally where a string contains only two placeholders which are used to wrap text
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
-// TRaduction Fr par stratege1401 à www.forum.fasx.org/phpbb/
 
 $lang = array_merge(
     $lang, array(
@@ -42,6 +41,8 @@ $lang = array_merge(
         'AJAX_CHAT_SETTINGS'          => 'paramétres Dialogue Ajax',
         'ACP_AJAX_CHAT_TITLE_EXPLAIN' => 'Ici vous pouvez modifier les paramétres de Dialogue Ajax.',
         'DISPLAY_AJAX_CHAT'           => 'Activer le Dialogue Ajax',
+		'WHOIS_CHATTING'			  => 'Activation de la boite "Qui Dialogue"',
+		'WHOIS_CHATTING_EXPLAIN'	  => 'Si "Désactivé", La boite "Qui Dialogue" sera désactivé quelque soit le paramétrage de l\'utilisateur.',
         'REFRESH_AJAX_CHAT'           => 'Rafraichissement en secondes',
         'RULE_AJAX_CHAT'              => 'Inserer une régle simple',
         'RULE_AJAX_CHAT_EXPLAIN'      => 'Example: Restez polies, merci!!!',

@@ -6,7 +6,7 @@
 *
 * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
 * @license GNU General Public License, version 2 (GPL-2.0)
-*
+* traduction FR par stratege1401 à www.forum.fasx.org/phpbb/
 */
 /**
  * DO NOT CHANGE
