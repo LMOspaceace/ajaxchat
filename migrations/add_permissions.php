@@ -29,6 +29,7 @@ class add_permissions extends migration
             array('permission.permission_set', array('REGISTERED', 'u_ajaxchat_post', 'group')),
             array('permission.permission_set', array('REGISTERED', 'u_ajaxchat_bbcode', 'group')),
             array('permission.permission_set', array('ROLE_MOD_FULL', 'm_ajaxchat_delete')),
+			array('permission.permission_set', array('GUESTS', 'u_ajaxchat_view', 'group')),
         );
     }
 }
