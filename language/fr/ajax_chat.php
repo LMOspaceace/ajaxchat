@@ -35,7 +35,7 @@ if (empty($lang) || !is_array($lang))
 //
 // Some characters you may want to copy&paste:
 // ’ » “ ” …
-// Franch translation by stratege1401 et www.forum.fasx.org/phpbb/
+//
 
 $lang = array_merge(
         $lang, array(
@@ -56,14 +56,14 @@ $lang = array_merge(
             'CHAT_EXPLAIN'         => 'Boite à Dialogue',
             'WHOIS_CHATTING'       => 'Qui Dialogue',
             'CHAT_FONT_COLOR'      => 'Couleur des lettres',
-            'SELECT_COLOR'         => 'Choisir votre couleur',
+            'SELECT_COLOR'         => 'Coissir votre couleur',
             'CHAT_SUBMIT_MESSAGE'  => 'Envoyer un Message',
             'DELETE_CHAT_MESSAGE'  => 'Effacer un message',
             'BBCODES'              => 'BBCodes',
             'IE_NO_AJAX'           => 'Votre navigateur ne supporte pas AJAX.',
-            'UPGRADE_BROWSER'      => 'Status: ne peut pas céer XmlHttpRequest Object. Il est temps de choisir un navigateur plus moderne.',
+            'UPGRADE_BROWSER'      => 'Status: ne peut pas céer XmlHttpRequest Object.	Changer pour un navigateur plus moderne.',
             'NO_POST_IN_CHAT'      => 'Vous n avez pas les droits pour utiliser la boite de dialogue.',
             // @copyright line. No translations below this line
-            'DETAILS'              => '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members only</strong>',
+            'DETAILS'              => '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
         )
 );

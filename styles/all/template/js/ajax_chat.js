@@ -136,7 +136,13 @@ function handle_return()
                 last_id = results[1];
                 if (results[2])
                 {
-                    document.getElementById('whois_online').innerHTML = results[2];
+					if (whois_chatting)
+					{
+						document.getElementById('whois_online').innerHTML = results[2];
+					}
+					else
+					{
+					}
                     last_time = results[3];
                     if (results[4] !== read_interval)
                     {

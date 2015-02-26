@@ -65,6 +65,10 @@ class listener implements EventSubscriberInterface
         {
             $this->template->assign_var('S_CHAT_ENABLED', true);
         }
+		if ($this->config['whois_chatting'] === '1')
+        {
+            $this->template->assign_var('S_WHOIS_CHATTING', true);
+        }
         $this->template->assign_vars(
                 array(
                     'U_CHAT'                   => append_sid("/"),
