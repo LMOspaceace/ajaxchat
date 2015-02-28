@@ -219,10 +219,6 @@ class chat
 
         foreach ($rows as $row)
         {
-            if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
-            {
-                continue;
-            }
             $row['avatar']       = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
             $row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
             if ($this->count++ == 0)
