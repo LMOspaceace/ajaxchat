@@ -14,12 +14,12 @@
  */
 if (!defined('IN_PHPBB'))
 {
-    exit;
+	exit;
 }
 
 if (empty($lang) || !is_array($lang))
 {
-    $lang = array();
+	$lang = array();
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -35,21 +35,21 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge(
-    $lang, array(
-        'ADMIN_AJAXCHAT_SETTINGS'     => 'Ustawienia',
-        'ACP_AJAX_CHAT_TITLE'         => 'Ajax Chat',
-        'ACP_AJAX_CHAT'               => 'Ajax Chat',
-        'AJAX_CHAT_SETTINGS'          => 'Ustawienia Ajax Chat',
-        'ACP_AJAX_CHAT_TITLE_EXPLAIN' => 'Możesz tutaj zmieniać ustawienia Ajax Chat.',
-        'DISPLAY_AJAX_CHAT'           => 'Włącz Ajax Chat',
-		'WHOIS_CHATTING'			  => 'Włącz wyświetlanie "Kto czatuje"',
-		'WHOIS_CHATTING_EXPLAIN'	  => 'Wyłączenie tej opcji spowoduje nie wyświetlanie się okienka "Kto czatuje", bez względu na ustawienia indywidualne użytkowników.',
-        'REFRESH_AJAX_CHAT'           => 'Odświeżaj (w sekundach)',
-        'RULE_AJAX_CHAT'              => 'Wstaw zadadę użytkowania czatu',
-        'RULE_AJAX_CHAT_EXPLAIN'      => 'Przykład: Nie używaj wulgaryzmów!!!',
-        'ACL_U_AJAXCHAT_BBCODE'       => 'Można używać BBCode na czacie',
-        'ACL_U_AJAXCHAT_POST'         => 'Można pisać na czacie',
-        'ACL_U_AJAXCHAT_VIEW'         => 'Można widzieć czat',
-        'ACL_M_AJAXCHAT_DELETE'       => 'Można usuwać wiadomości na czacie',
-    )
+	$lang, array(
+		'ADMIN_AJAXCHAT_SETTINGS'		=> 'Ustawienia',
+		'ACP_AJAX_CHAT_TITLE'			=> 'Ajax Chat',
+		'ACP_AJAX_CHAT'					=> 'Ajax Chat',
+		'AJAX_CHAT_SETTINGS'			=> 'Ustawienia Ajax Chat',
+		'ACP_AJAX_CHAT_TITLE_EXPLAIN'	=> 'Możesz tutaj zmieniać ustawienia Ajax Chat.',
+		'DISPLAY_AJAX_CHAT'				=> 'Włącz Ajax Chat',
+		'WHOIS_CHATTING'				=> 'Włącz wyświetlanie "Kto czatuje"',
+		'WHOIS_CHATTING_EXPLAIN'		=> 'Wyłączenie tej opcji spowoduje nie wyświetlanie się okienka "Kto czatuje", bez względu na ustawienia indywidualne użytkowników.',
+		'REFRESH_AJAX_CHAT'				=> 'Odświeżaj (w sekundach)',
+		'RULE_AJAX_CHAT'				=> 'Wstaw zadadę użytkowania czatu',
+		'RULE_AJAX_CHAT_EXPLAIN'		=> 'Przykład: Nie używaj wulgaryzmów!!!',
+		'ACL_U_AJAXCHAT_BBCODE'			=> 'Można używać BBCode na czacie',
+		'ACL_U_AJAXCHAT_POST'			=> 'Można pisać na czacie',
+		'ACL_U_AJAXCHAT_VIEW'			=> 'Można widzieć czat',
+		'ACL_M_AJAXCHAT_DELETE'			=> 'Można usuwać wiadomości na czacie',
+	)
 );

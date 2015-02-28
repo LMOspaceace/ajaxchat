@@ -14,18 +14,18 @@ namespace spaceace\ajaxchat\migrations;
 class acp_settings extends \phpbb\db\migration\migration
 {
 
-    static public function depends_on()
-    {
-        return array();
-    }
+	static public function depends_on()
+	{
+		return array();
+	}
 
-    public function update_data()
-    {
-        return array(
-            array('config.add', array('display_ajax_chat', '1')),
+	public function update_data()
+	{
+		return array(
+			array('config.add', array('display_ajax_chat', '1')),
 			array('config.add', array('whois_chatting', '1')),
-            array('config.add', array('refresh_ajax_chat', '5')),
-            array('config.add', array('rule_ajax_chat', '')),
-        );
-    }
+			array('config.add', array('refresh_ajax_chat', '5')),
+			array('config.add', array('rule_ajax_chat', '')),
+		);
+	}
 }

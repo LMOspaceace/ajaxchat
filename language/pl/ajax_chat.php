@@ -14,12 +14,12 @@
  */
 if (!defined('IN_PHPBB'))
 {
-    exit;
+	exit;
 }
 
 if (empty($lang) || !is_array($lang))
 {
-    $lang = array();
+	$lang = array();
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -39,32 +39,32 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge(
-        $lang, array(
-            'CHAT_ARCHIVE'         => 'Archiwum',
-            'CHAT_ARCHIVE_EXPLAIN' => 'Archiwum',
-            'CHAT_POPUP'           => 'Nowe okno',
-            'CHAT_POPUP_EXPLAIN'   => 'Czat w nowym oknie',
-            'CHAT_RULE'            => 'Zasady czatowania: ',
-            'CHAT_RULE_EXPLAIN'    => 'Nie stosuj wulgaryzmów.',
-            'EMPTY'                => 'Błąd: Musisz wprowadzić wiadomość.',
-            'GUEST_MESSAGE'        => '<strong>Musisz się zarejestrować, by móc korzystać z czatu.</strong>',
-            'MESSAGE'              => 'Wiadomość',
-            'PAGE_TITLE'           => 'Czat forumowy',
-            'RESPOND'              => 'Odpowiedź użytkownikowi',
-            'UNIT'                 => 'sekund',
-            'UPDATES'              => 'Aktualizowany co',
-            'CHAT'                 => 'Czat',
-            'CHAT_EXPLAIN'         => 'Czat',
-            'WHOIS_CHATTING'       => 'Kto czatuje:',
-            'CHAT_FONT_COLOR'      => 'Kolor czcionki',
-            'SELECT_COLOR'         => 'Wybierz swój kolor czcionki:',
-            'CHAT_SUBMIT_MESSAGE'  => 'Wyślij wiadomość',
-            'DELETE_CHAT_MESSAGE'  => 'Usuń wiadomość',
-            'BBCODES'              => 'BBCode',
-            'IE_NO_AJAX'           => 'Twoja wersja Internet Explorer nie wspiera technologi AJAX.',
-            'UPGRADE_BROWSER'      => 'Status: Nie można utworzyć obiektu XmlHttpRequest. Rozważ zaktualizowanie swojej przeglądarki.',
-            'NO_POST_IN_CHAT'      => 'Nie posiadasz odpowiednich uprawnień, by móc pisać na czacie.',
-            // @copyright line. No translations below this line
-            'DETAILS'              => '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
-        )
+		$lang, array(
+			'CHAT_ARCHIVE'			=> 'Archiwum',
+			'CHAT_ARCHIVE_EXPLAIN'	=> 'Archiwum',
+			'CHAT_POPUP'			=> 'Nowe okno',
+			'CHAT_POPUP_EXPLAIN'	=> 'Czat w nowym oknie',
+			'CHAT_RULE'				=> 'Zasady czatowania: ',
+			'CHAT_RULE_EXPLAIN'		=> 'Nie stosuj wulgaryzmów.',
+			'EMPTY'					=> 'Błąd: Musisz wprowadzić wiadomość.',
+			'GUEST_MESSAGE'			=> '<strong>Musisz się zarejestrować, by móc korzystać z czatu.</strong>',
+			'MESSAGE'				=> 'Wiadomość',
+			'PAGE_TITLE'			=> 'Czat forumowy',
+			'RESPOND'				=> 'Odpowiedź użytkownikowi',
+			'UNIT'					=> 'sekund',
+			'UPDATES'				=> 'Aktualizowany co',
+			'CHAT'					=> 'Czat',
+			'CHAT_EXPLAIN'			=> 'Czat',
+			'WHOIS_CHATTING'		=> 'Kto czatuje:',
+			'CHAT_FONT_COLOR'		=> 'Kolor czcionki',
+			'SELECT_COLOR'			=> 'Wybierz swój kolor czcionki:',
+			'CHAT_SUBMIT_MESSAGE'	=> 'Wyślij wiadomość',
+			'DELETE_CHAT_MESSAGE'	=> 'Usuń wiadomość',
+			'BBCODES'				=> 'BBCode',
+			'IE_NO_AJAX'			=> 'Twoja wersja Internet Explorer nie wspiera technologi AJAX.',
+			'UPGRADE_BROWSER'		=> 'Status: Nie można utworzyć obiektu XmlHttpRequest. Rozważ zaktualizowanie swojej przeglądarki.',
+			'NO_POST_IN_CHAT'		=> 'Nie posiadasz odpowiednich uprawnień, by móc pisać na czacie.',
+			// @copyright line. No translations below this line
+			'DETAILS'				=> '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
+		)
 );

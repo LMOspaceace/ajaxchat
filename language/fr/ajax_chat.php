@@ -13,12 +13,12 @@
  */
 if (!defined('IN_PHPBB'))
 {
-    exit;
+	exit;
 }
 
 if (empty($lang) || !is_array($lang))
 {
-    $lang = array();
+	$lang = array();
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -38,32 +38,32 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge(
-        $lang, array(
-            'CHAT_ARCHIVE'         => 'Archive',
-            'CHAT_ARCHIVE_EXPLAIN' => 'Archive de la conversation',
-            'CHAT_POPUP'           => 'Popup',
-            'CHAT_POPUP_EXPLAIN'   => 'Fenêtre Popup',
-            'CHAT_RULE'            => 'Régles: ',
-            'CHAT_RULE_EXPLAIN'    => 'Soyez polie, merci.',
-            'EMPTY'                => 'Erreur: vous devez écrire un message.',
-            'GUEST_MESSAGE'        => '<strong>Vous devez étre un Utilisateur Enregistré pour parler dans la conversation.</strong>',
-            'MESSAGE'              => 'Message',
-            'PAGE_TITLE'           => 'Boite dialogue du Forum',
-            'RESPOND'              => 'Respondre à:',
-            'UNIT'                 => 'Seconds',
-            'UPDATES'              => 'Mis a jour',
-            'CHAT'                 => 'Conversation',
-            'CHAT_EXPLAIN'         => 'Boite à Dialogue',
-            'WHOIS_CHATTING'       => 'En ligne',
-            'CHAT_FONT_COLOR'      => 'Couleur des lettres',
-            'SELECT_COLOR'         => 'Coissir votre couleur',
-            'CHAT_SUBMIT_MESSAGE'  => 'Envoyer un Message',
-            'DELETE_CHAT_MESSAGE'  => 'Effacer un message',
-            'BBCODES'              => 'BBCodes',
-            'IE_NO_AJAX'           => 'Votre navigateur ne supporte pas AJAX.',
-            'UPGRADE_BROWSER'      => 'Status: ne peut pas céer un object XmlHttpRequest. Changer pour un navigateur plus moderne.',
-            'NO_POST_IN_CHAT'      => 'Vous n\'avez pas les droits pour utiliser la boite de dialogue.',
-            // @copyright line. No translations below this line
-            'DETAILS'              => '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
-        )
+		$lang, array(
+			'CHAT_ARCHIVE'			=> 'Archive',
+			'CHAT_ARCHIVE_EXPLAIN'	=> 'Archive de la conversation',
+			'CHAT_POPUP'			=> 'Popup',
+			'CHAT_POPUP_EXPLAIN'	=> 'Fenêtre Popup',
+			'CHAT_RULE'				=> 'Régles: ',
+			'CHAT_RULE_EXPLAIN'		=> 'Soyez polie, merci.',
+			'EMPTY'					=> 'Erreur: vous devez écrire un message.',
+			'GUEST_MESSAGE'			=> '<strong>Vous devez étre un Utilisateur Enregistré pour parler dans la conversation.</strong>',
+			'MESSAGE'				=> 'Message',
+			'PAGE_TITLE'			=> 'Boite dialogue du Forum',
+			'RESPOND'				=> 'Respondre à:',
+			'UNIT'					=> 'Seconds',
+			'UPDATES'				=> 'Mis a jour',
+			'CHAT'					=> 'Conversation',
+			'CHAT_EXPLAIN'			=> 'Boite à Dialogue',
+			'WHOIS_CHATTING'		=> 'En ligne',
+			'CHAT_FONT_COLOR'		=> 'Couleur des lettres',
+			'SELECT_COLOR'			=> 'Coissir votre couleur',
+			'CHAT_SUBMIT_MESSAGE'	=> 'Envoyer un Message',
+			'DELETE_CHAT_MESSAGE'	=> 'Effacer un message',
+			'BBCODES'			 	=> 'BBCodes',
+			'IE_NO_AJAX'			=> 'Votre navigateur ne supporte pas AJAX.',
+			'UPGRADE_BROWSER'		=> 'Status: ne peut pas céer un object XmlHttpRequest. Changer pour un navigateur plus moderne.',
+			'NO_POST_IN_CHAT'		=> 'Vous n\'avez pas les droits pour utiliser la boite de dialogue.',
+			// @copyright line. No translations below this line
+			'DETAILS'				=> '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
+		)
 );

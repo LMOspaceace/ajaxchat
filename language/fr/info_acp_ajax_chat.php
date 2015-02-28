@@ -13,12 +13,12 @@
  */
 if (!defined('IN_PHPBB'))
 {
-    exit;
+	exit;
 }
 
 if (empty($lang) || !is_array($lang))
 {
-    $lang = array();
+	$lang = array();
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -34,21 +34,21 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge(
-    $lang, array(
-        'ADMIN_AJAXCHAT_SETTINGS'     => 'Paramétres',
-        'ACP_AJAX_CHAT_TITLE'         => 'Boite Dialogue Ajax',
-        'ACP_AJAX_CHAT'               => 'Boite Dialogue Ajax',
-        'AJAX_CHAT_SETTINGS'          => 'paramétres Dialogue Ajax',
-        'ACP_AJAX_CHAT_TITLE_EXPLAIN' => 'Ici vous pouvez modifier les paramétres de Dialogue Ajax.',
-        'DISPLAY_AJAX_CHAT'           => 'Activer le Dialogue Ajax',
-	'WHOIS_CHATTING'              => 'Activation de la boite "En Ligne"',
-    'WHOIS_CHATTING_EXPLAIN'      => 'Si "Désactivé", La boite "En Ligne" sera désactivé quelque soit le paramètre de l\'utilisateur.',
-        'REFRESH_AJAX_CHAT'           => 'Rafraichissement en secondes',
-        'RULE_AJAX_CHAT'              => 'Inserer une régle simple',
-        'RULE_AJAX_CHAT_EXPLAIN'      => 'Example: Restez polies, merci!!!',
-        'ACL_U_AJAXCHAT_BBCODE'       => 'Vous pouvez utiliser bbcode',
-        'ACL_U_AJAXCHAT_POST'         => 'Vous pouvez ecrire des messages',
-        'ACL_U_AJAXCHAT_VIEW'         => 'Vous pouvez voir des messages',
-        'ACL_M_AJAXCHAT_DELETE'       => 'Vous pouvez effacer des messages',
-    )
+	$lang, array(
+		'ADMIN_AJAXCHAT_SETTINGS'		=> 'Paramétres',
+		'ACP_AJAX_CHAT_TITLE'			=> 'Boite Dialogue Ajax',
+		'ACP_AJAX_CHAT'					=> 'Boite Dialogue Ajax',
+		'AJAX_CHAT_SETTINGS'			=> 'paramétres Dialogue Ajax',
+		'ACP_AJAX_CHAT_TITLE_EXPLAIN'	=> 'Ici vous pouvez modifier les paramétres de Dialogue Ajax.',
+		'DISPLAY_AJAX_CHAT'				=> 'Activer le Dialogue Ajax',
+		'WHOIS_CHATTING'				=> 'Activation de la boite "En Ligne"',
+		'WHOIS_CHATTING_EXPLAIN'		=> 'Si "Désactivé", La boite "En Ligne" sera désactivé quelque soit le paramètre de l\'utilisateur.',
+		'REFRESH_AJAX_CHAT'				=> 'Rafraichissement en secondes',
+		'RULE_AJAX_CHAT'				=> 'Inserer une régle simple',
+		'RULE_AJAX_CHAT_EXPLAIN'		=> 'Example: Restez polies, merci!!!',
+		'ACL_U_AJAXCHAT_BBCODE'			=> 'Vous pouvez utiliser bbcode',
+		'ACL_U_AJAXCHAT_POST'			=> 'Vous pouvez ecrire des messages',
+		'ACL_U_AJAXCHAT_VIEW'			=> 'Vous pouvez voir des messages',
+		'ACL_M_AJAXCHAT_DELETE'			=> 'Vous pouvez effacer des messages',
+	)
 );

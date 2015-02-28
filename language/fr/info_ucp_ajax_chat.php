@@ -13,12 +13,12 @@
  */
 if (!defined('IN_PHPBB'))
 {
-    exit;
+	exit;
 }
 
 if (empty($lang) || !is_array($lang))
 {
-    $lang = array();
+	$lang = array();
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -34,17 +34,17 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge(
-    $lang, array(
-        'CHAT_BOTTOM'                 => 'Bas',
-        'CHAT_TOP'                    => 'Haut',
-        'USER_AJAX_CHAT_VIEW'         => 'Boite dialogue visible sur la page index',
-        'USER_AJAX_CHAT_POSITION'     => 'Position sur index pour montrer la boite de Dialogue',
-        'USER_AJAX_CHAT_AVATARS'      => 'Montrer les Avatars ',
-        'USER_AJAX_CHAT_SOUND'        => 'Entendre les sons',
-        'USER_AJAX_CHAT_AVATAR_HOVER' => 'Montrer l\'avatar entier par souris sur image',
-        'USER_AJAX_CHAT_ONLINELIST'   => 'Voir liste des connectes',
-        'USER_AJAXCHAT'               => 'Dialogue Ajax ',
-        'USER_AJAXCHAT_SETTINGS'      => 'Paramètres Dialogue Ajax',
-        'NO_VIEW_CHAT'                => 'Vous n\'avez pas les droits pour voir le Dialogue.',
-    )
+	$lang, array(
+		'CHAT_BOTTOM'					=> 'Bas',
+		'CHAT_TOP'						=> 'Haut',
+		'USER_AJAX_CHAT_VIEW'			=> 'Boite dialogue visible sur la page index',
+		'USER_AJAX_CHAT_POSITION'		=> 'Position sur index pour montrer la boite de Dialogue',
+		'USER_AJAX_CHAT_AVATARS'		=> 'Montrer les Avatars ',
+		'USER_AJAX_CHAT_SOUND'			=> 'Entendre les sons',
+		'USER_AJAX_CHAT_AVATAR_HOVER'	=> 'Montrer l\'avatar entier par souris sur image',
+		'USER_AJAX_CHAT_ONLINELIST'		=> 'Voir liste des connectes',
+		'USER_AJAXCHAT'					=> 'Dialogue Ajax ',
+		'USER_AJAXCHAT_SETTINGS'		=> 'Paramètres Dialogue Ajax',
+		'NO_VIEW_CHAT'					=> 'Vous n\'avez pas les droits pour voir le Dialogue.',
+	)
 );

@@ -13,12 +13,12 @@
  */
 if (!defined('IN_PHPBB'))
 {
-    exit;
+	exit;
 }
 
 if (empty($lang) || !is_array($lang))
 {
-    $lang = array();
+	$lang = array();
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -34,17 +34,17 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge(
-    $lang, array(
-        'CHAT_BOTTOM'                 => 'Onder',
-        'CHAT_TOP'                    => 'Boven',
-        'USER_AJAX_CHAT_VIEW'         => 'Weergave chat op indexpagina',
-        'USER_AJAX_CHAT_POSITION'     => 'Positie op index om chat weer te geven',
-        'USER_AJAX_CHAT_AVATARS'      => 'Laat avatars in chat zien',
-        'USER_AJAX_CHAT_SOUND'        => 'Hoor geluid in chat',
-        'USER_AJAX_CHAT_AVATAR_HOVER' => 'Laat volledige avatar afbeelding bij aanwijzen zien',
-        'USER_AJAX_CHAT_ONLINELIST'   => 'Bekijk online list in chat',
-        'USER_AJAXCHAT'               => 'Ajax Chat',
-        'USER_AJAXCHAT_SETTINGS'      => 'Ajax Chatinstellingen',
-        'NO_VIEW_CHAT'                => 'U bent niet gemachtigd om chat te bekijken',
-    )
+	$lang, array(
+		'CHAT_BOTTOM'					=> 'Onder',
+		'CHAT_TOP'						=> 'Boven',
+		'USER_AJAX_CHAT_VIEW'			=> 'Weergave chat op indexpagina',
+		'USER_AJAX_CHAT_POSITION'		=> 'Positie op index om chat weer te geven',
+		'USER_AJAX_CHAT_AVATARS'		=> 'Laat avatars in chat zien',
+		'USER_AJAX_CHAT_SOUND'			=> 'Hoor geluid in chat',
+		'USER_AJAX_CHAT_AVATAR_HOVER'	=> 'Laat volledige avatar afbeelding bij aanwijzen zien',
+		'USER_AJAX_CHAT_ONLINELIST'		=> 'Bekijk online list in chat',
+		'USER_AJAXCHAT'					=> 'Ajax Chat',
+		'USER_AJAXCHAT_SETTINGS'		=> 'Ajax Chatinstellingen',
+		'NO_VIEW_CHAT'					=> 'U bent niet gemachtigd om chat te bekijken',
+	)
 );

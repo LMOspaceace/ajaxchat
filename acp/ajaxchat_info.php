@@ -14,18 +14,18 @@ namespace spaceace\ajaxchat\acp;
 class ajaxchat_info
 {
 
-    function module()
-    {
-        return array(
-            'filename' => '\spaceace\ajaxchat\acp\ajaxchat_module',
-            'title'    => 'ADMIN_AJAXCHAT',
-            'modes'    => array(
-                'settings' => array(
-                    'title' => 'ADMIN_AJAXCHAT_SETTINGS',
-                    'auth'  => 'ext_spaceace/ajaxchat && acl_a_board',
-                    'cat'   => array('ADMIN_AJAXCHAT')
-                ),
-            ),
-        );
-    }
+	function module()
+	{
+		return array(
+			'filename'	=> '\spaceace\ajaxchat\acp\ajaxchat_module',
+			'title'		=> 'ADMIN_AJAXCHAT',
+			'modes'		=> array(
+				'settings'	=> array(
+					'title'		=> 'ADMIN_AJAXCHAT_SETTINGS',
+					'auth'		=> 'ext_spaceace/ajaxchat && acl_a_board',
+					'cat'		=> array('ADMIN_AJAXCHAT')
+				),
+			),
+		);
+	}
 }

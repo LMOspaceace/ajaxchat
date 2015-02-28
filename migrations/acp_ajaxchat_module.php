@@ -16,22 +16,22 @@ use phpbb\db\migration\migration;
 class acp_ajaxchat_module extends migration
 {
 
-    public function update_data()
-    {
-        return array(
-            array('module.add', array(
-                    'acp',
-                    'ACP_CAT_DOT_MODS',
-                    'ACP_AJAX_CHAT')),
-            array('module.add', array(
-                    'acp',
-                    'ACP_AJAX_CHAT',
-                array(
-                        'module_basename' => '\spaceace\ajaxchat\acp\ajaxchat_module',
-                        'modes'           => array('settings'),
-                    ),
-                )
-            ),
-        );
-    }
+	public function update_data()
+	{
+		return array(
+			array('module.add', array(
+					'acp',
+					'ACP_CAT_DOT_MODS',
+					'ACP_AJAX_CHAT')),
+			array('module.add', array(
+					'acp',
+					'ACP_AJAX_CHAT',
+				array(
+						'module_basename'	=> '\spaceace\ajaxchat\acp\ajaxchat_module',
+						'modes'				=> array('settings'),
+					),
+				)
+			),
+		);
+	}
 }

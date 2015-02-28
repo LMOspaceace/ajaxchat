@@ -13,12 +13,12 @@
  */
 if (!defined('IN_PHPBB'))
 {
-    exit;
+	exit;
 }
 
 if (empty($lang) || !is_array($lang))
 {
-    $lang = array();
+	$lang = array();
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -34,21 +34,21 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge(
-    $lang, array(
-        'ADMIN_AJAXCHAT_SETTINGS'     => 'Instellingen',
-        'ACP_AJAX_CHAT_TITLE'         => 'Ajax Chat',
-        'ACP_AJAX_CHAT'               => 'Ajax Chat',
-        'AJAX_CHAT_SETTINGS'          => 'Ajax Chatinstellingen',
-        'ACP_AJAX_CHAT_TITLE_EXPLAIN' => 'Hier kunt u de Ajax Chat instellingen aanpassen',
-        'DISPLAY_AJAX_CHAT'           => 'Inschakelen Ajax Chat',
-        'WHOIS_CHATTING'              => 'Inschakelen Wie is er online in de chat',
-        'WHOIS_CHATTING_EXPLAIN'      => 'instelling "Uitgeschakeld" zet het uit wie is er online in de chat ongeacht de gebruikers instellingen.',
-        'REFRESH_AJAX_CHAT'           => 'Vernieuwen van de tijd in seconden',
-        'RULE_AJAX_CHAT'              => 'Een chatregel voor chat invoegen',
-        'RULE_AJAX_CHAT_EXPLAIN'      => 'Voorbeeld: Geen aanstoonde of beledigende taal in de chat!!!',
-        'ACL_U_AJAXCHAT_BBCODE'       => 'Kan gebruik bbcode in chat',
-        'ACL_U_AJAXCHAT_POST'         => 'Kunnen berichten plaatsen in chat',
-        'ACL_U_AJAXCHAT_VIEW'         => 'Kan chat bekijken',
-        'ACL_M_AJAXCHAT_DELETE'       => 'Kan berichten verwijderen in chat',
-    )
+	$lang, array(
+		'ADMIN_AJAXCHAT_SETTINGS'		=> 'Instellingen',
+		'ACP_AJAX_CHAT_TITLE'			=> 'Ajax Chat',
+		'ACP_AJAX_CHAT'					=> 'Ajax Chat',
+		'AJAX_CHAT_SETTINGS'			=> 'Ajax Chatinstellingen',
+		'ACP_AJAX_CHAT_TITLE_EXPLAIN'	=> 'Hier kunt u de Ajax Chat instellingen aanpassen',
+		'DISPLAY_AJAX_CHAT'				=> 'Inschakelen Ajax Chat',
+		'WHOIS_CHATTING'				=> 'Inschakelen Wie is er online in de chat',
+		'WHOIS_CHATTING_EXPLAIN'		=> 'instelling "Uitgeschakeld" zet het uit wie is er online in de chat ongeacht de gebruikers instellingen.',
+		'REFRESH_AJAX_CHAT'				=> 'Vernieuwen van de tijd in seconden',
+		'RULE_AJAX_CHAT'				=> 'Een chatregel voor chat invoegen',
+		'RULE_AJAX_CHAT_EXPLAIN'		=> 'Voorbeeld: Geen aanstoonde of beledigende taal in de chat!!!',
+		'ACL_U_AJAXCHAT_BBCODE'			=> 'Kan gebruik bbcode in chat',
+		'ACL_U_AJAXCHAT_POST'			=> 'Kunnen berichten plaatsen in chat',
+		'ACL_U_AJAXCHAT_VIEW'			=> 'Kan chat bekijken',
+		'ACL_M_AJAXCHAT_DELETE'			=> 'Kan berichten verwijderen in chat',
+	)
 );

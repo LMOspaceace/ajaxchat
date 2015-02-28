@@ -1,70 +1,70 @@
 <div id="colour_palette" style="display: none; text-align: center; padding-bottom: 5px;">
-    <table width="50%" style="margin-left: auto; margin-right: auto;">
-        <div id="fc">
-        </div>
-        <div style="margin: 0 auto;">
-            {L_SELECT_COLOR}
-        </div>
-        <tr align="center">
-            <td valign="top">
-                <script type="text/javascript">
-                    // <![CDATA[
-                    function colorPalette(dir, width, height)
-                    {
-                        var r = 0, g = 0, b = 0;
-                        var numberList = new Array(6);
-                        var color = '';
+	<table width="50%" style="margin-left: auto; margin-right: auto;">
+		<div id="fc">
+		</div>
+		<div style="margin: 0 auto;">
+			{L_SELECT_COLOR}
+		</div>
+		<tr align="center">
+			<td valign="top">
+				<script type="text/javascript">
+					// <![CDATA[
+					function colorPalette(dir, width, height)
+					{
+						var r = 0, g = 0, b = 0;
+						var numberList = new Array(6);
+						var color = '';
 
-                        numberList[0] = '00';
-                        numberList[1] = '40';
-                        numberList[2] = '80';
-                        numberList[3] = 'BF';
-                        numberList[4] = 'FF';
-                        numberList[5] = 'CC';
+						numberList[0] = '00';
+						numberList[1] = '40';
+						numberList[2] = '80';
+						numberList[3] = 'BF';
+						numberList[4] = 'FF';
+						numberList[5] = 'CC';
 
-                        document.writeln('<table cellspacing="1" cellpadding="0" border="0">');
+						document.writeln('<table cellspacing="1" cellpadding="0" border="0">');
 
-                        for (r = 0; r < 6; r++)
-                        {
-                            if (dir == 'h')
-                            {
-                                document.writeln('<tr>');
-                            }
+						for (r = 0; r < 6; r++)
+						{
+							if (dir == 'h')
+							{
+								document.writeln('<tr>');
+							}
 
-                            for (g = 0; g < 6; g++)
-                            {
-                                if (dir == 'v')
-                                {
-                                    document.writeln('<tr>');
-                                }
-                                for (b = 0; b < 6; b++)
-                                {
-                                    color = String(numberList[r]) + String(numberList[g]) + String(numberList[b]);
-                                    document.write('<td bgcolor="#' + color + '" style="width: ' + width + 'px; height: ' + height + 'px;">');
-                                    document.write('<div onmouseover="this.style.cursor=\'pointer\'" onmousedown="setCookie(\'fontholdcookie\', \'[color2=#' + color + ']\',\'1000\'); blkopen = \'[color2=#' + color + ']\'; hilite(\'#' + color + ' \'); return false;"><img src="images/spacer.gif" width="' + width + '" height="' + height + '" alt="#' + color + '" title="#' + color + '" /></div>');
-                                    document.writeln('</td>');
-                                }
-                                if (dir == 'v')
-                                {
-                                    document.writeln('</tr>');
-                                }
-                            }
-                            if (dir == 'h')
-                            {
-                                document.writeln('</tr>');
-                            }
-                        }
-                        document.writeln('</table>');
-                    }
-                    colorPalette('h', 15, 10);
-                    function hilite(value)
-                    {
-                        var cur_color = value;
-                        document.getElementById("fc").style.backgroundColor = cur_color;
-                    }
-                    // ]]>
-                </script>
-            </td>
-        </tr>
-    </table>
+							for (g = 0; g < 6; g++)
+							{
+								if (dir == 'v')
+								{
+									document.writeln('<tr>');
+								}
+								for (b = 0; b < 6; b++)
+								{
+									color = String(numberList[r]) + String(numberList[g]) + String(numberList[b]);
+									document.write('<td bgcolor="#' + color + '" style="width: ' + width + 'px; height: ' + height + 'px;">');
+									document.write('<div onmouseover="this.style.cursor=\'pointer\'" onmousedown="setCookie(\'fontholdcookie\', \'[color2=#' + color + ']\',\'1000\'); blkopen = \'[color2=#' + color + ']\'; hilite(\'#' + color + ' \'); return false;"><img src="images/spacer.gif" width="' + width + '" height="' + height + '" alt="#' + color + '" title="#' + color + '" /></div>');
+									document.writeln('</td>');
+								}
+								if (dir == 'v')
+								{
+									document.writeln('</tr>');
+								}
+							}
+							if (dir == 'h')
+							{
+								document.writeln('</tr>');
+							}
+						}
+						document.writeln('</table>');
+					}
+					colorPalette('h', 15, 10);
+					function hilite(value)
+					{
+						var cur_color = value;
+						document.getElementById("fc").style.backgroundColor = cur_color;
+					}
+					// ]]>
+				</script>
+			</td>
+		</tr>
+	</table>
 </div>

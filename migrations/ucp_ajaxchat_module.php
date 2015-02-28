@@ -14,24 +14,24 @@ namespace spaceace\ajaxchat\migrations;
 class ucp_ajaxchat_module extends \phpbb\db\migration\migration
 {
 
-    public function update_data()
-    {
-        return array(
-            array('module.add', array(
-                    'ucp',
-                    '',
-                    'USER_AJAXCHAT_SETTINGS',
-                )
-            ),
-            array('module.add', array(
-                    'ucp',
-                    'USER_AJAXCHAT_SETTINGS',
-                    array(
-                        'module_basename' => '\spaceace\ajaxchat\ucp\ucp_ajaxchat_module',
-                        'modes'           => array('settings'),
-                    ),
-                )
-            ),
-        );
-    }
+	public function update_data()
+	{
+		return array(
+			array('module.add', array(
+					'ucp',
+					'',
+					'USER_AJAXCHAT_SETTINGS',
+				)
+			),
+			array('module.add', array(
+					'ucp',
+					'USER_AJAXCHAT_SETTINGS',
+					array(
+						'module_basename'	=> '\spaceace\ajaxchat\ucp\ucp_ajaxchat_module',
+						'modes'				=> array('settings'),
+					),
+				)
+			),
+		);
+	}
 }

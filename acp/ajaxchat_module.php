@@ -14,47 +14,47 @@ namespace spaceace\ajaxchat\acp;
 class ajaxchat_module
 {
 
-    /** @var string The currenct action */
-    public $u_action;
+	/** @var string The currenct action */
+	public $u_action;
 
-    /** @var \phpbb\config\config */
-    public $new_config = array();
+	/** @var \phpbb\config\config */
+	public $new_config = array();
 
-    /** @var string form key */
-    public $form_key;
+	/** @var string form key */
+	public $form_key;
 
-    /** @var \phpbb\config\config */
-    protected $config;
+	/** @var \phpbb\config\config */
+	protected $config;
 
-    /** @var \phpbb\db\driver\driver_interface */
-    protected $db;
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
 
-    /** @var \phpbb\user */
-    protected $user;
+	/** @var \phpbb\user */
+	protected $user;
 
-    /** @var \phpbb\template\template */
-    protected $template;
+	/** @var \phpbb\template\template */
+	protected $template;
 
-    /** @var \phpbb\request\request */
-    protected $request;
+	/** @var \phpbb\request\request */
+	protected $request;
 
-    public function main($id, $mode)
-    {
-        global $phpbb_container;
+	public function main($id, $mode)
+	{
+		global $phpbb_container;
 
-        // Initialization
-        $this->config   = $phpbb_container->get('config');
-        $this->db       = $phpbb_container->get('dbal.conn');
-        $this->user     = $phpbb_container->get('user');
-        $this->template = $phpbb_container->get('template');
-        $this->request  = $phpbb_container->get('request');
+		// Initialization
+		$this->config	= $phpbb_container->get('config');
+		$this->db		= $phpbb_container->get('dbal.conn');
+		$this->user		= $phpbb_container->get('user');
+		$this->template	= $phpbb_container->get('template');
+		$this->request	= $phpbb_container->get('request');
 
-        $this->u_action = $this->request->variable('action', '', true);
-        $submit         = ($this->request->is_set_post('submit')) ? true : false;
-        $this->form_key = 'acp_ajax_chat';
-        add_form_key($this->form_key);
+		$this->u_action = $this->request->variable('action', '', true);
+		$submit		 = ($this->request->is_set_post('submit')) ? true : false;
+		$this->form_key = 'acp_ajax_chat';
+		add_form_key($this->form_key);
 
-        $display_vars = array(
+		$display_vars = array(
 			'title' => 'ACP_AJAX_CHAT_TITLE',
 			'vars'  => array(
 				'legend1'					=> 'AJAX_CHAT_SETTINGS',

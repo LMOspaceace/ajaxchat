@@ -14,12 +14,12 @@
  */
 if (!defined('IN_PHPBB'))
 {
-    exit;
+	exit;
 }
 
 if (empty($lang) || !is_array($lang))
 {
-    $lang = array();
+	$lang = array();
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -35,17 +35,17 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge(
-    $lang, array(
-        'CHAT_BOTTOM'                 => 'Góra',
-        'CHAT_TOP'                    => 'Dół',
-        'USER_AJAX_CHAT_VIEW'         => 'Zobacz czat na głównej stronie forum',
-        'USER_AJAX_CHAT_POSITION'     => 'Pozycja czatu',
-        'USER_AJAX_CHAT_AVATARS'      => 'Wyświetlaj avatary',
-        'USER_AJAX_CHAT_SOUND'        => 'Włącz dźwięki',
-        'USER_AJAX_CHAT_AVATAR_HOVER' => 'Wyświetlanie pełnego rozmiaru avataru po najechaniu myszką',
-        'USER_AJAX_CHAT_ONLINELIST'   => 'Zobacz użytkowników online na czacie',
-        'USER_AJAXCHAT'               => 'Ajax Chat',
-        'USER_AJAXCHAT_SETTINGS'      => 'Ustawienia Ajax Chat',
-        'NO_VIEW_CHAT'                => 'Nie masz wystarczających uprawnień, by widzieć czat.',
-    )
+	$lang, array(
+		'CHAT_BOTTOM'					=> 'Góra',
+		'CHAT_TOP'						=> 'Dół',
+		'USER_AJAX_CHAT_VIEW'			=> 'Zobacz czat na głównej stronie forum',
+		'USER_AJAX_CHAT_POSITION'		=> 'Pozycja czatu',
+		'USER_AJAX_CHAT_AVATARS'		=> 'Wyświetlaj avatary',
+		'USER_AJAX_CHAT_SOUND'			=> 'Włącz dźwięki',
+		'USER_AJAX_CHAT_AVATAR_HOVER'	=> 'Wyświetlanie pełnego rozmiaru avataru po najechaniu myszką',
+		'USER_AJAX_CHAT_ONLINELIST'		=> 'Zobacz użytkowników online na czacie',
+		'USER_AJAXCHAT'					=> 'Ajax Chat',
+		'USER_AJAXCHAT_SETTINGS'		=> 'Ustawienia Ajax Chat',
+		'NO_VIEW_CHAT'					=> 'Nie masz wystarczających uprawnień, by widzieć czat.',
+	)
 );
