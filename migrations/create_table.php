@@ -35,6 +35,7 @@ class create_table extends \phpbb\db\migration\migration
 						'bbcode_bitfield'	=> array('VCHAR:255', ''),
 						'bbcode_options'	=> array('UINT:11', 7),
 						'time'				=> array('UINT:11', 0),
+						'forum_id'			=> array('UINT:8', 0),
 					),
 					'PRIMARY_KEY' => 'message_id',
 				),

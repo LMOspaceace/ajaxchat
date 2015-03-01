@@ -19,10 +19,10 @@
 													<!-- ELSE -->
 														<!-- IF S_AJAX_CHAT_AVATAR_HOVER -->
 															<span>
-																<img src="{T_THEME_PATH}/images/no_avatar.gif" width="128" height="128" alt="" />
+																<img src="{BOARD_URL}styles/{STYLE_PATH}/theme/images/no_avatar.gif" width="128" height="128" alt="" />
 															</span>
 														<!-- ENDIF -->
-														<img src="{T_THEME_PATH}/images/no_avatar.gif" width="35" height="35" alt="" />
+														<img src="{BOARD_URL}styles/{STYLE_PATH}/theme/images/no_avatar.gif" width="35" height="35" alt="" />
 													<!-- ENDIF -->
 												<!-- ENDIF -->
 											</div>
@@ -35,11 +35,11 @@
 											<!-- ELSE -->
 												&#64;
 											<!-- ENDIF -->
-												{chatrow.USERNAME_FULL}
-												<br />
-												<b class="time" style="font-size: 0.9em;">
-													&laquo;&nbsp;{chatrow.TIME}&nbsp;&raquo;
-												</b>
+											{chatrow.USERNAME_FULL}
+											<br />
+											<b class="time" style="font-size: 0.9em;">
+												&laquo;&nbsp;{chatrow.TIME}&nbsp;&raquo;
+											</b>
 										</dt>
 										<dd>
 										</dd>
@@ -77,39 +77,42 @@
 				<!-- ENDIF -->
 			<!-- ENDIF -->
 		<!-- ELSE -->
-			<!-- IF S_CHAT and not S_POPUP -->
+			<!-- IF S_CHAT and not S_POPUP and not S_ARCHIVE -->
 				<!-- INCLUDE overall_header.html -->
 				<p class="{S_CONTENT_FLOW_END}<!-- IF S_USER_LOGGED_IN --> rightside<!-- ENDIF -->"><!-- IF S_USER_LOGGED_IN -->{LAST_VISIT_DATE}<!-- ELSE -->{CURRENT_TIME}<!-- ENDIF --></p>
 				<p>{CURRENT_TIME}</p>
 			<!-- ENDIF -->
 			<!-- IF S_POPUP or S_ARCHIVE -->
-					<!-- INCLUDE simple_header.html -->
-					<div style="margin-top: -15px;">
+				<!-- INCLUDE simple_header.html -->
+				<div>
 			<!-- ENDIF -->
 			<script type="text/javascript" src="{BOARD_URL}assets/javascript/jquery.min.js"></script>
 			<script type="text/javascript">
-			// <![CDATA[
+				// <![CDATA[
 					var last_time = {TIME};
 					var last_id = {LAST_ID};
-					var read_interval = {REFRESH_TIME}*1000;
-					var query_url	= '{BOARD_URL}chat/';
+					var read_interval = {REFRESH_TIME} * 1000;
 					var chat_empty = '{LA_EMPTY}';
 					var ie_no_ajax = '{LA_IE_NO_AJAX}';
 					var upgrade_browser = '{LA_UPGRADE_BROWSER}';
-					<!-- IF S_AJAXCHAT_BBCODE -->
-							var chatbbcodetrue = true;
+					<!-- IF S_POPUP -->
+						var query_url = '{BOARD_URL}chat/popup';
 					<!-- ELSE -->
-							var chatbbcodetrue = false;
+						var query_url = '{BOARD_URL}chat';
+					<!-- ENDIF -->
+					<!-- IF S_AJAXCHAT_BBCODE -->
+						var chatbbcodetrue = true;
+					<!-- ELSE -->
+						var chatbbcodetrue = false;
 					<!-- ENDIF -->
 					<!-- IF S_WHOIS_CHATTING -->
-							var whois_chatting = true;
+						var whois_chatting = true;
 					<!-- ELSE -->
-							var whois_chatting = false;
+						var whois_chatting = false;
 					<!-- ENDIF -->
-			//]]>
+				//]]>
 			</script>
 			<!-- INCLUDEJS @spaceace_ajaxchat/js/ajax_chat.js -->
-
 			<!-- IF SCRIPT_NAME == "index" -->
 			<br />
 			<!-- ENDIF -->
@@ -123,7 +126,7 @@
 										{L_CHAT_EXPLAIN}
 									</a>
 								<!-- ELSE -->
-										{L_CHAT_EXPLAIN}
+									{L_CHAT_EXPLAIN}
 								<!-- ENDIF -->
 							</div>
 						</div>
@@ -148,9 +151,9 @@
 															<input type="button" class="button2" id="bbcodes" value="{L_BBCODES}" />
 														<!-- ENDIF -->
 														<input type="button" class="button2" name="smilies" id="smilies" value="{L_SMILIES}" />
-														<input type="button" class="button2" onclick="popup('chat/archive', 1000, 625); return false;" value="{L_CHAT_ARCHIVE}" title="{L_CHAT_ARCHIVE_EXPLAIN}" />
+														<input type="button" class="button2" onclick="popup('{BOARD_URL}chat/archive', 1000, 625); return false;" value="{L_CHAT_ARCHIVE}" title="{L_CHAT_ARCHIVE_EXPLAIN}" />
 														<!-- IF SCRIPT_NAME != "chat_popup" -->
-															<input type="button" class="button2" onclick="popup('chat/popup', 1000, 625); return false;" value="{L_CHAT_POPUP}" title="{L_CHAT_POPUP_EXPLAIN}" />
+															<input type="button" class="button2" onclick="popup('{BOARD_URL}chat/popup', 1000, 625); return false;" value="{L_CHAT_POPUP}" title="{L_CHAT_POPUP_EXPLAIN}" />
 														<!-- ENDIF -->
 														<input type="button" class="button2" name="bbpalette" id="bbpalette" value="{L_CHAT_FONT_COLOR}" />
 												</fieldset>
@@ -170,7 +173,7 @@
 			</div>
 			<!-- IF CHAT_RULES and not S_ARCHIVE -->
 			<div class="chat_rules">
-					<span class="span_chat_rule">{L_CHAT_RULE}</span><span>{CHAT_RULES}</span>
+				<span class="span_chat_rule">{L_CHAT_RULE}</span><span>{CHAT_RULES}</span>
 			</div>
 			<!-- ENDIF -->
 			<div class="<!-- IF S_WHOIS_CHATTING --><!-- IF S_AJAX_CHAT_ONLINELIST -->shouts<!-- ENDIF --><!-- ENDIF --><!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING -->chat_online_off<!-- ENDIF --><!-- IF S_CHAT or S_POPUP --> main<!-- ENDIF -->">
@@ -192,28 +195,26 @@
 														<!-- ELSE -->
 															<!-- IF S_AJAX_CHAT_AVATAR_HOVER -->
 															<span>
-																	<img src="{T_THEME_PATH}/images/no_avatar.gif" width="128" height="128" alt="" />
+																<img src="{BOARD_URL}styles/{STYLE_PATH}/theme/images/no_avatar.gif" width="128" height="128" alt="" />
 															</span>
 															<!-- ENDIF -->
-															<img src="{T_THEME_PATH}/images/no_avatar.gif" width="35" height="35" alt="" />
+															<img src="{BOARD_URL}styles/{STYLE_PATH}/theme/images/no_avatar.gif" width="35" height="35" alt="" />
 														<!-- ENDIF -->
 													<!-- ENDIF -->
 												</div>
 												<!-- IF S_USER_LOGGED_IN and not S_IS_BOT -->
-												<!-- IF chatrow.USER_COLOR -->
-												<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/color][/b]', true);
-																return false;" title="{L_RESPOND}">&#64;</a>
+													<!-- IF chatrow.USER_COLOR -->
+														<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/color][/b]', true); return false;" title="{L_RESPOND}">&#64;</a>
+													<!-- ELSE -->
+														<a href="#" onclick="insert_text('[b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b]', true); return false;" title="{L_RESPOND}">&#64;</a>
+													<!-- ENDIF -->
 												<!-- ELSE -->
-												<a href="#" onclick="insert_text('[b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b]', true);
-																return false;" title="{L_RESPOND}">&#64;</a>
-												<!-- ENDIF -->
-												<!-- ELSE -->
-												&#64;
+													&#64;
 												<!-- ENDIF -->
 												{chatrow.USERNAME_FULL}
 												<br />
 												<b class="time" style="font-size: 0.9em;">
-														&laquo;&nbsp;{chatrow.TIME}&nbsp;&raquo;
+													&laquo;&nbsp;{chatrow.TIME}&nbsp;&raquo;
 												</b>
 											</dt>
 											<dd>
@@ -259,7 +260,7 @@
 			<div class="navbar" style="margin-top: 6px">
 				<div class="chatform">
 					<span class="list chat-icon">
-							&nbsp;{L_DETAILS}
+						&nbsp;{L_DETAILS}
 					</span>
 					&nbsp; 
 					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="" />
@@ -274,12 +275,12 @@
 					</strong>
 				</div>
 			</div>
-			<!-- IF S_CHAT and not S_POPUP -->
-					<!-- INCLUDE overall_footer.html -->
+			<!-- IF S_CHAT and not S_POPUP and not S_ARCHIVE -->
+				<!-- INCLUDE overall_footer.html -->
 			<!-- ENDIF -->
 			<!-- IF S_POPUP or S_ARCHIVE -->
-					</div>
-					<!-- INCLUDE simple_footer.html -->
+				</div>
+				<!-- INCLUDE simple_footer.html -->
 			<!-- ENDIF -->
 		<!-- ENDIF -->
 	<br />

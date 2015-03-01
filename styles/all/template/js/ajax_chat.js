@@ -108,7 +108,7 @@ function handle_send(mode, f)
 			type = 'delete';
 			param += '&chat_id=' + f;
 		}
-		xmlHttp.open("POST", query_url + mode, true);
+		xmlHttp.open("POST", query_url, true);
 		xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		xmlHttp.onreadystatechange = handle_return;
 		xmlHttp.send(param);

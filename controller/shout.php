@@ -147,7 +147,7 @@ class shout
 				LEFT JOIN ' . USERS_TABLE . ' as u
 				ON c.user_id = u.user_id
 				ORDER BY message_id DESC';
-        $result     = $this->db->sql_query_limit($sql, 36);
+        $result     = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_index_amount']);
         $rows       = $this->db->sql_fetchrowset($result);
 
         foreach ($rows as $row)
@@ -231,7 +231,8 @@ class shout
             'S_BBCODE_QUOTE'    => false,
             'S_BBCODE_URL'      => $url_status,
             'TIME'              => time(),
-            'FILENAME'          => $this->root_path . "chat/",
+			'STYLE_PATH'		=> $this->user->style['style_path'],
+            'FILENAME'          => $this->config['script_path'] . "chat",
             'LAST_ID'           => $this->last_id,
             'S_' . $this->mode  => true,
         ));

@@ -26,6 +26,30 @@ services:
             - @config
             - %core.root_path%
             - %core.php_ext%
+    spaceace.ajaxchat.popup.controller:
+        class: spaceace\ajaxchat\controller\popup
+        arguments:
+            - @template
+            - @user
+            - @dbal.conn
+            - @auth
+            - @request
+            - @controller.helper
+            - @config
+            - %core.root_path%
+            - %core.php_ext%
+    spaceace.ajaxchat.archive.controller:
+        class: spaceace\ajaxchat\controller\archive
+        arguments:
+            - @template
+            - @user
+            - @dbal.conn
+            - @auth
+            - @request
+            - @controller.helper
+            - @config
+            - %core.root_path%
+            - %core.php_ext%
     spaceace.ajaxchat.shout.controller:
         class: spaceace\ajaxchat\controller\shout
         arguments:
