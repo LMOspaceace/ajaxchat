@@ -35,16 +35,16 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge(
 	$lang, array(
-		'CHAT_BOTTOM'					=> 'Bottom',
-		'CHAT_TOP'						=> 'Top',
-		'USER_AJAX_CHAT_VIEW'			=> 'View chat on index page',
-		'USER_AJAX_CHAT_POSITION'		=> 'Position on index to display chat',
-		'USER_AJAX_CHAT_AVATARS'		=> 'Display avatars in chat',
-		'USER_AJAX_CHAT_SOUND'			=> 'Hear sounds in chat',
+		'CHAT_BOTTOM'			=> 'Bottom',
+		'CHAT_TOP'			=> 'Top',
+		'USER_AJAX_CHAT_VIEW'		=> 'View chat on index page',
+		'USER_AJAX_CHAT_POSITION'	=> 'Position on index to display chat',
+		'USER_AJAX_CHAT_AVATARS'	=> 'Display avatars in chat',
+		'USER_AJAX_CHAT_SOUND'		=> 'Hear sounds in chat',
 		'USER_AJAX_CHAT_AVATAR_HOVER'	=> 'Display full avatar image on hover',
-		'USER_AJAX_CHAT_ONLINELIST'		=> 'View online list in chat',
-		'USER_AJAXCHAT'					=> 'Ajax Chat',
-		'USER_AJAXCHAT_SETTINGS'		=> 'Ajax Chat Settings',
-		'NO_VIEW_CHAT'					=> 'You do not have permission to view chat.',
+		'USER_AJAX_CHAT_ONLINELIST'	=> 'View online list in chat',
+		'USER_AJAXCHAT'			=> 'Ajax Chat',
+		'USER_AJAXCHAT_SETTINGS'	=> 'Ajax Chat Settings',
+		'NO_VIEW_CHAT'			=> 'You do not have permission to view chat.',
 	)
 );
