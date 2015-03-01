@@ -96,9 +96,9 @@
 					var ie_no_ajax = '{LA_IE_NO_AJAX}';
 					var upgrade_browser = '{LA_UPGRADE_BROWSER}';
 					<!-- IF S_POPUP -->
-						var query_url = '{BOARD_URL}chat/popup';
+						var query_url = '{BOARD_URL}app.php/chat/popup';
 					<!-- ELSE -->
-						var query_url = '{BOARD_URL}chat';
+						var query_url = '{BOARD_URL}app.php/chat';
 					<!-- ENDIF -->
 					<!-- IF S_AJAXCHAT_BBCODE -->
 						var chatbbcodetrue = true;
@@ -122,7 +122,7 @@
 						<div class="icon">
 							<div style="width: 100%; padding: 2px 0; text-align: center; " class="icon_chat">
 								<!-- IF SCRIPT_NAME == "index" -->
-									<a href="chat">
+									<a href="{U_CHAT}">
 										{L_CHAT_EXPLAIN}
 									</a>
 								<!-- ELSE -->
@@ -151,9 +151,9 @@
 															<input type="button" class="button2" id="bbcodes" value="{L_BBCODES}" />
 														<!-- ENDIF -->
 														<input type="button" class="button2" name="smilies" id="smilies" value="{L_SMILIES}" />
-														<input type="button" class="button2" onclick="popup('{BOARD_URL}chat/archive', 1000, 625); return false;" value="{L_CHAT_ARCHIVE}" title="{L_CHAT_ARCHIVE_EXPLAIN}" />
+														<input type="button" class="button2" onclick="popup('{BOARD_URL}app.php/chat/archive', 1000, 625); return false;" value="{L_CHAT_ARCHIVE}" title="{L_CHAT_ARCHIVE_EXPLAIN}" />
 														<!-- IF SCRIPT_NAME != "chat_popup" -->
-															<input type="button" class="button2" onclick="popup('{BOARD_URL}chat/popup', 1000, 625); return false;" value="{L_CHAT_POPUP}" title="{L_CHAT_POPUP_EXPLAIN}" />
+															<input type="button" class="button2" onclick="popup('{BOARD_URL}app.php/chat/popup', 1000, 625); return false;" value="{L_CHAT_POPUP}" title="{L_CHAT_POPUP_EXPLAIN}" />
 														<!-- ENDIF -->
 														<input type="button" class="button2" name="bbpalette" id="bbpalette" value="{L_CHAT_FONT_COLOR}" />
 												</fieldset>

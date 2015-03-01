@@ -72,7 +72,7 @@ class listener implements EventSubscriberInterface
 		}
 		$this->template->assign_vars(
 				array(
-					'U_CHAT'					 => append_sid("/"),
+					'U_CHAT'					 => append_sid("app.php/chat"),
 					'S_SHOUT'					 => true,
 					'CHAT_RULES'				 => $this->config['rule_ajax_chat'],
 					'REFRESH_TIME'				 => $this->config['refresh_ajax_chat'],
