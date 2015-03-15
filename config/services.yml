@@ -2,7 +2,6 @@ services:
     spaceace.ajax.chat.listener:
         class: spaceace\ajaxchat\event\listener
         arguments:
-            - @path_helper
             - @template
             - @user
             - @dbal.conn
@@ -10,6 +9,10 @@ services:
             - @request
             - @controller.helper
             - @config
+            - @ext.manager
+            - @path_helper
+            - @service_container
+            - %core.table_prefix%
             - %core.root_path%
             - %core.php_ext%
         tags:
@@ -24,6 +27,10 @@ services:
             - @request
             - @controller.helper
             - @config
+            - @ext.manager
+            - @path_helper
+            - @service_container
+            - %core.table_prefix%
             - %core.root_path%
             - %core.php_ext%
     spaceace.ajaxchat.popup.controller:
@@ -36,6 +43,10 @@ services:
             - @request
             - @controller.helper
             - @config
+            - @ext.manager
+            - @path_helper
+            - @service_container
+            - %core.table_prefix%
             - %core.root_path%
             - %core.php_ext%
     spaceace.ajaxchat.archive.controller:
@@ -48,6 +59,10 @@ services:
             - @request
             - @controller.helper
             - @config
+            - @ext.manager
+            - @path_helper
+            - @service_container
+            - %core.table_prefix%
             - %core.root_path%
             - %core.php_ext%
     spaceace.ajaxchat.shout.controller:
@@ -60,5 +75,9 @@ services:
             - @request
             - @controller.helper
             - @config
+            - @ext.manager
+            - @path_helper
+            - @service_container
+            - %core.table_prefix%
             - %core.root_path%
             - %core.php_ext%

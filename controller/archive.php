@@ -23,14 +23,14 @@ use phpbb\extension\manager;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
- * Main Chat Controller
+ * Main Archive Controller
  * 
  * @version 0.1.0-BETA
  * @package spaceace\ajaxchat
  * @author Kevin Roy <royk@myraytech.com>
  * @author Spaceace <spaceace@livemembersonly.com>
  */
-class chat
+class archive
 {
 
 	/** @var \phpbb\template\template */
@@ -44,10 +44,10 @@ class chat
 
 	/** @var \phpbb\extension\manager "Extension Manager" */
 	protected $ext_manager;
-
+	
 	/** @var \phpbb\path_helper */
 	protected $path_helper;
-
+	
 	/** @var \Symfony\Component\DependencyInjection\Container "Service Container" */
 	protected $container;
 
@@ -110,13 +110,13 @@ class chat
 
 	/** @var string */
 	protected $ext_path;
-
+	
 	/** @var string */
 	protected $ext_path_web;
 
 	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, manager $ext_manager, path_helper $path_helper, Container $container, $table_prefix, $root_path, $php_ext)
 	{
-
+		
 		$this->template		 = $template;
 		$this->user			 = $user;
 		$this->db			 = $db;
@@ -156,20 +156,14 @@ class chat
 		include $this->root_path . 'includes/functions_posting.' . $this->php_ext;
 		include $this->root_path . 'includes/functions_display.' . $this->php_ext;
 
-		$this->ext_path		 = $this->ext_manager->get_extension_path('spaceace/ajaxchat', true);
-		$this->ext_path_web	 = $this->path_helper->update_web_root_path($this->ext_path);
-
+		$this->ext_path					= $this->ext_manager->get_extension_path('spaceace/ajaxchat', true);
+		$this->ext_path_web				= $this->path_helper->update_web_root_path($this->ext_path);
+		
 		$this->post = $this->request->get_super_global(\phpbb\request\request_interface::POST);
 	}
 
 	public function index()
 	{
-		//fixes smilies and avatar not loading properly on index page
-		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
-		{
-			define('PHPBB_USE_BOARD_URL_PATH', true);
-		}
-
 		// sets a few variables before the actions
 		$this->mode			 = $this->request->variable('mode', 'default');
 		$this->last_id		 = $this->request->variable('last_id', 0);
@@ -186,10 +180,7 @@ class chat
 		{
 			$this->readAction();
 		}
-		elseif ($this->mode === 'add')
-		{
-			$this->addAction();
-		}
+		
 		elseif ($this->mode === 'smilies')
 		{
 			$this->smiliesAction();
@@ -206,7 +197,7 @@ class chat
 		$flash_status	 = ($this->config['auth_flash_pm'] && $this->auth->acl_get('u_pm_flash')) ? true : false;
 		$url_status		 = ($this->config['allow_post_links']) ? true : false;
 		$this->mode		 = strtoupper($this->mode);
-		
+
 		//Assign the features template variable
 		$this->template->assign_vars([
 			'BBCODE_STATUS'		 => ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
@@ -224,9 +215,9 @@ class chat
 			'LAST_ID'			 => $this->last_id,
 			'TIME'				 => time(),
 			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
-			'EXT_STYLE_PATH'	 => '' . $this->ext_path_web . 'styles/',
+			'EXT_STYLE_PATH'	 => ''.$this->ext_path_web . 'styles/',
 			'FILENAME'			 => generate_board_url() . '/app.php/chat',
-			'S_CHAT'			 => (!$this->get) ? true : false,
+			'S_ARCHIVE'			 => (!$this->get) ? true : false,
 			'S_GET_CHAT'		 => ($this->get) ? true : false,
 			'S_' . $this->mode	 => true,
 		]);
@@ -253,7 +244,7 @@ class chat
             LEFT JOIN ' . USERS_TABLE . ' as u
             ON c.user_id = u.user_id
             ORDER BY message_id DESC';
-		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
+		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_archive_amount']);
 		$rows	 = $this->db->sql_fetchrowset($result);
 
 		foreach ($rows as $row)
@@ -413,7 +404,7 @@ class chat
 		}
 		return $user;
 	}
-	
+
 	/**
 	 * Refresher Read action
 	 * 
@@ -427,7 +418,7 @@ class chat
 				ON c.user_id = u.user_id
 				WHERE c.message_id > ' . $this->last_id . '
 				ORDER BY message_id DESC';
-		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
+		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_archive_amount']);
 		$rows	 = $this->db->sql_fetchrowset($result);
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
@@ -532,13 +523,14 @@ class chat
 		$sql		 = 'UPDATE ' . CHAT_SESSIONS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary2) . " WHERE user_id = {$this->user->data['user_id']}";
 		$result		 = $this->db->sql_query($sql);
 
+
 		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type
 				FROM ' . CHAT_TABLE . ' as c
 				LEFT JOIN ' . USERS_TABLE . ' as u
 				ON c.user_id = u.user_id
 				WHERE c.message_id > ' . $this->last_id . '
 				ORDER BY message_id DESC';
-		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
+		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_archive_amount']);
 		$rows	 = $this->db->sql_fetchrowset($result);
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
@@ -547,6 +539,7 @@ class chat
 		}
 		foreach ($rows as $row)
 		{
+
 			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
 			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
 			if ($this->count++ == 0)
@@ -557,7 +550,6 @@ class chat
 					'SOUND_FILE'	 => 'soundout',
 				]);
 			}
-
 			$this->template->assign_block_vars('chatrow', [
 				'MESSAGE_ID'		 => $row['message_id'],
 				'USERNAME_FULL'		 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
@@ -598,4 +590,5 @@ class chat
 		$this->db->sql_query($sql);
 		return;
 	}
+
 }

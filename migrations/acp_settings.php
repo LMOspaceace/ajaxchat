@@ -29,6 +29,7 @@ class acp_settings extends \phpbb\db\migration\migration
 			array('config.add', array('ajax_chat_archive_amount', '200')),
 			array('config.add', array('ajax_chat_popup_amount', '60')),
 			array('config.add', array('ajax_chat_index_amount', '60')),
+			array('config.add', array('ajax_chat_chat_amount', '60')),
 		);
 	}
 }
