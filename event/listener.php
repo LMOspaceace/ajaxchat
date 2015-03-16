@@ -156,7 +156,7 @@ class listener implements EventSubscriberInterface
 			'core.page_header'				 => 'page_header',
 			'core.permissions'				 => 'add_permission',
 			'core.index_modify_page_title'	 => 'index',
-				//'core.posting_modify_submit_post_after'	 => 'add_forum_id',
+			'core.posting_modify_submit_post_after'	 => 'add_forum_id',
 		);
 	}
 
@@ -375,7 +375,49 @@ class listener implements EventSubscriberInterface
 	 */
 	public function add_forum_id($event)
 	{
-		\var_dump($event['forum_id']);
+		
+		if (!defined('CHAT_TABLE'))
+		{
+			$chat_table = $this->table_prefix . 'ajax_chat';
+			define('CHAT_TABLE', $chat_table);
+		}
+		if (!defined('CHAT_SESSIONS_TABLE'))
+		{
+			$chat_session_table = $this->table_prefix . 'ajax_chat_sessions';
+			define('CHAT_SESSIONS_TABLE', $chat_session_table);
+		}
+
+		$type = $this->request->variable('mode', '');
+
+		if ($type == 'reply')
+		{
+			$lang = '%1$s replied to <a href="%2$s">%3$s</a>';
+		}
+		else
+		{
+			$lang = '%1$s started a new topic: <a href="%2$s">%3$s</a>';
+		}
+
+		$username		 = get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']);
+		$message		 = sprintf($lang, $username, append_sid($event['redirect_url']), $event['post_data']['post_subject']);
+		$uid			 = $bitfield		 = $options		 = '';
+		$allow_bbcode	 = $allow_urls		 = $allow_smilies	 = true;
+		generate_text_for_storage($message, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
+
+		$sql_ary = array(
+			'chat_id'			 => 1,
+			'user_id'			 => $this->user->data['user_id'],
+			'username'			 => $this->user->data['username'],
+			'user_colour'		 => $this->user->data['user_colour'],
+			'message'			 => $message,
+			'bbcode_bitfield'	 => $bitfield,
+			'bbcode_uid'		 => $uid,
+			'bbcode_options'	 => $options,
+			'time'				 => time(),
+			'forum_id'			 => $event['forum_id'],
+		);
+		$sql	 = 'INSERT INTO ' . CHAT_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
+		$this->db->sql_query($sql);
 	}
 
 	/**
