@@ -59,12 +59,16 @@ class ajaxchat_module
 			'vars'  => array(
 				'legend1'					=> 'AJAX_CHAT_SETTINGS',
 				'display_ajax_chat'			=> array('lang' => 'DISPLAY_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false),
+				'index_display_ajax_chat'	=> array('lang' => 'INDEX_DISPLAY_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true),
 				'whois_chatting'			=> array('lang' => 'WHOIS_CHATTING', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true),
+				'ajax_chat_forum_posts'		=> array('lang'	=> 'FORUM_POSTS_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false),
 				'refresh_ajax_chat'			=> array('lang' => 'REFRESH_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => false),
 				'rule_ajax_chat'			=> array('lang' => 'RULE_AJAX_CHAT', 'validate' => 'string', 'type' => 'text:40:255', 'explain' => true),
 				'ajax_chat_archive_amount'	=> array('lang'	=> 'ARCHIVE_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:500', 'explain' => true),
 				'ajax_chat_popup_amount'	=> array('lang'	=> 'POPUP_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true),
 				'ajax_chat_index_amount'	=> array('lang'	=> 'INDEX_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true),
+				'ajax_chat_chat_amount'		=> array('lang'	=> 'CHAT_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true),
+				'ajax_chat_time_setting'	=> array('lang' => 'TIME_SETTING_AJAX_CHAT', 'validate' => 'string', 'type' => 'text:10:20', 'explain' => true),
 				'ajax_chat_chat_amount'		=> array('lang'	=> 'CHAT_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true),
 				'legend2'					=> 'ACP_SUBMIT_CHANGES'
 			),

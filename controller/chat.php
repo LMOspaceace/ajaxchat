@@ -114,6 +114,23 @@ class chat
 	/** @var string */
 	protected $ext_path_web;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param template		$template
+	 * @param user			$user
+	 * @param db_driver		$db
+	 * @param auth			$auth
+	 * @param request		$request
+	 * @param helper		$helper
+	 * @param db			$config
+	 * @param manager		$ext_manager
+	 * @param path_helper	$path_helper
+	 * @param Container		$container
+	 * @param string		$table_prefix
+	 * @param string		$root_path
+	 * @param string		$php_ext
+	 */
 	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, manager $ext_manager, path_helper $path_helper, Container $container, $table_prefix, $root_path, $php_ext)
 	{
 
@@ -180,6 +197,7 @@ class chat
 		// Grabs the right Action depending on ajax requested mode
 		if ($this->mode === 'default')
 		{
+
 			$this->defaultAction();
 		}
 		elseif ($this->mode === 'read')
@@ -206,7 +224,7 @@ class chat
 		$flash_status	 = ($this->config['auth_flash_pm'] && $this->auth->acl_get('u_pm_flash')) ? true : false;
 		$url_status		 = ($this->config['allow_post_links']) ? true : false;
 		$this->mode		 = strtoupper($this->mode);
-		
+
 		//Assign the features template variable
 		$this->template->assign_vars([
 			'BBCODE_STATUS'		 => ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
@@ -238,7 +256,7 @@ class chat
 
 		$this->whois_online();
 
-		return $this->helper->render('chat_body.html');
+		return $this->helper->render('chat_body.html', $this->user->lang['CHAT_EXPLAIN']);
 	}
 
 	/**
@@ -264,13 +282,23 @@ class chat
 			{
 				$this->last_id = $row['message_id'];
 			}
+
+			if ($this->config['ajax_chat_time_setting'])
+			{
+				$time = $this->config['ajax_chat_time_setting'];
+			}
+			else
+			{
+				$time = $this->user->data['user_dateformat'];
+			}
 			$this->template->assign_block_vars('chatrow', [
+
 				'MESSAGE_ID'		 => $row['message_id'],
 				'USERNAME_FULL'		 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
 				'USERNAME_A'		 => $row['username'],
 				'USER_COLOR'		 => $row['user_colour'],
 				'MESSAGE'			 => make_clickable(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options'])),
-				'TIME'				 => $this->user->format_date($row['time'], 'D g:i a'),
+				'TIME'				 => $this->user->format_date($row['time'], $time),
 				'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
 				'USER_AVATAR'		 => $row['avatar'],
 				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
@@ -419,6 +447,11 @@ class chat
 	 * 
 	 * @return bool
 	 */
+	/**
+	 * Refresher Read action
+	 * 
+	 * @return bool
+	 */
 	private function readAction()
 	{
 		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type
@@ -454,13 +487,24 @@ class chat
 					'SOUND_FILE'	 => 'sound',
 				]);
 			}
+
+			if ($this->config['ajax_chat_time_setting'])
+			{
+				$time = $this->config['ajax_chat_time_setting'];
+			}
+			else
+			{
+				$time = $this->user->data['user_dateformat'];
+			}
+
 			$this->template->assign_block_vars('chatrow', [
+
 				'MESSAGE_ID'		 => $row['message_id'],
 				'USERNAME_FULL'		 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
 				'USERNAME_A'		 => $row['username'],
 				'USER_COLOR'		 => $row['user_colour'],
 				'MESSAGE'			 => make_clickable(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options'])),
-				'TIME'				 => $this->user->format_date($row['time'], 'D g:i a'),
+				'TIME'				 => $this->user->format_date($row['time'], $time),
 				'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
 				'USER_AVATAR'		 => $row['avatar'],
 				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
@@ -558,13 +602,22 @@ class chat
 				]);
 			}
 
+			if ($this->config['ajax_chat_time_setting'])
+			{
+				$time = $this->config['ajax_chat_time_setting'];
+			}
+			else
+			{
+				$time = $this->user->data['user_dateformat'];
+			}
+
 			$this->template->assign_block_vars('chatrow', [
 				'MESSAGE_ID'		 => $row['message_id'],
 				'USERNAME_FULL'		 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
 				'USERNAME_A'		 => $row['username'],
 				'USER_COLOR'		 => $row['user_colour'],
 				'MESSAGE'			 => make_clickable(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options'])),
-				'TIME'				 => $this->user->format_date($row['time'], 'D g:i a'),
+				'TIME'				 => $this->user->format_date($row['time'], $time),
 				'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
 				'USER_AVATAR'		 => $row['avatar'],
 				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
@@ -598,4 +651,5 @@ class chat
 		$this->db->sql_query($sql);
 		return;
 	}
+
 }

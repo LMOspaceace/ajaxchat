@@ -25,6 +25,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Event listener
+ *
+ * @package spaceace/ajaxchat
  */
 class listener implements EventSubscriberInterface
 {
@@ -37,6 +39,12 @@ class listener implements EventSubscriberInterface
 
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
+
+	
+
+	/** @var \phpbb\config\db */
+	protected $config;
+
 
 	/** @var \phpbb\extension\manager "Extension Manager" */
 	protected $ext_manager;
@@ -55,9 +63,6 @@ class listener implements EventSubscriberInterface
 
 	/** @var \phpbb\controller\helper */
 	protected $helper;
-
-	/** @var \phpbb\config\db */
-	protected $config;
 
 	/** @var core.root_path */
 	protected $root_path;
@@ -106,7 +111,7 @@ class listener implements EventSubscriberInterface
 
 	/** @var string */
 	protected $ext_path;
-	
+
 	/** @var string */
 	protected $ext_path_web;
 
@@ -128,6 +133,7 @@ class listener implements EventSubscriberInterface
 	 * @param string		$php_ext
 	 */
 	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, manager $ext_manager, path_helper $path_helper, Container $container, $table_prefix, $root_path, $php_ext)
+
 	{
 
 		$this->template		 = $template;
@@ -145,14 +151,21 @@ class listener implements EventSubscriberInterface
 		$this->table_prefix	 = $table_prefix;
 	}
 
+
+	
 	/**
 	 * Decides what listener to use
 	 * 
 	 * @return array
 	 */
+
 	static public function getSubscribedEvents()
 	{
 		return array(
+			'core.page_header'						 => 'page_header',
+			'core.permissions'						 => 'add_permission',
+			'core.index_modify_page_title'			 => 'index',
+			'core.posting_modify_submit_post_after'	 => 'add_forum_id',
 			'core.page_header'				 => 'page_header',
 			'core.permissions'				 => 'add_permission',
 			'core.index_modify_page_title'	 => 'index',
@@ -165,12 +178,14 @@ class listener implements EventSubscriberInterface
 	 */
 	public function page_header()
 	{
-		if (!defined('PHPBB_USE_BOARD_URL_PATH')) {
+		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
+		{
 			define('PHPBB_USE_BOARD_URL_PATH', true);
 		}
-		 
+
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
 
+		//Declares the ACP switches
 		if ($this->config['display_ajax_chat'] === '1')
 		{
 			$this->template->assign_var('S_CHAT_ENABLED', true);
@@ -180,6 +195,7 @@ class listener implements EventSubscriberInterface
 			$this->template->assign_var('S_WHOIS_CHATTING', true);
 		}
 
+		//Declaring a few UCP switches and basic values
 		$this->template->assign_vars(
 				array(
 					'U_CHAT'					 => append_sid("app.php/chat"),
@@ -198,6 +214,11 @@ class listener implements EventSubscriberInterface
 					'M_AJAXCHAT_DELETE'			 => $this->auth->acl_get('m_ajaxchat_delete'),
 				)
 		);
+
+		if (!$this->config['index_display_ajax_chat'])
+		{
+			$this->template->assign_var('S_AJAX_CHAT_VIEW', $this->config['index_display_ajax_chat']);
+		}
 	}
 
 	/**
@@ -211,36 +232,49 @@ class listener implements EventSubscriberInterface
 	{
 		$permissions = $event['permissions'];
 
+		// Adds the required ucp and mcp permissions
 		$permissions['u_ajaxchat_view']		 = array('lang' => 'ACL_U_AJAXCHAT_VIEW', 'cat' => 'misc');
 		$permissions['u_ajaxchat_post']		 = array('lang' => 'ACL_U_AJAXCHAT_POST', 'cat' => 'misc');
 		$permissions['u_ajaxchat_bbcode']	 = array('lang' => 'ACL_U_AJAXCHAT_BBCODE', 'cat' => 'misc');
 		$permissions['m_ajaxchat_delete']	 = array('lang' => 'ACL_M_AJAXCHAT_DELETE', 'cat' => 'misc');
 
+
 		$event['permissions'] = $permissions;
 	}
+
+
 
 	
 	/**
 	 * Modifies the forum index to add the chat
 	 */
+
 	public function index()
 	{
-		if (!defined('PHPBB_USE_BOARD_URL_PATH')) {
+
+		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
+		{
 			define('PHPBB_USE_BOARD_URL_PATH', true);
 		}
 		$this->user->add_lang('posting');
+		
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
-		$this->times		 = [
-			'online'	 => 0,
-			'idle'		 => 300,
-			'offline'	 => 1800,
+
+
+		// other comments at to replace for acp numbers
+		// sets desired status times
+		$this->times = [
+			'online'	 => 0, // $this->config[''];
+			'idle'		 => 300, // $this->config[''];
+			'offline'	 => 1800, // $this->config[''];
 		];
 		//set delay for each status
-		$this->delay		 = [
-			'online'	 => 5,
-			'idle'		 => 60,
-			'offline'	 => 300,
+		$this->delay = [
+			'online'	 => 5, // $this->config[''];
+			'idle'		 => 60, // $this->config[''];
+			'offline'	 => 300, // $this->config[''];
 		];
+
 		if (!defined('CHAT_TABLE'))
 		{
 			$chat_table = $this->table_prefix . 'ajax_chat';
@@ -251,9 +285,10 @@ class listener implements EventSubscriberInterface
 			$chat_session_table = $this->table_prefix . 'ajax_chat_sessions';
 			define('CHAT_SESSIONS_TABLE', $chat_session_table);
 		}
+
 		include_once $this->root_path . 'includes/functions_posting.' . $this->php_ext;
 		include_once $this->root_path . 'includes/functions_display.' . $this->php_ext;
-		
+
 		$this->ext_path		 = $this->ext_manager->get_extension_path('spaceace/ajaxchat', true);
 		$this->ext_path_web	 = $this->path_helper->update_web_root_path($this->ext_path);
 		$this->mode			 = $this->request->variable('mode', 'default');
@@ -263,10 +298,10 @@ class listener implements EventSubscriberInterface
 		$this->read_interval = $this->request->variable('read_interval', 5000);
 
 		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type
-            FROM ' . CHAT_TABLE . ' as c
-            LEFT JOIN ' . USERS_TABLE . ' as u
-            ON c.user_id = u.user_id
-            ORDER BY message_id DESC';
+		FROM ' . CHAT_TABLE . ' as c
+		LEFT JOIN ' . USERS_TABLE . ' as u
+		ON c.user_id = u.user_id
+		ORDER BY message_id DESC';
 		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_index_amount']);
 		$rows	 = $this->db->sql_fetchrowset($result);
 
@@ -278,17 +313,24 @@ class listener implements EventSubscriberInterface
 			{
 				$this->last_id = $row['message_id'];
 			}
+
 			
-			
-			$message = generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']);
-			
+			if ($this->config['ajax_chat_time_setting'])
+			{
+				$time = $this->config['ajax_chat_time_setting'];
+			}
+			else
+			{
+				$time = $this->user->data['user_dateformat'];
+			}
+
 			$this->template->assign_block_vars('chatrow', [
 				'MESSAGE_ID'		 => $row['message_id'],
 				'USERNAME_FULL'		 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
 				'USERNAME_A'		 => $row['username'],
 				'USER_COLOR'		 => $row['user_colour'],
-				'MESSAGE'			 => $message,
-				'TIME'				 => $this->user->format_date($row['time'], 'D g:i a'),
+				'MESSAGE'			 => make_clickable(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options'])),
+				'TIME'				 => $this->user->format_date($row['time'], $time),
 				'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
 				'USER_AVATAR'		 => $row['avatar'],
 				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
@@ -334,7 +376,7 @@ class listener implements EventSubscriberInterface
 		$flash_status	 = ($this->config['auth_flash_pm'] && $this->auth->acl_get('u_pm_flash')) ? true : false;
 		$url_status		 = ($this->config['allow_post_links']) ? true : false;
 		$this->mode		 = strtoupper($this->mode);
-		
+
 		//Assign the features template variable
 		$this->template->assign_vars([
 			'BBCODE_STATUS'		 => ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
@@ -352,12 +394,12 @@ class listener implements EventSubscriberInterface
 			'LAST_ID'			 => $this->last_id,
 			'TIME'				 => time(),
 			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
-			'EXT_STYLE_PATH'	 => ''.$this->ext_path_web . 'styles/',
+			'EXT_STYLE_PATH'	 => '' . $this->ext_path_web . 'styles/',
 			'FILENAME'			 => generate_board_url() . '/app.php/chat',
 			'S_GET_CHAT'		 => ($this->get) ? true : false,
 			'S_' . $this->mode	 => true,
 		]);
-		
+
 		// Generate smiley listing
 		\generate_smilies('inline', 0);
 
@@ -375,7 +417,11 @@ class listener implements EventSubscriberInterface
 	 */
 	public function add_forum_id($event)
 	{
-		
+
+		if (!$this->config['ajax_chat_forum_posts'])
+		{
+			return;
+		}
 		if (!defined('CHAT_TABLE'))
 		{
 			$chat_table = $this->table_prefix . 'ajax_chat';

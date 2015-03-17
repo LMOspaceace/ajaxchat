@@ -205,6 +205,11 @@
 	padding: 6px 0 6px 21px;
 }
 
+.chat-icon-link {
+	background-image: url("./images/icon_chat.png");
+	padding-left: 4px;
+}
+
 .chat-avatars {
 	float: left;
 	position:relative;

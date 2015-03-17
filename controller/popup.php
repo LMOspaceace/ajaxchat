@@ -44,10 +44,10 @@ class popup
 
 	/** @var \phpbb\extension\manager "Extension Manager" */
 	protected $ext_manager;
-	
+
 	/** @var \phpbb\path_helper */
 	protected $path_helper;
-	
+
 	/** @var \Symfony\Component\DependencyInjection\Container "Service Container" */
 	protected $container;
 
@@ -110,13 +110,30 @@ class popup
 
 	/** @var string */
 	protected $ext_path;
-	
+
 	/** @var string */
 	protected $ext_path_web;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param template		$template
+	 * @param user			$user
+	 * @param db_driver		$db
+	 * @param auth			$auth
+	 * @param request		$request
+	 * @param helper		$helper
+	 * @param db			$config
+	 * @param manager		$ext_manager
+	 * @param path_helper	$path_helper
+	 * @param Container		$container
+	 * @param string		$table_prefix
+	 * @param string		$root_path
+	 * @param string		$php_ext
+	 */
 	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, manager $ext_manager, path_helper $path_helper, Container $container, $table_prefix, $root_path, $php_ext)
 	{
-		
+
 		$this->template		 = $template;
 		$this->user			 = $user;
 		$this->db			 = $db;
@@ -156,9 +173,9 @@ class popup
 		include $this->root_path . 'includes/functions_posting.' . $this->php_ext;
 		include $this->root_path . 'includes/functions_display.' . $this->php_ext;
 
-		$this->ext_path					= $this->ext_manager->get_extension_path('spaceace/ajaxchat', true);
-		$this->ext_path_web				= $this->path_helper->update_web_root_path($this->ext_path);
-		
+		$this->ext_path		 = $this->ext_manager->get_extension_path('spaceace/ajaxchat', true);
+		$this->ext_path_web	 = $this->path_helper->update_web_root_path($this->ext_path);
+
 		$this->post = $this->request->get_super_global(\phpbb\request\request_interface::POST);
 	}
 
@@ -218,7 +235,7 @@ class popup
 			'LAST_ID'			 => $this->last_id,
 			'TIME'				 => time(),
 			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
-			'EXT_STYLE_PATH'	 => ''.$this->ext_path_web . 'styles/',
+			'EXT_STYLE_PATH'	 => '' . $this->ext_path_web . 'styles/',
 			'FILENAME'			 => generate_board_url() . '/app.php/chat',
 			'S_POPUP'			 => (!$this->get) ? true : false,
 			'S_GET_CHAT'		 => ($this->get) ? true : false,
@@ -232,7 +249,7 @@ class popup
 
 		$this->whois_online();
 
-		return $this->helper->render('chat_body.html');
+		return $this->helper->render('chat_body.html', $this->user->lang['CHAT_POPUP_EXPLAIN']);
 	}
 
 	/**
@@ -258,13 +275,23 @@ class popup
 			{
 				$this->last_id = $row['message_id'];
 			}
+
+			if ($this->config['ajax_chat_time_setting'])
+			{
+				$time = $this->config['ajax_chat_time_setting'];
+			}
+			else
+			{
+				$time = $this->user->data['user_dateformat'];
+			}
+
 			$this->template->assign_block_vars('chatrow', [
 				'MESSAGE_ID'		 => $row['message_id'],
 				'USERNAME_FULL'		 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
 				'USERNAME_A'		 => $row['username'],
 				'USER_COLOR'		 => $row['user_colour'],
 				'MESSAGE'			 => make_clickable(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options'])),
-				'TIME'				 => $this->user->format_date($row['time'], 'D g:i a'),
+				'TIME'				 => $this->user->format_date($row['time'], $time),
 				'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
 				'USER_AVATAR'		 => $row['avatar'],
 				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
@@ -448,13 +475,23 @@ class popup
 					'SOUND_FILE'	 => 'sound',
 				]);
 			}
+
+			if ($this->config['ajax_chat_time_setting'])
+			{
+				$time = $this->config['ajax_chat_time_setting'];
+			}
+			else
+			{
+				$time = $this->user->data['user_dateformat'];
+			}
+
 			$this->template->assign_block_vars('chatrow', [
 				'MESSAGE_ID'		 => $row['message_id'],
 				'USERNAME_FULL'		 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
 				'USERNAME_A'		 => $row['username'],
 				'USER_COLOR'		 => $row['user_colour'],
 				'MESSAGE'			 => make_clickable(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options'])),
-				'TIME'				 => $this->user->format_date($row['time'], 'D g:i a'),
+				'TIME'				 => $this->user->format_date($row['time'], $time),
 				'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
 				'USER_AVATAR'		 => $row['avatar'],
 				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
@@ -553,13 +590,23 @@ class popup
 					'SOUND_FILE'	 => 'soundout',
 				]);
 			}
+
+			if ($this->config['ajax_chat_time_setting'])
+			{
+				$time = $this->config['ajax_chat_time_setting'];
+			}
+			else
+			{
+				$time = $this->user->data['user_dateformat'];
+			}
+
 			$this->template->assign_block_vars('chatrow', [
 				'MESSAGE_ID'		 => $row['message_id'],
 				'USERNAME_FULL'		 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
 				'USERNAME_A'		 => $row['username'],
 				'USER_COLOR'		 => $row['user_colour'],
 				'MESSAGE'			 => make_clickable(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options'])),
-				'TIME'				 => $this->user->format_date($row['time'], 'D g:i a'),
+				'TIME'				 => $this->user->format_date($row['time'], $time),
 				'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
 				'USER_AVATAR'		 => $row['avatar'],
 				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],

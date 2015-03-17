@@ -30,6 +30,11 @@ class acp_settings extends \phpbb\db\migration\migration
 			array('config.add', array('ajax_chat_popup_amount', '60')),
 			array('config.add', array('ajax_chat_index_amount', '60')),
 			array('config.add', array('ajax_chat_chat_amount', '60')),
+			array('config.add', array('ajax_chat_time_setting', 'D g:i a')),
+			array('config.add', array('index_display_ajax_chat', '1')),
+			array('config.add', array('ajax_chat_forum_posts', '1')),
+			array('config.add', array('ajax_chat_chat_amount', '60')),
+
 		);
 	}
 }
