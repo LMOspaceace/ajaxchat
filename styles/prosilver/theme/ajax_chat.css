@@ -5,6 +5,10 @@
 	cursor: wait;
 }
 
+#bbpalette {
+	display: inline;
+}
+
 #check_indicator{
 	vertical-align:text-bottom;
 	margin-right: -2px;
@@ -298,5 +302,11 @@ div.chat-avatars:hover span {
 		min-width: 80px;
 		float: left;
 		display: inline;
+	}
+	.chatnavbar {
+		padding: 2px;
+	}
+	#bbpalette {
+		display: none;
 	}
 }

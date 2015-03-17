@@ -69,7 +69,7 @@ class ajaxchat_module
 				'ajax_chat_index_amount'	=> array('lang'	=> 'INDEX_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true),
 				'ajax_chat_chat_amount'		=> array('lang'	=> 'CHAT_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true),
 				'ajax_chat_time_setting'	=> array('lang' => 'TIME_SETTING_AJAX_CHAT', 'validate' => 'string', 'type' => 'text:10:20', 'explain' => true),
-				'ajax_chat_chat_amount'		=> array('lang'	=> 'CHAT_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true),
+				
 				'legend2'					=> 'ACP_SUBMIT_CHANGES'
 			),
 		);
