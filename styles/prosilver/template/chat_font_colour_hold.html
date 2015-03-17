@@ -1,11 +1,11 @@
-<div id="colour_palette" style="display: none; text-align: center; padding-bottom: 5px;">
-	<table width="50%" style="margin-left: auto; margin-right: auto;">
+<div id="colour_palette">
+	<table width="50%">
 		<div id="fc">
 		</div>
-		<div style="margin: 0 auto;">
+		<div class="select_color">
 			{L_SELECT_COLOR}
 		</div>
-		<tr align="center">
+		<tr>
 			<td valign="top">
 				<script type="text/javascript">
 					// <![CDATA[
@@ -41,7 +41,7 @@
 								{
 									color = String(numberList[r]) + String(numberList[g]) + String(numberList[b]);
 									document.write('<td bgcolor="#' + color + '" style="width: ' + width + 'px; height: ' + height + 'px;">');
-									document.write('<div onmouseover="this.style.cursor=\'pointer\'" onmousedown="setCookie(\'fontholdcookie\', \'[color2=#' + color + ']\',\'1000\'); blkopen = \'[color2=#' + color + ']\'; hilite(\'#' + color + ' \'); return false;"><img src="images/spacer.gif" width="' + width + '" height="' + height + '" alt="#' + color + '" title="#' + color + '" /></div>');
+									document.write('<div onmouseover="this.style.cursor=\'pointer\'" onmousedown="setCookie(\'fontholdcookie\', \'[color2=#' + color + ']\',\'1000\'); blkopen = \'[color2=#' + color + ']\'; hilite(\'#' + color + ' \'); return false;"><img src="{BOARD_URL}images/spacer.gif" width="' + width + '" height="' + height + '" alt="#' + color + '" title="#' + color + '" /></div>');
 									document.writeln('</td>');
 								}
 								if (dir == 'v')

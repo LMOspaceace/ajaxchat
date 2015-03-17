@@ -35,16 +35,16 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge(
 	$lang, array(
-		'CHAT_BOTTOM'					=> 'Bottom',
-		'CHAT_TOP'						=> 'Top',
-		'USER_AJAX_CHAT_VIEW'			=> 'View chat on index page',
-		'USER_AJAX_CHAT_POSITION'		=> 'Position on index to display chat',
-		'USER_AJAX_CHAT_AVATARS'		=> 'Display avatars in chat',
-		'USER_AJAX_CHAT_SOUND'			=> 'Hear sounds in chat',
-		'USER_AJAX_CHAT_AVATAR_HOVER'	=> 'Display full avatar image on hover',
-		'USER_AJAX_CHAT_ONLINELIST'		=> 'View online list in chat',
-		'USER_AJAXCHAT'					=> 'Ajax Chat',
-		'USER_AJAXCHAT_SETTINGS'		=> 'Ajax Chat Settings',
-		'NO_VIEW_CHAT'					=> 'You do not have permission to view chat.',
+		'CHAT_BOTTOM'                 => 'Знизу',
+		'CHAT_TOP'                    => 'Зверху',
+		'USER_AJAX_CHAT_VIEW'         => 'Відображати чат на головній сторінці',
+		'USER_AJAX_CHAT_POSITION'     => 'Місце на головній для відображення чату',
+		'USER_AJAX_CHAT_AVATARS'      => 'Відображати аватари в чаті',
+		'USER_AJAX_CHAT_SOUND'        => 'Дозволити звуки в чаті',
+		'USER_AJAX_CHAT_AVATAR_HOVER' => 'Показувати повний аватар при наведенні курсора',
+		'USER_AJAX_CHAT_ONLINELIST'   => 'Відображати онлайн список у чаті',
+		'USER_AJAXCHAT'               => 'Ajax Chat',
+		'USER_AJAXCHAT_SETTINGS'      => 'Ajax Chat налаштування',
+		'NO_VIEW_CHAT'                => 'Ви не маєте дозволу для перегляду чату.',
 	)
 );

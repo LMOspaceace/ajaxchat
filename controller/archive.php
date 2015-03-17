@@ -23,14 +23,14 @@ use phpbb\extension\manager;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
- * Main Chat Controller
+ * Main Archive Controller
  * 
  * @version 0.1.0-BETA
  * @package spaceace\ajaxchat
  * @author Kevin Roy <royk@myraytech.com>
  * @author Spaceace <spaceace@livemembersonly.com>
  */
-class chat
+class archive
 {
 
 	/** @var \phpbb\template\template */
@@ -181,12 +181,6 @@ class chat
 
 	public function index()
 	{
-		//fixes smilies and avatar not loading properly on index page
-		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
-		{
-			define('PHPBB_USE_BOARD_URL_PATH', true);
-		}
-
 		// sets a few variables before the actions
 		$this->mode			 = $this->request->variable('mode', 'default');
 		$this->last_id		 = $this->request->variable('last_id', 0);
@@ -197,16 +191,11 @@ class chat
 		// Grabs the right Action depending on ajax requested mode
 		if ($this->mode === 'default')
 		{
-
 			$this->defaultAction();
 		}
 		elseif ($this->mode === 'read')
 		{
 			$this->readAction();
-		}
-		elseif ($this->mode === 'add')
-		{
-			$this->addAction();
 		}
 		elseif ($this->mode === 'smilies')
 		{
@@ -244,7 +233,7 @@ class chat
 			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'	 => '' . $this->ext_path_web . 'styles/',
 			'FILENAME'			 => generate_board_url() . '/app.php/chat',
-			'S_CHAT'			 => (!$this->get) ? true : false,
+			'S_ARCHIVE'			 => (!$this->get) ? true : false,
 			'S_GET_CHAT'		 => ($this->get) ? true : false,
 			'S_' . $this->mode	 => true,
 		]);
@@ -256,7 +245,7 @@ class chat
 
 		$this->whois_online();
 
-		return $this->helper->render('chat_body.html', $this->user->lang['CHAT_EXPLAIN']);
+		return $this->helper->render('chat_body.html', $this->user->lang['CHAT_ARCHIVE_EXPLAIN']);
 	}
 
 	/**
@@ -271,7 +260,7 @@ class chat
             LEFT JOIN ' . USERS_TABLE . ' as u
             ON c.user_id = u.user_id
             ORDER BY message_id DESC';
-		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
+		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_archive_amount']);
 		$rows	 = $this->db->sql_fetchrowset($result);
 
 		foreach ($rows as $row)
@@ -291,8 +280,8 @@ class chat
 			{
 				$time = $this->user->data['user_dateformat'];
 			}
-			$this->template->assign_block_vars('chatrow', [
 
+			$this->template->assign_block_vars('chatrow', [
 				'MESSAGE_ID'		 => $row['message_id'],
 				'USERNAME_FULL'		 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
 				'USERNAME_A'		 => $row['username'],
@@ -441,12 +430,7 @@ class chat
 		}
 		return $user;
 	}
-	
-	/**
-	 * Refresher Read action
-	 * 
-	 * @return bool
-	 */
+
 	/**
 	 * Refresher Read action
 	 * 
@@ -460,7 +444,7 @@ class chat
 				ON c.user_id = u.user_id
 				WHERE c.message_id > ' . $this->last_id . '
 				ORDER BY message_id DESC';
-		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
+		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_archive_amount']);
 		$rows	 = $this->db->sql_fetchrowset($result);
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
@@ -498,7 +482,6 @@ class chat
 			}
 
 			$this->template->assign_block_vars('chatrow', [
-
 				'MESSAGE_ID'		 => $row['message_id'],
 				'USERNAME_FULL'		 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
 				'USERNAME_A'		 => $row['username'],
@@ -524,106 +507,6 @@ class chat
 			$result	 = $this->db->sql_query($sql);
 		}
 		$this->get = true;
-
-		return;
-	}
-
-	/**
-	 * Add & read action
-	 * 
-	 * @return bool
-	 */
-	private function addAction()
-	{
-		if (!$this->user->data['is_registered'] || $this->user->data['user_type'] == USER_INACTIVE || $this->user->data['user_type'] == USER_IGNORE)
-		{
-			redirect(append_sid("{$this->root_path}ucp.$this->php_ext", 'mode=login'));
-		}
-		$this->get = true;
-
-		$message = utf8_normalize_nfc($this->request->variable('message', '', true));
-
-		if (!$message)
-		{
-			return;
-		}
-		$this->clean_message($message);
-		$uid			 = $bitfield		 = $options		 = '';
-		$allow_bbcode	 = $this->auth->acl_get('u_ajaxchat_bbcode');
-		$allow_urls		 = $allow_smilies	 = true;
-		generate_text_for_storage($message, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
-
-		$sql_ary = [
-			'chat_id'			 => 1,
-			'user_id'			 => $this->user->data['user_id'],
-			'username'			 => $this->user->data['username'],
-			'user_colour'		 => $this->user->data['user_colour'],
-			'message'			 => $message,
-			'bbcode_bitfield'	 => $bitfield,
-			'bbcode_uid'		 => $uid,
-			'bbcode_options'	 => $options,
-			'time'				 => time(),
-		];
-		$sql	 = 'INSERT INTO ' . CHAT_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
-		$this->db->sql_query($sql);
-
-		$sql_ary2	 = [
-			'username'			 => $this->user->data['username'],
-			'user_colour'		 => $this->user->data['user_colour'],
-			'user_lastpost'		 => time(),
-			'user_lastupdate'	 => time(),
-		];
-		$sql		 = 'UPDATE ' . CHAT_SESSIONS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary2) . " WHERE user_id = {$this->user->data['user_id']}";
-		$result		 = $this->db->sql_query($sql);
-
-		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type
-				FROM ' . CHAT_TABLE . ' as c
-				LEFT JOIN ' . USERS_TABLE . ' as u
-				ON c.user_id = u.user_id
-				WHERE c.message_id > ' . $this->last_id . '
-				ORDER BY message_id DESC';
-		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
-		$rows	 = $this->db->sql_fetchrowset($result);
-
-		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
-		{
-			exit;
-		}
-		foreach ($rows as $row)
-		{
-			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
-			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
-			if ($this->count++ == 0)
-			{
-				$this->last_id = $row['message_id'];
-				$this->template->assign_vars([
-					'SOUND_ENABLED'	 => true,
-					'SOUND_FILE'	 => 'soundout',
-				]);
-			}
-
-			if ($this->config['ajax_chat_time_setting'])
-			{
-				$time = $this->config['ajax_chat_time_setting'];
-			}
-			else
-			{
-				$time = $this->user->data['user_dateformat'];
-			}
-
-			$this->template->assign_block_vars('chatrow', [
-				'MESSAGE_ID'		 => $row['message_id'],
-				'USERNAME_FULL'		 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
-				'USERNAME_A'		 => $row['username'],
-				'USER_COLOR'		 => $row['user_colour'],
-				'MESSAGE'			 => make_clickable(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options'])),
-				'TIME'				 => $this->user->format_date($row['time'], $time),
-				'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
-				'USER_AVATAR'		 => $row['avatar'],
-				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
-			]);
-		}
-		$this->db->sql_freeresult($result);
 
 		return;
 	}

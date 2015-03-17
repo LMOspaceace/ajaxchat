@@ -136,13 +136,7 @@ function handle_return()
 				last_id = results[1];
 				if (results[2])
 				{
-					if (whois_chatting)
-					{
-						document.getElementById('whois_online').innerHTML = results[2];
-					}
-					else
-					{
-					}
+					document.getElementById('whois_online').innerHTML = results[2];
 					last_time = results[3];
 					if (results[4] !== read_interval)
 					{
@@ -265,18 +259,3 @@ window.onload = function () {
 		}
 	}
 };
-
-//jQuery(document).ready(function() {
-//	$.ajax({
-//		url: './chat/read',
-//		type: 'POST',
-//		datatype: 'HTML',
-//		success: function(response) {
-//			if(response.status === '1') {
-//				alert('working');
-//			} else {
-//				alert('not working');
-//			}
-//		}
-//	});
-//});

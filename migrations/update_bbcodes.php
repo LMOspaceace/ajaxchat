@@ -28,7 +28,7 @@ class update_bbcodes extends \phpbb\db\migration\migration
 			'color2=' => array(
 				'bbcode_helpline'	=> '',
 				'bbcode_match'		=> '[color2={COLOR}]{TEXT}[/color2]',
-				'bbcode_tpl'		=> '<span style="color: {COLOR}">{TEXT}</span>',
+				'bbcode_tpl'		=> '<div style="color: {COLOR}">{TEXT}</div>',
 			),
 		);
 

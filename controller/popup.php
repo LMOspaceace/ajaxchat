@@ -23,14 +23,14 @@ use phpbb\extension\manager;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
- * Main Chat Controller
+ * Main Popup Controller
  * 
  * @version 0.1.0-BETA
  * @package spaceace\ajaxchat
  * @author Kevin Roy <royk@myraytech.com>
  * @author Spaceace <spaceace@livemembersonly.com>
  */
-class chat
+class popup
 {
 
 	/** @var \phpbb\template\template */
@@ -181,12 +181,6 @@ class chat
 
 	public function index()
 	{
-		//fixes smilies and avatar not loading properly on index page
-		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
-		{
-			define('PHPBB_USE_BOARD_URL_PATH', true);
-		}
-
 		// sets a few variables before the actions
 		$this->mode			 = $this->request->variable('mode', 'default');
 		$this->last_id		 = $this->request->variable('last_id', 0);
@@ -197,7 +191,6 @@ class chat
 		// Grabs the right Action depending on ajax requested mode
 		if ($this->mode === 'default')
 		{
-
 			$this->defaultAction();
 		}
 		elseif ($this->mode === 'read')
@@ -244,7 +237,7 @@ class chat
 			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'	 => '' . $this->ext_path_web . 'styles/',
 			'FILENAME'			 => generate_board_url() . '/app.php/chat',
-			'S_CHAT'			 => (!$this->get) ? true : false,
+			'S_POPUP'			 => (!$this->get) ? true : false,
 			'S_GET_CHAT'		 => ($this->get) ? true : false,
 			'S_' . $this->mode	 => true,
 		]);
@@ -256,7 +249,7 @@ class chat
 
 		$this->whois_online();
 
-		return $this->helper->render('chat_body.html', $this->user->lang['CHAT_EXPLAIN']);
+		return $this->helper->render('chat_body.html', $this->user->lang['CHAT_POPUP_EXPLAIN']);
 	}
 
 	/**
@@ -271,7 +264,7 @@ class chat
             LEFT JOIN ' . USERS_TABLE . ' as u
             ON c.user_id = u.user_id
             ORDER BY message_id DESC';
-		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
+		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_popup_amount']);
 		$rows	 = $this->db->sql_fetchrowset($result);
 
 		foreach ($rows as $row)
@@ -291,8 +284,8 @@ class chat
 			{
 				$time = $this->user->data['user_dateformat'];
 			}
-			$this->template->assign_block_vars('chatrow', [
 
+			$this->template->assign_block_vars('chatrow', [
 				'MESSAGE_ID'		 => $row['message_id'],
 				'USERNAME_FULL'		 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
 				'USERNAME_A'		 => $row['username'],
@@ -441,12 +434,7 @@ class chat
 		}
 		return $user;
 	}
-	
-	/**
-	 * Refresher Read action
-	 * 
-	 * @return bool
-	 */
+
 	/**
 	 * Refresher Read action
 	 * 
@@ -460,7 +448,7 @@ class chat
 				ON c.user_id = u.user_id
 				WHERE c.message_id > ' . $this->last_id . '
 				ORDER BY message_id DESC';
-		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
+		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_popup_amount']);
 		$rows	 = $this->db->sql_fetchrowset($result);
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
@@ -498,7 +486,6 @@ class chat
 			}
 
 			$this->template->assign_block_vars('chatrow', [
-
 				'MESSAGE_ID'		 => $row['message_id'],
 				'USERNAME_FULL'		 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
 				'USERNAME_A'		 => $row['username'],
@@ -576,13 +563,14 @@ class chat
 		$sql		 = 'UPDATE ' . CHAT_SESSIONS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary2) . " WHERE user_id = {$this->user->data['user_id']}";
 		$result		 = $this->db->sql_query($sql);
 
+
 		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type
 				FROM ' . CHAT_TABLE . ' as c
 				LEFT JOIN ' . USERS_TABLE . ' as u
 				ON c.user_id = u.user_id
 				WHERE c.message_id > ' . $this->last_id . '
 				ORDER BY message_id DESC';
-		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
+		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_popup_amount']);
 		$rows	 = $this->db->sql_fetchrowset($result);
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
@@ -591,6 +579,7 @@ class chat
 		}
 		foreach ($rows as $row)
 		{
+
 			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
 			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
 			if ($this->count++ == 0)

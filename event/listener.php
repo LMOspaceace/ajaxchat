@@ -11,7 +11,6 @@
 
 namespace spaceace\ajaxchat\event;
 
-use phpbb\path_helper;
 use phpbb\template\template;
 use phpbb\user;
 use phpbb\db\driver\driver_interface as db_driver;
@@ -19,35 +18,146 @@ use phpbb\auth\auth;
 use phpbb\request\request;
 use phpbb\controller\helper;
 use phpbb\config\db;
-use spaceace\ajaxchat\controller\shout;
-/**
- * Event listener
- */
+use phpbb\path_helper;
+use phpbb\extension\manager;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Event listener
+ *
+ * @package spaceace/ajaxchat
+ */
 class listener implements EventSubscriberInterface
 {
 
+	/** @var \phpbb\template\template */
 	protected $template;
+
+	/** @var \phpbb\user */
 	protected $user;
+
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
+	
+
+	/** @var \phpbb\config\db */
 	protected $config;
+
+
+	/** @var \phpbb\extension\manager "Extension Manager" */
+	protected $ext_manager;
+	
+	/** @var \phpbb\path_helper */
 	protected $path_helper;
-	protected $phpbb_root_path;
+	
+	/** @var \Symfony\Component\DependencyInjection\Container "Service Container" */
+	protected $container;
+
+	/** @var \phpbb\auth\auth */
+	protected $auth;
+
+	/** @var \phpbb\request\request */
+	protected $request;
+
+	/** @var \phpbb\controller\helper */
+	protected $helper;
+
+	/** @var core.root_path */
+	protected $root_path;
+
+	/** @var core.php_ext */
 	protected $php_ext;
 
-	public function __construct(path_helper $path_helper, template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, $phpbb_root_path, $php_ext)
+	/** @var string */
+	protected $table_prefix;
+
+	/** @var int */
+	protected $default_delay = 15;
+
+	/** @var int */
+	protected $session_time = 300;
+
+	/** @var array */
+	protected $times = [];
+
+	/** @var int */
+	protected $last_time = 0;
+
+	/** @var array */
+	protected $delay = [];
+
+	/** @var int */
+	protected $last_id = 0;
+
+	/** @var int */
+	protected $last_post = 0;
+
+	/** @var int */
+	protected $read_interval = 5;
+
+	/** @var int */
+	protected $count = 0;
+
+	/** @var bool */
+	protected $get = false;
+
+	/** @var bool */
+	protected $init = false;
+
+	/** @var string */
+	protected $mode;
+
+	/** @var string */
+	protected $ext_path;
+
+	/** @var string */
+	protected $ext_path_web;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param template		$template
+	 * @param user			$user
+	 * @param db_driver		$db
+	 * @param auth			$auth
+	 * @param request		$request
+	 * @param helper		$helper
+	 * @param db			$config
+	 * @param manager		$ext_manager
+	 * @param path_helper	$path_helper
+	 * @param Container		$container
+	 * @param string		$table_prefix
+	 * @param string		$root_path
+	 * @param string		$php_ext
+	 */
+	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, manager $ext_manager, path_helper $path_helper, Container $container, $table_prefix, $root_path, $php_ext)
+
 	{
-		$this->path_helper		 = $path_helper;
-		$this->template			 = $template;
-		$this->user				 = $user;
-		$this->db				 = $db;
-		$this->auth				 = $auth;
-		$this->request			 = $request;
-		$this->helper			 = $helper;
-		$this->config			 = $config;
-		$this->phpbb_root_path	 = $phpbb_root_path;
-		$this->php_ext			 = $php_ext;
+
+		$this->template		 = $template;
+		$this->user			 = $user;
+		$this->db			 = $db;
+		$this->auth			 = $auth;
+		$this->request		 = $request;
+		$this->helper		 = $helper;
+		$this->config		 = $config;
+		$this->root_path	 = $root_path;
+		$this->php_ext		 = $php_ext;
+		$this->ext_manager	 = $ext_manager;
+		$this->path_helper	 = $path_helper;
+		$this->container	 = $container;
+		$this->table_prefix	 = $table_prefix;
 	}
+
+
+	
+	/**
+	 * Decides what listener to use
+	 * 
+	 * @return array
+	 */
 
 	static public function getSubscribedEvents()
 	{
@@ -55,13 +165,27 @@ class listener implements EventSubscriberInterface
 			'core.page_header'						 => 'page_header',
 			'core.permissions'						 => 'add_permission',
 			'core.index_modify_page_title'			 => 'index',
-			//'core.posting_modify_submit_post_after'	 => 'add_forum_id',
+			'core.posting_modify_submit_post_after'	 => 'add_forum_id',
+			'core.page_header'				 => 'page_header',
+			'core.permissions'				 => 'add_permission',
+			'core.index_modify_page_title'	 => 'index',
+			'core.posting_modify_submit_post_after'	 => 'add_forum_id',
 		);
 	}
 
+	/**
+	 * Modifies the page header
+	 */
 	public function page_header()
 	{
+		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
+		{
+			define('PHPBB_USE_BOARD_URL_PATH', true);
+		}
 
+		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
+
+		//Declares the ACP switches
 		if ($this->config['display_ajax_chat'] === '1')
 		{
 			$this->template->assign_var('S_CHAT_ENABLED', true);
@@ -70,6 +194,8 @@ class listener implements EventSubscriberInterface
 		{
 			$this->template->assign_var('S_WHOIS_CHATTING', true);
 		}
+
+		//Declaring a few UCP switches and basic values
 		$this->template->assign_vars(
 				array(
 					'U_CHAT'					 => append_sid("app.php/chat"),
@@ -88,6 +214,11 @@ class listener implements EventSubscriberInterface
 					'M_AJAXCHAT_DELETE'			 => $this->auth->acl_get('m_ajaxchat_delete'),
 				)
 		);
+
+		if (!$this->config['index_display_ajax_chat'])
+		{
+			$this->template->assign_var('S_AJAX_CHAT_VIEW', $this->config['index_display_ajax_chat']);
+		}
 	}
 
 	/**
@@ -101,26 +232,338 @@ class listener implements EventSubscriberInterface
 	{
 		$permissions = $event['permissions'];
 
+		// Adds the required ucp and mcp permissions
 		$permissions['u_ajaxchat_view']		 = array('lang' => 'ACL_U_AJAXCHAT_VIEW', 'cat' => 'misc');
 		$permissions['u_ajaxchat_post']		 = array('lang' => 'ACL_U_AJAXCHAT_POST', 'cat' => 'misc');
 		$permissions['u_ajaxchat_bbcode']	 = array('lang' => 'ACL_U_AJAXCHAT_BBCODE', 'cat' => 'misc');
 		$permissions['m_ajaxchat_delete']	 = array('lang' => 'ACL_M_AJAXCHAT_DELETE', 'cat' => 'misc');
 
+
 		$event['permissions'] = $permissions;
 	}
 
+
+
+	
+	/**
+	 * Modifies the forum index to add the chat
+	 */
+
 	public function index()
 	{
-		//\var_dump($event);
-		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
+
+		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
+		{
+			define('PHPBB_USE_BOARD_URL_PATH', true);
+		}
 		$this->user->add_lang('posting');
-		$shout = new shout($this->template, $this->user, $this->db, $this->auth, $this->request, $this->helper, $this->config, $this->phpbb_root_path, $this->php_ext);
-		return $shout->index('read');
+		
+		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
+
+
+		// other comments at to replace for acp numbers
+		// sets desired status times
+		$this->times = [
+			'online'	 => 0, // $this->config[''];
+			'idle'		 => 300, // $this->config[''];
+			'offline'	 => 1800, // $this->config[''];
+		];
+		//set delay for each status
+		$this->delay = [
+			'online'	 => 5, // $this->config[''];
+			'idle'		 => 60, // $this->config[''];
+			'offline'	 => 300, // $this->config[''];
+		];
+
+		if (!defined('CHAT_TABLE'))
+		{
+			$chat_table = $this->table_prefix . 'ajax_chat';
+			define('CHAT_TABLE', $chat_table);
+		}
+		if (!defined('CHAT_SESSIONS_TABLE'))
+		{
+			$chat_session_table = $this->table_prefix . 'ajax_chat_sessions';
+			define('CHAT_SESSIONS_TABLE', $chat_session_table);
+		}
+
+		include_once $this->root_path . 'includes/functions_posting.' . $this->php_ext;
+		include_once $this->root_path . 'includes/functions_display.' . $this->php_ext;
+
+		$this->ext_path		 = $this->ext_manager->get_extension_path('spaceace/ajaxchat', true);
+		$this->ext_path_web	 = $this->path_helper->update_web_root_path($this->ext_path);
+		$this->mode			 = $this->request->variable('mode', 'default');
+		$this->last_id		 = $this->request->variable('last_id', 0);
+		$this->last_time	 = $this->request->variable('last_time', 0);
+		$this->post_time	 = $this->request->variable('last_post', 0);
+		$this->read_interval = $this->request->variable('read_interval', 5000);
+
+		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type
+		FROM ' . CHAT_TABLE . ' as c
+		LEFT JOIN ' . USERS_TABLE . ' as u
+		ON c.user_id = u.user_id
+		ORDER BY message_id DESC';
+		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_index_amount']);
+		$rows	 = $this->db->sql_fetchrowset($result);
+
+		foreach ($rows as $row)
+		{
+			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
+			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
+			if ($this->count++ == 0)
+			{
+				$this->last_id = $row['message_id'];
+			}
+
+			
+			if ($this->config['ajax_chat_time_setting'])
+			{
+				$time = $this->config['ajax_chat_time_setting'];
+			}
+			else
+			{
+				$time = $this->user->data['user_dateformat'];
+			}
+
+			$this->template->assign_block_vars('chatrow', [
+				'MESSAGE_ID'		 => $row['message_id'],
+				'USERNAME_FULL'		 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
+				'USERNAME_A'		 => $row['username'],
+				'USER_COLOR'		 => $row['user_colour'],
+				'MESSAGE'			 => make_clickable(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options'])),
+				'TIME'				 => $this->user->format_date($row['time'], $time),
+				'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
+				'USER_AVATAR'		 => $row['avatar'],
+				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
+			]);
+		}
+		$this->db->sql_freeresult($result);
+
+		if ($this->user->data['user_type'] == USER_FOUNDER || $this->user->data['user_type'] == USER_NORMAL)
+		{
+			$sql	 = 'SELECT * FROM ' . CHAT_SESSIONS_TABLE . " WHERE user_id = {$this->user->data['user_id']}";
+			$result	 = $this->db->sql_query($sql);
+			$row	 = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
+
+			if ($row['user_id'] != $this->user->data['user_id'])
+			{
+				$sql_ary = [
+					'user_id'			 => $this->user->data['user_id'],
+					'username'			 => $this->user->data['username'],
+					'user_colour'		 => $this->user->data['user_colour'],
+					'user_login'		 => time(),
+					'user_lastupdate'	 => time(),
+				];
+				$sql	 = 'INSERT INTO ' . CHAT_SESSIONS_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
+				$this->db->sql_query($sql);
+			}
+			else
+			{
+				$sql_ary = [
+					'username'			 => $this->user->data['username'],
+					'user_colour'		 => $this->user->data['user_colour'],
+					'user_login'		 => time(),
+					'user_lastupdate'	 => time(),
+				];
+				$sql	 = 'UPDATE ' . CHAT_SESSIONS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . " WHERE user_id = {$this->user->data['user_id']}";
+				$this->db->sql_query($sql);
+			}
+		}
+
+		$bbcode_status	 = ($this->config['allow_bbcode'] && $this->config['auth_bbcode_pm'] && $this->auth->acl_get('u_ajaxchat_bbcode')) ? true : false;
+		$smilies_status	 = ($this->config['allow_smilies'] && $this->config['auth_smilies_pm'] && $this->auth->acl_get('u_pm_smilies')) ? true : false;
+		$img_status		 = ($this->config['auth_img_pm'] && $this->auth->acl_get('u_pm_img')) ? true : false;
+		$flash_status	 = ($this->config['auth_flash_pm'] && $this->auth->acl_get('u_pm_flash')) ? true : false;
+		$url_status		 = ($this->config['allow_post_links']) ? true : false;
+		$this->mode		 = strtoupper($this->mode);
+
+		//Assign the features template variable
+		$this->template->assign_vars([
+			'BBCODE_STATUS'		 => ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
+			'IMG_STATUS'		 => ($img_status) ? $this->user->lang['IMAGES_ARE_ON'] : $this->user->lang['IMAGES_ARE_OFF'],
+			'FLASH_STATUS'		 => ($flash_status) ? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
+			'SMILIES_STATUS'	 => ($smilies_status) ? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
+			'URL_STATUS'		 => ($url_status) ? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
+			'S_COMPOSE_PM'		 => true,
+			'S_BBCODE_ALLOWED'	 => $bbcode_status,
+			'S_SMILIES_ALLOWED'	 => $smilies_status,
+			'S_BBCODE_IMG'		 => $img_status,
+			'S_BBCODE_FLASH'	 => $flash_status,
+			'S_BBCODE_QUOTE'	 => false,
+			'S_BBCODE_URL'		 => $url_status,
+			'LAST_ID'			 => $this->last_id,
+			'TIME'				 => time(),
+			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
+			'EXT_STYLE_PATH'	 => '' . $this->ext_path_web . 'styles/',
+			'FILENAME'			 => generate_board_url() . '/app.php/chat',
+			'S_GET_CHAT'		 => ($this->get) ? true : false,
+			'S_' . $this->mode	 => true,
+		]);
+
+		// Generate smiley listing
+		\generate_smilies('inline', 0);
+
+		// Build custom bbcodes array
+		\display_custom_bbcodes();
+
+		$this->whois_online();
 	}
 
+	/**
+	 * Adds message in chat when someone posts to the forum
+	 * 
+	 * 
+	 * 
+	 */
 	public function add_forum_id($event)
 	{
-		\var_dump($event['forum_id']);
+
+		if (!$this->config['ajax_chat_forum_posts'])
+		{
+			return;
+		}
+		if (!defined('CHAT_TABLE'))
+		{
+			$chat_table = $this->table_prefix . 'ajax_chat';
+			define('CHAT_TABLE', $chat_table);
+		}
+		if (!defined('CHAT_SESSIONS_TABLE'))
+		{
+			$chat_session_table = $this->table_prefix . 'ajax_chat_sessions';
+			define('CHAT_SESSIONS_TABLE', $chat_session_table);
+		}
+
+		$type = $this->request->variable('mode', '');
+
+		if ($type == 'reply')
+		{
+			$lang = '%1$s replied to <a href="%2$s">%3$s</a>';
+		}
+		else
+		{
+			$lang = '%1$s started a new topic: <a href="%2$s">%3$s</a>';
+		}
+
+		$username		 = get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']);
+		$message		 = sprintf($lang, $username, append_sid($event['redirect_url']), $event['post_data']['post_subject']);
+		$uid			 = $bitfield		 = $options		 = '';
+		$allow_bbcode	 = $allow_urls		 = $allow_smilies	 = true;
+		generate_text_for_storage($message, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
+
+		$sql_ary = array(
+			'chat_id'			 => 1,
+			'user_id'			 => $this->user->data['user_id'],
+			'username'			 => $this->user->data['username'],
+			'user_colour'		 => $this->user->data['user_colour'],
+			'message'			 => $message,
+			'bbcode_bitfield'	 => $bitfield,
+			'bbcode_uid'		 => $uid,
+			'bbcode_options'	 => $options,
+			'time'				 => time(),
+			'forum_id'			 => $event['forum_id'],
+		);
+		$sql	 = 'INSERT INTO ' . CHAT_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
+		$this->db->sql_query($sql);
 	}
 
+	/**
+	 * grabs the list of the active users participating in chat
+	 * 
+	 * @return boolean
+	 */
+	private function whois_online()
+	{
+		$check_time = time() - $this->session_time;
+
+		$sql_ary = [
+			'username'			 => $this->user->data['username'],
+			'user_colour'		 => $this->user->data['user_colour'],
+			'user_lastupdate'	 => time(),
+		];
+		$sql	 = 'UPDATE ' . CHAT_SESSIONS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . " WHERE user_id = {$this->user->data['user_id']}";
+		$this->db->sql_query($sql);
+
+		$sql = 'DELETE FROM ' . CHAT_SESSIONS_TABLE . " WHERE user_lastupdate < $check_time";
+		$this->db->sql_query($sql);
+
+		$sql	 = 'SELECT *
+			FROM ' . CHAT_SESSIONS_TABLE . "
+			WHERE user_lastupdate > $check_time
+			ORDER BY username ASC";
+		$result	 = $this->db->sql_query($sql);
+
+		$status_time = time();
+		while ($row		 = $this->db->sql_fetchrow($result))
+		{
+			if ($row['user_id'] == $this->user->data['user_id'])
+			{
+				$this->last_post = $row['user_lastpost'];
+				$login_time		 = $row['user_login'];
+				$status_time	 = ($this->last_post > $login_time) ? $this->last_post : $login_time;
+			}
+			$status = $this->get_status($row['user_lastpost']);
+			$this->template->assign_block_vars('whoisrow', [
+				'USERNAME_FULL'	 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
+				'USER_COLOR'	 => $row['user_colour'],
+				'USER_STATUS'	 => $status,
+			]);
+		}
+		$this->db->sql_freeresult($result);
+
+		$this->template->assign_vars([
+			'LAST_TIME'		 => time(),
+			'S_WHOISONLINE'	 => true,
+		]);
+		return false;
+	}
+
+	/**
+	 * Calculate the status of each user
+	 * 
+	 * @param int $last
+	 * @return string
+	 */
+	private function get_status($last)
+	{
+		$status = 'online';
+		if ($last < (time() - $this->times['offline']))
+		{
+			$status = 'offline';
+		}
+		elseif ($last < (time() - $this->times['idle']))
+		{
+			$status = 'idle';
+		}
+		return $status;
+	}
+
+	/**
+	 * Cleans the message 
+	 * 
+	 * @param string $message
+	 */
+	private function clean_message(&$message)
+	{
+		if (strpos($message, '---') !== false)
+		{
+			$message = str_replace('---', '–––', $message);
+			clean_message($message);
+		}
+	}
+
+	/**
+	 * Cleans the username
+	 * 
+	 * @param string $user
+	 * @return string
+	 */
+	private function clean_username($user)
+	{
+		if (strpos($user, '---') !== false)
+		{
+			$user = str_replace('---', '–––', $user);
+			clean_username($user);
+		}
+		return $user;
+	}
 }
