@@ -63,7 +63,6 @@ $lang = array_merge(
 		'ACL_U_AJAXCHAT_POST'				=> 'Can post messages in chat',
 		'ACL_U_AJAXCHAT_VIEW'				=> 'Can view chat',
 		'ACL_M_AJAXCHAT_DELETE'				=> 'Can delete posts in chat',
-		'TIME_SETTING_AJAX_CHAT'			=> 'Time Setting',
-		'TIME_SETTING_AJAX_CHAT_EXPLAIN'	=> 'This setting will override user setting on date format. Leave Blank to use User Settings.'
+		
 	)
 );
