@@ -34,7 +34,12 @@ class acp_settings extends \phpbb\db\migration\migration
 			array('config.add', array('index_display_ajax_chat', '1')),
 			array('config.add', array('ajax_chat_forum_posts', '1')),
 			array('config.add', array('ajax_chat_chat_amount', '60')),
-
+			array('config.add', array('status_online_chat', '0')),
+			array('config.add', array('status_idle_chat', '300')),
+			array('config.add', array('status_offline_chat', '1800')),
+			array('config.add', array('delay_online_chat', '5')),
+			array('config.add', array('delay_idle_chat', '60')),
+			array('config.add', array('delay_offline_chat', '300')),
 		);
 	}
 }

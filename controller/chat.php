@@ -149,16 +149,17 @@ class chat
 		$this->table_prefix	 = $table_prefix;
 		$this->user->add_lang('posting');
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
-		$this->times		 = [
-			'online'	 => 0,
-			'idle'		 => 300,
-			'offline'	 => 1800,
+		// sets desired status times
+		$this->times = [
+			'online'	 => $this->config['status_online_chat'],
+			'idle'		 => $this->config['status_idle_chat'],
+			'offline'	 => $this->config['status_offline_chat'],
 		];
 		//set delay for each status
-		$this->delay		 = [
-			'online'	 => 5,
-			'idle'		 => 60,
-			'offline'	 => 300,
+		$this->delay = [
+			'online'	 => $this->config['delay_online_chat'],
+			'idle'		 => $this->config['delay_idle_chat'],
+			'offline'	 => $this->config['delay_offline_chat'],
 		];
 		if (!defined('CHAT_TABLE'))
 		{
@@ -276,6 +277,10 @@ class chat
 
 		foreach ($rows as $row)
 		{
+			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
+			{
+				continue;
+			}
 			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
 			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
 			if ($this->count++ == 0)
@@ -469,7 +474,10 @@ class chat
 		}
 		foreach ($rows as $row)
 		{
-
+			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
+			{
+				continue;
+			}
 			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
 			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
 			if ($this->count++ === 0)
@@ -591,6 +599,10 @@ class chat
 		}
 		foreach ($rows as $row)
 		{
+			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
+			{
+				continue;
+			}
 			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
 			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
 			if ($this->count++ == 0)

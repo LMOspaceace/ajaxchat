@@ -40,18 +40,15 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	
-
 	/** @var \phpbb\config\db */
 	protected $config;
 
-
 	/** @var \phpbb\extension\manager "Extension Manager" */
 	protected $ext_manager;
-	
+
 	/** @var \phpbb\path_helper */
 	protected $path_helper;
-	
+
 	/** @var \Symfony\Component\DependencyInjection\Container "Service Container" */
 	protected $container;
 
@@ -151,8 +148,6 @@ class listener implements EventSubscriberInterface
 		$this->table_prefix	 = $table_prefix;
 	}
 
-
-	
 	/**
 	 * Decides what listener to use
 	 * 
@@ -165,10 +160,6 @@ class listener implements EventSubscriberInterface
 			'core.page_header'						 => 'page_header',
 			'core.permissions'						 => 'add_permission',
 			'core.index_modify_page_title'			 => 'index',
-			'core.posting_modify_submit_post_after'	 => 'add_forum_id',
-			'core.page_header'				 => 'page_header',
-			'core.permissions'				 => 'add_permission',
-			'core.index_modify_page_title'	 => 'index',
 			'core.posting_modify_submit_post_after'	 => 'add_forum_id',
 		);
 	}
@@ -238,20 +229,14 @@ class listener implements EventSubscriberInterface
 		$permissions['u_ajaxchat_bbcode']	 = array('lang' => 'ACL_U_AJAXCHAT_BBCODE', 'cat' => 'misc');
 		$permissions['m_ajaxchat_delete']	 = array('lang' => 'ACL_M_AJAXCHAT_DELETE', 'cat' => 'misc');
 
-
 		$event['permissions'] = $permissions;
 	}
 
-
-
-	
 	/**
 	 * Modifies the forum index to add the chat
 	 */
-
 	public function index()
 	{
-
 		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
 		{
 			define('PHPBB_USE_BOARD_URL_PATH', true);
@@ -260,19 +245,19 @@ class listener implements EventSubscriberInterface
 		
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
 
-
 		// other comments at to replace for acp numbers
 		// sets desired status times
 		$this->times = [
-			'online'	 => 0, // $this->config[''];
-			'idle'		 => 300, // $this->config[''];
-			'offline'	 => 1800, // $this->config[''];
+			'online'	 => $this->config['status_online_chat'],
+			'idle'		 => $this->config['status_idle_chat'],
+			'offline'	 => $this->config['status_offline_chat'],
 		];
+
 		//set delay for each status
 		$this->delay = [
-			'online'	 => 5, // $this->config[''];
-			'idle'		 => 60, // $this->config[''];
-			'offline'	 => 300, // $this->config[''];
+			'online'	 => $this->config['delay_online_chat'],
+			'idle'		 => $this->config['delay_idle_chat'],
+			'offline'	 => $this->config['delay_offline_chat'],
 		];
 
 		if (!defined('CHAT_TABLE'))
@@ -307,13 +292,17 @@ class listener implements EventSubscriberInterface
 
 		foreach ($rows as $row)
 		{
+			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
+			{
+				continue;
+			}
 			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
 			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
+
 			if ($this->count++ == 0)
 			{
 				$this->last_id = $row['message_id'];
 			}
-
 			
 			if ($this->config['ajax_chat_time_setting'])
 			{
@@ -336,6 +325,7 @@ class listener implements EventSubscriberInterface
 				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
 			]);
 		}
+
 		$this->db->sql_freeresult($result);
 
 		if ($this->user->data['user_type'] == USER_FOUNDER || $this->user->data['user_type'] == USER_NORMAL)
@@ -417,37 +407,44 @@ class listener implements EventSubscriberInterface
 	 */
 	public function add_forum_id($event)
 	{
-
 		if (!$this->config['ajax_chat_forum_posts'])
 		{
 			return;
 		}
+
 		if (!defined('CHAT_TABLE'))
 		{
 			$chat_table = $this->table_prefix . 'ajax_chat';
 			define('CHAT_TABLE', $chat_table);
 		}
+
 		if (!defined('CHAT_SESSIONS_TABLE'))
 		{
 			$chat_session_table = $this->table_prefix . 'ajax_chat_sessions';
 			define('CHAT_SESSIONS_TABLE', $chat_session_table);
 		}
 
+		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
 		$type = $this->request->variable('mode', '');
 
 		if ($type == 'reply')
 		{
-			$lang = '%1$s replied to <a href="%2$s">%3$s</a>';
+			$lang = $this->user->lang['CHAT_NEW_POST'];
+		}
+		elseif ($type == 'edit')
+		{
+			$lang = $this->user->lang['CHAT_POST_EDIT'];
 		}
 		else
 		{
-			$lang = '%1$s started a new topic: <a href="%2$s">%3$s</a>';
+			$lang = $this->user->lang['CHAT_NEW_TOPIC'];
 		}
 
-		$username		 = get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']);
-		$message		 = sprintf($lang, $username, append_sid($event['redirect_url']), $event['post_data']['post_subject']);
-		$uid			 = $bitfield		 = $options		 = '';
-		$allow_bbcode	 = $allow_urls		 = $allow_smilies	 = true;
+		$url				= append_sid(generate_board_url() . '/viewtopic.' . $this->php_ext, 'f=' . $event['post_data']['forum_id'] . '&amp;t=' . $event['post_data']['topic_id'] . '&amp;p=' . $event['post_data']['forum_last_post_id'] . '#p' . $event['post_data']['forum_last_post_id']);
+		$username			= get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']);
+		$message			= sprintf($lang, $url, $event['post_data']['post_subject']);
+		$uid				= $bitfield		 = $options		 = '';
+		$allow_bbcode		= $allow_urls		 = $allow_smilies	 = true;
 		generate_text_for_storage($message, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
 
 		$sql_ary = array(
