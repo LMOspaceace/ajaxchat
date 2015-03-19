@@ -69,7 +69,12 @@ class ajaxchat_module
 				'ajax_chat_index_amount'	=> array('lang'	=> 'INDEX_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true),
 				'ajax_chat_chat_amount'		=> array('lang'	=> 'CHAT_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true),
 				'ajax_chat_time_setting'	=> array('lang' => 'TIME_SETTING_AJAX_CHAT', 'validate' => 'string', 'type' => 'text:10:20', 'explain' => true),
-				
+				'status_online_chat'		=> array('lang' => 'STATUS_ONLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
+				'status_idle_chat'			=> array('lang' => 'STATUS_IDLE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
+				'status_offline_chat'		=> array('lang' => 'STATUS_OFFLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
+				'delay_online_chat'			=> array('lang' => 'DELAY_ONLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
+				'delay_idle_chat'			=> array('lang' => 'DELAY_IDLE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
+				'delay_offline_chat'		=> array('lang' => 'DELAY_OFFLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
 				'legend2'					=> 'ACP_SUBMIT_CHANGES'
 			),
 		);
