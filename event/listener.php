@@ -448,7 +448,7 @@ class listener implements EventSubscriberInterface
 		generate_text_for_storage($message, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
 
 		$sql_ary = array(
-			'chat_id'			 => 1,
+			'chat_id'			 => 0,
 			'user_id'			 => $this->user->data['user_id'],
 			'username'			 => $this->user->data['username'],
 			'user_colour'		 => $this->user->data['user_colour'],
