@@ -1,0 +1,314 @@
+#act_indicator {
+	visibility:hidden;
+	vertical-align:text-bottom;
+	margin-left: -18px;
+	cursor: wait;
+}
+
+#bbpalette {
+	display: inline;
+}
+
+#check_indicator{
+	vertical-align:text-bottom;
+	margin-right: -2px;
+	margin-bottom: 2px;
+	cursor: help;
+}
+
+#chat {
+	width: 100%;
+}
+
+#whois_online {
+	text-align: left;
+	margin-left: 10px;
+}
+
+#fc {
+	margin: 0 auto;
+	height: 20px;
+	width: 20px;
+	border-style:solid;
+	border-width:1px;
+}
+
+#colour_palette {
+	display: none;
+	text-align: center;
+	padding-bottom: 5px;
+}
+
+#colour_palette table {
+	margin: 0 auto;
+}
+
+.select_color {
+	margin: 0 auto;
+}
+
+.shouts {
+	float: left;
+	width: 85%;
+	height: 250px;
+	overflow: auto;
+	overflow-x: hidden;
+}
+
+.chat_online_off {
+	width: 100%;
+	height: 250px;
+	overflow: auto;
+	overflow-x: hidden;
+}
+
+.whois_online_off {
+	visibility: hidden;
+	position: fixed;
+}
+
+.whois {
+	display: block;
+	width: 15%;
+	height: 250px;
+	overflow: auto;
+	text-align: center;
+	white-space:nowrap;;
+}
+
+.whois h3 {
+	margin: 2px 0;
+}
+
+.whois_chatting {
+	display: block;
+	width: 98%;
+	border-bottom: 1px solid #CCCCCC;
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 1.0em;
+	color: #115098;
+	margin: 0 auto 4px;
+}
+
+.whois_online {
+	display: block;
+	width: 90%;
+	text-align: left;
+	margin: 6px auto;
+}
+
+.archive {
+	float: left;
+	width: 100%;
+	overflow: auto;
+	overflow-x: hidden;
+}
+
+.chat-postbody {
+	padding: 0;
+	line-height: 1.48em;
+	color: #999999;
+	width: 100%;
+	clear: both;
+	min-height: 40px;
+}
+
+.chat dd {
+	border: none !important;
+}
+
+.chat-postbody .content {
+	font-size: 1.3em;
+}
+
+.chatform {
+	width: 100%;
+	text-align: center;
+	padding: 2px;
+}
+
+.chat-postbody ul.profile-icons {
+	float: right;
+	width: auto;
+	padding: 0;
+}
+
+.chat-postbody ul.profile-icons li {
+	margin: 0 3px;
+}
+
+.chat_rules {
+	padding: 2px 6px 4px;
+	font-size: 1.1em;
+}
+
+.chat-header-link {
+	text-align: center;
+}
+
+.span_chat_rule {
+	font-weight: bold;
+	font-size: 1.1em;
+	color: #AA0000;
+}
+
+.main {
+	height: 400px;
+	overflow: auto;
+}
+
+.users {
+	width: 90%;
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.user {
+	width: 95%;
+	font-size: 1.2em;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.chatinput {
+	width: 60% !important;
+	margin-bottom: 4px;
+}
+
+.message {
+	line-height: 1.4em;
+	font-size: 1.2em;
+	color: #999999;
+	margin-left: 17%;
+	padding-top: 4px;
+}
+
+.chat-postprofile {
+	width: 15%;
+	min-width: 160px;
+	float: left;
+	display: inline;
+}
+
+.chat-profile-width {
+	min-width: 175px;
+	display: inline;
+}
+
+.time {
+	font-size: 0.9em;
+	color: #999999;
+}
+
+.online_img {
+	vertical-align: middle;
+	margin-top: -2px;
+}
+
+.chat-icon {
+	background-position: 0 50%;
+	background-repeat: no-repeat;
+	background-image: url("./images/icon_chat.png");
+	padding: 6px 0 6px 21px;
+}
+
+.chat-icon-link {
+	background-image: url("./images/icon_chat.png");
+	padding-left: 4px;
+}
+
+.chat-avatars {
+	float: left;
+	position:relative;
+	margin-right: 10px;
+	outline: none;
+	z-index: 0;
+	padding: 4px 0px 0px 3px;
+}
+
+div.chat-avatars:hover {
+	background-color: transparent;
+	z-index: 50;
+}
+
+.chat-avatars span {
+	position: absolute;
+	left: 0px;
+	display: none;
+	text-decoration: none;
+}
+
+.chat-avatars span img {
+	border-width: 0;
+}
+
+div.chat-avatars:hover span {
+	position:absolute;
+	display:block;
+	top: -4px;
+	left: 40px;
+	padding: 2px 2px 0;
+	background: transparent;
+}
+
+.chat li.row:hover {
+	background-color: transparent !important;
+}
+
+.chat_sound {
+	visibility: hidden;
+	position: absolute;
+}
+
+.chatnavbar {
+	margin: 6px 0 4px 0;
+	padding: 5px 10px;
+}
+
+.input_message {
+	padding: 10px;
+}
+
+@media only screen and (max-width: 900px), only screen and (max-device-width: 900px) {
+	.whois {
+		width: 100%;
+		height: auto;
+		text-align: left;
+		padding: 6px 0 0;
+	}
+	.whois_chatting {
+		display: inline;
+		border: none;
+		margin: 0;
+	}
+	.whois_online {
+		display: inline;
+		margin: 0 4px;
+	}
+	.shouts {
+		width: 100%;
+		height:150px;
+	}
+}
+
+@media only screen and (max-width: 550px), only screen and (max-device-width: 550px) {
+	.shouts {
+		width: 100%;
+		height:250px;
+	}
+	.chat-avatars {
+		display: none;
+	}
+	.chat-postprofile {
+		min-width: 80px;
+		float: left;
+		display: inline;
+	}
+	.chatnavbar {
+		padding: 2px;
+	}
+	#bbpalette {
+		display: none;
+	}
+}
