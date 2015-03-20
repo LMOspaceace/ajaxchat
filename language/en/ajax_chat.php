@@ -64,7 +64,7 @@ $lang = array_merge(
 		'DELETE_CHAT_MESSAGE'	=> 'Delete chat message',
 		'BBCODES'			 	=> 'BBCodes',
 		'IE_NO_AJAX'			=> 'Your version of Internet Explorer does not support AJAX.',
-		'UPGRADE_BROWSER'		=> 'Status: Cound not create XmlHttpRequest Object.	Consider upgrading your browser.',
+		'UPGRADE_BROWSER'		=> 'Status: Could not create XmlHttpRequest Object.	Consider upgrading your browser.',
 		'NO_POST_IN_CHAT'		=> 'You do not have permission to post in chat.',
 		// @copyright line. No translations below this line
 		'DETAILS'				=> '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
