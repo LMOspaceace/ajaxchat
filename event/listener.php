@@ -189,7 +189,7 @@ class listener implements EventSubscriberInterface
 		//Declaring a few UCP switches and basic values
 		$this->template->assign_vars(
 				array(
-					'U_CHAT'					 => append_sid("app.php/chat"),
+					'U_CHAT'					 => append_sid(generate_board_url() . '/app.php/chat'),
 					'S_SHOUT'					 => true,
 					'CHAT_RULES'				 => $this->config['rule_ajax_chat'],
 					'REFRESH_TIME'				 => $this->config['refresh_ajax_chat'],
