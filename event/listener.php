@@ -189,7 +189,7 @@ class listener implements EventSubscriberInterface
 		//Declaring a few UCP switches and basic values
 		$this->template->assign_vars(
 				array(
-					'U_CHAT'					 => append_sid(generate_board_url() . '/app.php/chat'),
+					'U_CHAT'					 => append_sid(generate_board_url() . "/app.php/chat"),
 					'S_SHOUT'					 => true,
 					'CHAT_RULES'				 => $this->config['rule_ajax_chat'],
 					'REFRESH_TIME'				 => $this->config['refresh_ajax_chat'],
@@ -425,13 +425,13 @@ class listener implements EventSubscriberInterface
 		}
 
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
-		$type = $this->request->variable('mode', '');
+		
 
-		if ($type == 'reply')
+		if ($event['mode'] == 'reply')
 		{
 			$lang = $this->user->lang['CHAT_NEW_POST'];
 		}
-		elseif ($type == 'edit')
+		else if ($event['mode'] == 'edit')
 		{
 			$lang = $this->user->lang['CHAT_POST_EDIT'];
 		}
@@ -440,7 +440,7 @@ class listener implements EventSubscriberInterface
 			$lang = $this->user->lang['CHAT_NEW_TOPIC'];
 		}
 
-		$url				= append_sid(generate_board_url() . '/viewtopic.' . $this->php_ext, 'f=' . $event['post_data']['forum_id'] . '&amp;t=' . $event['post_data']['topic_id'] . '&amp;p=' . $event['post_data']['forum_last_post_id'] . '#p' . $event['post_data']['forum_last_post_id']);
+		$url				= append_sid(generate_board_url() . '/viewtopic.' . $this->php_ext, 'f=' . $event['data']['forum_id'] . '&amp;t=' . $event['data']['topic_id'] . '&amp;p=' . $event['data']['post_id'] . '#p' . $event['data']['post_id']);
 		$username			= get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']);
 		$message			= sprintf($lang, $url, $event['post_data']['post_subject']);
 		$uid				= $bitfield		 = $options		 = '';
