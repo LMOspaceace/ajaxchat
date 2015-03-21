@@ -35,11 +35,11 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge(
 	$lang, array(
-		'ADMIN_AJAXCHAT_SETTINGS'			=> 'Paramétres',
+		'ADMIN_AJAXCHAT_SETTINGS'			=> 'Paramètres',
 		'ACP_AJAX_CHAT_TITLE'				=> 'Boite Dialogue Ajax',
 		'ACP_AJAX_CHAT'						=> 'Boite Dialogue Ajax',
-		'AJAX_CHAT_SETTINGS'				=> 'paramétres Dialogue Ajax',
-		'ACP_AJAX_CHAT_TITLE_EXPLAIN'		=> 'Ici vous pouvez modifier les paramétres de Dialogue Ajax.',
+		'AJAX_CHAT_SETTINGS'				=> 'paramètres Dialogue Ajax',
+		'ACP_AJAX_CHAT_TITLE_EXPLAIN'		=> 'Ici vous pouvez modifier les paramètres de Dialogue Ajax.',
 		'DISPLAY_AJAX_CHAT'					=> 'Activer le Dialogue Ajax',
 		'WHOIS_CHATTING'					=> 'Activation de la boite "En Ligne"',
 		'WHOIS_CHATTING_EXPLAIN'			=> 'Si "Désactivé", La boite "En Ligne" sera désactivé quelque soit le paramètre de l\'utilisateur.',
