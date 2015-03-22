@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /**
 *
@@ -13,12 +13,12 @@
  */
 if (!defined('IN_PHPBB'))
 {
-    exit;
+	exit;
 }
 
 if (empty($lang) || !is_array($lang))
 {
-    $lang = array();
+	$lang = array();
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -38,32 +38,35 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge(
-        $lang, array(
-            'CHAT_ARCHIVE'			=> 'Archive',
-			'CHAT_ARCHIVE_EXPLAIN'	=> 'Chat Archive',
-			'CHAT_POPUP'			=> 'Popup',
-			'CHAT_POPUP_EXPLAIN'	=> 'Chat Popup',
-			'CHAT_RULE'				=> 'Chat Regel: ',
-			'CHAT_RULE_EXPLAIN'		=> 'Hou het netjes.',
-			'EMPTY'					=> 'Error: U moet een bericht invoegen.',
-			'GUEST_MESSAGE'			=> '<strong>U moet een geregistereede gebruiker zijn voor de chat.</strong>',
-			'MESSAGE'				=> 'Bericht',
-			'PAGE_TITLE'			=> 'Forum Chat',
-			'RESPOND'				=> 'Reageren op gebruiker',
-			'UNIT'					=> 'Seconde',
-			'UPDATES'				=> 'Updates elke',
-			'CHAT'					=> 'Chat',
-			'CHAT_EXPLAIN'			=> 'Chat Center',
-			'WHOIS_CHATTING'		=> 'Online leden :',
-			'CHAT_FONT_COLOR'		=> 'Chat tekst kleur',
-			'SELECT_COLOR'			=> 'Selecteer u chat tekst kleur',
-			'CHAT_SUBMIT_MESSAGE'	=> 'Verzend bericht',
-			'DELETE_CHAT_MESSAGE'	=> 'Verwijder chat bericht',
-			'BBCODES'			 	=> 'BBCodes',
-			'IE_NO_AJAX'			=> 'uw versie van Internet Explorer biedt geen ondersteuning AJAX.',
-			'UPGRADE_BROWSER'		=> 'Status: Cound XmlHttpRequest Object niet maken. Overweeg upgrading je browser.',
-			'NO_POST_IN_CHAT'		=> 'U bent niet gemachtigd om te posten in chat.',
-			// @copyright line. No translations below this line
-			'DETAILS'				=> '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
-		)
+	$lang, array(
+		'CHAT_ARCHIVE'			=> 'Archive',
+		'CHAT_ARCHIVE_EXPLAIN'	=> 'Chat Archive',
+		'CHAT_POPUP'			=> 'Popup',
+		'CHAT_POPUP_EXPLAIN'	=> 'Chat Popup',
+		'CHAT_RULE'				=> 'Chat Regel: ',
+		'CHAT_RULE_EXPLAIN'		=> 'Hou het Netjes !!! .',
+		'CHAT_NEW_POST'			=> 'Heeft gereageerd op: <a href="%1$s">%2$s</a>',
+		'CHAT_NEW_TOPIC'		=> 'Heeft nieuw onderwerp geplaatst: <a href="%1$s">%2$s</a>',
+		'CHAT_POST_EDIT'		=> 'Heeft bericht aangepast: <a href="%1$s">%2$s</a>',
+		'EMPTY'					=> 'Error: U moet eerst een bericht plaatsen.',
+		'GUEST_MESSAGE'			=> '<strong>U moet geregistreerd zijn om gebruik te maken van de chat.</strong>',
+		'MESSAGE'				=> 'Bericht',
+		'PAGE_TITLE'			=> 'Forum Chat',
+		'RESPOND'				=> 'Reageren op gebruiker',
+		'UNIT'					=> 'Seconds',
+		'UPDATES'				=> 'Updates iedere',
+		'CHAT'					=> 'Chat',
+		'CHAT_EXPLAIN'			=> 'Chat Center',
+		'WHOIS_CHATTING'		=> 'Wie is online:',
+		'CHAT_FONT_COLOR'		=> 'Chat tekstkleur',
+		'SELECT_COLOR'			=> 'Selecteer u chat tekstkleur',
+		'CHAT_SUBMIT_MESSAGE'	=> 'Verzend bericht',
+		'DELETE_CHAT_MESSAGE'	=> 'Verwijder chat bericht',
+		'BBCODES'			 	=> 'BBCodes',
+		'IE_NO_AJAX'			=> 'U versie of Internet Explorer heeft geen support AJAX.',
+		'UPGRADE_BROWSER'		=> 'Status: Could not create XmlHttpRequest Object.	Consider upgrading your browser.',
+		'NO_POST_IN_CHAT'		=> 'U heeft geen permissie om een bericht te plaatsen in chat.',
+		// @copyright line. No translations below this line
+		'DETAILS'				=> '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
+	)
 );

@@ -35,9 +35,9 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge(
 	$lang, array(
-		'CHAT_BOTTOM'					=> 'Onder',
+		'CHAT_BOTTOM'					=> 'Bodem',
 		'CHAT_TOP'						=> 'Boven',
-		'USER_AJAX_CHAT_VIEW'			=> 'Weergave chat op indexpagina',
+		'USER_AJAX_CHAT_VIEW'			=> 'Bekijk chat op index pagina',
 		'USER_AJAX_CHAT_POSITION'		=> 'Positie op index om chat weer te geven',
 		'USER_AJAX_CHAT_AVATARS'		=> 'Laat avatars in chat zien',
 		'USER_AJAX_CHAT_SOUND'			=> 'Hoor geluid in chat',
@@ -45,6 +45,6 @@ $lang = array_merge(
 		'USER_AJAX_CHAT_ONLINELIST'		=> 'Bekijk online list in chat',
 		'USER_AJAXCHAT'					=> 'Ajax Chat',
 		'USER_AJAXCHAT_SETTINGS'		=> 'Ajax Chatinstellingen',
-		'NO_VIEW_CHAT'					=> 'U bent niet gemachtigd om chat te bekijken',
+		'NO_VIEW_CHAT'					=> 'U bent niet gemachtigd om chat te bekijken.',
 	)
 );
