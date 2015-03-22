@@ -63,5 +63,17 @@ $lang = array_merge(
 		'ACL_U_AJAXCHAT_POST'				=> 'Puo\' postare messaggi in chat',
 		'ACL_U_AJAXCHAT_VIEW'				=> 'Puo\' visualizzare la chat',
 		'ACL_M_AJAXCHAT_DELETE'				=> 'Puo\' cancellare i post in chat',
+		'STATUS_ONLINE_CHAT'	=> 'Stato Online',
+		'STATUS_ONLINE_CHAT_EXPLAIN'	=> 'Setta lo stato di utenti online, in secondi. Di default e\' 0.',
+		'STATUS_IDLE_CHAT'	=> 'Stato Inattivo',
+		'STATUS_IDLE_CHAT_EXPLAIN'	=> 'Setta lo stato di utenti inattivi, in secondi. Di default e\' 300.',
+		'STATUS_OFFLINE_CHAT'	=> 'Stato Offline',
+		'STATUS_OFFLINE_CHAT_EXPLAIN'	=> 'Setta lo stato di utenti offline, in secondi. Di default e\' 1800.',
+		'REFRESH_ONLINE_CHAT'	=> 'Frequenza di aggiornamento Online',
+		'REFRESH_ONLINE_CHAT_EXPLAIN'	=> 'Imposta la frequenza di aggiornamento di utenti online, in secondi. Di default e\' 5.',
+		'REFRESH_IDLE_CHAT'	=> 'Frequenza di aggiornamento Inattivi',
+		'REFRESH_IDLE_CHAT_EXPLAIN'	=> 'Imposta la frequenza di aggiornamento di utenti inattivi, in secondi. Di default e\' 60.',
+		'REFRESH_OFFLINE_CHAT'	=> 'Frequenza di aggiornamento Offline',
+		'REFRESH_OFFLINE_CHAT_EXPLAIN'	=> 'Imposta la frequenza di aggiornamento di utenti offline, in secondi. Di default e\' 300.',
 	)
 );
