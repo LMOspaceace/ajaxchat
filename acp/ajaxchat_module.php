@@ -50,6 +50,7 @@ class ajaxchat_module
         $this->request  = $phpbb_container->get('request');
 
         $this->u_action = $this->request->variable('action', '', true);
+		
         $submit         = ($this->request->is_set_post('submit')) ? true : false;
         $this->form_key = 'acp_ajax_chat';
         add_form_key($this->form_key);
@@ -62,19 +63,18 @@ class ajaxchat_module
 				'index_display_ajax_chat'	=> array('lang' => 'INDEX_DISPLAY_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true),
 				'whois_chatting'			=> array('lang' => 'WHOIS_CHATTING', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true),
 				'ajax_chat_forum_posts'		=> array('lang'	=> 'FORUM_POSTS_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false),
-				'refresh_ajax_chat'			=> array('lang' => 'REFRESH_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => false),
 				'rule_ajax_chat'			=> array('lang' => 'RULE_AJAX_CHAT', 'validate' => 'string', 'type' => 'text:40:255', 'explain' => true),
 				'ajax_chat_archive_amount'	=> array('lang'	=> 'ARCHIVE_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:500', 'explain' => true),
 				'ajax_chat_popup_amount'	=> array('lang'	=> 'POPUP_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true),
 				'ajax_chat_index_amount'	=> array('lang'	=> 'INDEX_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true),
 				'ajax_chat_chat_amount'		=> array('lang'	=> 'CHAT_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true),
 				'ajax_chat_time_setting'	=> array('lang' => 'TIME_SETTING_AJAX_CHAT', 'validate' => 'string', 'type' => 'text:10:20', 'explain' => true),
+				'refresh_online_chat'		=> array('lang' => 'REFRESH_ONLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
+				'refresh_idle_chat'			=> array('lang' => 'REFRESH_IDLE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
+				'refresh_offline_chat'		=> array('lang' => 'REFRESH_OFFLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
 				'status_online_chat'		=> array('lang' => 'STATUS_ONLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
 				'status_idle_chat'			=> array('lang' => 'STATUS_IDLE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
 				'status_offline_chat'		=> array('lang' => 'STATUS_OFFLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
-				'delay_online_chat'			=> array('lang' => 'DELAY_ONLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
-				'delay_idle_chat'			=> array('lang' => 'DELAY_IDLE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
-				'delay_offline_chat'		=> array('lang' => 'DELAY_OFFLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
 				'legend2'					=> 'ACP_SUBMIT_CHANGES'
 			),
 		);

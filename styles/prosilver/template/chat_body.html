@@ -69,7 +69,7 @@
 							<!-- END whoisrow -->
 					<!-- ENDIF -->
 				
-				--!--{LAST_TIME}--!--{DELAY}--!--{LAST_POST}
+				--!--{LAST_TIME}--!--{REFRESH_TIME}--!--{LAST_POST}
 			<!-- ENDIF -->
 		<!-- ELSE -->
 			<!-- IF S_CHAT -->
@@ -86,7 +86,8 @@
 			// <![CDATA[
 				var last_time = {TIME};
 				var last_id = {LAST_ID};
-				var read_interval = {REFRESH_TIME}*1000;
+				var post_time = {LAST_POST};
+				var read_interval = ({REFRESH_TIME} * 1000);
 				var chat_empty = '{LA_EMPTY}';
 				var ie_no_ajax = '{LA_IE_NO_AJAX}';
 				var upgrade_browser = '{LA_UPGRADE_BROWSER}';
@@ -218,7 +219,7 @@
 						<div id="whois_online">
 							<!-- BEGIN whoisrow -->
 								<div class="whois_status">
-									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="online_img" alt="{whoisrow.USER_STATUS}" />
+									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="status_img" alt="{whoisrow.USER_STATUS}" />
 									{whoisrow.USERNAME_FULL}
 								</div>
 							<!-- END whoisrow -->

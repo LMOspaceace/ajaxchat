@@ -161,6 +161,7 @@ class chat
 			'idle'		 => $this->config['delay_idle_chat'],
 			'offline'	 => $this->config['delay_offline_chat'],
 		];
+		
 		if (!defined('CHAT_TABLE'))
 		{
 			$chat_table = $this->table_prefix . 'ajax_chat';
@@ -171,6 +172,7 @@ class chat
 			$chat_session_table = $this->table_prefix . 'ajax_chat_sessions';
 			define('CHAT_SESSIONS_TABLE', $chat_session_table);
 		}
+		
 		include $this->root_path . 'includes/functions_posting.' . $this->php_ext;
 		include $this->root_path . 'includes/functions_display.' . $this->php_ext;
 
@@ -226,6 +228,29 @@ class chat
 		$url_status		 = ($this->config['allow_post_links']) ? true : false;
 		$this->mode		 = strtoupper($this->mode);
 
+		$sql	 = 'SELECT `user_lastpost` FROM ' . CHAT_SESSIONS_TABLE . " WHERE user_id = {$this->user->data['user_id']}";
+		$result	 = $this->db->sql_query($sql);
+		$row	 = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+
+
+		if ($this->get_status($row['user_lastpost']) === 'online')
+		{
+			$refresh = $this->config['refresh_online_chat'];
+		}
+		else if ($this->get_status($row['user_lastpost']) === 'idle')
+		{
+			$refresh = $this->config['refresh_idle_chat'];
+		}
+		else if($this->user->data['username'] === 'Anonymous' || $this->get_status($row['user_lastpost']) === 'offline')
+		{
+			$refresh = $this->config['refresh_offline_chat'];
+		}
+		else
+		{
+			$refresh = $this->config['refresh_offline_chat'];
+		}
+		
 		//Assign the features template variable
 		$this->template->assign_vars([
 			'BBCODE_STATUS'		 => ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
@@ -240,7 +265,9 @@ class chat
 			'S_BBCODE_FLASH'	 => $flash_status,
 			'S_BBCODE_QUOTE'	 => false,
 			'S_BBCODE_URL'		 => $url_status,
+			'REFRESH_TIME'		 => $refresh,
 			'LAST_ID'			 => $this->last_id,
+			'LAST_POST'			 => $row['user_lastpost'],
 			'TIME'				 => time(),
 			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'	 => '' . $this->ext_path_web . 'styles/',
@@ -296,6 +323,8 @@ class chat
 			{
 				$time = $this->user->data['user_dateformat'];
 			}
+			
+			
 			$this->template->assign_block_vars('chatrow', [
 
 				'MESSAGE_ID'		 => $row['message_id'],

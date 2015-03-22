@@ -140,12 +140,13 @@ function handle_return()
 					last_time = results[3];
 					if (results[4] !== read_interval)
 					{
+						read_interval = results[4];
 						window.clearInterval(interval);
-
-						interval = setInterval('handle_send("read", last_id);', read_interval);
-						document.getElementById('update_seconds').innerHTML = read_interval / 1000;
+						
+						interval = setInterval('handle_send("read", last_id);', read_interval * 1000);
+						document.getElementById('update_seconds').innerHTML = read_interval;
 					}
-					post_time = results[5];
+					
 				}
 			}
 		}

@@ -130,7 +130,6 @@ class listener implements EventSubscriberInterface
 	 * @param string		$php_ext
 	 */
 	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, manager $ext_manager, path_helper $path_helper, Container $container, $table_prefix, $root_path, $php_ext)
-
 	{
 
 		$this->template		 = $template;
@@ -153,7 +152,6 @@ class listener implements EventSubscriberInterface
 	 * 
 	 * @return array
 	 */
-
 	static public function getSubscribedEvents()
 	{
 		return array(
@@ -174,6 +172,12 @@ class listener implements EventSubscriberInterface
 			define('PHPBB_USE_BOARD_URL_PATH', true);
 		}
 
+		$this->times = [
+			'online'	 => $this->config['status_online_chat'],
+			'idle'		 => $this->config['status_idle_chat'],
+			'offline'	 => $this->config['status_offline_chat'],
+		];
+
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
 
 		//Declares the ACP switches
@@ -192,7 +196,6 @@ class listener implements EventSubscriberInterface
 					'U_CHAT'					 => append_sid(generate_board_url() . "/app.php/chat"),
 					'S_SHOUT'					 => true,
 					'CHAT_RULES'				 => $this->config['rule_ajax_chat'],
-					'REFRESH_TIME'				 => $this->config['refresh_ajax_chat'],
 					'S_AJAX_CHAT_VIEW'			 => $this->user->data['user_ajax_chat_view'],
 					'S_AJAX_CHAT_AVATARS'		 => $this->user->data['user_ajax_chat_avatars'],
 					'S_AJAX_CHAT_POSITION'		 => $this->user->data['user_ajax_chat_position'],
@@ -228,8 +231,7 @@ class listener implements EventSubscriberInterface
 		$permissions['u_ajaxchat_post']		 = array('lang' => 'ACL_U_AJAXCHAT_POST', 'cat' => 'misc');
 		$permissions['u_ajaxchat_bbcode']	 = array('lang' => 'ACL_U_AJAXCHAT_BBCODE', 'cat' => 'misc');
 		$permissions['m_ajaxchat_delete']	 = array('lang' => 'ACL_M_AJAXCHAT_DELETE', 'cat' => 'misc');
-
-		$event['permissions'] = $permissions;
+		$event['permissions']				 = $permissions;
 	}
 
 	/**
@@ -242,23 +244,7 @@ class listener implements EventSubscriberInterface
 			define('PHPBB_USE_BOARD_URL_PATH', true);
 		}
 		$this->user->add_lang('posting');
-		
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
-
-		// other comments at to replace for acp numbers
-		// sets desired status times
-		$this->times = [
-			'online'	 => $this->config['status_online_chat'],
-			'idle'		 => $this->config['status_idle_chat'],
-			'offline'	 => $this->config['status_offline_chat'],
-		];
-
-		//set delay for each status
-		$this->delay = [
-			'online'	 => $this->config['delay_online_chat'],
-			'idle'		 => $this->config['delay_idle_chat'],
-			'offline'	 => $this->config['delay_offline_chat'],
-		];
 
 		if (!defined('CHAT_TABLE'))
 		{
@@ -280,8 +266,13 @@ class listener implements EventSubscriberInterface
 		$this->last_id		 = $this->request->variable('last_id', 0);
 		$this->last_time	 = $this->request->variable('last_time', 0);
 		$this->post_time	 = $this->request->variable('last_post', 0);
-		$this->read_interval = $this->request->variable('read_interval', 5000);
 
+		$this->times = [
+			'online'	 => $this->config['status_online_chat'],
+			'idle'		 => $this->config['status_idle_chat'],
+			'offline'	 => $this->config['status_offline_chat'],
+		];
+		
 		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type
 		FROM ' . CHAT_TABLE . ' as c
 		LEFT JOIN ' . USERS_TABLE . ' as u
@@ -303,7 +294,7 @@ class listener implements EventSubscriberInterface
 			{
 				$this->last_id = $row['message_id'];
 			}
-			
+
 			if ($this->config['ajax_chat_time_setting'])
 			{
 				$time = $this->config['ajax_chat_time_setting'];
@@ -331,9 +322,9 @@ class listener implements EventSubscriberInterface
 		if ($this->user->data['user_type'] == USER_FOUNDER || $this->user->data['user_type'] == USER_NORMAL)
 		{
 			$sql	 = 'SELECT * FROM ' . CHAT_SESSIONS_TABLE . " WHERE user_id = {$this->user->data['user_id']}";
-			$result	 = $this->db->sql_query($sql);
-			$row	 = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
+			$result1	 = $this->db->sql_query($sql);
+			$row	 = $this->db->sql_fetchrow($result1);
+			$this->db->sql_freeresult($result1);
 
 			if ($row['user_id'] != $this->user->data['user_id'])
 			{
@@ -367,6 +358,29 @@ class listener implements EventSubscriberInterface
 		$url_status		 = ($this->config['allow_post_links']) ? true : false;
 		$this->mode		 = strtoupper($this->mode);
 
+		$sql	 = 'SELECT `user_lastpost` FROM ' . CHAT_SESSIONS_TABLE . " WHERE user_id = {$this->user->data['user_id']}";
+		$result	 = $this->db->sql_query($sql);
+		$row	 = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+
+
+		if ($this->get_status($row['user_lastpost']) === 'online')
+		{
+			$refresh = $this->config['refresh_online_chat'];
+		}
+		else if ($this->get_status($row['user_lastpost']) === 'idle')
+		{
+			$refresh = $this->config['refresh_idle_chat'];
+		}
+		else if($this->user->data['username'] === 'Anonymous' || $this->get_status($row['user_lastpost']) === 'offline')
+		{
+			$refresh = $this->config['refresh_offline_chat'];
+		}
+		else
+		{
+			$refresh = $this->config['refresh_offline_chat'];
+		}
+
 		//Assign the features template variable
 		$this->template->assign_vars([
 			'BBCODE_STATUS'		 => ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
@@ -381,7 +395,9 @@ class listener implements EventSubscriberInterface
 			'S_BBCODE_FLASH'	 => $flash_status,
 			'S_BBCODE_QUOTE'	 => false,
 			'S_BBCODE_URL'		 => $url_status,
+			'REFRESH_TIME'		 => $refresh,
 			'LAST_ID'			 => $this->last_id,
+			'LAST_POST'			 => $row['user_lastpost'],
 			'TIME'				 => time(),
 			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'	 => '' . $this->ext_path_web . 'styles/',
@@ -425,7 +441,7 @@ class listener implements EventSubscriberInterface
 		}
 
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
-		
+
 
 		if ($event['mode'] == 'reply')
 		{
@@ -440,11 +456,11 @@ class listener implements EventSubscriberInterface
 			$lang = $this->user->lang['CHAT_NEW_TOPIC'];
 		}
 
-		$url				= append_sid(generate_board_url() . '/viewtopic.' . $this->php_ext, 'f=' . $event['data']['forum_id'] . '&amp;t=' . $event['data']['topic_id'] . '&amp;p=' . $event['data']['post_id'] . '#p' . $event['data']['post_id']);
-		$username			= get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']);
-		$message			= sprintf($lang, $url, $event['post_data']['post_subject']);
-		$uid				= $bitfield		 = $options		 = '';
-		$allow_bbcode		= $allow_urls		 = $allow_smilies	 = true;
+		$url			 = append_sid(generate_board_url() . '/viewtopic.' . $this->php_ext, 'f=' . $event['data']['forum_id'] . '&amp;t=' . $event['data']['topic_id'] . '&amp;p=' . $event['data']['post_id'] . '#p' . $event['data']['post_id']);
+		$username		 = get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']);
+		$message		 = sprintf($lang, $url, $event['post_data']['post_subject']);
+		$uid			 = $bitfield		 = $options		 = '';
+		$allow_bbcode	 = $allow_urls		 = $allow_smilies	 = true;
 		generate_text_for_storage($message, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
 
 		$sql_ary = array(
@@ -563,4 +579,5 @@ class listener implements EventSubscriberInterface
 		}
 		return $user;
 	}
+
 }

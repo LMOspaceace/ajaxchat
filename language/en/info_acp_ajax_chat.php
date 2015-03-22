@@ -69,11 +69,11 @@ $lang = array_merge(
 		'STATUS_IDLE_CHAT_EXPLAIN'			=> 'Sets users idle status time in seconds. Default is 300.',
 		'STATUS_OFFLINE_CHAT'				=> 'Offline status',
 		'STATUS_OFFLINE_CHAT_EXPLAIN'		=> 'Sets users offline status time in seconds. Default is 1800.',
-		'DELAY_ONLINE_CHAT'					=> 'Online delay',
-		'DELAY_ONLINE_CHAT_EXPLAIN'			=> 'Sets users online delay time in seconds. Default is 5.',
-		'DELAY_IDLE_CHAT'					=> 'Idle delay',
-		'DELAY_IDLE_CHAT_EXPLAIN'			=> 'Sets users idle delay time in seconds. Default is 60.',
-		'DELAY_OFFLINE_CHAT'				=> 'Offline delay',
-		'DELAY_OFFLINE_CHAT_EXPLAIN'		=> 'Sets users offline delay time in seconds. Default is 300.',
+		'REFRESH_ONLINE_CHAT'				=> 'Online refresh rate',
+		'REFRESH_ONLINE_CHAT_EXPLAIN'		=> 'Sets users online refresh rate in seconds. Default is 5.',
+		'REFRESH_IDLE_CHAT'					=> 'Idle refresh rate',
+		'REFRESH_IDLE_CHAT_EXPLAIN'			=> 'Sets users idle refresh rate in seconds. Default is 60.',
+		'REFRESH_OFFLINE_CHAT'				=> 'Offline refresh rate',
+		'REFRESH_OFFLINE_CHAT_EXPLAIN'		=> 'Sets users offline refresh rate in seconds. Default is 300.',
 	)
 );
