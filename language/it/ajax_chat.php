@@ -47,6 +47,7 @@ $lang = array_merge(
 			'CHAT_RULE_EXPLAIN'		=> 'Tieni pulita la chat. Niente volgarita\', grazie.',
 			'CHAT_NEW_POST'	=> '%1$s ha replicato in <a href="%2$s">%3$s</a>',
 			'CHAT_NEW_TOPIC'	=> '%1$s ha creato una nuova discussione: <a href="%2$s">%3$s</a>',
+			'CHAT_POST_EDIT'	=> 'ha editato: <a href="%1$s">%2$s</a>',
 			'EMPTY'					=> 'Errore: Devi inserire un messaggio.',
 			'GUEST_MESSAGE'			=> '<strong>Devi essere un Utente Registrato per usare la chat.</strong>',
 			'MESSAGE'				=> 'Messaggio',
