@@ -6,7 +6,8 @@
 *
 * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
 * @license GNU General Public License, version 2 (GPL-2.0)
-* traduction FR par stratege1401 à www.forum.fasx.org/phpbb/
+* French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
+*
 */
 /**
  * DO NOT CHANGE
@@ -35,16 +36,16 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge(
 	$lang, array(
-		'CHAT_BOTTOM'					=> 'Bas',
-		'CHAT_TOP'						=> 'Haut',
-		'USER_AJAX_CHAT_VIEW'			=> 'Boite dialogue visible sur la page index',
-		'USER_AJAX_CHAT_POSITION'		=> 'Position sur index pour montrer la boite de Dialogue',
-		'USER_AJAX_CHAT_AVATARS'		=> 'Montrer les Avatars ',
-		'USER_AJAX_CHAT_SOUND'			=> 'Entendre les sons',
-		'USER_AJAX_CHAT_AVATAR_HOVER'	=> 'Montrer l\'avatar entier par souris sur image',
-		'USER_AJAX_CHAT_ONLINELIST'		=> 'Voir liste des connectes',
-		'USER_AJAXCHAT'					=> 'Dialogue Ajax ',
-		'USER_AJAXCHAT_SETTINGS'		=> 'Paramètres Dialogue Ajax',
-		'NO_VIEW_CHAT'					=> 'Vous n\'avez pas les droits pour voir le Dialogue.',
+		'CHAT_BOTTOM'					=> 'En bas',
+		'CHAT_TOP'						=> 'En haut',
+		'USER_AJAX_CHAT_VIEW'			=> 'Messagerie instantanée visible sur la page de l’index du forum',
+		'USER_AJAX_CHAT_POSITION'		=> 'Position de la messagerie instantanée sur la page de l’index du forum',
+		'USER_AJAX_CHAT_AVATARS'		=> 'Afficher les avatars dans la messagerie instantanée',
+		'USER_AJAX_CHAT_SOUND'			=> 'Activer les sons dans la messagerie instantanée',
+		'USER_AJAX_CHAT_AVATAR_HOVER'	=> 'Afficher la taille réelle de l’avatar au survol de la souris dans la messagerie instantanée',
+		'USER_AJAX_CHAT_ONLINELIST'		=> 'Voir la liste des utilisateurs en ligne dans la messagerie instantanée',
+		'USER_AJAXCHAT'					=> 'Messagerie instantanée Ajax',
+		'USER_AJAXCHAT_SETTINGS'		=> 'Paramètres de la messagerie instantanée Ajax',
+		'NO_VIEW_CHAT'					=> 'Vous n’avez pas les permissions nécessaires pour voir la messagerie instantanée.',
 	)
 );
