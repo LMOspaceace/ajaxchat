@@ -45,7 +45,7 @@ $lang = array_merge(
 		'USER_AJAX_CHAT_AVATAR_HOVER'	=> 'Afficher la taille réelle de l’avatar au survol de la souris dans la messagerie instantanée',
 		'USER_AJAX_CHAT_ONLINELIST'		=> 'Voir la liste des utilisateurs en ligne dans la messagerie instantanée',
 		'USER_AJAXCHAT'					=> 'Messagerie instantanée Ajax',
-		'USER_AJAXCHAT_SETTINGS'		=> 'Paramètres de la messagerie instantanée Ajax',
+		'USER_AJAXCHAT_SETTINGS'		=> 'Messagerie instantanée',
 		'NO_VIEW_CHAT'					=> 'Vous n’avez pas les permissions nécessaires pour voir la messagerie instantanée.',
 	)
 );
