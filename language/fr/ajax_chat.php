@@ -6,7 +6,8 @@
 *
 * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
 * @license GNU General Public License, version 2 (GPL-2.0)
-* traduction FR par stratege1401 à www.forum.fasx.org/phpbb/
+* French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
+*
 */
 /**
  * DO NOT CHANGE
@@ -38,32 +39,35 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge(
-		$lang, array(
-			'CHAT_ARCHIVE'			=> 'Archive',
-			'CHAT_ARCHIVE_EXPLAIN'	=> 'Archive de la conversation',
-			'CHAT_POPUP'			=> 'Popup',
-			'CHAT_POPUP_EXPLAIN'	=> 'Fenêtre Popup',
-			'CHAT_RULE'				=> 'Régles: ',
-			'CHAT_RULE_EXPLAIN'		=> 'Soyez polie, merci.',
-			'EMPTY'					=> 'Erreur: vous devez écrire un message.',
-			'GUEST_MESSAGE'			=> '<strong>Vous devez étre un Utilisateur Enregistré pour parler dans la conversation.</strong>',
-			'MESSAGE'				=> 'Message',
-			'PAGE_TITLE'			=> 'Boite dialogue du Forum',
-			'RESPOND'				=> 'Respondre à:',
-			'UNIT'					=> 'Seconds',
-			'UPDATES'				=> 'Mis a jour',
-			'CHAT'					=> 'Conversation',
-			'CHAT_EXPLAIN'			=> 'Boite à Dialogue',
-			'WHOIS_CHATTING'		=> 'En ligne',
-			'CHAT_FONT_COLOR'		=> 'Couleur des lettres',
-			'SELECT_COLOR'			=> 'Coissir votre couleur',
-			'CHAT_SUBMIT_MESSAGE'	=> 'Envoyer un Message',
-			'DELETE_CHAT_MESSAGE'	=> 'Effacer un message',
-			'BBCODES'			 	=> 'BBCodes',
-			'IE_NO_AJAX'			=> 'Votre navigateur ne supporte pas AJAX.',
-			'UPGRADE_BROWSER'		=> 'Status: ne peut pas céer un object XmlHttpRequest. Changer pour un navigateur plus moderne.',
-			'NO_POST_IN_CHAT'		=> 'Vous n\'avez pas les droits pour utiliser la boite de dialogue.',
-			// @copyright line. No translations below this line
-			'DETAILS'				=> '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
-		)
+	$lang, array(
+		'CHAT_ARCHIVE'			=> 'Archive',
+		'CHAT_ARCHIVE_EXPLAIN'	=> 'Archive de la messagerie instantanée',
+		'CHAT_POPUP'			=> 'Pop-up',
+		'CHAT_POPUP_EXPLAIN'	=> 'Fenêtre pop-up',
+		'CHAT_RULE'				=> 'Règles de la messagerie instantanée : ',
+		'CHAT_RULE_EXPLAIN'		=> 'Merci d’être courtois dans vos propos.',
+		'CHAT_NEW_POST'			=> 'a répondu à : <a href="%1$s">%2$s</a>',
+		'CHAT_NEW_TOPIC'		=> 'a lancé un nouveau sujet : <a href="%1$s">%2$s</a>',
+		'CHAT_POST_EDIT'		=> 'a modifié : <a href="%1$s">%2$s</a>',
+		'EMPTY'					=> 'Erreur : vous devez écrire un message.',
+		'GUEST_MESSAGE'			=> '<strong>Vous devez être enregistré pour engager la conversation.</strong>',
+		'MESSAGE'				=> 'Message',
+		'PAGE_TITLE'			=> 'Messagerie instantanée du forum',
+		'RESPOND'				=> 'Répondre à :',
+		'UNIT'					=> 'secondes',
+		'UPDATES'				=> 'Mises à jour toutes les',
+		'CHAT'					=> 'Messagerie instantanée',
+		'CHAT_EXPLAIN'			=> 'Boite de dialogue de la messagerie instantanée du forum',
+		'WHOIS_CHATTING'		=> 'Qui est en ligne',
+		'CHAT_FONT_COLOR'		=> 'Couleur de la police de caractère de la messagerie instantanée',
+		'SELECT_COLOR'			=> 'Choisir une couleur pour la police de caractère de la messagerie instantanée',
+		'CHAT_SUBMIT_MESSAGE'	=> 'Envoyer un message',
+		'DELETE_CHAT_MESSAGE'	=> 'Effacer un message',
+		'BBCODES'			 	=> 'BBCodes',
+		'IE_NO_AJAX'			=> 'Votre navigateur ne supporte pas le language AJAX.',
+		'UPGRADE_BROWSER'		=> 'Statut : impossible de créer l’objet JavaScript XmlHttpRequest. Veuillez mettre à jour votre navigateur.',
+		'NO_POST_IN_CHAT'		=> 'Vous n’avez pas les permissions nécessaires pour utiliser la messagerie instantanée.',
+		// @copyright line. No translations below this line
+		'DETAILS'				=> '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
+	)
 );
