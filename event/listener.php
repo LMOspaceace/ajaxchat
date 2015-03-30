@@ -195,7 +195,7 @@ class listener implements EventSubscriberInterface
 		//Declaring a few UCP switches and basic values
 		$this->template->assign_vars(
 				array(
-					'U_CHAT'					 => $this->helper->route('spaceace.ajaxchat.chat'),
+					'U_CHAT'					 => append_sid($this->helper->route('spaceace.ajaxchat.chat')),
 					'S_SHOUT'					 => true,
 					'CHAT_RULES'				 => $this->config['rule_ajax_chat'],
 					'S_AJAX_CHAT_VIEW'			 => $this->user->data['user_ajax_chat_view'],
