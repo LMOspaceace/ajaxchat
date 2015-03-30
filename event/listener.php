@@ -159,6 +159,7 @@ class listener implements EventSubscriberInterface
 			'core.permissions'						 => 'add_permission',
 			'core.index_modify_page_title'			 => 'index',
 			'core.posting_modify_submit_post_after'	 => 'add_forum_id',
+			'core.build_config_template'			 => 'prune',
 		);
 	}
 
@@ -167,6 +168,7 @@ class listener implements EventSubscriberInterface
 	 */
 	public function page_header()
 	{
+
 		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
 		{
 			define('PHPBB_USE_BOARD_URL_PATH', true);
@@ -193,7 +195,7 @@ class listener implements EventSubscriberInterface
 		//Declaring a few UCP switches and basic values
 		$this->template->assign_vars(
 				array(
-					'U_CHAT'					 => append_sid(generate_board_url() . "/app.php/chat"),
+					'U_CHAT'					 => $this->helper->route('spaceace.ajaxchat.chat'),
 					'S_SHOUT'					 => true,
 					'CHAT_RULES'				 => $this->config['rule_ajax_chat'],
 					'S_AJAX_CHAT_VIEW'			 => $this->user->data['user_ajax_chat_view'],
@@ -239,6 +241,10 @@ class listener implements EventSubscriberInterface
 	 */
 	public function index()
 	{
+		if ($this->config['prune_ajax_chat'] === true)
+		{
+			$this->prune();
+		}
 		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
 		{
 			define('PHPBB_USE_BOARD_URL_PATH', true);
@@ -272,7 +278,7 @@ class listener implements EventSubscriberInterface
 			'idle'		 => $this->config['status_idle_chat'],
 			'offline'	 => $this->config['status_offline_chat'],
 		];
-		
+
 		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type
 		FROM ' . CHAT_TABLE . ' as c
 		LEFT JOIN ' . USERS_TABLE . ' as u
@@ -322,7 +328,7 @@ class listener implements EventSubscriberInterface
 		if ($this->user->data['user_type'] == USER_FOUNDER || $this->user->data['user_type'] == USER_NORMAL)
 		{
 			$sql	 = 'SELECT * FROM ' . CHAT_SESSIONS_TABLE . " WHERE user_id = {$this->user->data['user_id']}";
-			$result1	 = $this->db->sql_query($sql);
+			$result1 = $this->db->sql_query($sql);
 			$row	 = $this->db->sql_fetchrow($result1);
 			$this->db->sql_freeresult($result1);
 
@@ -359,9 +365,9 @@ class listener implements EventSubscriberInterface
 		$this->mode		 = strtoupper($this->mode);
 
 		$sql	 = 'SELECT `user_lastpost` FROM ' . CHAT_SESSIONS_TABLE . " WHERE user_id = {$this->user->data['user_id']}";
-		$result	 = $this->db->sql_query($sql);
-		$row	 = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);
+		$result1 = $this->db->sql_query($sql);
+		$row	 = $this->db->sql_fetchrow($result1);
+		$this->db->sql_freeresult($result1);
 
 
 		if ($this->get_status($row['user_lastpost']) === 'online')
@@ -372,7 +378,7 @@ class listener implements EventSubscriberInterface
 		{
 			$refresh = $this->config['refresh_idle_chat'];
 		}
-		else if($this->user->data['username'] === 'Anonymous' || $this->get_status($row['user_lastpost']) === 'offline')
+		else if ($this->user->data['username'] === 'Anonymous' || $this->get_status($row['user_lastpost']) === 'offline')
 		{
 			$refresh = $this->config['refresh_offline_chat'];
 		}
@@ -401,7 +407,7 @@ class listener implements EventSubscriberInterface
 			'TIME'				 => time(),
 			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'	 => '' . $this->ext_path_web . 'styles/',
-			'FILENAME'			 => generate_board_url() . '/app.php/chat',
+			'FILENAME'			 => $this->helper->route('spaceace.ajaxchat.chat'),
 			'S_GET_CHAT'		 => ($this->get) ? true : false,
 			'S_' . $this->mode	 => true,
 		]);
@@ -578,6 +584,35 @@ class listener implements EventSubscriberInterface
 			clean_username($user);
 		}
 		return $user;
+	}
+
+	public function prune($event)
+	{
+
+		//\var_dump($event['tpl_type']);
+		/* $sql = 'SELECT message_id FROM '.CHAT_TABLE.' ORDER BY message_id DESC LIMIT 1';
+		  $result = $this->db->sql_query($sql);
+		  $row = $this->db->sql_fetchrow($result);
+		  $this->db->sql_freeresult($result);
+
+		  $last_kept_id = (int) ($row['message_id'] - $this->config['prune_keep_ajax_chat']);
+		  $sql1 = 'DELETE FROM '. CHAT_TABLE.' WHERE message_id > '. $last_kept_id .'';
+		  $this->db->sql_query($sql1);
+		  return; */
+	}
+
+	public function url_rewriting($event)
+	{
+
+		if ($event['on_page'][1] == 'app')
+		{
+
+			if (strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/chat') === 0)
+			{
+				$event['location']		 = $this->user->lang('AJAX_CHAT');
+				$event['location_url']	 = $this->controller_helper->route('spaceace_ajaxchat_chat');
+			}
+		}
 	}
 
 }

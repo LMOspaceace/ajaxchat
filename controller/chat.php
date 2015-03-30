@@ -271,7 +271,7 @@ class chat
 			'TIME'				 => time(),
 			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'	 => '' . $this->ext_path_web . 'styles/',
-			'FILENAME'			 => generate_board_url() . '/app.php/chat',
+			'FILENAME'			 => $this->helper->route('spaceace.ajaxchat.chat'),
 			'S_CHAT'			 => (!$this->get) ? true : false,
 			'S_GET_CHAT'		 => ($this->get) ? true : false,
 			'S_' . $this->mode	 => true,

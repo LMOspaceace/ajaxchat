@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\Container;
 
 /**
  * Main Archive Controller
- * 
+ *
  * @version 0.1.0-BETA
  * @package spaceace\ajaxchat
  * @author Kevin Roy <royk@myraytech.com>
@@ -116,7 +116,7 @@ class archive
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param template		$template
 	 * @param user			$user
 	 * @param db_driver		$db
@@ -220,7 +220,6 @@ class archive
 		$row	 = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
-
 		if ($this->get_status($row['user_lastpost']) === 'online')
 		{
 			$refresh = $this->config['refresh_online_chat'];
@@ -237,7 +236,7 @@ class archive
 		{
 			$refresh = $this->config['refresh_offline_chat'];
 		}
-		
+
 		//Assign the features template variable
 		$this->template->assign_vars([
 			'BBCODE_STATUS'		 => ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
@@ -258,7 +257,7 @@ class archive
 			'TIME'				 => time(),
 			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'	 => '' . $this->ext_path_web . 'styles/',
-			'FILENAME'			 => generate_board_url() . '/app.php/chat',
+			'FILENAME'			 => $this->helper->route('spaceace.ajaxchat.chat'),
 			'S_ARCHIVE'			 => (!$this->get) ? true : false,
 			'S_GET_CHAT'		 => ($this->get) ? true : false,
 			'S_' . $this->mode	 => true,
@@ -276,7 +275,7 @@ class archive
 
 	/**
 	 * Default onload read Action
-	 * 
+	 *
 	 * @return multi
 	 */
 	private function defaultAction()
@@ -362,7 +361,7 @@ class archive
 
 	/**
 	 * grabs the list of the active users participating in chat
-	 * 
+	 *
 	 * @return boolean
 	 */
 	private function whois_online()
@@ -413,7 +412,7 @@ class archive
 
 	/**
 	 * Calculate the status of each user
-	 * 
+	 *
 	 * @param int $last
 	 * @return string
 	 */
@@ -433,7 +432,7 @@ class archive
 
 	/**
 	 * Cleans the message 
-	 * 
+	 *
 	 * @param string $message
 	 */
 	private function clean_message(&$message)
@@ -447,7 +446,7 @@ class archive
 
 	/**
 	 * Cleans the username
-	 * 
+	 *
 	 * @param string $user
 	 * @return string
 	 */
@@ -463,7 +462,7 @@ class archive
 
 	/**
 	 * Refresher Read action
-	 * 
+	 *
 	 * @return bool
 	 */
 	private function readAction()
@@ -540,13 +539,12 @@ class archive
 			$result	 = $this->db->sql_query($sql);
 		}
 		$this->get = true;
-
 		return;
 	}
 
 	/**
 	 * Post deletion method
-	 * 
+	 *
 	 * @return bool
 	 */
 	private function delAction()
@@ -567,5 +565,4 @@ class archive
 		$this->db->sql_query($sql);
 		return;
 	}
-
 }
