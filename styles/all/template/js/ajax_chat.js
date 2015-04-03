@@ -42,7 +42,7 @@ if (chatbbcodetrue)
 {
 	var blkopen = name;
 
-	if (name == null || name === null || name == 'null')
+	if (name === null || name == 'null')
 	{
 		//******************************************************************************************
 		// [color2=#000000] sets the default user colour and might need to be changed depending on
@@ -62,6 +62,7 @@ else
 	var blkopen = '';
 	var blkclose = '';
 }
+
 $(window).load(function () {
 	$("#smilies").click(function () {
 		$("#chat_smilies").toggle(600);

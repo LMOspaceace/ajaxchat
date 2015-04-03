@@ -64,7 +64,7 @@
 					<!-- IF S_WHOISONLINE -->
 							<!-- BEGIN whoisrow -->
 								<div class="whois_status<!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
-									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="online_img" alt="{whoisrow.USER_STATUS}" /> {whoisrow.USERNAME_FULL}
+									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="online_img" alt="{whoisrow.USER_STATUS}" />&nbsp;{whoisrow.USERNAME_FULL}&nbsp;
 								</div>
 							<!-- END whoisrow -->
 					<!-- ENDIF -->
@@ -186,7 +186,7 @@
 											</div>
 										<!-- IF S_USER_LOGGED_IN and not S_IS_BOT -->
 											<!-- IF chatrow.USER_COLOR -->
-												<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/color][/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
+												<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b][/color]', true);return false;" title="{L_RESPOND}">&#64;</a>
 											<!-- ELSE -->
 												<a href="#" onclick="insert_text('[b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
 											<!-- ENDIF -->
@@ -219,8 +219,7 @@
 						<div id="whois_online">
 							<!-- BEGIN whoisrow -->
 								<div class="whois_status">
-									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="status_img" alt="{whoisrow.USER_STATUS}" />
-									{whoisrow.USERNAME_FULL}
+									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="status_img" alt="{whoisrow.USER_STATUS}" />&nbsp;{whoisrow.USERNAME_FULL}&nbsp;
 								</div>
 							<!-- END whoisrow -->
 						</div>
