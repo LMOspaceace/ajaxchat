@@ -90,8 +90,6 @@ $lang = array_merge(
 		'TRUNCATE_LOG_AJAXCHAT'				=> 'Truncated chat table',
 		'TRUNCATE_CHAT_SUCESS'				=> 'Chat table truncated',
 		'CHAT_COUNTER'						=> 'Number of chat messages in database',
-		'DEFAULT_COLOR_AJAX_CHAT'			=> 'Default chat font colour',
-		'DEFAULT_COLOR_AJAX_CHAT_EXPLAIN'	=> 'Examples, FFFFFF or FFF for white and 000000 or 000 for black.',
 		'ROLE_MOD_CHAT'						=> 'Ajax Chat moderator',
 		'ROLE_MOD_CHAT_EXPLAIN'				=> 'Ajax Chat role for moderators.',
 	)
