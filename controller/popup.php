@@ -241,9 +241,11 @@ class popup
 		{
 			$refresh = $this->config['refresh_offline_chat'];
 		}
-
-		if($this->user->data['user_id'] === ANONYMOUS || $row['user_lastpost'] === null) {
-			$last_post = 0;
+		
+		
+		if($this->user->data['user_id'] === ANONYMOUS || $row['user_lastpost'] === NULL) {
+			
+			$last_post = '0';
 		}
 		else
 		{
@@ -412,7 +414,7 @@ class popup
 		$status_time = time();
 		while ($row		 = $this->db->sql_fetchrow($result))
 		{
-			if ($this->check_hidden($row['user_id']) === true) {
+			if ($this->check_hidden($row['user_id']) === false) {
 				continue;
 			}
 			if ($row['user_id'] == $this->user->data['user_id'])
@@ -486,7 +488,12 @@ class popup
 		}
 		return $user;
 	}
-
+	
+	/**
+	 * Refresher Read action
+	 * 
+	 * @return bool
+	 */
 	/**
 	 * Refresher Read action
 	 * 
@@ -642,7 +649,7 @@ class popup
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
 		{
-			return;
+			exit;
 		}
 		foreach ($rows as $row)
 		{
