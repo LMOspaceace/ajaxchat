@@ -1,17 +1,17 @@
 <?php
-
 /**
 *
-* Ajax Chat extension for phpBB.
+* Ajax Chat extension for the phpBB Forum Software package.
+* French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
 *
 * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
 * @license GNU General Public License, version 2 (GPL-2.0)
-* French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
 *
 */
+
 /**
- * DO NOT CHANGE
- */
+* DO NOT CHANGE
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -33,13 +33,13 @@ if (empty($lang) || !is_array($lang))
 // You do not need this where single placeholders are used, e.g. 'Message %d' is fine
 // equally where a string contains only two placeholders which are used to wrap text
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
+//
+// Some characters you may want to copy&paste:
+// ’ « » “ ” …
+//
 
-$lang = array_merge(
-	$lang, array(
-		'CHAT_BOTTOM'					=> 'En bas',
-		'CHAT_TOP'						=> 'En haut',
+$lang = array_merge($lang, array(
 		'USER_AJAX_CHAT_VIEW'			=> 'Messagerie instantanée visible sur la page de l’index du forum',
-		'USER_AJAX_CHAT_POSITION'		=> 'Position de la messagerie instantanée sur la page de l’index du forum',
 		'USER_AJAX_CHAT_AVATARS'		=> 'Afficher les avatars dans la messagerie instantanée',
 		'USER_AJAX_CHAT_SOUND'			=> 'Activer les sons dans la messagerie instantanée',
 		'USER_AJAX_CHAT_AVATAR_HOVER'	=> 'Afficher la taille réelle de l’avatar au survol de la souris dans la messagerie instantanée',
