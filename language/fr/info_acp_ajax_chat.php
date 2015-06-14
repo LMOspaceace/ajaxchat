@@ -94,8 +94,6 @@ $lang = array_merge($lang, array(
 		'TRUNCATE_LOG_AJAXCHAT'				=> 'Table de la messagerie vidée',
 		'TRUNCATE_CHAT_SUCESS'				=> 'La table de la messagerie a été vidée avec succès !',
 		'CHAT_COUNTER'						=> 'Nombre de messages de la messagerie dans la base de données',
-		'DEFAULT_COLOR_AJAX_CHAT'			=> 'Couleur par défaut de la police dans la messagerie',
-		'DEFAULT_COLOR_AJAX_CHAT_EXPLAIN'	=> 'Exemples, FFFFFF ou FFF pour du blanc et 000000 ou 000 pour du noir.',
 		'ROLE_MOD_CHAT'						=> 'Modérateur de la messagerie instantanée',
 		'ROLE_MOD_CHAT_EXPLAIN'				=> 'Rôle du modérateur de la messagerie instantanée.',
 	)
