@@ -1,83 +1,99 @@
 <?php
 
 /**
-*
-* Ajax Chat extension for phpBB.
-*
-* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * Ajax Chat extension for phpBB.
+ *
+ * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 namespace spaceace\ajaxchat\acp;
 
 class ajaxchat_module
 {
 
-    /** @var string The currenct action */
-    public $u_action;
+	/** @var string The currenct action */
+	public $u_action;
 
-    /** @var \phpbb\config\config */
-    public $new_config = array();
+	/** @var \phpbb\config\config */
+	public $new_config = [];
 
-    /** @var string form key */
-    public $form_key;
+	/** @var string form key */
+	public $form_key;
 
-    /** @var \phpbb\config\config */
-    protected $config;
+	/** @var \phpbb\config\config */
+	protected $config;
 
-    /** @var \phpbb\db\driver\driver_interface */
-    protected $db;
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
 
-    /** @var \phpbb\user */
-    protected $user;
+	/** @var \phpbb\user */
+	protected $user;
 
-    /** @var \phpbb\template\template */
-    protected $template;
+	/** @var \phpbb\template\template */
+	protected $template;
 
-    /** @var \phpbb\request\request */
-    protected $request;
+	/** @var \phpbb\request\request */
+	protected $request;
 
-    public function main($id, $mode)
-    {
-        global $phpbb_container;
+	public function main($id, $mode)
+	{
+		global $phpbb_container, $table_prefix;
 
-        // Initialization
-        $this->config   = $phpbb_container->get('config');
-        $this->db       = $phpbb_container->get('dbal.conn');
-        $this->user     = $phpbb_container->get('user');
-        $this->template = $phpbb_container->get('template');
-        $this->request  = $phpbb_container->get('request');
+		if (!defined('CHAT_TABLE'))
+		{
+			$chat_table = $table_prefix . 'ajax_chat';
+			define('CHAT_TABLE', $chat_table);
+		}
+		$this->id		 = $id;
+		$this->mode		 = $mode;
+		// Initialization
+		$this->auth		 = $phpbb_container->get('auth');
+		$this->config	 = $phpbb_container->get('config');
+		$this->db		 = $phpbb_container->get('dbal.conn');
+		$this->user		 = $phpbb_container->get('user');
+		$this->template	 = $phpbb_container->get('template');
+		$this->request	 = $phpbb_container->get('request');
 
-        $this->u_action = $this->request->variable('action', '', true);
-		
-        $submit         = ($this->request->is_set_post('submit')) ? true : false;
-        $this->form_key = 'acp_ajax_chat';
-        add_form_key($this->form_key);
 
-        $display_vars = array(
-			'title' => 'ACP_AJAX_CHAT_TITLE',
-			'vars'  => array(
-				'legend1'					=> 'AJAX_CHAT_SETTINGS',
-				'display_ajax_chat'			=> array('lang' => 'DISPLAY_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false),
-				'index_display_ajax_chat'	=> array('lang' => 'INDEX_DISPLAY_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true),
-				'whois_chatting'			=> array('lang' => 'WHOIS_CHATTING', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true),
-				'ajax_chat_forum_posts'		=> array('lang'	=> 'FORUM_POSTS_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false),
-				'rule_ajax_chat'			=> array('lang' => 'RULE_AJAX_CHAT', 'validate' => 'string', 'type' => 'text:40:255', 'explain' => true),
-				'ajax_chat_archive_amount'	=> array('lang'	=> 'ARCHIVE_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:500', 'explain' => true),
-				'ajax_chat_popup_amount'	=> array('lang'	=> 'POPUP_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true),
-				'ajax_chat_index_amount'	=> array('lang'	=> 'INDEX_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true),
-				'ajax_chat_chat_amount'		=> array('lang'	=> 'CHAT_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true),
-				'ajax_chat_time_setting'	=> array('lang' => 'TIME_SETTING_AJAX_CHAT', 'validate' => 'string', 'type' => 'text:10:20', 'explain' => true),
-				'refresh_online_chat'		=> array('lang' => 'REFRESH_ONLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
-				'refresh_idle_chat'			=> array('lang' => 'REFRESH_IDLE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
-				'refresh_offline_chat'		=> array('lang' => 'REFRESH_OFFLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
-				'status_online_chat'		=> array('lang' => 'STATUS_ONLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
-				'status_idle_chat'			=> array('lang' => 'STATUS_IDLE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
-				'status_offline_chat'		=> array('lang' => 'STATUS_OFFLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true),
-				'legend2'					=> 'ACP_SUBMIT_CHANGES'
-			),
-		);
+		$this->u_action = $this->request->variable('action', '', true);
+
+		$submit			 = ($this->request->is_set_post('submit')) ? true : false;
+		$this->form_key	 = 'acp_ajax_chat';
+		add_form_key($this->form_key);
+
+		$display_vars = [
+			'title'	 => 'ACP_AJAX_CHAT_TITLE',
+			'vars'	 => [
+				'legend1'						=> 'AJAX_CHAT_SETTINGS',
+				'display_ajax_chat'				=> ['lang' => 'DISPLAY_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
+				'index_display_ajax_chat'		=> ['lang' => 'INDEX_DISPLAY_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
+				'whois_chatting'				=> ['lang' => 'WHOIS_CHATTING', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
+				'ajax_chat_forum_posts'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
+				'location_ajax_chat'			=> ['lang' => 'LOCATION_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true],
+				'rule_ajax_chat'				=> ['lang' => 'RULE_AJAX_CHAT', 'validate' => 'string', 'type' => 'text:40:255', 'explain' => true],
+				'ajax_chat_archive_amount'		=> ['lang' => 'ARCHIVE_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:500', 'explain' => true],
+				'ajax_chat_popup_amount'		=> ['lang' => 'POPUP_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true],
+				'ajax_chat_index_amount'		=> ['lang' => 'INDEX_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true],
+				'ajax_chat_chat_amount'			=> ['lang' => 'CHAT_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true],
+				'ajax_chat_time_setting'		=> ['lang' => 'TIME_SETTING_AJAX_CHAT', 'validate' => 'string', 'type' => 'text:10:20', 'explain' => true],
+				'refresh_online_chat'			=> ['lang' => 'REFRESH_ONLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true],
+				'refresh_idle_chat'				=> ['lang' => 'REFRESH_IDLE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true],
+				'refresh_offline_chat'			=> ['lang' => 'REFRESH_OFFLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true],
+				'status_online_chat'			=> ['lang' => 'STATUS_ONLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true],
+				'status_idle_chat'				=> ['lang' => 'STATUS_IDLE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true],
+				'status_offline_chat'			=> ['lang' => 'STATUS_OFFLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true],
+				'legend2'						=> 'AJAX_CHAT_PRUNE',
+				'prune_ajax_chat'				=> ['lang' => 'PRUNE_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
+				'prune_keep_ajax_chat'			=> ['lang' => 'PRUNE_KEEP_AJAX_CHAT', 'validate' => 'int', 'type' => 'number', 'explain' => false],
+				'prune_now'						=> ['lang' => 'PRUNE_NOW', 'validate' => 'bool', 'type' => 'custom', 'explain' => false, 'method' => 'prune_chat'],
+				'truncate_now'					=> ['lang' => 'TRUNCATE_NOW', 'validate' => 'bool', 'type' => 'custom', 'explain' => false, 'method' => 'truncate_chat'],
+				'ajax_chat_counter'				=> ['lang' => 'CHAT_COUNTER', 'validate' => 'bool', 'type' => 'custom', 'explain' => false, 'method' => 'chat_counter'],
+				'legend3'						=> 'ACP_SUBMIT_CHANGES'
+			],
+		];
 
 		#region Submit
 		if ($submit)
@@ -95,8 +111,118 @@ class ajaxchat_module
 		$this->generate_stuff_for_cfg_template($display_vars);
 
 		// Output page template file
-		$this->tpl_name   = 'ajax_chat';
-		$this->page_title = $this->user->lang($display_vars['title']);
+		$this->tpl_name		 = 'ajax_chat';
+		$this->page_title	 = $this->user->lang($display_vars['title']);
+	}
+
+	/**
+	 * Counter for Ajax Chat messages.
+	 */
+	public function chat_counter()
+	{
+		$sql			 = 'SELECT COUNT(*) '
+				. 'FROM ' . CHAT_TABLE . '';
+		$result			 = $this->db->sql_query($sql);
+		$row			 = $this->db->sql_fetchrow($result);
+		$chat_counter	 = '<div style="width: 75px; height: auto; border: 1px solid #CCCCCC; text-align: right; padding: 0 2px; word-wrap: initial; overflow: hidden;">' . $row['COUNT(*)'] . '</div>';
+		return $chat_counter;
+	}
+
+	/**
+	 * prune function.
+	 * 
+	 * @param string $value The value
+	 * @param string $key The key
+	 * @return string The formatted string of this item
+	 */
+	public function prune_chat($value, $key)
+	{
+		if (!confirm_box(true))
+		{
+			if ($this->u_action === 'prune_chat')
+			{
+				confirm_box(false, $this->user->lang['CONFIRM_PRUNE_AJAXCHAT'], build_hidden_fields([
+					'i'		 => $this->id,
+					'mode'	 => $this->mode,
+					'action' => $this->u_action,
+				]));
+			}
+		}
+		else
+		{
+			if (!$this->auth->acl_get('a_board'))
+			{
+				trigger_error($this->user->lang['NO_AUTH_OPERATION'] . adm_back_link($this->u_action), E_USER_WARNING);
+			}
+			if ($this->u_action === 'prune_chat')
+			{
+				$sql			 = 'SELECT message_id '
+						. 'FROM ' . CHAT_TABLE . ' '
+						. 'ORDER BY message_id DESC '
+						. 'LIMIT ' . $this->config['prune_keep_ajax_chat'] . ', 1';
+				$result			 = $this->db->sql_query($sql);
+				$row			 = $this->db->sql_fetchrow($result);
+				$this->db->sql_freeresult($result);
+				
+				$last_kept_id	 = ($row['message_id'] - $this->config['prune_keep_ajax_chat']);
+				$sql1			 = 'DELETE FROM ' . CHAT_TABLE . ''
+						. ' WHERE `message_id` <= ' . $row['message_id'] . '';
+				$this->db->sql_query($sql1);
+				
+				add_log('admin', 'PRUNE_LOG_AJAXCHAT');
+
+				if ($this->request->is_ajax())
+				{
+					trigger_error($this->user->lang['PRUNE_CHAT_SUCESS']);
+				}
+			}
+		}
+		$this->id = str_replace("\\", "-", $this->id);
+		return '<a href="' . append_sid('?i=' . $this->id . '&mode=' . $this->mode . '&action=prune_chat') . '" data-ajax="true"><input class="button2" type="submit" id="' . $key . '_enable" name="' . $key . '_enable" value="' . $this->user->lang['PRUNE_NOW'] . '" /></a>';
+	}
+
+	/**
+	 * prune function.
+	 * 
+	 * @param string $value The value
+	 * @param string $key The key
+	 * @return string The formatted string of this item
+	 */
+	public function truncate_chat($value, $key)
+	{
+		if (!confirm_box(true))
+		{
+			if ($this->u_action === 'truncate_chat')
+			{
+				confirm_box(false, $this->user->lang['CONFIRM_TRUNCATE_AJAXCHAT'], build_hidden_fields([
+					'i'		 => $this->id,
+					'mode'	 => $this->mode,
+					'action' => $this->u_action,
+				]));
+			}
+		}
+		else
+		{
+			if (!$this->auth->acl_get('a_board'))
+			{
+				trigger_error($this->user->lang['NO_AUTH_OPERATION'] . adm_back_link($this->u_action), E_USER_WARNING);
+			}
+			if ($this->u_action === 'truncate_chat')
+			{
+				$sql1 = 'TRUNCATE ' . CHAT_TABLE . '';
+				$this->db->sql_query($sql1);
+
+				add_log('admin', 'TRUNCATE_LOG_AJAXCHAT');
+
+				if ($this->request->is_ajax())
+				{
+					trigger_error($this->user->lang['TRUNCATE_CHAT_SUCESS']);
+				}
+			}
+		}
+		$this->id	 = str_replace("\\", "-", $this->id);
+		$action		 = append_sid('?i=' . $this->id . '&mode=' . $this->mode . '&action=truncate_chat');
+		return '<a href="' . $action . '" data-ajax="true"><input class="button2" type="submit" id="' . $key . '_enable" name="' . $key . '_enable" value="' . $this->user->lang['TRUNCATE_NOW'] . '" /></a>';
 	}
 
 	/**
@@ -108,11 +234,11 @@ class ajaxchat_module
 	 * @param array $special_functions Assoziative Array with config values where special functions should run on submit instead of simply save the config value. Array should contain 'config_value' => function ($this) { function code here }, or 'config_value' => null if no function should run.
 	 * @return bool Submit valid or not.
 	 */
-	protected function do_submit_stuff($display_vars, $special_functions = array())
+	protected function do_submit_stuff($display_vars, $special_functions = [])
 	{
-		$this->new_config = $this->config;
-		$cfg_array		= ($this->request->is_set('config')) ? $this->request->variable('config', array('' => ''), true) : $this->new_config;
-		$error			= isset($error) ? $error : array();
+		$this->new_config	 = $this->config;
+		$cfg_array			 = ($this->request->is_set('config')) ? $this->request->variable('config', ['' => ''], true) : $this->new_config;
+		$error				 = isset($error) ? $error : [];
 
 		validate_config_vars($display_vars['vars'], $cfg_array, $error);
 
@@ -164,9 +290,9 @@ class ajaxchat_module
 	 */
 	protected function generate_stuff_for_cfg_template($display_vars)
 	{
-		$this->new_config = $this->config;
-		$cfg_array		= ($this->request->is_set('config')) ? $this->request->variable('config', array('' => ''), true) : $this->new_config;
-		$error			= isset($error) ? $error : array();
+		$this->new_config	 = $this->config;
+		$cfg_array			 = ($this->request->is_set('config')) ? $this->request->variable('config', ['' => ''], true) : $this->new_config;
+		$error				 = isset($error) ? $error : [];
 
 		validate_config_vars($display_vars['vars'], $cfg_array, $error);
 
@@ -179,9 +305,9 @@ class ajaxchat_module
 
 			if (strpos($config_key, 'legend') !== false)
 			{
-				$this->template->assign_block_vars('options', array(
-					'S_LEGEND' => true,
-					'LEGEND'   => (isset($this->user->lang[$vars])) ? $this->user->lang[$vars] : $vars)
+				$this->template->assign_block_vars('options', [
+					'S_LEGEND'	 => true,
+					'LEGEND'	 => (isset($this->user->lang[$vars])) ? $this->user->lang[$vars] : $vars]
 				);
 
 				continue;
@@ -193,7 +319,8 @@ class ajaxchat_module
 			if ($vars['explain'] && isset($vars['lang_explain']))
 			{
 				$l_explain = (isset($this->user->lang[$vars['lang_explain']])) ? $this->user->lang[$vars['lang_explain']] : $vars['lang_explain'];
-			} else if ($vars['explain'])
+			}
+			else if ($vars['explain'])
 			{
 				$l_explain = (isset($this->user->lang[$vars['lang'] . '_EXPLAIN'])) ? $this->user->lang[$vars['lang'] . '_EXPLAIN'] : '';
 			}
@@ -205,21 +332,21 @@ class ajaxchat_module
 				continue;
 			}
 
-			$this->template->assign_block_vars('options', array(
-				'KEY'			=> $config_key,
-				'TITLE'			=> (isset($this->user->lang[$vars['lang']])) ? $this->user->lang[$vars['lang']] : $vars['lang'],
-				'S_EXPLAIN'		=> $vars['explain'],
-				'TITLE_EXPLAIN'	=> $l_explain,
-				'CONTENT'		=> $content,
-			));
+			$this->template->assign_block_vars('options', [
+				'KEY'			 => $config_key,
+				'TITLE'			 => (isset($this->user->lang[$vars['lang']])) ? $this->user->lang[$vars['lang']] : $vars['lang'],
+				'S_EXPLAIN'		 => $vars['explain'],
+				'TITLE_EXPLAIN'	 => $l_explain,
+				'CONTENT'		 => $content,
+			]);
 
 			//unset($display_vars['vars'][$config_key]);
 		}
 
-		$this->template->assign_vars(array(
-			'S_ERROR'	=> (sizeof($error)) ? true : false,
-			'ERROR_MSG'	=> implode('<br />', $error),
-			'U_ACTION'	=> $this->u_action)
+		$this->template->assign_vars([
+			'S_ERROR'	 => (sizeof($error)) ? true : false,
+			'ERROR_MSG'	 => implode('<br />', $error),
+			'U_ACTION'	 => $this->u_action]
 		);
 	}
 }

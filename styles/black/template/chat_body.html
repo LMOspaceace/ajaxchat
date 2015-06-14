@@ -34,7 +34,7 @@
 									<!-- ELSE -->
 										&#64;
 									<!-- ENDIF -->
-									{chatrow.USERNAME_FULL}<br /><b class="time">&laquo;&nbsp;{chatrow.TIME}&nbsp;&raquo;</b>
+									{chatrow.USERNAME_FULL}<br /><b class="chat-time">&laquo;&nbsp;{chatrow.TIME}&nbsp;&raquo;</b>
 									</dt>
 									<dd>
 									</dd>
@@ -42,7 +42,7 @@
 							</div>
 							{SMILIES_PATH}
 							<div class="message">
-								<!-- IF U_MCP or U_ACP -->
+								<!-- IF M_AJAXCHAT_DELETE or U_ACP -->
 									<ul class="post-buttons"><a href="javascript:void({chatrow.MESSAGE_ID})" title="{L_DELETE_CHAT_MESSAGE}" onClick="delete_post('{chatrow.MESSAGE_ID}')"><li class="button icon-button delete-icon"></li></a></ul>
 								<!-- ENDIF -->
 								{chatrow.MESSAGE}
@@ -60,15 +60,13 @@
 						</div>
 					<!-- ENDIF -->
 				<!-- ENDIF -->
-				
 					<!-- IF S_WHOISONLINE -->
 							<!-- BEGIN whoisrow -->
 								<div class="whois_status<!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
-									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="online_img" alt="{whoisrow.USER_STATUS}" />&nbsp;{whoisrow.USERNAME_FULL}&nbsp;
+									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="status_img" alt="{whoisrow.USER_STATUS}" />&nbsp;{whoisrow.USERNAME_FULL}&nbsp;
 								</div>
 							<!-- END whoisrow -->
 					<!-- ENDIF -->
-				
 				--!--{LAST_TIME}--!--{REFRESH_TIME}--!--{LAST_POST}
 			<!-- ENDIF -->
 		<!-- ELSE -->
@@ -90,6 +88,7 @@
 				var read_interval = ({REFRESH_TIME} * 1000);
 				var chat_empty = '{LA_EMPTY}';
 				var ie_no_ajax = '{LA_IE_NO_AJAX}';
+				var cookie_name = '{COOKIE_NAME}';
 				var upgrade_browser = '{LA_UPGRADE_BROWSER}';
 				var query_url	= '{FILENAME}';
 				<!-- IF S_POPUP -->
@@ -128,14 +127,14 @@
 														<!-- INCLUDE chat_font_colour_hold.html -->
 														<input type="text" tabindex="1" name="message" id="message" class="inputbox chatinput" />
 														<br />
-														<input type="submit" class="button2" value="{L_SUBMIT}" title="{L_CHAT_SUBMIT_MESSAGE}" name="submit" tabindex="6" accesskey="s" />
+														<input type="submit" class="button" value="{L_SUBMIT}" title="{L_CHAT_SUBMIT_MESSAGE}" name="submit" tabindex="6" accesskey="s" />
 														<!-- IF S_AJAXCHAT_BBCODE -->
-															<input type="button" class="button2" id="bbcodes" value="{L_BBCODES}" />
+															<input type="button" class="button" id="bbcodes" value="{L_BBCODES}" />
 														<!-- ENDIF -->
-														<input type="button" class="button2" name="smilies" id="smilies" value="{L_SMILIES}" />
-														<input type="button" class="button2" onclick="popup('{BOARD_URL}chat/archive', 1000, 625); return false;" value="{L_CHAT_ARCHIVE}" title="{L_CHAT_ARCHIVE_EXPLAIN}" />
-														<input type="button" class="button2" onclick="popup('{BOARD_URL}chat/popup', 1000, 630); return false;" value="{L_CHAT_POPUP}" title="{L_CHAT_POPUP_EXPLAIN}" />
-														<input type="button" class="button2" name="bbpalette" id="bbpalette" value="{L_CHAT_FONT_COLOR}" />
+														<input type="button" class="button" name="smilies" id="smilies" value="{L_SMILIES}" />
+														<input type="button" class="button" onclick="popup('{FILENAME}/archive', 1000, 625); return false;" value="{L_CHAT_ARCHIVE}" title="{L_CHAT_ARCHIVE_EXPLAIN}" />
+														<input type="button" class="button" onclick="popup('{FILENAME}/popup', 1000, 630); return false;" value="{L_CHAT_POPUP}" title="{L_CHAT_POPUP_EXPLAIN}" />
+														<input type="button" class="button" name="bbpalette" id="bbpalette" value="{L_CHAT_FONT_COLOR}" />
 													</fieldset>
 												</form>
 												<!-- INCLUDE chat_buttons.html -->
@@ -186,21 +185,21 @@
 											</div>
 										<!-- IF S_USER_LOGGED_IN and not S_IS_BOT -->
 											<!-- IF chatrow.USER_COLOR -->
-												<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/color][/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
+												<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b][/color]', true);return false;" title="{L_RESPOND}">&#64;</a>
 											<!-- ELSE -->
 												<a href="#" onclick="insert_text('[b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
 											<!-- ENDIF -->
 										<!-- ELSE -->
 											&#64;
 										<!-- ENDIF -->
-										{chatrow.USERNAME_FULL}<br /><b class="time">&laquo;&nbsp;{chatrow.TIME}&nbsp;&raquo;</b>
+										{chatrow.USERNAME_FULL}<br /><b class="chat-time">&laquo;&nbsp;{chatrow.TIME}&nbsp;&raquo;</b>
 										</dt>
 										<dd>
 										</dd>
 									</dl>
 								</div>
 								<div class="message">
-									<!-- IF U_MCP or U_ACP -->
+									<!-- IF M_AJAXCHAT_DELETE or U_ACP -->
 									<ul class="post-buttons"><a href="javascript:void({chatrow.MESSAGE_ID})" title="{L_DELETE_CHAT_MESSAGE}" onClick="delete_post('{chatrow.MESSAGE_ID}')"><li class="button icon-button delete-icon"></li></a></ul>
 									<!-- ENDIF -->
 									{chatrow.MESSAGE}
@@ -210,7 +209,6 @@
 					<!-- END chatrow -->
 				</div>
 			</div>
-			
 				<!-- IF S_WHOISONLINE -->
 					<div class="whois<!-- IF S_CHAT or S_POPUP --> main<!-- ENDIF --><!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
 						<h3>
@@ -218,19 +216,18 @@
 						</h3>
 						<div id="whois_online">
 							<!-- BEGIN whoisrow -->
-								<div class="whois_status">
+								<div class="whois_status<!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
 									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="status_img" alt="{whoisrow.USER_STATUS}" />&nbsp;{whoisrow.USERNAME_FULL}&nbsp;
 								</div>
 							<!-- END whoisrow -->
 						</div>
 					</div>
 				<!-- ENDIF -->
-			
 			<div class="chatnavbar navbar">
 				<div class="chatform">
 					<span class="list chat-icon"> {L_DETAILS} </span>
-					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="" />
-					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" alt="" />
+					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="Check indicator" title="3.0.0-BETA" />
+					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" alt="Activity indicator" title="3.0.0-BETA" />
 					<strong> {L_UPDATES} <span id="update_seconds"> {REFRESH_TIME} </span> {L_UNIT} </strong>
 				</div>
 			</div>

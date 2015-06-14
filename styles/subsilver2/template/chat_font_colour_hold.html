@@ -1,4 +1,4 @@
-<div id="colour_palette">
+<div id="chat_colour_palette">
 	<table width="50%">
 		<div id="fc">
 		</div>
@@ -16,11 +16,11 @@
 						var color = '';
 
 						numberList[0] = '00';
-						numberList[1] = '40';
-						numberList[2] = '80';
-						numberList[3] = 'BF';
-						numberList[4] = 'FF';
-						numberList[5] = 'CC';
+						numberList[1] = '44';
+						numberList[2] = '88';
+						numberList[3] = 'AA';
+						numberList[4] = 'CC';
+						numberList[5] = 'FF';
 
 						document.writeln('<table cellspacing="1" cellpadding="0" border="0">');
 
@@ -41,7 +41,7 @@
 								{
 									color = String(numberList[r]) + String(numberList[g]) + String(numberList[b]);
 									document.write('<td bgcolor="#' + color + '" style="width: ' + width + 'px; height: ' + height + 'px;">');
-									document.write('<div onmouseover="this.style.cursor=\'pointer\'" onmousedown="setCookie(\'fontholdcookie\', \'[color2=#' + color + ']\',\'1000\'); blkopen = \'[color2=#' + color + ']\'; hilite(\'#' + color + ' \'); return false;"><img src="{BOARD_URL}images/spacer.gif" width="' + width + '" height="' + height + '" alt="#' + color + '" title="#' + color + '" /></div>');
+									document.write('<div onmouseover="this.style.cursor=\'pointer\'" onmousedown="setCookie(\'' + cookie_name + '\', \'[color2=#' + color + ']\',\'1000\'); blkopen = \'[color2=#' + color + ']\'; hilite(\'#' + color + ' \'); blkclose = \'[/color2]\'; return false;"><img src="{BOARD_URL}images/spacer.gif" width="' + width + '" height="' + height + '" alt="#' + color + '" title="#' + color + '" /></div>');
 									document.writeln('</td>');
 								}
 								if (dir == 'v')
@@ -64,6 +64,7 @@
 					}
 					// ]]>
 				</script>
+				<a href="javascript:;" onclick="deletecookie();">{L_DELETE_CHAT_COOKIE}</a>
 			</td>
 		</tr>
 	</table>

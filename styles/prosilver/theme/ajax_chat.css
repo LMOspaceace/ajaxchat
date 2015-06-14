@@ -33,13 +33,13 @@
 	border-width:1px;
 }
 
-#colour_palette {
+#chat_colour_palette {
 	display: none;
 	text-align: center;
 	padding-bottom: 5px;
 }
 
-#colour_palette table {
+#chat_colour_palette table {
 	margin: 0 auto;
 }
 
@@ -87,7 +87,6 @@
 	font-weight: bold;
 	text-transform: uppercase;
 	font-size: 1.0em;
-	color: #115098;
 	margin: 0 auto 4px;
 }
 
@@ -108,7 +107,6 @@
 .chat-postbody {
 	padding: 0;
 	line-height: 1.48em;
-	color: #999999;
 	width: 100%;
 	clear: both;
 	min-height: 40px;
@@ -175,7 +173,6 @@
 .message {
 	line-height: 1.4em;
 	font-size: 1.2em;
-	color: #999999;
 	margin-left: 17%;
 	padding-top: 4px;
 }
@@ -192,14 +189,12 @@
 	display: inline;
 }
 
-.time {
+.chat-time {
 	font-size: 0.9em;
-	color: #999999;
 }
 
 .status_img {
 	vertical-align: middle;
-	margin-top: -2px;
 }
 
 .chat-icon {
@@ -266,6 +261,28 @@ div.chat-avatars:hover span {
 
 .input_message {
 	padding: 10px;
+}
+
+.chat-postbody .message li {
+	margin-left: 4%;
+}
+
+.chat-postbody .message blockquote {
+	margin: 2px 0;
+}
+
+.chat .button {
+	height: 20px;
+	padding: 0 8px;
+}
+
+.chat a:hover {
+	text-decoration: none !important;
+}
+
+.font_cookie_delete {
+	margin: 2px auto 0 auto !important;
+	width: 90px;
 }
 
 @media only screen and (max-width: 900px), only screen and (max-device-width: 900px) {

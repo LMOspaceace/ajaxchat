@@ -15,7 +15,6 @@ use phpbb\db\migration\migration;
 
 class acp_ajaxchat_module extends migration
 {
-
 	public function update_data()
 	{
 		return array(

@@ -233,7 +233,7 @@ class popup
 		{
 			$refresh = $this->config['refresh_idle_chat'];
 		}
-		else if($this->user->data['username'] === 'Anonymous' || $this->get_status($row['user_lastpost']) === 'offline')
+		else if ($this->user->data['user_id'] === ANONYMOUS || $this->get_status($row['user_lastpost']) === 'offline')
 		{
 			$refresh = $this->config['refresh_offline_chat'];
 		}
@@ -241,7 +241,14 @@ class popup
 		{
 			$refresh = $this->config['refresh_offline_chat'];
 		}
-		
+
+		if($this->user->data['user_id'] === ANONYMOUS || $row['user_lastpost'] === null) {
+			$last_post = 0;
+		}
+		else
+		{
+			$last_post = $row['user_lastpost'];
+		}
 		//Assign the features template variable
 		$this->template->assign_vars([
 			'BBCODE_STATUS'		 => ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
@@ -258,11 +265,11 @@ class popup
 			'S_BBCODE_URL'		 => $url_status,
 			'REFRESH_TIME'		 => $refresh,
 			'LAST_ID'			 => $this->last_id,
-			'LAST_POST'			 => $row['user_lastpost'],
+			'LAST_POST'			 => $last_post,
 			'TIME'				 => time(),
 			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'	 => '' . $this->ext_path_web . 'styles/',
-			'FILENAME'			 => $this->helper->route('spaceace.ajaxchat.chat'),
+			'FILENAME'			 => $this->helper->route('spaceace_ajaxchat_chat'),
 			'S_POPUP'			 => (!$this->get) ? true : false,
 			'S_GET_CHAT'		 => ($this->get) ? true : false,
 			'S_' . $this->mode	 => true,
@@ -285,11 +292,11 @@ class popup
 	 */
 	private function defaultAction()
 	{
-		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type
-            FROM ' . CHAT_TABLE . ' as c
-            LEFT JOIN ' . USERS_TABLE . ' as u
-            ON c.user_id = u.user_id
-            ORDER BY message_id DESC';
+		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
+                FROM ' . CHAT_TABLE . ' as c
+                LEFT JOIN ' . USERS_TABLE . ' as u
+                ON c.user_id = u.user_id
+                ORDER BY message_id DESC';
 		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_popup_amount']);
 		$rows	 = $this->db->sql_fetchrowset($result);
 
@@ -299,8 +306,20 @@ class popup
 			{
 				continue;
 			}
-			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
-			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
+			$avatar	= [
+				'avatar'		 => $row['user_avatar'],
+				'avatar_type'	 => $row['user_avatar_type'],
+				'avatar_height'	 => $row['user_avatar_height'],
+				'avatar_width'	 => $row['user_avatar_width'],
+			];
+			$avatar_thumb = [
+				'avatar'		 => $row['user_avatar'],
+				'avatar_type'	 => $row['user_avatar_type'],
+				'avatar_height'	 => 35,
+				'avatar_width'	 => 35,
+			];
+			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar, '') : '';
+			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar_thumb, '') : '';
 			if ($this->count++ == 0)
 			{
 				$this->last_id = $row['message_id'];
@@ -393,6 +412,9 @@ class popup
 		$status_time = time();
 		while ($row		 = $this->db->sql_fetchrow($result))
 		{
+			if ($this->check_hidden($row['user_id']) === true) {
+				continue;
+			}
 			if ($row['user_id'] == $this->user->data['user_id'])
 			{
 				$this->last_post = $row['user_lastpost'];
@@ -472,18 +494,18 @@ class popup
 	 */
 	private function readAction()
 	{
-		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type
-				FROM ' . CHAT_TABLE . ' as c
-				LEFT JOIN ' . USERS_TABLE . ' as u
-				ON c.user_id = u.user_id
-				WHERE c.message_id > ' . $this->last_id . '
-				ORDER BY message_id DESC';
+		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
+                FROM ' . CHAT_TABLE . ' as c
+                LEFT JOIN ' . USERS_TABLE . ' as u
+                ON c.user_id = u.user_id
+                WHERE c.message_id > ' . $this->last_id . '
+                ORDER BY message_id DESC';
 		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_popup_amount']);
 		$rows	 = $this->db->sql_fetchrowset($result);
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
 		{
-			exit;
+			return;
 		}
 		foreach ($rows as $row)
 		{
@@ -491,8 +513,20 @@ class popup
 			{
 				continue;
 			}
-			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
-			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
+			$avatar	= [
+				'avatar'		 => $row['user_avatar'],
+				'avatar_type'	 => $row['user_avatar_type'],
+				'avatar_height'	 => $row['user_avatar_height'],
+				'avatar_width'	 => $row['user_avatar_width'],
+			];
+			$avatar_thumb = [
+				'avatar'		 => $row['user_avatar'],
+				'avatar_type'	 => $row['user_avatar_type'],
+				'avatar_height'	 => 35,
+				'avatar_width'	 => 35,
+			];
+			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar, '') : '';
+			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar_thumb, '') : '';
 			if ($this->count++ === 0)
 			{
 				if ($row['message_id'] !== null)
@@ -597,7 +631,7 @@ class popup
 		$result		 = $this->db->sql_query($sql);
 
 
-		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type
+		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
 				FROM ' . CHAT_TABLE . ' as c
 				LEFT JOIN ' . USERS_TABLE . ' as u
 				ON c.user_id = u.user_id
@@ -608,7 +642,7 @@ class popup
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
 		{
-			exit;
+			return;
 		}
 		foreach ($rows as $row)
 		{
@@ -616,8 +650,20 @@ class popup
 			{
 				continue;
 			}
-			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']) : '';
-			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? @get_user_avatar($row['user_avatar'], $row['user_avatar_type'], 35, 35) : '';
+			$avatar	= [
+				'avatar'		 => $row['user_avatar'],
+				'avatar_type'	 => $row['user_avatar_type'],
+				'avatar_height'	 => $row['user_avatar_height'],
+				'avatar_width'	 => $row['user_avatar_width'],
+			];
+			$avatar_thumb = [
+				'avatar'		 => $row['user_avatar'],
+				'avatar_type'	 => $row['user_avatar_type'],
+				'avatar_height'	 => 35,
+				'avatar_width'	 => 35,
+			];
+			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar, '') : '';
+			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar_thumb, '') : '';
 			if ($this->count++ == 0)
 			{
 				$this->last_id = $row['message_id'];
@@ -675,6 +721,16 @@ class popup
 		$sql = 'DELETE FROM ' . CHAT_TABLE . " WHERE message_id = $chat_id";
 		$this->db->sql_query($sql);
 		return;
+	}
+
+	public function check_hidden($uid)
+	{
+		$sql = 'SELECT `session_viewonline` '
+				. 'FROM ' . SESSIONS_TABLE .' '
+				. 'WHERE `session_user_id` = "' . $uid . '"';
+		$result = $this->db->sql_query($sql);
+		$hidden = $this->db->sql_fetchrow($result);
+		return (bool) $hidden['session_viewonline'];
 	}
 
 }

@@ -7,7 +7,7 @@
 						<table class="tablebg" cellpadding="6" cellspacing="0" width="100%">
 							<tr class="row{chatrow.CLASS}">
 								<td class="chat_profile">
-									<!-- IF U_ACP or U_MCP --><a href="javascript:void({chatrow.MESSAGE_ID})" title="{L_DELETE_POST}" onclick="delete_post('{chatrow.MESSAGE_ID}')"><span class="imageset icon_post_delete" title="Delete post">Delete post</span></a> <!-- ENDIF -->
+									<!-- IF M_AJAXCHAT_DELETE or U_ACP --><a href="javascript:void({chatrow.MESSAGE_ID})" title="{L_DELETE_POST}" onclick="delete_post('{chatrow.MESSAGE_ID}')"><span class="imageset icon_post_delete" title="{L_DELETE}">{L_DELETE}</span></a> <!-- ENDIF -->
 									<b class="postauthor">
 										<object>
 											<div class="chat-avatars">
@@ -58,15 +58,13 @@
 						</div>
 					<!-- ENDIF -->
 				<!-- ENDIF -->
-				
 					<!-- IF S_WHOISONLINE -->
 							<!-- BEGIN whoisrow -->
 								<div class="whois_status<!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
-									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="online_img" alt="{whoisrow.USER_STATUS}" /> {whoisrow.USERNAME_FULL}
+									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="status_img" alt="{whoisrow.USER_STATUS}" />&nbsp;{whoisrow.USERNAME_FULL}&nbsp;
 								</div>
 							<!-- END whoisrow -->
 					<!-- ENDIF -->
-				
 				--!--{LAST_TIME}--!--{REFRESH_TIME}--!--{LAST_POST}
 			<!-- ENDIF -->
 		<!-- ELSE -->
@@ -86,6 +84,7 @@
 				var read_interval = ({REFRESH_TIME} * 1000);
 				var chat_empty = '{LA_EMPTY}';
 				var ie_no_ajax = '{LA_IE_NO_AJAX}';
+				var cookie_name = '{COOKIE_NAME}';
 				var upgrade_browser = '{LA_UPGRADE_BROWSER}';
 				var query_url	= '{FILENAME}';
 				<!-- IF S_POPUP -->
@@ -109,20 +108,28 @@
 							</tr>
 							<tr>
 								<td align="center" class="cat nav" width="<!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING -->100%<!-- ELSE -->85%<!-- ENDIF -->">
-									<!-- IF S_USER_LOGGED_IN and not S_IS_BOT -->
+									<!-- IF S_USER_LOGGED_IN and not S_IS_BOT and not S_ARCHIVE -->
+											<!-- IF S_AJAXCHAT_POST -->
 									<form name="postform" id="text" method="post" action="javascript:void(0);" onsubmit="handle_send('add', this)" autocomplete="off">
 										<!-- INCLUDE chat_font_colour_hold.html -->
 										<input type="text" tabindex="1" name="message" id="message" class="inputbox" size="28" />
 										<br />
 										<br />
-										<input type="submit" class="button2" value="{L_SUBMIT}" title="Submit message" name="submit" tabindex="6" accesskey="s" />
-										<input type="button" class="button2" id="bbcodes" value="BBCodes" />
-										<input type="button" class="button2" id="smilies" value="Smilies" />
-										<input type="button" class="button2" onclick="popup('{BOARD_URL}chat/archive', 975, 485); return false;" value="Chat Archive" />
-										<input type="button" class="button2" onclick="popup('{BOARD_URL}chat/popup', 975, 485); return false;" value="Chat Popup" />
-										<input type="button" class="button2" name="bbpalette" id="bbpalette" value="{L_CHAT_FONT_COLOR}" />
+										<input type="submit" class="btnbbcode" value="{L_SUBMIT}" title="{L_CHAT_SUBMIT_MESSAGE}" name="submit" tabindex="6" accesskey="s" />
+														<!-- IF S_AJAXCHAT_BBCODE -->
+										<input type="button" class="btnbbcode" id="bbcodes" value="{L_BBCODES}" />
+														<!-- ENDIF -->
+										<input type="button" class="btnbbcode" id="smilies" value="{L_SMILIES}" />
+										<input type="button" class="btnbbcode" onclick="popup('{FILENAME}/archive', 825, 485); return false;" value="{L_CHAT_ARCHIVE}" title="{L_CHAT_ARCHIVE_EXPLAIN}" />
+										<input type="button" class="btnbbcode" onclick="popup('{FILENAME}/popup', 825, 485); return false;" value="{L_CHAT_POPUP}" title="{L_CHAT_POPUP_EXPLAIN}" />
+										<input type="button" class="btnbbcode" name="bbpalette" id="bbpalette" value="{L_CHAT_FONT_COLOR}" />
 									</form>
 									<!-- INCLUDE chat_buttons.html -->
+											<!-- ELSE -->
+												{L_NO_POST_IN_CHAT}
+											<!-- ENDIF -->
+										<!-- ELSE -->
+											<div class="input_message">{L_GUEST_MESSAGE}</div>
 									<!-- ENDIF -->
 								</td>
 								<td align="center" class="cat nav" <!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING -->style="visibility: hidden; position: absolute;"<!-- ELSE -->width="15%"<!-- ENDIF -->>{L_WHOIS_CHATTING}</td>
@@ -136,7 +143,7 @@
 												<table class="tablebg" cellpadding="6" cellspacing="0" width="100%">
 													<tr class="row{chatrow.CLASS}">
 														<td class="chat_profile">
-															<!-- IF U_ACP or U_MCP --><a href="javascript:void({chatrow.MESSAGE_ID})" title="{L_DELETE_POST}" onclick="delete_post('{chatrow.MESSAGE_ID}')"><span class="imageset icon_post_delete" title="Delete post">Delete post</span></a> <!-- ENDIF -->
+															<!-- IF M_AJAXCHAT_DELETE or U_ACP --><a href="javascript:void({chatrow.MESSAGE_ID})" title="{L_DELETE_POST}" onclick="delete_post('{chatrow.MESSAGE_ID}')"><span class="imageset icon_post_delete" title="{L_DELETE}">{L_DELETE}</span></a> <!-- ENDIF -->
 															<b class="postauthor">
 																<object>
 																	<div class="chat-avatars">
@@ -184,7 +191,9 @@
 								<div class="whois">
 									<div id="whois_online">
 										<!-- BEGIN whoisrow -->
-											<div><img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="status_img" alt="{whoisrow.USER_STATUS}" />&nbsp;{whoisrow.USERNAME_FULL}&nbsp;</div>
+											<div class="whois_status<!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
+												<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="status_img" alt="{whoisrow.USER_STATUS}" />&nbsp;{whoisrow.USERNAME_FULL}&nbsp;
+											</div>
 										<!-- END whoisrow -->
 									</div>
 								</div>
@@ -193,8 +202,8 @@
 						<tr>
 							<td class="cat" colspan="2" align="center">
 								<span class="chat-icon">&nbsp;{L_DETAILS}&nbsp;</span>
-								<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="" />
-								<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" alt="" />
+									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" title="3.0.0-BETA" />
+									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" title="3.0.0-BETA" />
 								<strong>&nbsp;{L_UPDATES}&nbsp;<span id="update_seconds">{REFRESH_TIME}</span>&nbsp;{L_UNIT}</strong>
 							</td>
 						</tr>

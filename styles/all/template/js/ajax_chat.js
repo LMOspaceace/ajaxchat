@@ -28,6 +28,15 @@ function getCookie(name) {
 		end = document.cookie.length;
 	return unescape(document.cookie.substring(len, end));
 }
+
+function deletecookie(name)
+{
+  var cookie_date = new Date ( );  // current date & time
+  cookie_date.setTime ( cookie_date.getTime() - 1 );
+  document.cookie = cookie_name += "=; expires=" + cookie_date.toGMTString();
+  location.reload(true);
+}
+
 var form_name = 'postform';
 var text_name = 'message';
 var fieldname = 'chat';
@@ -37,25 +46,21 @@ var d = new Date();
 var post_time = d.getTime();
 
 var interval = setInterval('handle_send("read", last_id);', read_interval);
-var name = getCookie("fontholdcookie");
+var name = getCookie(cookie_name);
 if (chatbbcodetrue)
 {
 	var blkopen = name;
-
+	
 	if (name === null || name == 'null')
 	{
-		//******************************************************************************************
-		// [color2=#000000] sets the default user colour and might need to be changed depending on
-		// the boards chat background colour. #000000 is black and #FFFFFF is white. 
-		//******************************************************************************************
-		var blkopen = '[color2=#000000]';
+		var blkopen = '';
+		var blkclose = '';
 	}
 	else
 	{
 		var blkopen = name;
+		var blkclose = '[/color2]';
 	}
-
-	var blkclose = '[/color2]';
 }
 else
 {
@@ -71,7 +76,7 @@ $(window).load(function () {
 		$("#chat_bbcodes").toggle(600);
 	});
 	$("#bbpalette").click(function () {
-		$("#colour_palette").toggle(600);
+		$("#chat_colour_palette").toggle(600);
 	});
 });
 
@@ -93,7 +98,7 @@ function handle_send(mode, f)
 			for (var i = 0; i < f.elements.length; i++)
 			{
 				elem = f.elements[i];
-				param += '&' + elem.name + '=' + blkopen + " " + encodeURIComponent(elem.value) + blkclose;
+				param += '&' + elem.name + '=' + blkopen + "" + encodeURIComponent(elem.value) + blkclose;
 			}
 			document.postform.message.value = '';
 		}
