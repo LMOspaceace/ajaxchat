@@ -5,7 +5,7 @@ Enter file contents here<?php
 * Ajax Chat extension for phpBB.
 *
 * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
-* Swedish translation be Holger (http://www.maskinisten.net)
+* Swedish translation be Holger (https://www.maskinisten.net)
 * @license GNU General Public License, version 2 (GPL-2.0)
 *
 */
