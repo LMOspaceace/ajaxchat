@@ -272,8 +272,8 @@ div.chat-avatars:hover span {
 }
 
 .chat .button {
-	height: 20px;
 	padding: 0 8px;
+	height: auto;
 }
 
 .chat a:hover {

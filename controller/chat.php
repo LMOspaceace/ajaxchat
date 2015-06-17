@@ -327,7 +327,7 @@ class chat
 				'avatar'		 => $row['user_avatar'],
 				'avatar_type'	 => $row['user_avatar_type'],
 				'avatar_height'	 => 35,
-				'avatar_width'	 => 35,
+				'avatar_width'	 => '',
 			];
 			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar, '') : '';
 			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar_thumb, '') : '';
@@ -541,7 +541,7 @@ class chat
 				'avatar'		 => $row['user_avatar'],
 				'avatar_type'	 => $row['user_avatar_type'],
 				'avatar_height'	 => 35,
-				'avatar_width'	 => 35,
+				'avatar_width'	 => '',
 			];
 			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar, '') : '';
 			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar_thumb, '') : '';
@@ -678,7 +678,7 @@ class chat
 				'avatar'		 => $row['user_avatar'],
 				'avatar_type'	 => $row['user_avatar_type'],
 				'avatar_height'	 => 35,
-				'avatar_width'	 => 35,
+				'avatar_width'	 => '',
 			];
 			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar, '') : '';
 			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar_thumb, '') : '';

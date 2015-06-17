@@ -311,7 +311,7 @@ class listener implements EventSubscriberInterface
 				'avatar'		 => $row['user_avatar'],
 				'avatar_type'	 => $row['user_avatar_type'],
 				'avatar_height'	 => 35,
-				'avatar_width'	 => 35,
+				'avatar_width'	 => '',
 			];
 			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar, '') : '';
 			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar_thumb, '') : '';
@@ -474,8 +474,8 @@ class listener implements EventSubscriberInterface
 		}
 
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
-		//\var_dump($event['data']['post_visibility']);
-		if(!$event['data']['post_visibility'] === false)
+		
+		if($event['data']['post_visibility'] === false)
 		{ 
 			return;
 		}
