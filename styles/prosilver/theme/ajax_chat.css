@@ -121,7 +121,7 @@
 }
 
 .chatform {
-	width: 100%;
+	width: 100% !important;
 	text-align: center;
 	padding: 2px;
 }
