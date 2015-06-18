@@ -307,8 +307,8 @@ class archive
 			$avatar_thumb = [
 				'avatar'		 => $row['user_avatar'],
 				'avatar_type'	 => $row['user_avatar_type'],
-				'avatar_height'	 => 35,
-				'avatar_width'	 => '',
+				'avatar_height'	 => '',
+				'avatar_width'	 => 35,
 			];
 			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar, '') : '';
 			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar_thumb, '') : '';
@@ -514,8 +514,8 @@ class archive
 			$avatar_thumb = [
 				'avatar'		 => $row['user_avatar'],
 				'avatar_type'	 => $row['user_avatar_type'],
-				'avatar_height'	 => 35,
-				'avatar_width'	 => '',
+				'avatar_height'	 => '',
+				'avatar_width'	 => 35,
 			];
 			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar, '') : '';
 			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar_thumb, '') : '';

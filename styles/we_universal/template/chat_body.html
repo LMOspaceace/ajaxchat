@@ -18,10 +18,10 @@
 												<!-- ELSE -->
 													<!-- IF S_AJAX_CHAT_AVATAR_HOVER -->
 														<span>
-															<img src="{STYLE_PATH}/theme/images/no_avatar.png" width="128" alt="" />
+															<img src="{STYLE_PATH}/theme/images/no_avatar.gif" width="128" alt="" />
 														</span>
 													<!-- ENDIF -->
-													<img src="{STYLE_PATH}/theme/images/no_avatar.png" width="35" alt="" />
+													<img src="{STYLE_PATH}/theme/images/no_avatar.gif" width="35" alt="" />
 												<!-- ENDIF -->
 											<!-- ENDIF -->
 										</div>
@@ -72,8 +72,6 @@
 		<!-- ELSE -->
 			<!-- IF S_CHAT -->
 				<!-- INCLUDE overall_header.html -->
-				<p class="{S_CONTENT_FLOW_END}<!-- IF S_USER_LOGGED_IN --> rightside<!-- ENDIF -->"><!-- IF S_USER_LOGGED_IN -->{LAST_VISIT_DATE}<!-- ELSE -->{CURRENT_TIME}<!-- ENDIF --></p>
-				<p>{CURRENT_TIME}</p>
 			<!-- ENDIF -->
 			<!-- IF S_POPUP or S_ARCHIVE -->
 				<!-- INCLUDE simple_header.html -->
@@ -109,7 +107,7 @@
 					<ul class="topiclist">
 						<li class="header">
 							<dl class="icon">
-								<dt><div class="list-inner"><!-- IF SCRIPT_NAME == "index" --><a href="{U_CHAT}">{L_CHAT_EXPLAIN}</a><!-- ELSE -->{L_CHAT_EXPLAIN}<!-- ENDIF --></div></dt>
+								<dt id="chat"><div class="list-inner"><!-- IF SCRIPT_NAME == "index" --><a href="{U_CHAT}">{L_CHAT_EXPLAIN}</a><!-- ELSE -->{L_CHAT_EXPLAIN}<!-- ENDIF --></div></dt>
 								<dd>
 								</dd>
 							</dl>
@@ -176,10 +174,10 @@
 													<!-- ELSE -->
 														<!-- IF S_AJAX_CHAT_AVATAR_HOVER -->
 															<span>
-																<img src="{STYLE_PATH}/theme/images/no_avatar.png" width="128" alt="" />
+																<img src="{STYLE_PATH}/theme/images/no_avatar.gif" width="128" alt="" />
 															</span>
 														<!-- ENDIF -->
-														<img src="{STYLE_PATH}/theme/images/no_avatar.png" width="35" alt="" />
+														<img src="{STYLE_PATH}/theme/images/no_avatar.gif" width="35" alt="" />
 													<!-- ENDIF -->
 												<!-- ENDIF -->
 											</div>
@@ -223,11 +221,11 @@
 						</div>
 					</div>
 				<!-- ENDIF -->
-			<div class="chatnavbar navbar">
+			<div class="chatnavbar">
 				<div class="chatform">
 					<span class="list chat-icon"> {L_DETAILS} </span>
-					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="Check indicator" title="3.0.1-BETA" />
-					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" alt="Activity indicator" title="3.0.1-BETA" />
+					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" title="3.0.1-BETA" />
+					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" title="3.0.1-BETA" />
 					<strong> {L_UPDATES} <span id="update_seconds"> {REFRESH_TIME} </span> {L_UNIT} </strong>
 				</div>
 			</div>

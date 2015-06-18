@@ -263,10 +263,6 @@ div.chat-avatars:hover span {
 	padding: 10px;
 }
 
-.chat-postbody .message li {
-	margin-left: 4%;
-}
-
 .chat-postbody .message blockquote {
 	margin: 2px 0;
 }
