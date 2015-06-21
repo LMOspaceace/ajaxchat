@@ -20,6 +20,10 @@
 	width: 100%;
 }
 
+#chat-header {
+	width: 100%;
+}
+
 #whois_online {
 	text-align: left;
 	margin-left: 10px;
@@ -270,6 +274,7 @@ div.chat-avatars:hover span {
 .chat .button {
 	padding: 0 8px;
 	height: auto;
+	margin-bottom: 3px;
 }
 
 .chat a:hover {
