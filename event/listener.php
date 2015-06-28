@@ -475,10 +475,6 @@ class listener implements EventSubscriberInterface
 
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
 		
-		if(!$event['data']['post_visibility'] === false)
-		{ 
-			return;
-		}
 		if ($event['mode'] == 'reply')
 		{
 			$lang = $this->user->lang['CHAT_NEW_POST'];
