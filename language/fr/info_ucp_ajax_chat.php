@@ -39,7 +39,10 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
+		'CHAT_BOTTOM'					=> 'En bas',
+		'CHAT_TOP'						=> 'En haut',
 		'USER_AJAX_CHAT_VIEW'			=> 'Messagerie instantanée visible sur la page de l’index du forum',
+		'USER_AJAX_CHAT_POSITION'		=> 'Emplacement de la messagerie instantanée sur la page de l’index du forum',
 		'USER_AJAX_CHAT_AVATARS'		=> 'Afficher les avatars dans la messagerie instantanée',
 		'USER_AJAX_CHAT_SOUND'			=> 'Activer les sons dans la messagerie instantanée',
 		'USER_AJAX_CHAT_AVATAR_HOVER'	=> 'Afficher la taille réelle de l’avatar au survol de la souris dans la messagerie instantanée',
