@@ -67,6 +67,7 @@ $lang = array_merge(
 		'IE_NO_AJAX'			=> 'Deine Version vom Browser unterstützt kein AJAX.',
 		'UPGRADE_BROWSER'		=> 'Status: Konnte kein XmlHttpRequest-Objekt erstellen.	Aktualisiere deinen Browser.',
 		'NO_POST_IN_CHAT'		=> 'Du hast keine Berechtigung Nachrichten im Chat zu schreiben.',
+		'DELETE_CHAT_COOKIE'	=> 'Cookies löschen',
 		// @copyright line. No translations below this line
 		'DETAILS'				=> '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
 	)
