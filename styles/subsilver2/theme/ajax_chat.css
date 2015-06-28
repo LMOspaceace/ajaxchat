@@ -126,3 +126,17 @@ div.chat-avatars:hover span {
 	background-image: url("./images/icon_chat.png");
 	padding: 6px 0 6px 21px;
 }
+
+#chat_smilies {
+	margin-bottom: 5px;
+}
+
+/* ABBC3 Compatibility */
+
+.abbc3_buttons_row {
+	width: inherit !important;
+}
+
+#abbc3_buttons {
+	margin-top: 0 !important;
+}

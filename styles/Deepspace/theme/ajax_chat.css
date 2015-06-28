@@ -43,6 +43,10 @@
 	margin: 0 auto;
 }
 
+#chat_bbcodes {
+	display: none;
+}
+
 .select_color {
 	margin: 0 auto;
 }
@@ -121,7 +125,7 @@
 }
 
 .chatform {
-	width: 100%;
+	width: 100% !important;
 	text-align: center;
 	padding: 2px;
 }
@@ -265,17 +269,14 @@ div.chat-avatars:hover span {
 	padding: 10px;
 }
 
-.chat-postbody .message li {
-	margin-left: 4%;
-}
-
 .chat-postbody .message blockquote {
 	margin: 2px 0;
 }
 
 .chat .button {
-	height: 20px;
 	padding: 0 8px;
+	height: auto;
+	margin-bottom: 3px;
 }
 
 .chat a:hover {
@@ -340,4 +341,24 @@ div.chat-avatars:hover span {
 		display: inline-flex;
 		flex-wrap: wrap;
 	}
+}
+
+/* ABBC3 Compatibility */
+
+.abbc3_buttons_row {
+	width: inherit !important;
+}
+
+#abbc3_buttons {
+	margin-top: 0 !important;
+}
+
+#color_palette_placeholder {
+	width: 100%;
+	margin: 0 auto;
+}
+
+#color_palette_placeholder table {
+	width: 100%;
+	margin: 0 auto;
 }

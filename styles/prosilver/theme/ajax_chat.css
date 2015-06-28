@@ -47,6 +47,10 @@
 	margin: 0 auto;
 }
 
+#chat_bbcodes {
+	display: none;
+}
+
 .select_color {
 	margin: 0 auto;
 }
@@ -339,4 +343,24 @@ div.chat-avatars:hover span {
 		display: inline-flex;
 		flex-wrap: wrap;
 	}
+}
+
+/* ABBC3 Compatibility */
+
+.abbc3_buttons_row {
+	width: inherit !important;
+}
+
+#abbc3_buttons {
+	margin-top: 0 !important;
+}
+
+#color_palette_placeholder {
+	width: 100%;
+	margin: 0 auto;
+}
+
+#color_palette_placeholder table {
+	width: 100%;
+	margin: 0 auto;
 }

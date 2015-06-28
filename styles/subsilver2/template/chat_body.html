@@ -108,7 +108,7 @@
 							</tr>
 							<tr>
 								<td align="center" class="cat nav" width="<!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING -->100%<!-- ELSE -->85%<!-- ENDIF -->">
-									<!-- IF S_USER_LOGGED_IN and not S_IS_BOT and not S_ARCHIVE -->
+										<!-- IF S_USER_LOGGED_IN and not S_IS_BOT and not S_ARCHIVE -->
 											<!-- IF S_AJAXCHAT_POST -->
 									<form name="postform" id="text" method="post" action="javascript:void(0);" onsubmit="handle_send('add', this)" autocomplete="off">
 										<!-- INCLUDE chat_font_colour_hold.html -->
@@ -122,14 +122,16 @@
 										<input type="button" class="btnbbcode" id="smilies" value="{L_SMILIES}" />
 										<input type="button" class="btnbbcode" onclick="popup('{FILENAME}/archive', 825, 485); return false;" value="{L_CHAT_ARCHIVE}" title="{L_CHAT_ARCHIVE_EXPLAIN}" />
 										<input type="button" class="btnbbcode" onclick="popup('{FILENAME}/popup', 825, 485); return false;" value="{L_CHAT_POPUP}" title="{L_CHAT_POPUP_EXPLAIN}" />
-										<input type="button" class="btnbbcode" name="bbpalette" id="bbpalette" value="{L_CHAT_FONT_COLOR}" />
+										<input type="button" class="btnbbcode" name="chat_bbpalette" id="chat_bbpalette" value="{L_CHAT_FONT_COLOR}" />
 									</form>
 									<!-- INCLUDE chat_buttons.html -->
 											<!-- ELSE -->
 												{L_NO_POST_IN_CHAT}
 											<!-- ENDIF -->
 										<!-- ELSE -->
-											<div class="input_message">{L_GUEST_MESSAGE}</div>
+											<!-- IF not S_USER_LOGGED_IN -->
+												<div class="input_message">{L_GUEST_MESSAGE}</div>
+											<!-- ENDIF -->
 									<!-- ENDIF -->
 								</td>
 								<td align="center" class="cat nav" <!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING -->style="visibility: hidden; position: absolute;"<!-- ELSE -->width="15%"<!-- ENDIF -->>{L_WHOIS_CHATTING}</td>

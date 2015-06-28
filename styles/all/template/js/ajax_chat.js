@@ -75,7 +75,7 @@ $(window).load(function () {
 	$("#bbcodes").click(function () {
 		$("#chat_bbcodes").toggle(600);
 	});
-	$("#bbpalette").click(function () {
+	$("#chat_bbpalette").click(function () {
 		$("#chat_colour_palette").toggle(600);
 	});
 });

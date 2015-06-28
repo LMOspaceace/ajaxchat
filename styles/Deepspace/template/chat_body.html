@@ -72,8 +72,6 @@
 		<!-- ELSE -->
 			<!-- IF S_CHAT -->
 				<!-- INCLUDE overall_header.html -->
-				<p class="{S_CONTENT_FLOW_END}<!-- IF S_USER_LOGGED_IN --> rightside<!-- ENDIF -->"><!-- IF S_USER_LOGGED_IN -->{LAST_VISIT_DATE}<!-- ELSE -->{CURRENT_TIME}<!-- ENDIF --></p>
-				<p>{CURRENT_TIME}</p>
 			<!-- ENDIF -->
 			<!-- IF S_POPUP or S_ARCHIVE -->
 				<!-- INCLUDE simple_header.html -->
@@ -134,7 +132,7 @@
 														<input type="button" class="button2" name="smilies" id="smilies" value="{L_SMILIES}" />
 														<input type="button" class="button2" onclick="popup('{FILENAME}/archive', 1000, 625); return false;" value="{L_CHAT_ARCHIVE}" title="{L_CHAT_ARCHIVE_EXPLAIN}" />
 														<input type="button" class="button2" onclick="popup('{FILENAME}/popup', 1000, 630); return false;" value="{L_CHAT_POPUP}" title="{L_CHAT_POPUP_EXPLAIN}" />
-														<input type="button" class="button2" name="bbpalette" id="bbpalette" value="{L_CHAT_FONT_COLOR}" />
+														<input type="button" class="button2" name="chat_bbpalette" id="chat_bbpalette" value="{L_CHAT_FONT_COLOR}" />
 													</fieldset>
 												</form>
 												<!-- INCLUDE chat_buttons.html -->
@@ -226,8 +224,8 @@
 			<div class="chatnavbar navbar">
 				<div class="chatform">
 					<span class="list chat-icon"> {L_DETAILS} </span>
-					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="Check indicator" title="3.0.1-BETA" />
-					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" alt="Activity indicator" title="3.0.1-BETA" />
+					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" title="3.0.1-BETA" />
+					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" title="3.0.1-BETA" />
 					<strong> {L_UPDATES} <span id="update_seconds"> {REFRESH_TIME} </span> {L_UNIT} </strong>
 				</div>
 			</div>
