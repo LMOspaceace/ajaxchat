@@ -36,10 +36,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge(
 	$lang, array(
-		'CHAT_BOTTOM'					=> 'Unten',
-		'CHAT_TOP'						=> 'Oben',
 		'USER_AJAX_CHAT_VIEW'			=> 'Chat auf der Indexseite anzeigen',
-		'USER_AJAX_CHAT_POSITION'		=> 'Position des Chats auf der Indexseite',
 		'USER_AJAX_CHAT_AVATARS'		=> 'Avatare im Chat anzeigen',
 		'USER_AJAX_CHAT_SOUND'			=> 'Höre Sounds im chat',
 		'USER_AJAX_CHAT_AVATAR_HOVER'	=> 'Zeige das volle Avatar-Bild beim Hovern an',
