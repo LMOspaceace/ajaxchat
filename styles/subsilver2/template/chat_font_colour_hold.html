@@ -15,29 +15,28 @@
 						var numberList = new Array(6);
 						var color = '';
 
-						numberList[0] = '00';
-						numberList[1] = '44';
-						numberList[2] = '88';
-						numberList[3] = 'AA';
-						numberList[4] = 'CC';
-						numberList[5] = 'FF';
+							numberList[0] = '00';
+							numberList[1] = '40';
+							numberList[2] = '80';
+							numberList[3] = 'BF';
+							numberList[4] = 'FF';
 
 						document.writeln('<table cellspacing="1" cellpadding="0" border="0">');
 
-						for (r = 0; r < 6; r++)
+						for (r = 0; r < 5; r++)
 						{
 							if (dir == 'h')
 							{
 								document.writeln('<tr>');
 							}
 
-							for (g = 0; g < 6; g++)
+							for (g = 0; g < 5; g++)
 							{
 								if (dir == 'v')
 								{
 									document.writeln('<tr>');
 								}
-								for (b = 0; b < 6; b++)
+								for (b = 0; b < 5; b++)
 								{
 									color = String(numberList[r]) + String(numberList[g]) + String(numberList[b]);
 									document.write('<td bgcolor="#' + color + '" style="width: ' + width + 'px; height: ' + height + 'px;">');
@@ -56,7 +55,7 @@
 						}
 						document.writeln('</table>');
 					}
-					colorPalette('h', 15, 10);
+					colorPalette('h', 15, 12);
 					function hilite(value)
 					{
 						var cur_color = value;
@@ -67,5 +66,6 @@
 			</td>
 		</tr>
 	</table>
-	<button type="button" class="button" name="{L_DELETE_CHAT_COOKIE}" title="{L_DELETE_CHAT_COOKIE}" onclick="deletecookie();">{L_DELETE_CHAT_COOKIE}</button>
+	<div>{L_DELETE_CHAT_COOKIE_EXPLAIN}</div>
+	<button type="button" class="btnmain" name="{L_DELETE_CHAT_COOKIE}" title="{L_DELETE_CHAT_COOKIE}" onclick="deletecookie();">{L_DELETE_CHAT_COOKIE}</button>
 </div>
