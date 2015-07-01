@@ -381,6 +381,7 @@ class listener implements EventSubscriberInterface
 		$img_status		 = ($this->config['auth_img_pm'] && $this->auth->acl_get('u_pm_img')) ? true : false;
 		$flash_status	 = ($this->config['auth_flash_pm'] && $this->auth->acl_get('u_pm_flash')) ? true : false;
 		$url_status		 = ($this->config['allow_post_links']) ? true : false;
+		$quote_status	= true;
 		$this->mode		 = strtoupper($this->mode);
 
 		$sql	 = 'SELECT `user_lastpost` FROM ' . CHAT_SESSIONS_TABLE . " WHERE user_id = {$this->user->data['user_id']}";
@@ -421,12 +422,13 @@ class listener implements EventSubscriberInterface
 			'FLASH_STATUS'		 => ($flash_status) ? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
 			'SMILIES_STATUS'	 => ($smilies_status) ? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
 			'URL_STATUS'		 => ($url_status) ? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
+			'S_LINKS_ALLOWED'	=> $url_status,
 			'S_COMPOSE_PM'		 => true,
 			'S_BBCODE_ALLOWED'	 => $bbcode_status,
 			'S_SMILIES_ALLOWED'	 => $smilies_status,
 			'S_BBCODE_IMG'		 => $img_status,
 			'S_BBCODE_FLASH'	 => $flash_status,
-			'S_BBCODE_QUOTE'	 => false,
+			'S_BBCODE_QUOTE'		=> $quote_status,
 			'S_BBCODE_URL'		 => $url_status,
 			'REFRESH_TIME'		 => $refresh,
 			'LAST_ID'			 => $this->last_id,
