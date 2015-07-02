@@ -221,12 +221,13 @@ class chat
 		
 
 		// Sets a few variables
-		$bbcode_status	 = ($this->config['allow_bbcode'] && $this->config['auth_bbcode_pm'] && $this->auth->acl_get('u_ajaxchat_bbcode')) ? true : false;
-		$smilies_status	 = ($this->config['allow_smilies'] && $this->config['auth_smilies_pm'] && $this->auth->acl_get('u_pm_smilies')) ? true : false;
-		$img_status		 = ($this->config['auth_img_pm'] && $this->auth->acl_get('u_pm_img')) ? true : false;
-		$flash_status	 = ($this->config['auth_flash_pm'] && $this->auth->acl_get('u_pm_flash')) ? true : false;
-		$url_status		 = ($this->config['allow_post_links']) ? true : false;
-		$this->mode		 = strtoupper($this->mode);
+		$bbcode_status		= ($this->config['allow_bbcode'] && $this->config['auth_bbcode_pm'] && $this->auth->acl_get('u_ajaxchat_bbcode')) ? true : false;
+		$smilies_status		= ($this->config['allow_smilies'] && $this->config['auth_smilies_pm'] && $this->auth->acl_get('u_pm_smilies')) ? true : false;
+		$img_status			= ($this->config['auth_img_pm'] && $this->auth->acl_get('u_pm_img')) ? true : false;
+		$flash_status		= ($this->config['auth_flash_pm'] && $this->auth->acl_get('u_pm_flash')) ? true : false;
+		$url_status			= ($this->config['allow_post_links']) ? true : false;
+		$quote_status		= true;
+		$this->mode			= strtoupper($this->mode);
 
 		$sql	 = 'SELECT `user_lastpost` FROM ' . CHAT_SESSIONS_TABLE . " WHERE user_id = {$this->user->data['user_id']}";
 		$result	 = $this->db->sql_query($sql);
@@ -262,28 +263,29 @@ class chat
 		}
 		//Assign the features template variable
 		$this->template->assign_vars([
-			'BBCODE_STATUS'		 => ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
-			'IMG_STATUS'		 => ($img_status) ? $this->user->lang['IMAGES_ARE_ON'] : $this->user->lang['IMAGES_ARE_OFF'],
-			'FLASH_STATUS'		 => ($flash_status) ? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
-			'SMILIES_STATUS'	 => ($smilies_status) ? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
-			'URL_STATUS'		 => ($url_status) ? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
-			'S_COMPOSE_PM'		 => true,
-			'S_BBCODE_ALLOWED'	 => $bbcode_status,
-			'S_SMILIES_ALLOWED'	 => $smilies_status,
-			'S_BBCODE_IMG'		 => $img_status,
-			'S_BBCODE_FLASH'	 => $flash_status,
-			'S_BBCODE_QUOTE'	 => false,
-			'S_BBCODE_URL'		 => $url_status,
-			'REFRESH_TIME'		 => $refresh,
-			'LAST_ID'			 => $this->last_id,
-			'LAST_POST'			 => $last_post,
-			'TIME'				 => time(),
-			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
-			'EXT_STYLE_PATH'	 => '' . $this->ext_path_web . 'styles/',
-			'FILENAME'			 => $this->helper->route('spaceace_ajaxchat_chat'),
-			'S_CHAT'			 => (!$this->get) ? true : false,
-			'S_GET_CHAT'		 => ($this->get) ? true : false,
-			'S_' . $this->mode	 => true,
+			'BBCODE_STATUS'			=> ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
+			'IMG_STATUS'			=> ($img_status) ? $this->user->lang['IMAGES_ARE_ON'] : $this->user->lang['IMAGES_ARE_OFF'],
+			'FLASH_STATUS'			=> ($flash_status) ? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
+			'SMILIES_STATUS'		=> ($smilies_status) ? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
+			'URL_STATUS'			=> ($url_status) ? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
+			'S_LINKS_ALLOWED'		=> $url_status,
+			'S_COMPOSE_PM'			=> true,
+			'S_BBCODE_ALLOWED'		=> $bbcode_status,
+			'S_SMILIES_ALLOWED'		=> $smilies_status,
+			'S_BBCODE_IMG'			=> $img_status,
+			'S_BBCODE_FLASH'		=> $flash_status,
+			'S_BBCODE_QUOTE'		=> $quote_status,
+			'S_BBCODE_URL'			=> $url_status,
+			'REFRESH_TIME'			=> $refresh,
+			'LAST_ID'				=> $this->last_id,
+			'LAST_POST'				=> $last_post,
+			'TIME'					=> time(),
+			'STYLE_PATH'			=> generate_board_url() . '/styles/' . $this->user->style['style_path'],
+			'EXT_STYLE_PATH'		=> '' . $this->ext_path_web . 'styles/',
+			'FILENAME'				=> $this->helper->route('spaceace_ajaxchat_chat'),
+			'S_CHAT'				=> (!$this->get) ? true : false,
+			'S_GET_CHAT'			=> ($this->get) ? true : false,
+			'S_' . $this->mode		=> true,
 		]);
 		// Generate smiley listing
 		\generate_smilies('inline', 0);
