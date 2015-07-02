@@ -67,7 +67,7 @@ $lang = array_merge($lang, array(
 		'UPGRADE_BROWSER'		=> 'Statut : impossible de créer l’objet JavaScript XmlHttpRequest. Veuillez mettre à jour votre navigateur.',
 		'NO_POST_IN_CHAT'		=> 'Vous n’avez pas les permissions nécessaires pour utiliser la messagerie instantanée.',
 		'DELETE_CHAT_COOKIE'	=> 'Supprimer le cookie',
-		'DELETE_CHAT_COOKIE_EXPLAIN'	=> 'Réinitialise votre couleur par défaut de la police de cacractère.',
+		'DELETE_CHAT_COOKIE_EXPLAIN'	=> 'Le bouton ci-dessous réinitialise la couleur par défaut de la police.',
 		// @copyright line. No translations below this line
 		'DETAILS'				=> '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
 	)
