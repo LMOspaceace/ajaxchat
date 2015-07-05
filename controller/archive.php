@@ -194,15 +194,15 @@ class archive
 		{
 			$this->defaultAction();
 		}
-		elseif ($this->mode === 'read')
+		else if ($this->mode === 'read')
 		{
 			$this->readAction();
 		}
-		elseif ($this->mode === 'smilies')
+		else if ($this->mode === 'smilies')
 		{
 			$this->smiliesAction();
 		}
-		elseif ($this->mode === 'delete')
+		else if ($this->mode === 'delete')
 		{
 			$this->delAction();
 		}
@@ -234,14 +234,15 @@ class archive
 			$refresh = $this->config['refresh_offline_chat'];
 		}
 
-		if($this->user->data['user_id'] === ANONYMOUS || $row['user_lastpost'] === null) {
+		if ($this->user->data['user_id'] === ANONYMOUS || $row['user_lastpost'] === null)
+		{
 			$last_post = 0;
 		}
 		else
 		{
 			$last_post = $row['user_lastpost'];
 		}
-		
+
 		//Assign the features template variable
 		$this->template->assign_vars([
 			'BBCODE_STATUS'			=> ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
@@ -406,7 +407,8 @@ class archive
 		$status_time = time();
 		while ($row		 = $this->db->sql_fetchrow($result))
 		{
-			if ($this->check_hidden($row['user_id']) === true) {
+			if ($this->check_hidden($row['user_id']) === true)
+			{
 				continue;
 			}
 			if ($row['user_id'] == $this->user->data['user_id'])
@@ -444,7 +446,7 @@ class archive
 		{
 			$status = 'offline';
 		}
-		elseif ($last < (time() - $this->times['idle']))
+		else if ($last < (time() - $this->times['idle']))
 		{
 			$status = 'idle';
 		}
@@ -452,7 +454,7 @@ class archive
 	}
 
 	/**
-	 * Cleans the message 
+	 * Cleans the message
 	 *
 	 * @param string $message
 	 */

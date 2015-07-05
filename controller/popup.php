@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\Container;
 
 /**
  * Main Popup Controller
- * 
+ *
  * @version 0.1.0-BETA
  * @package spaceace\ajaxchat
  * @author Kevin Roy <royk@myraytech.com>
@@ -116,7 +116,7 @@ class popup
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param template		$template
 	 * @param user			$user
 	 * @param db_driver		$db
@@ -194,19 +194,19 @@ class popup
 		{
 			$this->defaultAction();
 		}
-		elseif ($this->mode === 'read')
+		else if ($this->mode === 'read')
 		{
 			$this->readAction();
 		}
-		elseif ($this->mode === 'add')
+		else if ($this->mode === 'add')
 		{
 			$this->addAction();
 		}
-		elseif ($this->mode === 'smilies')
+		else if ($this->mode === 'smilies')
 		{
 			$this->smiliesAction();
 		}
-		elseif ($this->mode === 'delete')
+		else if ($this->mode === 'delete')
 		{
 			$this->delAction();
 		}
@@ -225,7 +225,6 @@ class popup
 		$row	 = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
-
 		if ($this->get_status($row['user_lastpost']) === 'online')
 		{
 			$refresh = $this->config['refresh_online_chat'];
@@ -242,10 +241,9 @@ class popup
 		{
 			$refresh = $this->config['refresh_offline_chat'];
 		}
-		
-		
-		if($this->user->data['user_id'] === ANONYMOUS || $row['user_lastpost'] === NULL) {
-			
+
+		if ($this->user->data['user_id'] === ANONYMOUS || $row['user_lastpost'] === null)
+		{
 			$last_post = '0';
 		}
 		else
@@ -291,7 +289,7 @@ class popup
 
 	/**
 	 * Default onload read Action
-	 * 
+	 *
 	 * @return multi
 	 */
 	private function defaultAction()
@@ -389,7 +387,7 @@ class popup
 
 	/**
 	 * grabs the list of the active users participating in chat
-	 * 
+	 *
 	 * @return boolean
 	 */
 	private function whois_online()
@@ -416,9 +414,11 @@ class popup
 		$status_time = time();
 		while ($row		 = $this->db->sql_fetchrow($result))
 		{
-			if ($this->check_hidden($row['user_id']) === false) {
+			if ($this->check_hidden($row['user_id']) === false)
+			{
 				continue;
 			}
+
 			if ($row['user_id'] == $this->user->data['user_id'])
 			{
 				$this->last_post = $row['user_lastpost'];
@@ -443,7 +443,7 @@ class popup
 
 	/**
 	 * Calculate the status of each user
-	 * 
+	 *
 	 * @param int $last
 	 * @return string
 	 */
@@ -454,7 +454,7 @@ class popup
 		{
 			$status = 'offline';
 		}
-		elseif ($last < (time() - $this->times['idle']))
+		else if ($last < (time() - $this->times['idle']))
 		{
 			$status = 'idle';
 		}
@@ -462,8 +462,8 @@ class popup
 	}
 
 	/**
-	 * Cleans the message 
-	 * 
+	 * Cleans the message
+	 *
 	 * @param string $message
 	 */
 	private function clean_message(&$message)
@@ -477,7 +477,7 @@ class popup
 
 	/**
 	 * Cleans the username
-	 * 
+	 *
 	 * @param string $user
 	 * @return string
 	 */
@@ -490,15 +490,10 @@ class popup
 		}
 		return $user;
 	}
-	
+
 	/**
 	 * Refresher Read action
-	 * 
-	 * @return bool
-	 */
-	/**
-	 * Refresher Read action
-	 * 
+	 *
 	 * @return bool
 	 */
 	private function readAction()
@@ -593,7 +588,7 @@ class popup
 
 	/**
 	 * Add & read action
-	 * 
+	 *
 	 * @return bool
 	 */
 	private function addAction()
@@ -639,7 +634,6 @@ class popup
 		$sql		 = 'UPDATE ' . CHAT_SESSIONS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary2) . " WHERE user_id = {$this->user->data['user_id']}";
 		$result		 = $this->db->sql_query($sql);
 
-
 		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
 				FROM ' . CHAT_TABLE . ' as c
 				LEFT JOIN ' . USERS_TABLE . ' as u
@@ -653,6 +647,7 @@ class popup
 		{
 			exit;
 		}
+
 		foreach ($rows as $row)
 		{
 			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
@@ -710,7 +705,7 @@ class popup
 
 	/**
 	 * Post deletion method
-	 * 
+	 *
 	 * @return bool
 	 */
 	private function delAction()

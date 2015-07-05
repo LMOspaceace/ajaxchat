@@ -62,7 +62,7 @@ class prune_ajaxchat extends \phpbb\cron\task\base
 		$sql1			 = 'DELETE FROM ' . CHAT_TABLE . ''
 				. ' WHERE `message_id` <= ' . $last_kept_id . '';
 		$this->db->sql_query($sql1);
-		
+
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->data['session_ip'], $this->user->lang['PRUNE_LOG_AJAXCHAT_AUTO'], true,array());
 	}
 

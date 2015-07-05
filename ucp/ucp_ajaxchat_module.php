@@ -62,7 +62,7 @@ class ucp_ajaxchat_module
 		switch ($mode)
 		{
 			case 'settings':
-				
+
 				$data = array(
 					'user_ajax_chat_view'			=> $this->request->variable('user_ajax_chat_view', (bool) $this->user->data['user_ajax_chat_view']),
 					'user_ajax_chat_avatars'		=> $this->request->variable('user_ajax_chat_avatars', (bool) $this->user->data['user_ajax_chat_avatars']),
@@ -70,7 +70,7 @@ class ucp_ajaxchat_module
 					'user_ajax_chat_avatar_hover'	=> $this->request->variable('user_ajax_chat_avatar_hover', (bool) $this->user->data['user_ajax_chat_avatar_hover']),
 					'user_ajax_chat_onlinelist'		=> $this->request->variable('user_ajax_chat_onlinelist', (bool) $this->user->data['user_ajax_chat_onlinelist']),
 				);
-		
+
 				$error  = array();
 				$submit = $this->request->variable('submit', false, false, \phpbb\request\request_interface::POST);
 

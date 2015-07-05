@@ -57,7 +57,6 @@ class ajaxchat_module
 		$this->template	 = $phpbb_container->get('template');
 		$this->request	 = $phpbb_container->get('request');
 
-
 		$this->u_action = $this->request->variable('action', '', true);
 
 		$submit			 = ($this->request->is_set_post('submit')) ? true : false;
@@ -130,7 +129,7 @@ class ajaxchat_module
 
 	/**
 	 * prune function.
-	 * 
+	 *
 	 * @param string $value The value
 	 * @param string $key The key
 	 * @return string The formatted string of this item
@@ -163,12 +162,12 @@ class ajaxchat_module
 				$result			 = $this->db->sql_query($sql);
 				$row			 = $this->db->sql_fetchrow($result);
 				$this->db->sql_freeresult($result);
-				
+
 				$last_kept_id	 = ($row['message_id'] - $this->config['prune_keep_ajax_chat']);
 				$sql1			 = 'DELETE FROM ' . CHAT_TABLE . ''
 						. ' WHERE `message_id` <= ' . $row['message_id'] . '';
 				$this->db->sql_query($sql1);
-				
+
 				add_log('admin', 'PRUNE_LOG_AJAXCHAT');
 
 				if ($this->request->is_ajax())
@@ -183,7 +182,7 @@ class ajaxchat_module
 
 	/**
 	 * prune function.
-	 * 
+	 *
 	 * @param string $value The value
 	 * @param string $key The key
 	 * @return string The formatted string of this item
@@ -229,7 +228,7 @@ class ajaxchat_module
 	 * Abstracted method to do the submit part of the acp. Checks values, saves them
 	 * and displays the message.
 	 * If error happens, Error is shown and config not saved. (so this method quits and returns false.
-	 * 
+	 *
 	 * @param array $display_vars The display vars for this acp site
 	 * @param array $special_functions Assoziative Array with config values where special functions should run on submit instead of simply save the config value. Array should contain 'config_value' => function ($this) { function code here }, or 'config_value' => null if no function should run.
 	 * @return bool Submit valid or not.
@@ -285,7 +284,7 @@ class ajaxchat_module
 	 * Abstracted method to generate acp configuration pages out of a list of display vars, using
 	 * the function build_cfg_template().
 	 * Build configuration template for acp configuration pages
-	 * 
+	 *
 	 * @param array $display_vars The display vars for this acp site
 	 */
 	protected function generate_stuff_for_cfg_template($display_vars)

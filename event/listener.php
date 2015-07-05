@@ -114,7 +114,7 @@ class listener implements EventSubscriberInterface
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param template		$template
 	 * @param user			$user
 	 * @param db_driver		$db
@@ -149,7 +149,7 @@ class listener implements EventSubscriberInterface
 
 	/**
 	 * Decides what listener to use
-	 * 
+	 *
 	 * @return array
 	 */
 	static public function getSubscribedEvents()
@@ -180,7 +180,7 @@ class listener implements EventSubscriberInterface
 		];
 
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
-		
+
 		//Declares the ACP switches
 		if ($this->config['display_ajax_chat'] === '1')
 		{
@@ -194,7 +194,7 @@ class listener implements EventSubscriberInterface
 		{
 			$this->template->assign_var('S_AJAX_CHAT_POSITION', true);
 		}
-		
+
 		//Declaring a few UCP switches and basic values
 		$this->template->assign_vars(
 				array(
@@ -389,7 +389,6 @@ class listener implements EventSubscriberInterface
 		$row	 = $this->db->sql_fetchrow($result1);
 		$this->db->sql_freeresult($result1);
 
-
 		if ($this->get_status($row['user_lastpost']) === 'online')
 		{
 			$refresh = $this->config['refresh_online_chat'];
@@ -407,14 +406,15 @@ class listener implements EventSubscriberInterface
 			$refresh = $this->config['refresh_offline_chat'];
 		}
 
-		if($this->user->data['user_id'] === ANONYMOUS || $row['user_lastpost'] === null) {
+		if ($this->user->data['user_id'] === ANONYMOUS || $row['user_lastpost'] === null)
+		{
 			$last_post = 0;
 		}
 		else
 		{
 			$last_post = $row['user_lastpost'];
 		}
-		
+
 		//Assign the features template variable
 		$this->template->assign_vars([
 			'BBCODE_STATUS'			=> ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
@@ -452,9 +452,9 @@ class listener implements EventSubscriberInterface
 
 	/**
 	 * Adds message in chat when someone posts to the forum
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 */
 	public function add_forum_id($event)
 	{
@@ -476,7 +476,7 @@ class listener implements EventSubscriberInterface
 		}
 
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
-		
+
 		if ($event['mode'] == 'reply')
 		{
 			$lang = $this->user->lang['CHAT_NEW_POST'];
@@ -511,12 +511,12 @@ class listener implements EventSubscriberInterface
 		);
 		$sql	 = 'INSERT INTO ' . CHAT_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
 		$this->db->sql_query($sql);
-		
+
 	}
 
 	/**
 	 * grabs the list of the active users participating in chat
-	 * 
+	 *
 	 * @return boolean
 	 */
 	private function whois_online()
@@ -550,8 +550,9 @@ class listener implements EventSubscriberInterface
 				$status_time	 = ($this->last_post > $login_time) ? $this->last_post : $login_time;
 			}
 			$status = $this->get_status($row['user_lastpost']);
-			
-			if ($this->check_hidden($row['user_id']) === false) {
+
+			if ($this->check_hidden($row['user_id']) === false)
+			{
 				continue;
 			}
 			else
@@ -574,7 +575,7 @@ class listener implements EventSubscriberInterface
 
 	/**
 	 * Calculate the status of each user
-	 * 
+	 *
 	 * @param int $last
 	 * @return string
 	 */
@@ -585,7 +586,7 @@ class listener implements EventSubscriberInterface
 		{
 			$status = 'offline';
 		}
-		elseif ($last < (time() - $this->times['idle']))
+		else if ($last < (time() - $this->times['idle']))
 		{
 			$status = 'idle';
 		}
@@ -593,8 +594,8 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * Cleans the message 
-	 * 
+	 * Cleans the message
+	 *
 	 * @param string $message
 	 */
 	private function clean_message(&$message)
@@ -608,7 +609,7 @@ class listener implements EventSubscriberInterface
 
 	/**
 	 * Cleans the username
-	 * 
+	 *
 	 * @param string $user
 	 * @return string
 	 */

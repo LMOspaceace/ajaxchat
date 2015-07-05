@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\Container;
 
 /**
  * Main Chat Controller
- * 
+ *
  * @version 0.1.0-BETA
  * @package spaceace\ajaxchat
  * @author Kevin Roy <royk@myraytech.com>
@@ -116,7 +116,7 @@ class chat
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param template		$template
 	 * @param user			$user
 	 * @param db_driver		$db
@@ -161,7 +161,7 @@ class chat
 			'idle'		 => $this->config['delay_idle_chat'],
 			'offline'	 => $this->config['delay_offline_chat'],
 		];
-		
+
 		if (!defined('CHAT_TABLE'))
 		{
 			$chat_table = $this->table_prefix . 'ajax_chat';
@@ -172,7 +172,7 @@ class chat
 			$chat_session_table = $this->table_prefix . 'ajax_chat_sessions';
 			define('CHAT_SESSIONS_TABLE', $chat_session_table);
 		}
-		
+
 		include $this->root_path . 'includes/functions_posting.' . $this->php_ext;
 		include $this->root_path . 'includes/functions_display.' . $this->php_ext;
 
@@ -202,23 +202,22 @@ class chat
 
 			$this->defaultAction();
 		}
-		elseif ($this->mode === 'read')
+		else if ($this->mode === 'read')
 		{
 			$this->readAction();
 		}
-		elseif ($this->mode === 'add')
+		else if ($this->mode === 'add')
 		{
 			$this->addAction();
 		}
-		elseif ($this->mode === 'smilies')
+		else if ($this->mode === 'smilies')
 		{
 			$this->smiliesAction();
 		}
-		elseif ($this->mode === 'delete')
+		else if ($this->mode === 'delete')
 		{
 			$this->delAction();
 		}
-		
 
 		// Sets a few variables
 		$bbcode_status		= ($this->config['allow_bbcode'] && $this->config['auth_bbcode_pm'] && $this->auth->acl_get('u_ajaxchat_bbcode')) ? true : false;
@@ -233,7 +232,6 @@ class chat
 		$result	 = $this->db->sql_query($sql);
 		$row	 = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
-
 
 		if ($this->get_status($row['user_lastpost']) === 'online')
 		{
@@ -251,10 +249,9 @@ class chat
 		{
 			$refresh = $this->config['refresh_offline_chat'];
 		}
-		
-		
-		if($this->user->data['user_id'] === ANONYMOUS || $row['user_lastpost'] === NULL) {
-			
+
+		if ($this->user->data['user_id'] === ANONYMOUS || $row['user_lastpost'] === null)
+		{
 			$last_post = '0';
 		}
 		else
@@ -300,7 +297,7 @@ class chat
 
 	/**
 	 * Default onload read Action
-	 * 
+	 *
 	 * @return multi
 	 */
 	private function defaultAction()
@@ -346,8 +343,7 @@ class chat
 			{
 				$time = $this->user->data['user_dateformat'];
 			}
-			
-			
+
 			$this->template->assign_block_vars('chatrow', [
 
 				'MESSAGE_ID'		 => $row['message_id'],
@@ -400,7 +396,7 @@ class chat
 
 	/**
 	 * grabs the list of the active users participating in chat
-	 * 
+	 *
 	 * @return boolean
 	 */
 	private function whois_online()
@@ -427,7 +423,8 @@ class chat
 		$status_time = time();
 		while ($row		 = $this->db->sql_fetchrow($result))
 		{
-			if ($this->check_hidden($row['user_id']) === false) {
+			if ($this->check_hidden($row['user_id']) === false)
+			{
 				continue;
 			}
 			if ($row['user_id'] == $this->user->data['user_id'])
@@ -454,7 +451,7 @@ class chat
 
 	/**
 	 * Calculate the status of each user
-	 * 
+	 *
 	 * @param int $last
 	 * @return string
 	 */
@@ -465,7 +462,7 @@ class chat
 		{
 			$status = 'offline';
 		}
-		elseif ($last < (time() - $this->times['idle']))
+		else if ($last < (time() - $this->times['idle']))
 		{
 			$status = 'idle';
 		}
@@ -473,8 +470,8 @@ class chat
 	}
 
 	/**
-	 * Cleans the message 
-	 * 
+	 * Cleans the message
+	 *
 	 * @param string $message
 	 */
 	private function clean_message(&$message)
@@ -488,7 +485,7 @@ class chat
 
 	/**
 	 * Cleans the username
-	 * 
+	 *
 	 * @param string $user
 	 * @return string
 	 */
@@ -501,15 +498,10 @@ class chat
 		}
 		return $user;
 	}
-	
+
 	/**
 	 * Refresher Read action
-	 * 
-	 * @return bool
-	 */
-	/**
-	 * Refresher Read action
-	 * 
+	 *
 	 * @return bool
 	 */
 	private function readAction()
@@ -605,7 +597,7 @@ class chat
 
 	/**
 	 * Add & read action
-	 * 
+	 *
 	 * @return bool
 	 */
 	private function addAction()
@@ -721,7 +713,7 @@ class chat
 
 	/**
 	 * Post deletion method
-	 * 
+	 *
 	 * @return bool
 	 */
 	private function delAction()
