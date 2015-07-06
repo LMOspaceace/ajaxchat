@@ -59,7 +59,7 @@ $lang = array_merge($lang, array(
 		'CHAT_EXPLAIN'			=> 'Messagerie instantanée',
 		'WHOIS_CHATTING'		=> 'Qui est en ligne',
 		'CHAT_FONT_COLOR'		=> 'Couleur de la police de caractère',
-		'SELECT_COLOR'			=> 'Choisir une couleur pour la police de caractère de la messagerie instantanée',
+		'SELECT_COLOR'			=> 'Choisir une couleur pour la police de caractère de la messagerie instantanée.',
 		'CHAT_SUBMIT_MESSAGE'	=> 'Envoyer un message',
 		'DELETE_CHAT_MESSAGE'	=> 'Effacer un message',
 		'BBCODES'			 	=> 'BBCodes',
@@ -67,6 +67,7 @@ $lang = array_merge($lang, array(
 		'UPGRADE_BROWSER'		=> 'Statut : impossible de créer l’objet JavaScript XmlHttpRequest. Veuillez mettre à jour votre navigateur.',
 		'NO_POST_IN_CHAT'		=> 'Vous n’avez pas les permissions nécessaires pour utiliser la messagerie instantanée.',
 		'DELETE_CHAT_COOKIE'	=> 'Supprimer le cookie',
+		'DELETE_CHAT_COOKIE_EXPLAIN'	=> 'Le bouton ci-dessous réinitialise la couleur par défaut de la police.',
 		// @copyright line. No translations below this line
 		'DETAILS'				=> '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
 	)
