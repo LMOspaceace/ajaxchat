@@ -261,7 +261,7 @@ class ajaxchat_module
 			if (is_array($special_functions) && array_key_exists($config_name, $special_functions))
 			{
 				$func = $special_functions[$config_name];
-				if (isset($func) || is_callable($func))
+				if (isset($func) === true && is_callable($func) === true)
 					$func();
 
 				continue;
