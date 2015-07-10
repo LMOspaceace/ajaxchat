@@ -60,6 +60,7 @@ install:
   - sh -c "if [ '$COVERAGE' != '0' ]; then ../$GITREPO/travis/prepare-coverage.sh $DB $TRAVIS_PHP_VERSION $EXTNAME $PHP_VERSION_FOR_COVERAGE; fi"
 
 before_script:
+  - chmod +x travis/prepare-phpbb.sh
   - travis/setup-database.sh $DB $TRAVIS_PHP_VERSION
 
 script:
