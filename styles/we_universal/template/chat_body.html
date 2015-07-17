@@ -41,10 +41,12 @@
 								</dl>
 							</div>
 							{SMILIES_PATH}
-							<div class="message">
+							<div>
 								<!-- IF M_AJAXCHAT_DELETE or U_ACP -->
 									<ul class="post-buttons"><a href="javascript:void({chatrow.MESSAGE_ID})" title="{L_DELETE_CHAT_MESSAGE}" onClick="delete_post('{chatrow.MESSAGE_ID}')"><li class="button icon-button delete-icon"></li></a></ul>
 								<!-- ENDIF -->
+							</div>
+							<div class="message">
 								{chatrow.MESSAGE}
 							</div>
 						</div>
@@ -197,10 +199,12 @@
 										</dd>
 									</dl>
 								</div>
-								<div class="message">
+								<div>
 									<!-- IF M_AJAXCHAT_DELETE or U_ACP -->
-									<ul class="post-buttons"><a href="javascript:void({chatrow.MESSAGE_ID})" title="{L_DELETE_CHAT_MESSAGE}" onClick="delete_post('{chatrow.MESSAGE_ID}')"><li class="button icon-button delete-icon"></li></a></ul>
+										<ul class="post-buttons"><a href="javascript:void({chatrow.MESSAGE_ID})" title="{L_DELETE_CHAT_MESSAGE}" onClick="delete_post('{chatrow.MESSAGE_ID}')"><li class="button icon-button delete-icon"></li></a></ul>
 									<!-- ENDIF -->
+								</div>
+								<div class="message">
 									{chatrow.MESSAGE}
 								</div>
 							</div>
@@ -225,8 +229,8 @@
 			<div class="chatnavbar">
 				<div class="chatform">
 					<span class="list chat-icon"> {L_DETAILS} </span>
-					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" title="3.0.2-BETA" />
-					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" title="3.0.2-BETA" />
+					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="check_indicator" title="3.0.2-BETA" />
+					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" alt="act_indicator" title="3.0.2-BETA" />
 					<strong> {L_UPDATES} <span id="update_seconds"> {REFRESH_TIME} </span> {L_UNIT} </strong>
 				</div>
 			</div>
