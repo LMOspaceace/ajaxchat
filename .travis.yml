@@ -1,11 +1,13 @@
+sudo: required
+
 language: php
 
 matrix:
   include:
-    - php: 5.3.3
-      env: DB=mysqli
-    - php: 5.3
-      env: DB=mysqli # MyISAM
+#    - php: 5.3.3
+#      env: DB=mysqli
+#    - php: 5.3
+#      env: DB=mysqli # MyISAM
     - php: 5.4
       env: DB=mysqli
     - php: 5.4
@@ -24,23 +26,20 @@ matrix:
       env: DB=mysqli
   allow_failures:
     - php: hhvm
-    - php: 5.3.3
-    - php: 5.3
   fast_finish: true
 
 env:
   global:
-    - EXTNAME="spaceace/ajaxchat"
-    - SNIFF="1"        # Should we run code sniffer on your code?
-    - IMAGE_ICC="1"    # Should we run icc profile sniffer on your images?
-    - EPV="1"          # Should we run EPV (Extension Pre Validator) on your code?
+    - EXTNAME="spaceace/ajaxchat"  # CHANGE name of the extension HERE
+    - SNIFF="1"            # Should we run code sniffer on your code?
+    - IMAGE_ICC="1"        # Should we run icc profile sniffer on your images?
+    - EPV="1"              # Should we run EPV (Extension Pre Validator) on your code?
     - PHPBB_BRANCH="3.1.x"
 
 branches:
   only:
     - master
-    - develop
-    - /^develop-.*$/
+    - /^(3\.[1-9]|[4-9]\.\d)\.x$/
 
 install:
   - composer install --dev --no-interaction --prefer-source
@@ -51,7 +50,6 @@ install:
 
 before_script:
   - travis/setup-database.sh $DB $TRAVIS_PHP_VERSION
-  - sh -c "if [ '$DB' = 'mysql' -o '$DB' = 'mysqli' -o '$DB' = 'mariadb' ]; then mysql -e 'SET GLOBAL storage_engine=MyISAM;'; fi"
 
 script:
   - sh -c "if [ '$SNIFF' != '0' ]; then travis/ext-sniff.sh $DB $TRAVIS_PHP_VERSION $EXTNAME; fi"
