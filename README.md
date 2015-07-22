@@ -1,6 +1,8 @@
 # ajaxchat
 Ajax Chat for phpbb 3.1
 
+[![Build Status](https://travis-ci.org/LMOspaceace/ajaxchat.svg?branch=master)](https://travis-ci.org/LMOspaceace/ajaxchat)
+
 ## Description
 
 This extension adds a chat to your forum's main page as well as a popup and chat page with archive.
