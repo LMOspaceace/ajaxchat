@@ -145,3 +145,18 @@ div.chat-avatars:hover span {
 #chat_bbcodes #bbcode_wizard {
 	position: inherit;
 }
+
+.chat_postbody {
+	color: #37B7E6;
+	font-size: 1.3em;
+	line-height: 1.4em;
+	font-family: "Lucida Grande", "Trebuchet MS", Helvetica, Arial, sans-serif;
+}
+
+.floatr {
+	float: right;
+}
+
+.vert {
+	margin-top: 10px;
+}

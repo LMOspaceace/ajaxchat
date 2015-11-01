@@ -363,3 +363,7 @@ div.chat-avatars:hover span {
 	width: 100%;
 	margin: 0 auto;
 }
+
+#chat_bbcodes #bbcode_wizard {
+	position: inherit;
+}

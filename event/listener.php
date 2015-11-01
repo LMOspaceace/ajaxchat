@@ -485,9 +485,13 @@ class listener implements EventSubscriberInterface
 		{
 			$lang = $this->user->lang['CHAT_POST_EDIT'];
 		}
-		else
+		else if ($event['mode'] == 'post')
 		{
 			$lang = $this->user->lang['CHAT_NEW_TOPIC'];
+		}
+		else
+		{
+			return;
 		}
 
 		$url			 = append_sid(generate_board_url() . '/viewtopic.' . $this->php_ext, 'f=' . $event['data']['forum_id'] . '&amp;t=' . $event['data']['topic_id'] . '&amp;p=' . $event['data']['post_id'] . '#p' . $event['data']['post_id']);
