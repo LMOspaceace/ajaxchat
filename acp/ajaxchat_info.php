@@ -18,7 +18,7 @@ class ajaxchat_info
 	{
 		return array(
 			'filename'	=> '\spaceace\ajaxchat\acp\ajaxchat_module',
-			'title'		=> 'ADMIN_AJAXCHAT',
+			'title'		=> 'ACP_AJAX_CHAT',
 			'modes'		=> array(
 				'settings'	=> array(
 					'title'		=> 'ADMIN_AJAXCHAT_SETTINGS',
