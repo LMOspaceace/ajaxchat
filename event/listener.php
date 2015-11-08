@@ -477,15 +477,15 @@ class listener implements EventSubscriberInterface
 
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
 
-		if ($event['mode'] == 'reply')
+		if ($event['mode'] == 'reply' || 'quote' && $this->config['ajax_chat_forum_reply'])
 		{
 			$lang = $this->user->lang['CHAT_NEW_POST'];
 		}
-		else if ($event['mode'] == 'edit')
+		else if ($event['mode'] == 'edit' && $this->config['ajax_chat_forum_edit'])
 		{
 			$lang = $this->user->lang['CHAT_POST_EDIT'];
 		}
-		else if ($event['mode'] == 'post')
+		else if ($event['mode'] == 'post' && $this->config['ajax_chat_forum_topic'])
 		{
 			$lang = $this->user->lang['CHAT_NEW_TOPIC'];
 		}

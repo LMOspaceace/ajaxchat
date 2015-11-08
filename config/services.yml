@@ -81,3 +81,15 @@ services:
             - %core.table_prefix%
             - %core.root_path%
             - %core.php_ext%
+    spaceace.ajaxchat.cron.task.prune_ajaxchat:
+        class: spaceace\ajaxchat\cron\task\prune_ajaxchat
+        arguments:
+            - @config
+            - @dbal.conn
+            - @user
+            - @log
+            - %core.table_prefix%
+        calls:
+            - [set_name, [cron.task.prune_ajaxchat]]
+        tags:
+            - { name: cron.task }

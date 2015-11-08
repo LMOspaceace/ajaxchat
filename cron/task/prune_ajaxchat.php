@@ -2,27 +2,25 @@
 
 /**
  *
- * @package Inactive Users
- * @copyright (c) 2014 ForumHulp.com
- * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ * Ajax Chat extension for phpBB.
+ *
+ * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
 
-namespace spaceace\ajaxchat\cron\task\core;
+namespace spaceace\ajaxchat\cron\task;
 
 /**
  * @ignore
  */
 class prune_ajaxchat extends \phpbb\cron\task\base
 {
-
-	protected $user;
 	protected $config;
-	protected $config_text;
+	protected $user;
 	protected $db;
-	protected $log;
-	protected $phpbb_root_path;
-	protected $php_ext;
+	protected $phpbb_log;
+	protected $table_prefix;
 
 	/**
 	 * Constructor.
@@ -32,15 +30,13 @@ class prune_ajaxchat extends \phpbb\cron\task\base
 	 * @param phpbb_config $config The config
 	 * @param phpbb_db_driver $db The db connection
 	 */
-	public function __construct(\phpbb\user $user, \phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\db\driver\driver_interface $db, \phpbb\log\log $log, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\log\log $phpbb_log, $table_prefix)
 	{
-		$this->user				 = $user;
-		$this->config			 = $config;
-		$this->config_text		 = $config_text;
-		$this->db				 = $db;
-		$this->log				 = $log;
-		$this->phpbb_root_path	 = $phpbb_root_path;
-		$this->php_ext			 = $php_ext;
+		$this->config = $config;
+		$this->db = $db;
+		$this->user = $user;
+		$this->phpbb_log = $phpbb_log;
+		$this->table_prefix	 = $table_prefix;
 	}
 
 	/**
@@ -50,6 +46,11 @@ class prune_ajaxchat extends \phpbb\cron\task\base
 	 */
 	public function run()
 	{
+		if (!defined('CHAT_TABLE'))
+		{
+			$chat_table = $this->table_prefix . 'ajax_chat';
+			define('CHAT_TABLE', $chat_table);
+		}
 		$sql	 = 'SELECT message_id '
 				. 'FROM ' . CHAT_TABLE . ' '
 				. 'ORDER BY message_id DESC '
@@ -63,7 +64,8 @@ class prune_ajaxchat extends \phpbb\cron\task\base
 				. ' WHERE `message_id` <= ' . $last_kept_id . '';
 		$this->db->sql_query($sql1);
 
-		$this->log->add('admin', $this->user->data['user_id'], $this->user->data['session_ip'], $this->user->lang['PRUNE_LOG_AJAXCHAT_AUTO'], true,array());
+		$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'PRUNE_LOG_AJAXCHAT_AUTO', time());
+		$this->config->set('prune_ajax_chat_last_gc', time(), true);
 	}
 
 	/**
