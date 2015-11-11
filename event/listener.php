@@ -334,7 +334,7 @@ class listener implements EventSubscriberInterface
 				'USERNAME_FULL'		 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
 				'USERNAME_A'		 => $row['username'],
 				'USER_COLOR'		 => $row['user_colour'],
-				'MESSAGE'			 => make_clickable(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options'])),
+				'MESSAGE'			 => generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']),
 				'TIME'				 => $this->user->format_date($row['time'], $time),
 				'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
 				'USER_AVATAR'		 => $row['avatar'],
@@ -477,7 +477,7 @@ class listener implements EventSubscriberInterface
 
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
 
-		if ($event['mode'] == 'reply' && $this->config['ajax_chat_forum_reply'])
+		if ($event['mode'] == 'reply' || 'quote' && $this->config['ajax_chat_forum_reply'])
 		{
 			$lang = $this->user->lang['CHAT_NEW_POST'];
 		}
@@ -488,10 +488,6 @@ class listener implements EventSubscriberInterface
 		else if ($event['mode'] == 'post' && $this->config['ajax_chat_forum_topic'])
 		{
 			$lang = $this->user->lang['CHAT_NEW_TOPIC'];
-		}
-		else if ($event['mode'] == 'quote')
-		{
-			return;
 		}
 		else
 		{
