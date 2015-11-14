@@ -30,6 +30,7 @@ class acp_settings extends \phpbb\db\migration\migration
 			['config.add', ['ajax_chat_forum_topic', '1']],
 			['config.add', ['ajax_chat_forum_reply', '0']],
 			['config.add', ['ajax_chat_forum_edit', '0']],
+			['config.add', ['ajax_chat_forum_quote', '0']],
 			['config.add', ['default_color_ajax_chat', '333333']],
 			['config.add', ['ajax_chat_chat_amount', '60']],
 			['config.add', ['status_online_chat', '0']],

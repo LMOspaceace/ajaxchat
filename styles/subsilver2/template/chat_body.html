@@ -28,7 +28,7 @@
 												<!-- ENDIF -->
 											</div>
 										</object>
-										<!-- IF S_USER_LOGGED_IN and not S_IS_BOT -->
+										<!-- IF not S_IS_BOT -->
 											<!-- IF chatrow.USER_COLOR -->
 												<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/color][/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
 											<!-- ELSE -->
@@ -109,23 +109,25 @@
 							</tr>
 							<tr>
 								<td align="center" class="cat nav" width="<!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING -->100%<!-- ELSE -->85%<!-- ENDIF -->">
-										<!-- IF S_USER_LOGGED_IN and not S_IS_BOT and not S_ARCHIVE -->
+										<!-- IF not S_IS_BOT and not S_ARCHIVE -->
 											<!-- IF S_AJAXCHAT_POST -->
-									<form name="postform" id="text" method="post" action="javascript:void(0);" onsubmit="handle_send('add', this)" autocomplete="off">
-										<!-- INCLUDE chat_font_colour_hold.html -->
-										<input type="text" tabindex="1" name="message" id="message" class="inputbox" size="28" />
-										<br />
-										<br />
-										<input type="submit" class="btnmain" value="{L_SUBMIT}" title="{L_CHAT_SUBMIT_MESSAGE}" name="submit" tabindex="6" accesskey="s" />
-														<!-- IF S_AJAXCHAT_BBCODE -->
-										<input type="button" class="btnmain" id="bbcodes" value="{L_BBCODES}" />
-														<!-- ENDIF -->
-										<input type="button" class="btnmain" id="smilies" value="{L_SMILIES}" />
-										<input type="button" class="btnmain" onclick="popup('{FILENAME}/archive', 825, 485); return false;" value="{L_CHAT_ARCHIVE}" title="{L_CHAT_ARCHIVE_EXPLAIN}" />
-										<input type="button" class="btnmain" onclick="popup('{FILENAME}/popup', 825, 485); return false;" value="{L_CHAT_POPUP}" title="{L_CHAT_POPUP_EXPLAIN}" />
-										<input type="button" class="btnmain" name="chat_bbpalette" id="chat_bbpalette" value="{L_CHAT_FONT_COLOR}" />
-									<!-- INCLUDE chat_buttons.html -->
-									</form>
+												<form name="postform" id="text" method="post" action="javascript:void(0);" onsubmit="handle_send('add', this)" autocomplete="off">
+													<!-- INCLUDE chat_font_colour_hold.html -->
+													<input type="text" tabindex="1" name="message" id="message" class="inputbox" size="28" />
+													<br />
+													<br />
+													<input type="submit" class="btnmain" value="{L_SUBMIT}" title="{L_CHAT_SUBMIT_MESSAGE}" name="submit" tabindex="6" accesskey="s" />
+													<!-- IF S_AJAXCHAT_BBCODE -->
+														<input type="button" class="btnmain" id="bbcodes" value="{L_BBCODES}" />
+														<input type="button" class="btnmain" id="smilies" value="{L_SMILIES}" />
+													<!-- ENDIF -->
+													<input type="button" class="btnmain" onclick="popup('{FILENAME}/archive', 825, 485); return false;" value="{L_CHAT_ARCHIVE}" title="{L_CHAT_ARCHIVE_EXPLAIN}" />
+													<input type="button" class="btnmain" onclick="popup('{FILENAME}/popup', 825, 485); return false;" value="{L_CHAT_POPUP}" title="{L_CHAT_POPUP_EXPLAIN}" />
+													<!-- IF S_AJAXCHAT_BBCODE -->
+														<input type="button" class="btnmain" name="chat_bbpalette" id="chat_bbpalette" value="{L_CHAT_FONT_COLOR}" />
+													<!-- ENDIF -->
+												<!-- INCLUDE chat_buttons.html -->
+												</form>
 											<!-- ELSE -->
 												{L_NO_POST_IN_CHAT}
 											<!-- ENDIF -->
@@ -167,7 +169,7 @@
 																		<!-- ENDIF -->
 																	</div>
 																</object>
-																<!-- IF S_USER_LOGGED_IN and not S_IS_BOT -->
+																<!-- IF not S_IS_BOT -->
 																	<!-- IF chatrow.USER_COLOR -->
 																		<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/color][/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
 																	<!-- ELSE -->
@@ -204,9 +206,9 @@
 						</tr>
 						<tr>
 							<td class="cat" colspan="2" align="center">
-								<span class="chat-icon">&nbsp;{L_DETAILS}&nbsp;</span>
-									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" title="3.0.3-BETA" />
-									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" title="3.0.3-BETA" />
+								<span class="chat-icon">&nbsp;{L_DETAILS}&nbsp;&copy;&nbsp;2015&nbsp;<strong style="color: #AA0000;">Live&nbsp;Members&nbsp;Only</strong></span>
+									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" title="3.0.4-BETA" />
+									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" title="3.0.4-BETA" />
 								<strong>&nbsp;{L_UPDATES}&nbsp;<span id="update_seconds">{REFRESH_TIME}</span>&nbsp;{L_UNIT}</strong>
 							</td>
 						</tr>

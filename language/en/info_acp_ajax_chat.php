@@ -50,6 +50,7 @@ $lang = array_merge(
 		'FORUM_POSTS_AJAX_CHAT_TOPIC'		=> 'Enable new topics to display in chat',
 		'FORUM_POSTS_AJAX_CHAT_REPLY'		=> 'Enable topic replies to display in chat',
 		'FORUM_POSTS_AJAX_CHAT_EDIT'		=> 'Enable edited posts to display in chat',
+		'FORUM_POSTS_AJAX_CHAT_QUOTE'		=> 'Enable quoted posts to display in chat',
 		'ARCHIVE_AMOUNT_AJAX_CHAT'			=> 'Archive messages',
 		'ARCHIVE_AMOUNT_AJAX_CHAT_EXPLAIN'	=> 'Amount of archive messages to display. Between 5 and 500. Default is 200.',
 		'POPUP_AMOUNT_AJAX_CHAT'			=> 'Popup messages',

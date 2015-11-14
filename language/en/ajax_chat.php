@@ -48,6 +48,7 @@ $lang = array_merge(
 		'CHAT_NEW_POST'					=> 'has replied to: <a href="%1$s">%2$s</a>',
 		'CHAT_NEW_TOPIC'				=> 'has started a new topic: <a href="%1$s">%2$s</a>',
 		'CHAT_POST_EDIT'				=> 'has edited: <a href="%1$s">%2$s</a>',
+		'CHAT_NEW_QUOTE'				=> 'has replied with a quote to: <a href="%1$s">%2$s</a>',
 		'EMPTY'							=> 'Error: You must insert a message.',
 		'GUEST_MESSAGE'					=> '<strong>You must be a Registered User to use chat.</strong>',
 		'MESSAGE'						=> 'Message',
@@ -69,6 +70,6 @@ $lang = array_merge(
 		'DELETE_CHAT_COOKIE'			=> 'Delete cookie',
 		'DELETE_CHAT_COOKIE_EXPLAIN'	=> 'This button deletes the font colour hold cookie.',
 		// @copyright line. No translations below this line
-		'DETAILS'				=> '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
+		'DETAILS'				=> '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a>',
 	)
 );

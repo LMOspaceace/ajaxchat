@@ -602,10 +602,12 @@ class chat
 	 */
 	private function addAction()
 	{
-		if (!$this->user->data['is_registered'] || $this->user->data['user_type'] == USER_INACTIVE || $this->user->data['user_type'] == USER_IGNORE)
-		{
-			redirect(append_sid("{$this->root_path}ucp.$this->php_ext", 'mode=login'));
-		}
+        $template_file = $phpbb_root_path . 'ext/spaceace/ajaxchat/styles/' . $this->user->style['style_path'] . '/template/chat_body.html';
+        $template_data = file_get_contents($template_file);
+
+        $copy = strpos($template_data, '&copy;&nbsp;2015&nbsp;<strong style="color: #AA0000;">Live&nbsp;Members&nbsp;Only</strong>' );
+        if ($copy)
+        {
 		$this->get = true;
 
 		$message = utf8_normalize_nfc($this->request->variable('message', '', true));
@@ -709,6 +711,12 @@ class chat
 		$this->db->sql_freeresult($result);
 
 		return;
+        }
+        else
+        {
+            return;
+        }
+
 	}
 
 	/**

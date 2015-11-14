@@ -57,10 +57,11 @@
 
 .shouts {
 	float: left;
-	width: 85%;
+	width: 84%;
 	height: 250px;
 	overflow: auto;
 	overflow-x: hidden;
+	margin-left: 0.5%;
 }
 
 .chat_online_off {
@@ -149,6 +150,10 @@
 	font-size: 1.1em;
 }
 
+.chat-header-link {
+	text-align: center;
+}
+
 .span_chat_rule {
 	font-weight: bold;
 	font-size: 1.1em;
@@ -216,7 +221,7 @@
 	background-image: url("./images/icon_chat.png");
 	background-repeat: no-repeat;
 	background-position: 0 50%;
-	padding: 1px 0 6px 21px;
+	padding: 1px 0 6px 5px;
 }
 
 .chat-avatars {
@@ -226,6 +231,10 @@
 	outline: none;
 	z-index: 0;
 	/*padding: 4px 0px 0px 3px;*/
+}
+
+.chat-names {
+	margin-left: 10px;
 }
 
 div.chat-avatars:hover {
@@ -250,9 +259,7 @@ div.chat-avatars:hover span {
 	top: -4px;
 	left: 40px;
 	padding: 2px 2px 0;
-	background: #DDDDDD;
-	border: 1px solid #CCC;
-	border-radius: 6px;
+	background: transparent;
 }
 
 .chat li.row:hover {

@@ -25,16 +25,18 @@
 												<!-- ENDIF -->
 											<!-- ENDIF -->
 										</div>
-									<!-- IF S_USER_LOGGED_IN and not S_IS_BOT -->
-										<!-- IF chatrow.USER_COLOR -->
-											<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/color][/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
-										<!-- ELSE -->
-											<a href="#" onclick="insert_text('[b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
-										<!-- ENDIF -->
-									<!-- ELSE -->
-										&#64;
-									<!-- ENDIF -->
-									{chatrow.USERNAME_FULL}<br /><b class="chat-time">&laquo;&nbsp;{chatrow.TIME}&nbsp;&raquo;</b>
+										<div class="chat-names">
+											<!-- IF not S_IS_BOT -->
+												<!-- IF chatrow.USER_COLOR -->
+													<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/color][/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
+												<!-- ELSE -->
+													<a href="#" onclick="insert_text('[b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
+												<!-- ENDIF -->
+											<!-- ELSE -->
+												&#64;
+											<!-- ENDIF -->
+											{chatrow.USERNAME_FULL}<br /><b class="chat-time">&laquo;&nbsp;{chatrow.TIME}&nbsp;&raquo;</b>
+										</div>
 									</dt>
 									<dd>
 									</dd>
@@ -110,7 +112,7 @@
 					<ul class="topiclist">
 						<li class="header">
 							<dl class="icon">
-								<dt><div class="list-inner"><!-- IF SCRIPT_NAME == "index" --><a href="{U_CHAT}">{L_CHAT_EXPLAIN}</a><!-- ELSE -->{L_CHAT_EXPLAIN}<!-- ENDIF --></div></dt>
+								<dt><div class="chat-header-link"><!-- IF SCRIPT_NAME == "index" --><a href="{U_CHAT}">{L_CHAT_EXPLAIN}</a><!-- ELSE -->{L_CHAT_EXPLAIN}<!-- ENDIF --></div></dt>
 								<dd>
 								</dd>
 							</dl>
@@ -121,7 +123,7 @@
 							<li class="row">
 								<dl class="icon">
 									<dt class="chatform">
-										<!-- IF S_USER_LOGGED_IN and not S_IS_BOT -->
+										<!-- IF not S_IS_BOT -->
 											<!-- IF S_AJAXCHAT_POST -->
 												<form name="postform" id="chat-text" method="post" action="javascript:void(0);" onsubmit="handle_send('add', this)">
 													<fieldset>
@@ -131,11 +133,13 @@
 														<input type="submit" class="button" value="{L_SUBMIT}" title="{L_CHAT_SUBMIT_MESSAGE}" name="submit" tabindex="6" accesskey="s" />
 														<!-- IF S_AJAXCHAT_BBCODE -->
 															<input type="button" class="button" id="bbcodes" value="{L_BBCODES}" />
+															<input type="button" class="button" name="smilies" id="smilies" value="{L_SMILIES}" />
 														<!-- ENDIF -->
-														<input type="button" class="button" name="smilies" id="smilies" value="{L_SMILIES}" />
 														<input type="button" class="button" onclick="popup('{FILENAME}/archive', 1000, 625); return false;" value="{L_CHAT_ARCHIVE}" title="{L_CHAT_ARCHIVE_EXPLAIN}" />
 														<input type="button" class="button" onclick="popup('{FILENAME}/popup', 1000, 630); return false;" value="{L_CHAT_POPUP}" title="{L_CHAT_POPUP_EXPLAIN}" />
-														<input type="button" class="button" name="chat_bbpalette" id="chat_bbpalette" value="{L_CHAT_FONT_COLOR}" />
+														<!-- IF S_AJAXCHAT_BBCODE -->
+															<input type="button" class="button" name="chat_bbpalette" id="chat_bbpalette" value="{L_CHAT_FONT_COLOR}" />
+														<!-- ENDIF -->
 													</fieldset>
 												<!-- INCLUDE chat_buttons.html -->
 												</form>
@@ -184,16 +188,18 @@
 													<!-- ENDIF -->
 												<!-- ENDIF -->
 											</div>
-										<!-- IF S_USER_LOGGED_IN and not S_IS_BOT -->
-											<!-- IF chatrow.USER_COLOR -->
-												<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b][/color]', true);return false;" title="{L_RESPOND}">&#64;</a>
-											<!-- ELSE -->
-												<a href="#" onclick="insert_text('[b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
-											<!-- ENDIF -->
-										<!-- ELSE -->
-											&#64;
-										<!-- ENDIF -->
-										{chatrow.USERNAME_FULL}<br /><b class="chat-time">&laquo;&nbsp;{chatrow.TIME}&nbsp;&raquo;</b>
+											<div class="chat-names">
+												<!-- IF not S_IS_BOT -->
+													<!-- IF chatrow.USER_COLOR -->
+														<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b][/color]', true);return false;" title="{L_RESPOND}">&#64;</a>
+													<!-- ELSE -->
+														<a href="#" onclick="insert_text('[b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
+													<!-- ENDIF -->
+												<!-- ELSE -->
+												&#64;
+												<!-- ENDIF -->
+												{chatrow.USERNAME_FULL}<br /><b class="chat-time">&laquo;&nbsp;{chatrow.TIME}&nbsp;&raquo;</b>
+											</div>
 										</dt>
 										<dd>
 										</dd>
@@ -228,9 +234,9 @@
 				<!-- ENDIF -->
 			<div class="chatnavbar navbar">
 				<div class="chatform">
-					<span class="list chat-icon"> {L_DETAILS} </span>
-					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="check_indicator" title="3.0.3-BETA" />
-					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" alt="act_indicator" title="3.0.3-BETA" />
+					<span class="list chat-icon">&nbsp;{L_DETAILS}&nbsp;&copy;&nbsp;2015&nbsp;<strong style="color: #AA0000;">Live&nbsp;Members&nbsp;Only</strong></span>
+					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="check_indicator" title="3.0.4-BETA" />
+					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" alt="act_indicator" title="3.0.4-BETA" />
 					<strong> {L_UPDATES} <span id="update_seconds"> {REFRESH_TIME} </span> {L_UNIT} </strong>
 				</div>
 			</div>

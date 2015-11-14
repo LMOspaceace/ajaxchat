@@ -593,10 +593,6 @@ class popup
 	 */
 	private function addAction()
 	{
-		if (!$this->user->data['is_registered'] || $this->user->data['user_type'] == USER_INACTIVE || $this->user->data['user_type'] == USER_IGNORE)
-		{
-			redirect(append_sid("{$this->root_path}ucp.$this->php_ext", 'mode=login'));
-		}
 		$this->get = true;
 
 		$message = utf8_normalize_nfc($this->request->variable('message', '', true));
