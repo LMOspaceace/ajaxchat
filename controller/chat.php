@@ -303,10 +303,10 @@ class chat
 	private function defaultAction()
 	{
 		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
-                FROM ' . CHAT_TABLE . ' as c
-                LEFT JOIN ' . USERS_TABLE . ' as u
-                ON c.user_id = u.user_id
-                ORDER BY message_id DESC';
+				FROM ' . CHAT_TABLE . ' as c
+				LEFT JOIN ' . USERS_TABLE . ' as u
+				ON c.user_id = u.user_id
+				ORDER BY message_id DESC';
 		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
 		$rows	 = $this->db->sql_fetchrowset($result);
 
@@ -507,11 +507,11 @@ class chat
 	private function readAction()
 	{
 		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
-                FROM ' . CHAT_TABLE . ' as c
-                LEFT JOIN ' . USERS_TABLE . ' as u
-                ON c.user_id = u.user_id
-                WHERE c.message_id > ' . $this->last_id . '
-                ORDER BY message_id DESC';
+				FROM ' . CHAT_TABLE . ' as c
+				LEFT JOIN ' . USERS_TABLE . ' as u
+				ON c.user_id = u.user_id
+				WHERE c.message_id > ' . $this->last_id . '
+				ORDER BY message_id DESC';
 		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
 		$rows	 = $this->db->sql_fetchrowset($result);
 
@@ -586,8 +586,8 @@ class chat
 				'user_lastupdate'	 => time(),
 			];
 			$sql	 = 'UPDATE ' . CHAT_SESSIONS_TABLE . '
-            SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . "
-            WHERE user_id = {$this->user->data['user_id']}";
+			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . "
+			WHERE user_id = {$this->user->data['user_id']}";
 			$result	 = $this->db->sql_query($sql);
 		}
 		$this->get = true;
@@ -602,12 +602,12 @@ class chat
 	 */
 	private function addAction()
 	{
-        $template_file = $phpbb_root_path . 'ext/spaceace/ajaxchat/styles/' . $this->user->style['style_path'] . '/template/chat_body.html';
-        $template_data = file_get_contents($template_file);
+		$template_file = $this->root_path . 'ext/spaceace/ajaxchat/styles/' . $this->user->style['style_path'] . '/template/chat_body.html';
+		$template_data = file_get_contents($template_file);
 
-        $copy = strpos($template_data, '&copy;&nbsp;2015&nbsp;<strong style="color: #AA0000;">Live&nbsp;Members&nbsp;Only</strong>' );
-        if ($copy)
-        {
+		$copy = strpos($template_data, '&copy;&nbsp;2015&nbsp;<strong style="color: #AA0000;">Live&nbsp;Members&nbsp;Only</strong>' );
+		if ($copy)
+		{
 		$this->get = true;
 
 		$message = utf8_normalize_nfc($this->request->variable('message', '', true));
@@ -711,11 +711,11 @@ class chat
 		$this->db->sql_freeresult($result);
 
 		return;
-        }
-        else
-        {
-            return;
-        }
+		}
+		else
+		{
+			return;
+		}
 
 	}
 
