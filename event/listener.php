@@ -192,11 +192,7 @@ class listener implements EventSubscriberInterface
 		}
 		if ($this->config['location_ajax_chat'] === '1')
 		{
-			$this->template->assign_var('S_AJAX_CHAT_ACP_POSITION', true);
-		}
-		if ($this->config['location_ajax_chat_override'] === '1')
-		{
-			$this->template->assign_var('S_AJAX_CHAT_POSITION_OVERRIDE', true);
+			$this->template->assign_var('S_AJAX_CHAT_POSITION', true);
 		}
 
 		//Declaring a few UCP switches and basic values
@@ -211,7 +207,6 @@ class listener implements EventSubscriberInterface
 					'EXT_PATH'					 => $this->ext_manager->get_extension_path('spaceace/ajaxchat', true),
 					'S_AJAX_CHAT_VIEW'			 => $this->user->data['user_ajax_chat_view'],
 					'S_AJAX_CHAT_AVATARS'		 => $this->user->data['user_ajax_chat_avatars'],
-					'S_AJAX_CHAT_POSITION'		 => $this->user->data['user_ajax_chat_position'],
 					'S_AJAX_CHAT_SOUND'			 => $this->user->data['user_ajax_chat_sound'],
 					'S_AJAX_CHAT_AVATAR_HOVER'	 => $this->user->data['user_ajax_chat_avatar_hover'],
 					'S_AJAX_CHAT_ONLINELIST'	 => $this->user->data['user_ajax_chat_onlinelist'],

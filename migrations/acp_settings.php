@@ -20,7 +20,6 @@ class acp_settings extends \phpbb\db\migration\migration
 			['config.add', ['whois_chatting', '1']],
 			['config.add', ['rule_ajax_chat', '']],
 			['config.add', ['location_ajax_chat', '1']],
-			['config.add', ['location_ajax_chat_override', '0']],
 			['config.add', ['ajax_chat_archive_amount', '200']],
 			['config.add', ['ajax_chat_popup_amount', '60']],
 			['config.add', ['ajax_chat_index_amount', '60']],

@@ -20,7 +20,6 @@ class update_table extends \phpbb\db\migration\migration
 				$this->table_prefix . 'users' => array(
 					'user_ajax_chat_view'			=> array('UINT:1', 1),
 					'user_ajax_chat_avatars'		=> array('UINT:1', 1),
-					'user_ajax_chat_position'		=> array('UINT:1', 1),
 					'user_ajax_chat_sound'			=> array('UINT:1', 1),
 					'user_ajax_chat_avatar_hover'	=> array('UINT:1', 1),
 					'user_ajax_chat_onlinelist'		=> array('UINT:1', 1),
@@ -36,7 +35,6 @@ class update_table extends \phpbb\db\migration\migration
 				$this->table_prefix . 'users' => array(
 					'user_ajax_chat_view',
 					'user_ajax_chat_avatars',
-					'user_ajax_chat_position',
 					'user_ajax_chat_sound',
 					'user_ajax_chat_avatar_hover',
 					'user_ajax_chat_onlinelist',
