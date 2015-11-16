@@ -66,6 +66,7 @@ class ucp_ajaxchat_module
 				$data = array(
 					'user_ajax_chat_view'			=> $this->request->variable('user_ajax_chat_view', (bool) $this->user->data['user_ajax_chat_view']),
 					'user_ajax_chat_avatars'		=> $this->request->variable('user_ajax_chat_avatars', (bool) $this->user->data['user_ajax_chat_avatars']),
+					'user_ajax_chat_position'		=> $this->request->variable('user_ajax_chat_position', (bool) $this->user->data['user_ajax_chat_position']),
 					'user_ajax_chat_sound'			=> $this->request->variable('user_ajax_chat_sound', (bool) $this->user->data['user_ajax_chat_sound']),
 					'user_ajax_chat_avatar_hover'	=> $this->request->variable('user_ajax_chat_avatar_hover', (bool) $this->user->data['user_ajax_chat_avatar_hover']),
 					'user_ajax_chat_onlinelist'		=> $this->request->variable('user_ajax_chat_onlinelist', (bool) $this->user->data['user_ajax_chat_onlinelist']),
@@ -88,6 +89,7 @@ class ucp_ajaxchat_module
 						$sql_ary = array(
 							'user_ajax_chat_view'			=> $post['ajax_chat_view'],
 							'user_ajax_chat_avatars'		=> $post['ajax_chat_avatars'],
+							'user_ajax_chat_position'		=> $post['ajax_chat_position'],
 							'user_ajax_chat_sound'			=> $post['ajax_chat_sound'],
 							'user_ajax_chat_avatar_hover'	=> $post['ajax_chat_avatar_hover'],
 							'user_ajax_chat_onlinelist'		=> $post['ajax_chat_onlinelist'],
@@ -114,6 +116,7 @@ class ucp_ajaxchat_module
 					'ERROR'						=> (sizeof($error)) ? implode('<br />', $error) : '',
 					'S_AJAX_CHAT_VIEW'			=> $data['user_ajax_chat_view'],
 					'S_AJAX_CHAT_AVATARS'		=> $data['user_ajax_chat_avatars'],
+					'S_AJAX_CHAT_POSITION'		=> $data['user_ajax_chat_position'],
 					'S_AJAX_CHAT_SOUND'			=> $data['user_ajax_chat_sound'],
 					'S_AJAX_CHAT_AVATAR_HOVER'	=> $data['user_ajax_chat_avatar_hover'],
 					'S_AJAX_CHAT_ONLINELIST'	=> $data['user_ajax_chat_onlinelist'],

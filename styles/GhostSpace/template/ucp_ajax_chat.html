@@ -13,6 +13,12 @@
 	<td class="row1" width="50%"><b class="genmed">{L_USER_AJAX_CHAT_VIEW}{L_COLON}</b></td>
 	<td class="row2"><input type="radio" class="radio" name="ajax_chat_view" value="1"<!-- IF S_AJAX_CHAT_VIEW --> checked="checked"<!-- ENDIF --> /><span class="genmed">{L_YES}</span>&nbsp;&nbsp;<input type="radio" class="radio" name="ajax_chat_view" value="0"<!-- IF not S_AJAX_CHAT_VIEW --> checked="checked"<!-- ENDIF --> /><span class="genmed">{L_NO}</span></td>
 </tr>
+<!-- IF not S_AJAX_CHAT_POSITION_OVERRIDE -->
+	<tr>
+		<td class="row1" width="50%"><b class="genmed">{L_USER_AJAX_CHAT_POSITION}{L_COLON}</b></td>
+		<td class="row2"><input type="radio" class="radio" name="ajax_chat_position" value="1"<!-- IF S_AJAX_CHAT_POSITION --> checked="checked"<!-- ENDIF --> /><span class="genmed">{L_CHAT_TOP}</span>&nbsp;&nbsp;<input type="radio" class="radio" name="ajax_chat_position" value="0"<!-- IF not S_AJAX_CHAT_POSITION --> checked="checked"<!-- ENDIF --> /><span class="genmed">{L_CHAT_BOTTOM}</span></td>
+	</tr>
+<!-- ENDIF -->
 <tr>
 	<td class="row1" width="50%"><b class="genmed">{L_USER_AJAX_CHAT_AVATARS}{L_COLON}</b></td>
 	<td class="row2"><input type="radio" class="radio" name="ajax_chat_avatars" value="1"<!-- IF S_AJAX_CHAT_AVATARS --> checked="checked"<!-- ENDIF --> /><span class="genmed">{L_YES}</span>&nbsp;&nbsp;<input type="radio" class="radio" name="ajax_chat_avatars" value="0"<!-- IF not S_AJAX_CHAT_AVATARS --> checked="checked"<!-- ENDIF --> /><span class="genmed">{L_NO}</span></td>
