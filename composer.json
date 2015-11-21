@@ -3,8 +3,8 @@
     "type": "phpbb-extension",
     "description": "Chat for phpBB 3.1",
     "homepage": "http://www.livemembersonly.com",
-    "version": "3.0.5-BETA",
-    "time": "2015-11-15",
+    "version": "3.0.6-BETA",
+    "time": "2015-11-21",
     "license": "GPL-2.0",
     "authors": [{
             "name": "spaceace",

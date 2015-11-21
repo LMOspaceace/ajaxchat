@@ -17,15 +17,13 @@
 			<label for="ajax_chat_view0"><input type="radio" name="ajax_chat_view" id="view_chat0" value="0"<!-- IF not S_AJAX_CHAT_VIEW --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
 		</dd>
 	</dl>
-	<!-- IF not S_AJAX_CHAT_POSITION_OVERRIDE -->
-		<dl>
-			<dt><label for="ajax_chat_position0">{L_USER_AJAX_CHAT_POSITION}{L_COLON}</label></dt>
-			<dd>
-				<label for="ajax_chat_position1"><input type="radio" name="ajax_chat_position" id="ajax_chat_position1" value="1"<!-- IF S_AJAX_CHAT_POSITION --> checked="checked"<!-- ENDIF --> /> {L_CHAT_TOP}</label> 
-				<label for="ajax_chat_position0"><input type="radio" name="ajax_chat_position" id="ajax_chat_position0" value="0"<!-- IF not S_AJAX_CHAT_POSITION --> checked="checked"<!-- ENDIF --> /> {L_CHAT_BOTTOM}</label>
-			</dd>
-		</dl>
-	<!-- ENDIF -->
+	<dl>
+		<dt><label for="ajax_chat_position0">{L_USER_AJAX_CHAT_POSITION}{L_COLON}</label></dt>
+		<dd>
+			<label for="ajax_chat_position1"><input type="radio" name="ajax_chat_position" id="ajax_chat_position1" value="1"<!-- IF S_AJAX_CHAT_POSITION --> checked="checked"<!-- ENDIF --> /> {L_CHAT_TOP}</label> 
+			<label for="ajax_chat_position0"><input type="radio" name="ajax_chat_position" id="ajax_chat_position0" value="0"<!-- IF not S_AJAX_CHAT_POSITION --> checked="checked"<!-- ENDIF --> /> {L_CHAT_BOTTOM}</label>
+		</dd>
+	</dl>
 	<dl>
 		<dt><label for="ajax_chat_avatars0">{L_USER_AJAX_CHAT_AVATARS}{L_COLON}</label></dt>
 		<dd>
