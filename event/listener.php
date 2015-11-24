@@ -503,7 +503,7 @@ class listener implements EventSubscriberInterface
 			return;
 		}
 
-		$url			 = append_sid(generate_board_url() . '/viewtopic.' . $this->php_ext, 'f=' . $event['data']['forum_id'] . '&amp;t=' . $event['data']['topic_id'] . '&amp;p=' . $event['data']['post_id'] . '#p' . $event['data']['post_id']);
+		$url			 = append_sid(generate_board_url() . '/viewtopic.' . $this->php_ext, 'f=' . $event['forum_id'] . '&amp;t=' . $event['topic_id'] . '&amp;p=' . $event['post_id'] . '#p' . $event['post_id']);
 		$username		 = get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']);
 		$message		 = sprintf($lang, $url, $event['post_data']['post_subject']);
 		$uid			 = $bitfield		 = $options		 = '';
@@ -521,6 +521,7 @@ class listener implements EventSubscriberInterface
 			'bbcode_options'	 => $options,
 			'time'				 => time(),
 			'forum_id'			 => $event['forum_id'],
+			'post_id'			 => $event['post_id'],
 		);
 		$sql	 = 'INSERT INTO ' . CHAT_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
 		$this->db->sql_query($sql);
