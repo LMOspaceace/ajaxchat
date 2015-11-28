@@ -1,16 +1,16 @@
 <?php
-/**
-*
-* Ajax Chat extension for the phpBB Forum Software package.
-* French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
-*
-* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
 
 /**
-* DO NOT CHANGE
+ *
+ * Ajax Chat extension for the phpBB Forum Software package.
+ * French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
+ *
+ * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+*/
+/**
+ * DO NOT CHANGE
 */
 if (!defined('IN_PHPBB'))
 {
@@ -38,7 +38,8 @@ if (empty($lang) || !is_array($lang))
 // ’ « » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge(
+	$lang, array(
 		'CHAT_BOTTOM'					=> 'En bas',
 		'CHAT_TOP'						=> 'En haut',
 		'USER_AJAX_CHAT_VIEW'			=> 'Messagerie instantanée visible sur la page de l’index du forum',

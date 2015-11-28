@@ -288,13 +288,14 @@ class listener implements EventSubscriberInterface
 			'offline'	 => $this->config['status_offline_chat'],
 		];
 
-		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
-                FROM ' . CHAT_TABLE . ' as c
-                LEFT JOIN ' . USERS_TABLE . ' as u
-                ON c.user_id = u.user_id
-                ORDER BY message_id DESC';
-		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_index_amount']);
-		$rows	 = $this->db->sql_fetchrowset($result);
+		$sql	= 'SELECT c.*, p.post_visibility, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
+				FROM ' . CHAT_TABLE . ' as c
+				LEFT JOIN ' . USERS_TABLE . ' as u ON c.user_id = u.user_id
+				LEFT JOIN ' . POSTS_TABLE . ' as p ON c.post_id = p.post_id
+				WHERE c.message_id > ' . $this->last_id . '
+				ORDER BY c.message_id DESC';
+		$result	= $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
+		$rows	= $this->db->sql_fetchrowset($result);
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
 		{
@@ -302,6 +303,10 @@ class listener implements EventSubscriberInterface
 		}
 		foreach ($rows as $row)
 		{
+			if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
+			{
+				continue;
+			}
 			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
 			{
 				continue;
@@ -419,6 +424,7 @@ class listener implements EventSubscriberInterface
 		{
 			$last_post = $row['user_lastpost'];
 		}
+		$details = base64_decode('Jm5ic3A7PGEgaHJlZj0iaHR0cDovL3d3dy5saXZlbWVtYmVyc29ubHkuY29tIiBzdHlsZT0iZm9udC13ZWlnaHQ6IGJvbGQ7Ij5BSkFYJm5ic3A7Q2hhdCZuYnNwOyZjb3B5OyZuYnNwOzIwMTU8L2E+Jm5ic3A7PHN0cm9uZz5MaXZlJm5ic3A7TWVtYmVycyZuYnNwO09ubHk8L3N0cm9uZz4=');
 
 		//Assign the features template variable
 		$this->template->assign_vars([
@@ -435,10 +441,12 @@ class listener implements EventSubscriberInterface
 			'S_BBCODE_FLASH'		=> $flash_status,
 			'S_BBCODE_QUOTE'		=> $quote_status,
 			'S_BBCODE_URL'			=> $url_status,
+			'L_DETAILS'				=> $details,
 			'REFRESH_TIME'			=> $refresh,
 			'LAST_ID'				=> $this->last_id,
 			'LAST_POST'				=> $last_post,
 			'TIME'					=> time(),
+			'L_VERSION'				=> '3.0.7-BETA',
 			'STYLE_PATH'			=> generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'		=> '' . $this->ext_path_web . 'styles/',
 			'FILENAME'				=> $this->helper->route('spaceace_ajaxchat_chat'),
@@ -503,13 +511,12 @@ class listener implements EventSubscriberInterface
 			return;
 		}
 
-		$url			 = append_sid(generate_board_url() . '/viewtopic.' . $this->php_ext, 'f=' . $event['forum_id'] . '&amp;t=' . $event['topic_id'] . '&amp;p=' . $event['post_id'] . '#p' . $event['post_id']);
+		$url			 = append_sid(generate_board_url() . '/viewtopic.' . $this->php_ext, 'f=' . $event['data']['forum_id'] . '&amp;t=' . $event['data']['topic_id'] . '&amp;p=' . $event['data']['post_id'] . '#p' . $event['data']['post_id']);
 		$username		 = get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']);
 		$message		 = sprintf($lang, $url, $event['post_data']['post_subject']);
 		$uid			 = $bitfield		 = $options		 = '';
 		$allow_bbcode	 = $allow_urls		 = $allow_smilies	 = true;
 		generate_text_for_storage($message, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
-
 		$sql_ary = array(
 			'chat_id'			 => 0,
 			'user_id'			 => $this->user->data['user_id'],
@@ -521,7 +528,7 @@ class listener implements EventSubscriberInterface
 			'bbcode_options'	 => $options,
 			'time'				 => time(),
 			'forum_id'			 => $event['forum_id'],
-			'post_id'			 => $event['post_id'],
+			'post_id'			 => $event['data']['post_id'],
 		);
 		$sql	 = 'INSERT INTO ' . CHAT_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
 		$this->db->sql_query($sql);

@@ -1,16 +1,16 @@
 <?php
-/**
-*
-* Ajax Chat extension for the phpBB Forum Software package.
-* French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
-*
-* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
 
 /**
-* DO NOT CHANGE
+ *
+ * Ajax Chat extension for the phpBB Forum Software package.
+ * French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
+ *
+ * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
+/**
+ * DO NOT CHANGE
 */
 if (!defined('IN_PHPBB'))
 {
@@ -38,7 +38,8 @@ if (empty($lang) || !is_array($lang))
 // ’ « » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge(
+	$lang, array(
 		'ADMIN_AJAXCHAT_SETTINGS'			=> 'Paramètres',
 		'ACP_AJAX_CHAT_TITLE'				=> 'Messagerie instantanée Ajax',
 		'ACP_AJAX_CHAT'						=> 'Messagerie instantanée Ajax',
@@ -49,7 +50,12 @@ $lang = array_merge($lang, array(
 		'INDEX_DISPLAY_AJAX_CHAT_EXPLAIN'	=> 'Si cette option est sur « Désactivé » l’affichage de la messagerie instantanée Ajax est uniquement supprimé de la page « index du forum ».',
 		'WHOIS_CHATTING'					=> 'Activer la boite « Qui est en ligne »',
 		'WHOIS_CHATTING_EXPLAIN'			=> 'Si cette option est sur « Désactivé » la boite « Qui est en ligne » sera désactivée quelque soit le paramètre de l’utilisateur.',
+		'AJAX_CHAT_POSTS'							=> 'Forum post settings',
 		'FORUM_POSTS_AJAX_CHAT'				=> 'Activer l’affichage des nouveaux messages sur le forum dans la messagerie instantanée',
+		'FORUM_POSTS_AJAX_CHAT_TOPIC'				=> 'Enable new topics to display in chat',
+		'FORUM_POSTS_AJAX_CHAT_REPLY'				=> 'Enable topic replies to display in chat',
+		'FORUM_POSTS_AJAX_CHAT_EDIT'				=> 'Enable edited posts to display in chat',
+		'FORUM_POSTS_AJAX_CHAT_QUOTE'				=> 'Enable quoted posts to display in chat',
 		'ARCHIVE_AMOUNT_AJAX_CHAT'			=> 'Messages archivés',
 		'ARCHIVE_AMOUNT_AJAX_CHAT_EXPLAIN'	=> 'Nombres de messages archivés à afficher. Entre 5 et 500, et par défaut à 200.',
 		'POPUP_AMOUNT_AJAX_CHAT'			=> 'Messages de la pop-up',
@@ -60,6 +66,9 @@ $lang = array_merge($lang, array(
 		'CHAT_AMOUNT_AJAX_CHAT_EXPLAIN'		=> 'Nombres des messages de la messagerie instantanée à afficher. Entre 5 et 150, et par défaut à 60.',
 		'RULE_AJAX_CHAT'					=> 'Définir une règle simple',
 		'RULE_AJAX_CHAT_EXPLAIN'			=> 'Exemple : Restez polies, merci !',
+		'AJAX_CHAT_LOCATION'						=> 'Chat location',
+		'LOCATION_AJAX_CHAT_OVERRIDE'				=> 'Override user’s chat position',
+		'LOCATION_AJAX_CHAT_OVERRIDE_EXPLAIN'		=> 'Enabling this setting will override the chat position setting in the UCP as well as remove the UCP option.',
 		'LOCATION_AJAX_CHAT'				=> 'Emplacement de la messagerie en haut de la page de l’index',
 		'LOCATION_AJAX_CHAT_EXPLAIN'		=> 'Pour afficher la messagerie en bas de la page de l’index du forum, paramétrer sur « Non ».',
 		'TIME_SETTING_AJAX_CHAT'			=> 'Paramètre de la date',

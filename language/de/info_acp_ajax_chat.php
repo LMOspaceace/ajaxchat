@@ -2,7 +2,7 @@
 
 /**
  *
- * Ajax Chat extension for phpBB.
+ * Ajax Chat extension for the phpBB Forum Software package.
  *
  * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
@@ -11,7 +11,7 @@
  */
 /**
  * DO NOT CHANGE
- */
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -33,12 +33,16 @@ if (empty($lang) || !is_array($lang))
 // You do not need this where single placeholders are used, e.g. 'Message %d' is fine
 // equally where a string contains only two placeholders which are used to wrap text
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
+//
+// Some characters you may want to copy&paste:
+// ’ « » “ ” …
+//
 
 $lang = array_merge(
 	$lang, array(
 		'ADMIN_AJAXCHAT_SETTINGS'		=> 'Einstellungen',
-		'ACP_AJAX_CHAT_TITLE'			=> 'Ajax Chat',
-		'ACP_AJAX_CHAT'					=> 'Ajax Chat',
+		'ACP_AJAX_CHAT_TITLE'						=> 'Ajax Chat',
+		'ACP_AJAX_CHAT'								=> 'Ajax Chat',
 		'AJAX_CHAT_SETTINGS'			=> 'Ajax Chat Einstellungen',
 		'ACP_AJAX_CHAT_TITLE_EXPLAIN'	=> 'Hier kannst Du die Ajax Chat-Einstellungen anpassen.',
 		'DISPLAY_AJAX_CHAT'				=> 'Ajax Chat aktivieren',
@@ -46,7 +50,12 @@ $lang = array_merge(
 		'INDEX_DISPLAY_AJAX_CHAT_EXPLAIN'	=> 'Wenn Du hier auf auf "DEAKTIVIERT" stellst, wird nur der Ajax Chat auf der "Indexseite" abgeschaltet.',
 		'WHOIS_CHATTING'				=> '"Wer ist online Box" aktivieren',
 		'WHOIS_CHATTING_EXPLAIN'		=> 'Wenn Du dieses auf "Deaktivieren" stellst, unabhängig von den Einstellungen der Benutzer, wird die "Wer ist online Box" nicht angezeigt.',
+		'AJAX_CHAT_POSTS'							=> 'Forum post settings',
 		'FORUM_POSTS_AJAX_CHAT'				=> 'Aktiviere "Beiträge im Forum" um neue Beiträge im Chat anzeigen zu lassen',
+		'FORUM_POSTS_AJAX_CHAT_TOPIC'				=> 'Enable new topics to display in chat',
+		'FORUM_POSTS_AJAX_CHAT_REPLY'				=> 'Enable topic replies to display in chat',
+		'FORUM_POSTS_AJAX_CHAT_EDIT'				=> 'Enable edited posts to display in chat',
+		'FORUM_POSTS_AJAX_CHAT_QUOTE'				=> 'Enable quoted posts to display in chat',
 		'ARCHIVE_AMOUNT_AJAX_CHAT'			=> 'Archiv Nachrichten',
 		'ARCHIVE_AMOUNT_AJAX_CHAT_EXPLAIN'	=> 'Anzahl von Archiv-Nachrichten anzeigen. Zwischen 5 und 500. Standardwert ist 200.',
 		'POPUP_AMOUNT_AJAX_CHAT'			=> 'Popup-Nachrichten',
@@ -57,6 +66,9 @@ $lang = array_merge(
 		'CHAT_AMOUNT_AJAX_CHAT_EXPLAIN'		=> 'Anzahl der Chat-Nachrichten anzeigen. Zwischen 5 und 150. Standart ist 60.',
 		'RULE_AJAX_CHAT'				=> 'Lege eine einfache Regel für den Chat an',
 		'RULE_AJAX_CHAT_EXPLAIN'		=> 'Beispiel: Seit freundlich zu einander und keine Obszönitäten bitte.!!!',
+		'AJAX_CHAT_LOCATION'						=> 'Chat location',
+		'LOCATION_AJAX_CHAT_OVERRIDE'				=> 'Override user’s chat position',
+		'LOCATION_AJAX_CHAT_OVERRIDE_EXPLAIN'		=> 'Enabling this setting will override the chat position setting in the UCP as well as remove the UCP option.',
 		'LOCATION_AJAX_CHAT'				=> 'Chat Position oben auf der Index-Seite',
 		'LOCATION_AJAX_CHAT_EXPLAIN'		=> 'Wenn Du hier auf "Nein" stellst, wird der Chat unten auf der Index-Seite angezeigt.',
 		'TIME_SETTING_AJAX_CHAT'			=> 'Zeiteinstellung',
@@ -91,7 +103,7 @@ $lang = array_merge(
 		'TRUNCATE_LOG_AJAXCHAT'				=> 'Chat-Datenbank gelöscht',
 		'TRUNCATE_CHAT_SUCESS'				=> 'Chat-Datenbank wurde gelöscht',
 		'CHAT_COUNTER'						=> 'Anzahl der Chat-Nachrichten in der Datenbank',
-		'ROLE_MOD_CHAT'						=> 'Ajax Chat Moderator',
+		'ROLE_MOD_CHAT'								=> 'Ajax Chat moderator',
 		'ROLE_MOD_CHAT_EXPLAIN'				=> 'Ajax Chat Role für die Moderatoren.',
 	)
 );

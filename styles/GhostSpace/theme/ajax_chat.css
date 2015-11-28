@@ -132,6 +132,10 @@ div.chat-avatars:hover span {
 	margin-bottom: 5px;
 }
 
+.details {
+	color: #AA0000;
+}
+
 /* ABBC3 Compatibility */
 
 .abbc3_buttons_row {

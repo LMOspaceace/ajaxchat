@@ -300,6 +300,10 @@ div.chat-avatars:hover span {
 	width: 90px;
 }
 
+.details {
+	color: #AA0000;
+}
+
 @media only screen and (max-width: 900px), only screen and (max-device-width: 900px) {
 	.whois {
 		width: 100%;

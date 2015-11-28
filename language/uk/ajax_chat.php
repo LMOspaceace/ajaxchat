@@ -1,16 +1,16 @@
 <?php
 
 /**
-*
-* Ajax Chat extension for phpBB.
-*
-* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
+ *
+ * Ajax Chat extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
 */
 /**
  * DO NOT CHANGE
- */
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -34,7 +34,7 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 //
 // Some characters you may want to copy&paste:
-// ’ » “ ” …
+// ’ « » “ ” …
 //
 
 $lang = array_merge(
@@ -45,6 +45,10 @@ $lang = array_merge(
 		'CHAT_POPUP_EXPLAIN'		=> 'В плаваючому вікні',
 		'CHAT_RULE'					=> 'Правила чату: ',
 		'CHAT_RULE_EXPLAIN'			=> 'Тримайте його в чистоті. Без ненормативної лексики, будь ласка.',
+		'CHAT_NEW_POST'					=> 'has replied to: <a href="%1$s">%2$s</a>',
+		'CHAT_NEW_TOPIC'				=> 'has started a new topic: <a href="%1$s">%2$s</a>',
+		'CHAT_POST_EDIT'				=> 'has edited: <a href="%1$s">%2$s</a>',
+		'CHAT_NEW_QUOTE'				=> 'has replied with a quote to: <a href="%1$s">%2$s</a>',
 		'EMPTY'						=> 'Помилка: Ви повинні додати повідомлення.',
 		'GUEST_MESSAGE'				=> '<strong>Ви повинні бути зареєстрованим користувачем, щоб використовувати чат.</strong>',
 		'MESSAGE'					=> 'Повідомлення',
@@ -63,7 +67,7 @@ $lang = array_merge(
 		'IE_NO_AJAX'				=> 'Ваша версія Internet Explorer не підтримує AJAX.',
 		'UPGRADE_BROWSER'			=> 'Статус: не можливо створити XmlHttpRequest Object. Оновіть ваш браузер.',
 		'NO_POST_IN_CHAT'			=> 'Ви не маєте дозволу на читання чату.',
-		// @copyright line. No translations below this line
-		'DETAILS'					=> '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
+		'DELETE_CHAT_COOKIE'			=> 'Delete cookie',
+		'DELETE_CHAT_COOKIE_EXPLAIN'	=> 'This button deletes the font colour hold cookie.',
 	)
 );

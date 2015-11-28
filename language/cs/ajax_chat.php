@@ -1,16 +1,16 @@
 <?php
 
 /**
-*
-* Ajax Chat extension for phpBB.
-*
-* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
+ *
+ * Ajax Chat extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
 */
 /**
  * DO NOT CHANGE
- */
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -34,7 +34,7 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 //
 // Some characters you may want to copy&paste:
-// ’ » “ ” …
+// ’ « » “ ” …
 //
 // Český překlad: Komanche, offroadforum.cz
 // Czech translation: Komanche, offroadforum.cz
@@ -51,6 +51,7 @@ $lang = array_merge(
 		'CHAT_NEW_POST'			=> 'odpovídá na: <a href="%1$s">%2$s</a>',
 		'CHAT_NEW_TOPIC'		=> 'začal nové téma: <a href="%1$s">%2$s</a>',
 		'CHAT_POST_EDIT'		=> 'upravil: <a href="%1$s">%2$s</a>',
+		'CHAT_NEW_QUOTE'				=> 'has replied with a quote to: <a href="%1$s">%2$s</a>',
 		'EMPTY'					=> 'Chyba: musíte něco napsat.',
 		'GUEST_MESSAGE'			=> '<strong>Pro použití Chatu musíte být zaregistrován na fóru.</strong>',
 		'MESSAGE'				=> 'Zpráva',
@@ -58,7 +59,7 @@ $lang = array_merge(
 		'RESPOND'				=> 'Odpovědět uživateli',
 		'UNIT'					=> 'Sekund',
 		'UPDATES'				=> 'Aktualizace každých',
-		'CHAT'					=> 'Chat',
+		'CHAT'							=> 'Chat',
 		'CHAT_EXPLAIN'			=> 'Chat',
 		'WHOIS_CHATTING'		=> 'Kdo chatuje',
 		'CHAT_FONT_COLOR'		=> 'Barva písma Chatu',
@@ -69,7 +70,7 @@ $lang = array_merge(
 		'IE_NO_AJAX'			=> 'Vaše verze Internet Exploreru nepodporuje AJAX.',
 		'UPGRADE_BROWSER'		=> 'Stav: Nelze vytvořit XmlHttpRequest Object.	Zvažte instalaci novější verze prohlížeče.',
 		'NO_POST_IN_CHAT'		=> 'Nemáte právo psát zprávy v Chatu.',
-		// @copyright line. No translations below this line
-		'DETAILS'				=> '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
+		'DELETE_CHAT_COOKIE'			=> 'Delete cookie',
+		'DELETE_CHAT_COOKIE_EXPLAIN'	=> 'This button deletes the font colour hold cookie.',
 	)
 );

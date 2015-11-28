@@ -53,10 +53,11 @@
 
 .shouts {
 	float: left;
-	width: 85%;
+	width: 84%;
 	height: 250px;
 	overflow: auto;
 	overflow-x: hidden;
+	margin-left: 0.5%;
 }
 
 .chat_online_off {
@@ -226,6 +227,10 @@
 	padding: 4px 0px 0px 3px;
 }
 
+.chat-names {
+	margin-left: 10px;
+}
+
 div.chat-avatars:hover {
 	background-color: transparent;
 	z-index: 50;
@@ -287,6 +292,10 @@ div.chat-avatars:hover span {
 .font_cookie_delete {
 	margin: 2px auto 0 auto !important;
 	width: 90px;
+}
+
+.details {
+	color: #AA0000;
 }
 
 @media only screen and (max-width: 900px), only screen and (max-device-width: 900px) {

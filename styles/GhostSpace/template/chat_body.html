@@ -111,7 +111,7 @@
 								<td align="center" class="cat nav" width="<!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING -->100%<!-- ELSE -->85%<!-- ENDIF -->">
 										<!-- IF not S_IS_BOT and not S_ARCHIVE -->
 											<!-- IF S_AJAXCHAT_POST -->
-												<form name="postform" id="text" method="post" action="javascript:void(0);" onsubmit="handle_send('add', this)" autocomplete="off">
+												<form name="postform" id="chat-text" method="post" action="javascript:void(0);" onsubmit="handle_send('add', this)">
 													<!-- INCLUDE chat_font_colour_hold.html -->
 													<input type="text" tabindex="1" name="message" id="message" class="inputbox" size="28" />
 													<br />
@@ -211,10 +211,10 @@
 </div></div>
 <div class="c-f-l"><div class="c-f-r"><div class="c-f-c">
 	<div class="vert">
-		<span class="chat-icon">&nbsp;{L_DETAILS}&nbsp;&copy; 2015&nbsp;<strong style="color: #AA0000;">Live&nbsp;Members&nbsp;Only</strong></span>
-		<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" title="3.0.6-BETA" />
-		<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" title="3.0.6-BETA" />
-		<strong>&nbsp;{L_UPDATES}&nbsp;<span id="update_seconds">{REFRESH_TIME}</span>&nbsp;{L_UNIT}</strong>
+		<span class="list chat-icon details">{L_DETAILS}</span>
+		<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="check_indicator" title="{L_VERSION}" />
+		<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" alt="act_indicator" title="{L_VERSION}" />
+		<strong>&nbsp;{L_UPDATES}&nbsp;<span id="update_seconds">&nbsp;{REFRESH_TIME}&nbsp;</span>&nbsp;{L_UNIT}&nbsp;</strong>
 	</div>
 </div></div></div>
 			</div>

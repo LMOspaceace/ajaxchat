@@ -1,16 +1,16 @@
 <?php
-/**
-*
-* Ajax Chat extension for the phpBB Forum Software package.
-* French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
-*
-* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
 
 /**
-* DO NOT CHANGE
+ *
+ * Ajax Chat extension for the phpBB Forum Software package.
+ * French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
+ *
+ * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+*/
+/**
+ * DO NOT CHANGE
 */
 if (!defined('IN_PHPBB'))
 {
@@ -38,8 +38,9 @@ if (empty($lang) || !is_array($lang))
 // ’ « » “ ” …
 //
 
-$lang = array_merge($lang, array(
-		'CHAT_ARCHIVE'			=> 'Archive',
+$lang = array_merge(
+	$lang, array(
+		'CHAT_ARCHIVE'					=> 'Archive',
 		'CHAT_ARCHIVE_EXPLAIN'	=> 'Archive de la messagerie instantanée',
 		'CHAT_POPUP'			=> 'Pop-up',
 		'CHAT_POPUP_EXPLAIN'	=> 'Fenêtre pop-up',
@@ -48,9 +49,10 @@ $lang = array_merge($lang, array(
 		'CHAT_NEW_POST'			=> 'a répondu à : <a href="%1$s">%2$s</a>',
 		'CHAT_NEW_TOPIC'		=> 'a lancé un nouveau sujet : <a href="%1$s">%2$s</a>',
 		'CHAT_POST_EDIT'		=> 'a modifié : <a href="%1$s">%2$s</a>',
+		'CHAT_NEW_QUOTE'				=> 'has replied with a quote to: <a href="%1$s">%2$s</a>',
 		'EMPTY'					=> 'Erreur : vous devez écrire un message.',
 		'GUEST_MESSAGE'			=> '<strong>Vous devez être enregistré pour engager la conversation.</strong>',
-		'MESSAGE'				=> 'Message',
+		'MESSAGE'						=> 'Message',
 		'PAGE_TITLE'			=> 'Messagerie instantanée du forum',
 		'RESPOND'				=> 'Répondre à :',
 		'UNIT'					=> 'secondes',
@@ -62,13 +64,11 @@ $lang = array_merge($lang, array(
 		'SELECT_COLOR'			=> 'Choisir une couleur pour la police de caractère de la messagerie instantanée.',
 		'CHAT_SUBMIT_MESSAGE'	=> 'Envoyer un message',
 		'DELETE_CHAT_MESSAGE'	=> 'Effacer un message',
-		'BBCODES'			 	=> 'BBCodes',
+		'BBCODES'			 			=> 'BBCodes',
 		'IE_NO_AJAX'			=> 'Votre navigateur ne supporte pas le language AJAX.',
 		'UPGRADE_BROWSER'		=> 'Statut : impossible de créer l’objet JavaScript XmlHttpRequest. Veuillez mettre à jour votre navigateur.',
 		'NO_POST_IN_CHAT'		=> 'Vous n’avez pas les permissions nécessaires pour utiliser la messagerie instantanée.',
 		'DELETE_CHAT_COOKIE'	=> 'Supprimer le cookie',
 		'DELETE_CHAT_COOKIE_EXPLAIN'	=> 'Le bouton ci-dessous réinitialise la couleur par défaut de la police.',
-		// @copyright line. No translations below this line
-		'DETAILS'				=> '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
 	)
 );

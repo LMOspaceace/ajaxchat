@@ -25,16 +25,18 @@
 												<!-- ENDIF -->
 											<!-- ENDIF -->
 										</div>
-									<!-- IF not S_IS_BOT -->
-										<!-- IF chatrow.USER_COLOR -->
-											<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/color][/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
-										<!-- ELSE -->
-											<a href="#" onclick="insert_text('[b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
-										<!-- ENDIF -->
-									<!-- ELSE -->
-										&#64;
-									<!-- ENDIF -->
-									{chatrow.USERNAME_FULL}<br /><b class="chat-time">&laquo;&nbsp;{chatrow.TIME}&nbsp;&raquo;</b>
+										<div class="chat-names">
+											<!-- IF not S_IS_BOT -->
+												<!-- IF chatrow.USER_COLOR -->
+													<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/color][/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
+												<!-- ELSE -->
+													<a href="#" onclick="insert_text('[b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
+												<!-- ENDIF -->
+											<!-- ELSE -->
+												&#64;
+											<!-- ENDIF -->
+											{chatrow.USERNAME_FULL}<br /><b class="chat-time">&laquo;&nbsp;{chatrow.TIME}&nbsp;&raquo;</b>
+										</div>
 									</dt>
 									<dd>
 									</dd>
@@ -80,7 +82,6 @@
 				<!-- INCLUDE simple_header.html -->
 				<div>
 			<!-- ENDIF -->
-			<script type="text/javascript" src="{BOARD_URL}assets/javascript/jquery.min.js"></script>
 			<script type="text/javascript">
 			// <![CDATA[
 				var last_time = {TIME};
@@ -126,7 +127,7 @@
 												<form name="postform" id="chat-text" method="post" action="javascript:void(0);" onsubmit="handle_send('add', this)">
 													<fieldset>
 														<!-- INCLUDE chat_font_colour_hold.html -->
-														<input type="text" tabindex="1" name="message" id="message" class="inputbox chatinput" />
+														<input type="text" tabindex="1" name="message" id="message" class="inputbox chatinput" autocomplete="off" />
 														<br />
 														<input type="submit" class="button2" value="{L_SUBMIT}" title="{L_CHAT_SUBMIT_MESSAGE}" name="submit" tabindex="6" accesskey="s" />
 														<!-- IF S_AJAXCHAT_BBCODE -->
@@ -186,16 +187,18 @@
 													<!-- ENDIF -->
 												<!-- ENDIF -->
 											</div>
-										<!-- IF not S_IS_BOT -->
-											<!-- IF chatrow.USER_COLOR -->
-												<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b][/color]', true);return false;" title="{L_RESPOND}">&#64;</a>
-											<!-- ELSE -->
-												<a href="#" onclick="insert_text('[b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
-											<!-- ENDIF -->
-										<!-- ELSE -->
-											&#64;
-										<!-- ENDIF -->
-										{chatrow.USERNAME_FULL}<br /><b class="chat-time">&laquo;&nbsp;{chatrow.TIME}&nbsp;&raquo;</b>
+											<div class="chat-names">
+												<!-- IF not S_IS_BOT -->
+													<!-- IF chatrow.USER_COLOR -->
+														<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b][/color]', true);return false;" title="{L_RESPOND}">&#64;</a>
+													<!-- ELSE -->
+														<a href="#" onclick="insert_text('[b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
+													<!-- ENDIF -->
+												<!-- ELSE -->
+												&#64;
+												<!-- ENDIF -->
+												{chatrow.USERNAME_FULL}<br /><b class="chat-time">&laquo;&nbsp;{chatrow.TIME}&nbsp;&raquo;</b>
+											</div>
 										</dt>
 										<dd>
 										</dd>
@@ -230,10 +233,10 @@
 				<!-- ENDIF -->
 			<div class="chatnavbar navbar">
 				<div class="chatform">
-					<span class="list chat-icon">&nbsp;{L_DETAILS}&nbsp;&copy;&nbsp;2015&nbsp;<strong style="color: #AA0000;">Live&nbsp;Members&nbsp;Only</strong></span>
-					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="check_indicator" title="3.0.6-BETA" />
-					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" alt="act_indicator" title="3.0.6-BETA" />
-					<strong> {L_UPDATES} <span id="update_seconds"> {REFRESH_TIME} </span> {L_UNIT} </strong>
+					<span class="list chat-icon details">{L_DETAILS}</span>
+					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="check_indicator" title="{L_VERSION}" />
+					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" alt="act_indicator" title="{L_VERSION}" />
+					<strong>&nbsp;{L_UPDATES}&nbsp;<span id="update_seconds">&nbsp;{REFRESH_TIME}&nbsp;</span>&nbsp;{L_UNIT}&nbsp;</strong>
 				</div>
 			</div>
 			<!-- IF S_CHAT -->

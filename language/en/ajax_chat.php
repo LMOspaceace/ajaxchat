@@ -1,16 +1,16 @@
 <?php
 
 /**
-*
-* Ajax Chat extension for phpBB.
-*
-* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
+ *
+ * Ajax Chat extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
 */
 /**
  * DO NOT CHANGE
- */
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -34,7 +34,7 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 //
 // Some characters you may want to copy&paste:
-// ’ » “ ” …
+// ’ « » “ ” …
 //
 
 $lang = array_merge(
@@ -69,7 +69,5 @@ $lang = array_merge(
 		'NO_POST_IN_CHAT'				=> 'You do not have permission to post in chat.',
 		'DELETE_CHAT_COOKIE'			=> 'Delete cookie',
 		'DELETE_CHAT_COOKIE_EXPLAIN'	=> 'This button deletes the font colour hold cookie.',
-		// @copyright line. No translations below this line
-		'DETAILS'				=> '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a>',
 	)
 );

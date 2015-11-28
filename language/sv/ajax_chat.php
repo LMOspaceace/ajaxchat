@@ -1,17 +1,17 @@
-Enter file contents here<?php
+<?php
 
 /**
-*
-* Ajax Chat extension for phpBB.
-*
-* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
-* Swedish translation be Holger (https://www.maskinisten.net)
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
+ *
+ * Ajax Chat extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+ * Swedish translation be Holger (https://www.maskinisten.net)
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
 */
 /**
  * DO NOT CHANGE
- */
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -35,20 +35,21 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 //
 // Some characters you may want to copy&paste:
-// ’ » “ ” …
+// ’ « » “ ” …
 //
 
 $lang = array_merge(
 	$lang, array(
 		'CHAT_ARCHIVE'			=> 'Arkiv',
 		'CHAT_ARCHIVE_EXPLAIN'	=> 'Chattarkiv',
-		'CHAT_POPUP'			=> 'Popup',
+		'CHAT_POPUP'					=> 'Popup',
 		'CHAT_POPUP_EXPLAIN'	=> 'Chattpopup',
 		'CHAT_RULE'				=> 'Chattregel: ',
 		'CHAT_RULE_EXPLAIN'		=> 'Var vänliga, inga svordomar.',
 		'CHAT_NEW_POST'			=> 'har svarat: <a href="%1$s">%2$s</a>',
 		'CHAT_NEW_TOPIC'		=> 'har startat ett nytt ämne: <a href="%1$s">%2$s</a>',
 		'CHAT_POST_EDIT'		=> 'har ändrat: <a href="%1$s">%2$s</a>',
+		'CHAT_NEW_QUOTE'				=> 'has replied with a quote to: <a href="%1$s">%2$s</a>',
 		'EMPTY'					=> 'Fel: du måste mata in ett meddelande.',
 		'GUEST_MESSAGE'			=> '<strong>Du måste vara inloggad för att kunna använda chatten.</strong>',
 		'MESSAGE'				=> 'Meddelande',
@@ -68,7 +69,6 @@ $lang = array_merge(
 		'UPGRADE_BROWSER'		=> 'Status: kund eej skapa XmlHttpRequest Object.	Uppdatera din webbläsare.',
 		'NO_POST_IN_CHAT'		=> 'Du har ej behörighet att skriva i chatten.',
 		'DELETE_CHAT_COOKIE'	=> 'Radera cookie',
-		// @copyright line. No translations below this line
-		'DETAILS'				=> '<a href="http://www.livemembersonly.com" style="font-weight: bold;">AJAX Chat</a> &copy; 2015 <strong style="color: #AA0000;">Live Members Only</strong>',
+		'DELETE_CHAT_COOKIE_EXPLAIN'	=> 'This button deletes the font colour hold cookie.',
 	)
 );

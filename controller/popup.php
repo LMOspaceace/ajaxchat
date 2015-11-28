@@ -294,16 +294,21 @@ class popup
 	 */
 	private function defaultAction()
 	{
-		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
-                FROM ' . CHAT_TABLE . ' as c
-                LEFT JOIN ' . USERS_TABLE . ' as u
-                ON c.user_id = u.user_id
-                ORDER BY message_id DESC';
-		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_popup_amount']);
-		$rows	 = $this->db->sql_fetchrowset($result);
+		$sql	= 'SELECT c.*, p.post_visibility, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
+				FROM ' . CHAT_TABLE . ' as c
+				LEFT JOIN ' . USERS_TABLE . ' as u ON c.user_id = u.user_id
+				LEFT JOIN ' . POSTS_TABLE . ' as p ON c.post_id = p.post_id
+				WHERE c.message_id > ' . $this->last_id . '
+				ORDER BY c.message_id DESC';
+		$result	= $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
+		$rows	= $this->db->sql_fetchrowset($result);
 
 		foreach ($rows as $row)
 		{
+			if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
+			{
+				continue;
+			}
 			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
 			{
 				continue;
@@ -498,14 +503,14 @@ class popup
 	 */
 	private function readAction()
 	{
-		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
-                FROM ' . CHAT_TABLE . ' as c
-                LEFT JOIN ' . USERS_TABLE . ' as u
-                ON c.user_id = u.user_id
-                WHERE c.message_id > ' . $this->last_id . '
-                ORDER BY message_id DESC';
-		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_popup_amount']);
-		$rows	 = $this->db->sql_fetchrowset($result);
+		$sql	= 'SELECT c.*, p.post_visibility, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
+				FROM ' . CHAT_TABLE . ' as c
+				LEFT JOIN ' . USERS_TABLE . ' as u ON c.user_id = u.user_id
+				LEFT JOIN ' . POSTS_TABLE . ' as p ON c.post_id = p.post_id
+				WHERE c.message_id > ' . $this->last_id . '
+				ORDER BY c.message_id DESC';
+		$result	= $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
+		$rows	= $this->db->sql_fetchrowset($result);
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
 		{
@@ -513,6 +518,10 @@ class popup
 		}
 		foreach ($rows as $row)
 		{
+			if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
+			{
+				continue;
+			}
 			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
 			{
 				continue;
@@ -630,14 +639,14 @@ class popup
 		$sql		 = 'UPDATE ' . CHAT_SESSIONS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary2) . " WHERE user_id = {$this->user->data['user_id']}";
 		$result		 = $this->db->sql_query($sql);
 
-		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
+		$sql	= 'SELECT c.*, p.post_visibility, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
 				FROM ' . CHAT_TABLE . ' as c
-				LEFT JOIN ' . USERS_TABLE . ' as u
-				ON c.user_id = u.user_id
+				LEFT JOIN ' . USERS_TABLE . ' as u ON c.user_id = u.user_id
+				LEFT JOIN ' . POSTS_TABLE . ' as p ON c.post_id = p.post_id
 				WHERE c.message_id > ' . $this->last_id . '
-				ORDER BY message_id DESC';
-		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_popup_amount']);
-		$rows	 = $this->db->sql_fetchrowset($result);
+				ORDER BY c.message_id DESC';
+		$result	= $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
+		$rows	= $this->db->sql_fetchrowset($result);
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
 		{
@@ -646,6 +655,10 @@ class popup
 
 		foreach ($rows as $row)
 		{
+			if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
+			{
+				continue;
+			}
 			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
 			{
 				continue;

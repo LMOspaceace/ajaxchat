@@ -1,17 +1,17 @@
 <?php
 
 /**
-*
-* Ajax Chat extension for phpBB.
-*
-* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
-* Swedish translation by Holger (https://www.maskinisten.net)
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * Ajax Chat extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+ * Swedish translation by Holger (https://www.maskinisten.net)
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 /**
  * DO NOT CHANGE
- */
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -33,6 +33,10 @@ if (empty($lang) || !is_array($lang))
 // You do not need this where single placeholders are used, e.g. 'Message %d' is fine
 // equally where a string contains only two placeholders which are used to wrap text
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
+//
+// Some characters you may want to copy&paste:
+// ’ « » “ ” …
+//
 
 $lang = array_merge(
 	$lang, array(
@@ -46,7 +50,12 @@ $lang = array_merge(
 		'INDEX_DISPLAY_AJAX_CHAT_EXPLAIN'	=> 'Deaktiveras denna inställning så döljs chatten endast på forumets startsida.',
 		'WHOIS_CHATTING'					=> 'Aktivera rutan Vem chattar',
 		'WHOIS_CHATTING_EXPLAIN'			=> 'Deaktiveras denna inställning så döljs rutan Vem chattar oberoende av användarens inställningar.',
+		'AJAX_CHAT_POSTS'							=> 'Forum post settings',
 		'FORUM_POSTS_AJAX_CHAT'				=> 'Aktivera visning av forumaktivitet (svar, nya trådar, mm) i chatten',
+		'FORUM_POSTS_AJAX_CHAT_TOPIC'				=> 'Enable new topics to display in chat',
+		'FORUM_POSTS_AJAX_CHAT_REPLY'				=> 'Enable topic replies to display in chat',
+		'FORUM_POSTS_AJAX_CHAT_EDIT'				=> 'Enable edited posts to display in chat',
+		'FORUM_POSTS_AJAX_CHAT_QUOTE'				=> 'Enable quoted posts to display in chat',
 		'ARCHIVE_AMOUNT_AJAX_CHAT'			=> 'Arkiverade meddelanden',
 		'ARCHIVE_AMOUNT_AJAX_CHAT_EXPLAIN'	=> 'Antal arkiverade meddelanden som skall visas. Mellan 5 och 500. Standard är 200.',
 		'POPUP_AMOUNT_AJAX_CHAT'			=> 'Popup-meddelanden',
@@ -57,6 +66,9 @@ $lang = array_merge(
 		'CHAT_AMOUNT_AJAX_CHAT_EXPLAIN'		=> 'Antal chattmeddelanden som skall visas. Mellan 5 och 150. Standard är 60.',
 		'RULE_AJAX_CHAT'					=> 'Angen en enkel regel för chatten',
 		'RULE_AJAX_CHAT_EXPLAIN'			=> 'Exempel: inga påhopp eller kränkande inlägg!',
+		'AJAX_CHAT_LOCATION'						=> 'Chat location',
+		'LOCATION_AJAX_CHAT_OVERRIDE'				=> 'Override user’s chat position',
+		'LOCATION_AJAX_CHAT_OVERRIDE_EXPLAIN'		=> 'Enabling this setting will override the chat position setting in the UCP as well as remove the UCP option.',
 		'LOCATION_AJAX_CHAT'				=> 'Chattens position uppe på startsidan',
 		'LOCATION_AJAX_CHAT_EXPLAIN'		=> 'Inställningen "Nej" flyttar chatten till botten av startsidan.',
 		'TIME_SETTING_AJAX_CHAT'			=> 'Tidsinställning',
@@ -65,11 +77,11 @@ $lang = array_merge(
 		'ACL_U_AJAXCHAT_POST'				=> 'Kan skriva i chatten',
 		'ACL_U_AJAXCHAT_VIEW'				=> 'Kan se chatten',
 		'ACL_M_AJAXCHAT_DELETE'				=> 'Kan radera meddelanden i chatten',
-		'STATUS_ONLINE_CHAT'				=> 'Onlinestatus',
+		'STATUS_ONLINE_CHAT'						=> 'Online status',
 		'STATUS_ONLINE_CHAT_EXPLAIN'		=> 'Inställning av användarens onlinestatustid efter antal sekunder. Standard är 0.',
 		'STATUS_IDLE_CHAT'					=> 'Vilostatus',
 		'STATUS_IDLE_CHAT_EXPLAIN'			=> 'Inställning av användarens vilostatustid efter antal sekunder. Standard är 300.',
-		'STATUS_OFFLINE_CHAT'				=> 'Offlinestatus',
+		'STATUS_OFFLINE_CHAT'						=> 'Offline status',
 		'STATUS_OFFLINE_CHAT_EXPLAIN'		=> 'Inställning av användarens offlinestatustid efter antal sekunder. Standard är 1800.',
 		'REFRESH_ONLINE_CHAT'				=> 'Online aktualiseringstid',
 		'REFRESH_ONLINE_CHAT_EXPLAIN'		=> 'Inställning av användarens onlinestatustid efter antal sekunder. Standard är 5.',
