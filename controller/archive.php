@@ -299,7 +299,6 @@ class archive
 		$result	= $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
 		$rows	= $this->db->sql_fetchrowset($result);
 
-
 		foreach ($rows as $row)
 		{
 			if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
@@ -507,7 +506,6 @@ class archive
 				ORDER BY c.message_id DESC';
 		$result	= $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
 		$rows	= $this->db->sql_fetchrowset($result);
-
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
 		{
