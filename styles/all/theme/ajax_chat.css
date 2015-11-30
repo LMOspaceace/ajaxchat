@@ -156,6 +156,10 @@
 	color: #AA0000;
 }
 
+.chat-header-link {
+	text-align: center;
+}
+
 .main {
 	height: 400px;
 	overflow: auto;
@@ -224,7 +228,7 @@
 	margin-right: 10px;
 	outline: none;
 	z-index: 0;
-	padding: 2px 0px 0px 4px;
+	padding: 3px 0px 0px 3px;
 }
 
 .chat-names {
@@ -253,9 +257,7 @@ div.chat-avatars:hover span {
 	top: -4px;
 	left: 40px;
 	padding: 2px 2px 0;
-	background: #DDDDDD;
-	border: 1px solid #CCC;
-	border-radius: 6px;
+	background: transparent;
 }
 
 .chat li.row:hover {
@@ -298,6 +300,11 @@ div.chat-avatars:hover span {
 
 .details {
 	color: #AA0000;
+}
+
+.nobg {
+	background: none !important;
+	border: none !important;
 }
 
 @media only screen and (max-width: 900px), only screen and (max-device-width: 900px) {

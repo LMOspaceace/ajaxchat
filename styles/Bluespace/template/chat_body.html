@@ -118,8 +118,8 @@
 						</li>
 					</ul>
 					<!-- IF not S_ARCHIVE -->
-						<ul class="chat topiclist forums">
-							<li class="row">
+						<ul class="chat topiclist forums nobg">
+							<li class="row nobg">
 								<dl class="icon">
 									<dt class="chatform">
 										<!-- IF not S_IS_BOT -->
@@ -129,15 +129,15 @@
 														<!-- INCLUDE chat_font_colour_hold.html -->
 														<input type="text" tabindex="1" name="message" id="message" class="inputbox chatinput" autocomplete="off" />
 														<br />
-														<input type="submit" class="button2" value="{L_SUBMIT}" title="{L_CHAT_SUBMIT_MESSAGE}" name="submit" tabindex="6" accesskey="s" />
+														<input type="submit" class="button" value="{L_SUBMIT}" title="{L_CHAT_SUBMIT_MESSAGE}" name="submit" tabindex="6" accesskey="s" />
 														<!-- IF S_AJAXCHAT_BBCODE -->
-															<input type="button" class="button2" id="bbcodes" value="{L_BBCODES}" />
-															<input type="button" class="button2" name="smilies" id="smilies" value="{L_SMILIES}" />
+															<input type="button" class="button" id="bbcodes" value="{L_BBCODES}" />
+															<input type="button" class="button" name="smilies" id="smilies" value="{L_SMILIES}" />
 														<!-- ENDIF -->
-														<input type="button" class="button2" onclick="popup('{FILENAME}/archive', 1000, 625); return false;" value="{L_CHAT_ARCHIVE}" title="{L_CHAT_ARCHIVE_EXPLAIN}" />
-														<input type="button" class="button2" onclick="popup('{FILENAME}/popup', 1000, 630); return false;" value="{L_CHAT_POPUP}" title="{L_CHAT_POPUP_EXPLAIN}" />
+														<input type="button" class="button" onclick="popup('{FILENAME}/archive', 1000, 625); return false;" value="{L_CHAT_ARCHIVE}" title="{L_CHAT_ARCHIVE_EXPLAIN}" />
+														<input type="button" class="button" onclick="popup('{FILENAME}/popup', 1000, 630); return false;" value="{L_CHAT_POPUP}" title="{L_CHAT_POPUP_EXPLAIN}" />
 														<!-- IF S_AJAXCHAT_BBCODE -->
-															<input type="button" class="button2" name="chat_bbpalette" id="chat_bbpalette" value="{L_CHAT_FONT_COLOR}" />
+															<input type="button" class="button" name="chat_bbpalette" id="chat_bbpalette" value="{L_CHAT_FONT_COLOR}" />
 														<!-- ENDIF -->
 													</fieldset>
 												<!-- INCLUDE chat_buttons.html -->
@@ -236,7 +236,7 @@
 					<span class="list chat-icon details">{L_DETAILS}</span>
 					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="check_indicator" title="{L_VERSION}" />
 					<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" alt="act_indicator" title="{L_VERSION}" />
-					<strong>&nbsp;{L_UPDATES}&nbsp;<span id="update_seconds">&nbsp;{REFRESH_TIME}&nbsp;</span>&nbsp;{L_UNIT}&nbsp;</strong>
+					<strong>&nbsp;{L_UPDATES}<span id="update_seconds">&nbsp;{REFRESH_TIME}</span>&nbsp;{L_UNIT}&nbsp;</strong>
 				</div>
 			</div>
 			<!-- IF S_CHAT -->

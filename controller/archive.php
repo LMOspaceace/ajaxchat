@@ -242,6 +242,7 @@ class archive
 		{
 			$last_post = $row['user_lastpost'];
 		}
+		$details = base64_decode('Jm5ic3A7PGEgaHJlZj0iaHR0cDovL3d3dy5saXZlbWVtYmVyc29ubHkuY29tIiBzdHlsZT0iZm9udC13ZWlnaHQ6IGJvbGQ7Ij5BSkFYJm5ic3A7Q2hhdCZuYnNwOyZjb3B5OyZuYnNwOzIwMTU8L2E+Jm5ic3A7PHN0cm9uZz5MaXZlJm5ic3A7TWVtYmVycyZuYnNwO09ubHk8L3N0cm9uZz4=');
 
 		//Assign the features template variable
 		$this->template->assign_vars([
@@ -258,10 +259,12 @@ class archive
 			'S_BBCODE_FLASH'		=> $flash_status,
 			'S_BBCODE_QUOTE'		=> $quote_status,
 			'S_BBCODE_URL'			=> $url_status,
+			'L_DETAILS'				=> $details,
 			'REFRESH_TIME'			=> $refresh,
 			'LAST_ID'				=> $this->last_id,
 			'LAST_POST'				=> $last_post,
 			'TIME'					=> time(),
+			'L_VERSION'				=> '3.0.8-BETA',
 			'STYLE_PATH'			=> generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'		=> '' . $this->ext_path_web . 'styles/',
 			'FILENAME'				=> $this->helper->route('spaceace_ajaxchat_chat'),
@@ -295,6 +298,7 @@ class archive
 				ORDER BY c.message_id DESC';
 		$result	= $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
 		$rows	= $this->db->sql_fetchrowset($result);
+
 
 		foreach ($rows as $row)
 		{
@@ -503,6 +507,7 @@ class archive
 				ORDER BY c.message_id DESC';
 		$result	= $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
 		$rows	= $this->db->sql_fetchrowset($result);
+
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
 		{
