@@ -446,7 +446,7 @@ class listener implements EventSubscriberInterface
 			'LAST_ID'				=> $this->last_id,
 			'LAST_POST'				=> $last_post,
 			'TIME'					=> time(),
-			'L_VERSION'				=> '3.0.8-BETA',
+			'L_VERSION'				=> '3.0.9-BETA',
 			'STYLE_PATH'			=> generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'		=> '' . $this->ext_path_web . 'styles/',
 			'FILENAME'				=> $this->helper->route('spaceace_ajaxchat_chat'),
@@ -511,11 +511,26 @@ class listener implements EventSubscriberInterface
 			return;
 		}
 
-		$url			 = append_sid(generate_board_url() . '/viewtopic.' . $this->php_ext, 'f=' . $event['data']['forum_id'] . '&amp;t=' . $event['data']['topic_id'] . '&amp;p=' . $event['data']['post_id'] . '#p' . $event['data']['post_id']);
-		$username		 = get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']);
-		$message		 = sprintf($lang, $url, $event['post_data']['post_subject']);
-		$uid			 = $bitfield		 = $options		 = '';
-		$allow_bbcode	 = $allow_urls		 = $allow_smilies	 = true;
+		$url				= append_sid(generate_board_url() . '/viewtopic.' . $this->php_ext, 'f=' . $event['data']['forum_id'] . '&amp;t=' . $event['data']['topic_id'] . '&amp;p=' . $event['data']['post_id'] . '#p' . $event['data']['post_id']);
+		$username			= get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']);
+		if ($event['mode'] == 'post')
+		{
+			$message		= $this->user->lang('CHAT_NEW_TOPIC', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
+		}
+		else if ($event['mode'] == 'edit')
+		{
+			$message		= $this->user->lang('CHAT_POST_EDIT', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
+		}
+		else if ($event['mode'] == 'reply')
+		{
+			$message		= $this->user->lang('CHAT_NEW_POST', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
+		}
+		else if ($event['mode'] == 'quote')
+		{
+			$message		= $this->user->lang('CHAT_NEW_QUOTE', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
+		}
+		$uid				= $bitfield		 = $options		 = '';
+		$allow_bbcode		= $allow_urls		 = $allow_smilies	 = true;
 		generate_text_for_storage($message, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
 		$sql_ary = array(
 			'chat_id'			 => 0,
