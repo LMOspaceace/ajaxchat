@@ -55,10 +55,10 @@ class prune_ajaxchat extends \phpbb\cron\task\base
 				FROM ' . CHAT_TABLE . ' 
 				ORDER BY message_id DESC'; 
 		$result	= $this->db->sql_query_limit($sql, $this->config['prune_keep_ajax_chat'], 1);
-		$row = $this->db->sql_fetchrow($result);
+		$message_id = (int) $this->db->sql_fetchfield('message_id');
 		$this->db->sql_freeresult($result);
 
-		$last_kept_id = $row['message_id'] - $this->config['prune_keep_ajax_chat'];
+		$last_kept_id = $message_id - $this->config['prune_keep_ajax_chat'];
 		$sql = 'DELETE FROM ' . CHAT_TABLE . '
 				WHERE message_id <= ' . (int) $last_kept_id;
 		$this->db->sql_query($sql);
