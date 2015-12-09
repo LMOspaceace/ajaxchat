@@ -57,7 +57,6 @@ class prune_ajaxchat extends \phpbb\cron\task\base
 		$result	 = $this->db->sql_query_limit($sql, $this->config['prune_keep_ajax_chat'], 1);
 		$row	 = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
-		
 		$sql1 = 'DELETE FROM ' . CHAT_TABLE . '
 			 	WHERE `message_id` < ' . (int) $row['message_id'] . '';
 		$this->db->sql_query($sql1);
