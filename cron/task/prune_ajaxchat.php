@@ -54,7 +54,7 @@ class prune_ajaxchat extends \phpbb\cron\task\base
 		$sql = 'SELECT message_id 
 				FROM ' . CHAT_TABLE . '
 				ORDER BY message_id DESC';
-		$result	= $this->db->sql_query_limit($sql, $this->config['prune_keep_ajax_chat'], 1);
+		$result	= $this->db->sql_query_limit($sql, 1, $this->config['prune_keep_ajax_chat']);
 		$message_id = (int) $this->db->sql_fetchfield('message_id');
 		$this->db->sql_freeresult($result);
 
