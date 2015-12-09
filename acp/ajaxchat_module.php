@@ -162,17 +162,15 @@ class ajaxchat_module
 			}
 			if ($this->u_action === 'prune_chat')
 			{
-				$sql			 = 'SELECT message_id '
-						. 'FROM ' . CHAT_TABLE . ' '
-						. 'ORDER BY message_id DESC '
-						. 'LIMIT ' . $this->config['prune_keep_ajax_chat'] . ', 1';
-				$result			 = $this->db->sql_query($sql);
-				$row			 = $this->db->sql_fetchrow($result);
+				$sql	 = 'SELECT message_id 
+							FROM ' . CHAT_TABLE . ' 
+							ORDER BY message_id DESC ';
+				$result	 = $this->db->sql_query_limit($sql, $this->config['prune_keep_ajax_chat'], 1);
+				$row	 = $this->db->sql_fetchrow($result);
 				$this->db->sql_freeresult($result);
-
-				$last_kept_id	 = ($row['message_id'] - $this->config['prune_keep_ajax_chat']);
-				$sql1			 = 'DELETE FROM ' . CHAT_TABLE . ''
-						. ' WHERE `message_id` <= ' . $row['message_id'] . '';
+				
+				$sql1 = 'DELETE FROM ' . CHAT_TABLE . '
+						 WHERE `message_id` < ' . (int) $row['message_id'] . '';
 				$this->db->sql_query($sql1);
 
 				add_log('admin', 'PRUNE_LOG_AJAXCHAT');
