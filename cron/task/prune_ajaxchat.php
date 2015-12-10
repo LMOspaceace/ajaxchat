@@ -51,19 +51,19 @@ class prune_ajaxchat extends \phpbb\cron\task\base
 			$chat_table = $this->table_prefix . 'ajax_chat';
 			define('CHAT_TABLE', $chat_table);
 		}
-		$sql	= 'SELECT message_id '
-				. 'FROM ' . CHAT_TABLE . ' '
-				. 'ORDER BY message_id DESC '
-				. 'LIMIT ' . $this->config['prune_keep_ajax_chat'] . ', 1';
-		$result	= $this->db->sql_query($sql);
-		$row	= $this->db->sql_fetchrow($result);
+		$sql  = 'SELECT message_id
+			FROM ' . CHAT_TABLE . '
+			ORDER BY message_id DESC ';
+		$result  = $this->db->sql_query_limit($sql, 1, $this->config['prune_keep_ajax_chat']);
+		$row  = $this->db->sql_fetchfield('message_id');
 		$this->db->sql_freeresult($result);
-		$last_kept_id	 = ($row['message_id'] - $this->config['prune_keep_ajax_chat']);
-		$sql1			 = 'DELETE FROM ' . CHAT_TABLE . ''
-				. ' WHERE `message_id` <= ' . $row['message_id'] . '';
+		$sql1 = 'DELETE FROM ' . CHAT_TABLE . '
+			WHERE `message_id` <= ' . (int) $row . '';
 		$this->db->sql_query($sql1);
+		// Add the log to the ACP.
 		$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'PRUNE_LOG_AJAXCHAT_AUTO', time());
-		$this->config->set('prune_ajax_chat_last_gc', time(), true);
+		// Do not forget to update the configuration variable for last run time.
+		$this->config->set('prune_ajax_chat_last_gc', time());
 	}
 
 	/**
