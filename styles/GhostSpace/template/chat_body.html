@@ -61,7 +61,7 @@
 				<!-- ENDIF -->
 					<!-- IF S_WHOISONLINE -->
 							<!-- BEGIN whoisrow -->
-								<div class="whois_status<!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
+								<div class="whois_status<!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
 									<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="status_img" alt="{whoisrow.USER_STATUS}" />&nbsp;{whoisrow.USERNAME_FULL}&nbsp;
 								</div>
 							<!-- END whoisrow -->
@@ -69,10 +69,10 @@
 				--!--{LAST_TIME}--!--{REFRESH_TIME}--!--{LAST_POST}
 			<!-- ENDIF -->
 		<!-- ELSE -->
-			<!-- IF S_CHAT -->
+			<!-- IF SCRIPT_NAME == 'app/chat' -->
 				<!-- INCLUDE overall_header.html -->
 			<!-- ENDIF -->
-			<!-- IF S_POPUP or S_ARCHIVE -->
+			<!-- IF SCRIPT_NAME == 'app/chat/popup' or SCRIPT_NAME == 'app/chat/archive' -->
 				<!-- EVENT overall_header_head_append -->
 				<!-- INCLUDE simple_header.html -->
 				<div>
@@ -102,13 +102,13 @@
 			</script>
 			<!-- INCLUDEJS @spaceace_ajaxchat/js/ajax_chat.js -->
 			<div class="chat">
-				<div><div class="c-h-l"><div class="c-h-r"><div class="c-h-c"><div class="c-h-title"><h4><!-- IF SCRIPT_NAME == "index" --><a href="{U_CHAT}" class="white">{L_CHAT_EXPLAIN}</a><!-- ELSE -->{L_CHAT_EXPLAIN}<!-- ENDIF --></h4></div></div></div></div></div>
+				<div><div class="c-h-l"><div class="c-h-r"><div class="c-h-c"><div class="c-h-title"><h4><!-- IF SCRIPT_NAME == 'index' --><a href="{U_CHAT}" class="white">{L_CHAT_EXPLAIN}</a><!-- ELSE -->{L_CHAT_EXPLAIN}<!-- ENDIF --></h4></div></div></div></div></div>
 				<div class="left"><div class="right">
 				<div class="box">
 					<table class="tablebg" cellspacing="1" width="100%">
 							<tr>
-								<td align="center" class="cat nav" width="<!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING -->100%<!-- ELSE -->85%<!-- ENDIF -->">
-										<!-- IF not S_IS_BOT and not S_ARCHIVE -->
+								<td align="center" class="cat nav" width="<!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING -->100%<!-- ELSE -->85%<!-- ENDIF -->">
+										<!-- IF SCRIPT_NAME neq 'app/chat/archive' -->
 											<!-- IF S_AJAXCHAT_POST -->
 												<form name="postform" id="chat-text" method="post" action="javascript:void(0);" onsubmit="handle_send('add', this)">
 													<!-- INCLUDE chat_font_colour_hold.html -->
@@ -136,7 +136,7 @@
 											<!-- ENDIF -->
 									<!-- ENDIF -->
 								</td>
-								<td align="center" class="cat nav" <!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING -->style="visibility: hidden; position: absolute;"<!-- ELSE -->width="15%"<!-- ENDIF -->>{L_WHOIS_CHATTING}</td>
+								<td align="center" class="cat nav" <!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING -->style="visibility: hidden; position: absolute;"<!-- ELSE -->width="15%"<!-- ENDIF -->>{L_WHOIS_CHATTING}</td>
 							</tr>
 						<tr>
 							<td class="row" style="text-align:left;" height="220">
@@ -191,11 +191,11 @@
 									</div>
 								</div>
 							</td>
-							<td class="row1" nowrap="nowrap" <!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING -->style="visibility: hidden; position: absolute;"<!-- ENDIF -->>
+							<td class="row1" nowrap="nowrap" <!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING -->style="visibility: hidden; position: absolute;"<!-- ENDIF -->>
 								<div class="whois">
 									<div id="whois_online">
 										<!-- BEGIN whoisrow -->
-											<div class="whois_status<!-- IF not S_AJAX_CHAT_ONLINELIST or S_ARCHIVE or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
+											<div class="whois_status<!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
 												<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="status_img" alt="{whoisrow.USER_STATUS}" />&nbsp;{whoisrow.USERNAME_FULL}&nbsp;
 											</div>
 										<!-- END whoisrow -->
@@ -213,14 +213,14 @@
 		<span class="list chat-icon details">{L_DETAILS}</span>
 		<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="check_indicator" title="{L_VERSION}" />
 		<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" alt="act_indicator" title="{L_VERSION}" />
-		<strong>&nbsp;{L_UPDATES}<span id="update_seconds">&nbsp;{REFRESH_TIME}</span>&nbsp;{L_UNIT}&nbsp;</strong>
+		<strong>&nbsp;{L_UPDATES}<span id="update_seconds">&nbsp;{REFRESH_TIME}</span>&nbsp;{L_UNIT}</strong>
 	</div>
 </div></div></div>
 			</div>
-			<!-- IF S_CHAT -->
+			<!-- IF SCRIPT_NAME == 'app/chat' -->
 				<!-- INCLUDE overall_footer.html -->
 			<!-- ENDIF -->
-			<!-- IF S_POPUP or S_ARCHIVE -->
+			<!-- IF SCRIPT_NAME == 'app/chat/popup' or SCRIPT_NAME == 'app/chat/archive' -->
 				</div>
 				<!-- INCLUDE simple_footer.html -->
 			<!-- ENDIF -->

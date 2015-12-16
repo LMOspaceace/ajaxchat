@@ -1,5 +1,5 @@
 services:
-    spaceace.ajax.chat.listener:
+    spaceace.ajaxchat.listener:
         class: spaceace\ajaxchat\event\listener
         arguments:
             - @template
@@ -34,7 +34,7 @@ services:
             - %core.root_path%
             - %core.php_ext%
     spaceace.ajaxchat.popup.controller:
-        class: spaceace\ajaxchat\controller\popup
+        class: spaceace\ajaxchat\controller\chat
         arguments:
             - @template
             - @user
@@ -50,23 +50,7 @@ services:
             - %core.root_path%
             - %core.php_ext%
     spaceace.ajaxchat.archive.controller:
-        class: spaceace\ajaxchat\controller\archive
-        arguments:
-            - @template
-            - @user
-            - @dbal.conn
-            - @auth
-            - @request
-            - @controller.helper
-            - @config
-            - @ext.manager
-            - @path_helper
-            - @service_container
-            - %core.table_prefix%
-            - %core.root_path%
-            - %core.php_ext%
-    spaceace.ajaxchat.shout.controller:
-        class: spaceace\ajaxchat\controller\shout
+        class: spaceace\ajaxchat\controller\chat
         arguments:
             - @template
             - @user

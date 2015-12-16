@@ -225,10 +225,6 @@ function http_object()
 	}
 }
 
-
-
-
-
 //START:Whatever
 function addText(instext)
 {

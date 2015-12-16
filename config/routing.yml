@@ -1,10 +1,10 @@
 spaceace_ajaxchat_popup:
     path: /chat/popup
-    defaults: {_controller: spaceace.ajaxchat.popup.controller:index}
+    defaults: {_controller: spaceace.ajaxchat.chat.controller:index}
 
 spaceace_ajaxchat_archive:
     path: /chat/archive
-    defaults: {_controller: spaceace.ajaxchat.archive.controller:index}
+    defaults: {_controller: spaceace.ajaxchat.chat.controller:index}
 
 spaceace_ajaxchat_chat:
     path: /chat
