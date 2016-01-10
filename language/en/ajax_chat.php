@@ -7,7 +7,7 @@
  * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
-*/
+ */
 /**
  * DO NOT CHANGE
 */
@@ -43,12 +43,14 @@ $lang = array_merge(
 		'CHAT_ARCHIVE_EXPLAIN'			=> 'Chat Archive',
 		'CHAT_POPUP'					=> 'Popup',
 		'CHAT_POPUP_EXPLAIN'			=> 'Chat Popup',
-		'CHAT_RULE'						=> 'Chat Rule: ',
+		'CHAT_RULE'						=> 'Chat Rules',
 		'CHAT_RULE_EXPLAIN'				=> 'Keep it clean. No profanity please.',
 		'CHAT_NEW_POST'					=> 'has replied to: %s',
 		'CHAT_NEW_TOPIC'				=> 'has started a new topic: %s',
 		'CHAT_POST_EDIT'				=> 'has edited: %s',
 		'CHAT_NEW_QUOTE'				=> 'has replied with a quote to: %s',
+		'CHAT_EDIT'						=> 'Edit chat message',
+		'CHAT_QUOTE'					=> 'Quote chat message',
 		'EMPTY'							=> 'Error: You must insert a message.',
 		'GUEST_MESSAGE'					=> '<strong>You must be a Registered User to use chat.</strong>',
 		'MESSAGE'						=> 'Message',

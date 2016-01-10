@@ -7,7 +7,7 @@
  * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
-*/
+ */
 /**
  * DO NOT CHANGE
 */
@@ -47,6 +47,7 @@ $lang = array_merge(
 		'USER_AJAX_CHAT_SOUND'			=> 'Hear sounds in chat',
 		'USER_AJAX_CHAT_AVATAR_HOVER'	=> 'Display full avatar image on hover',
 		'USER_AJAX_CHAT_ONLINELIST'		=> 'View online list in chat',
+		'USER_AJAX_CHAT_AUTOCOMPLETE'	=> 'Chat input box autocomplete',
 		'USER_AJAXCHAT'					=> 'Ajax Chat',
 		'USER_AJAXCHAT_SETTINGS'		=> 'Ajax Chat Settings',
 		'NO_VIEW_CHAT'					=> 'You do not have permission to view chat.',

@@ -47,6 +47,11 @@ class ajaxchat_module
 			$chat_table = $table_prefix . 'ajax_chat';
 			define('CHAT_TABLE', $chat_table);
 		}
+		if (!defined('CHAT_RULES'))
+		{
+			$chat_rules = $table_prefix . 'ajax_chat_rules';
+			define('CHAT_RULES', $chat_rules);
+		}
 		$this->id		 = $id;
 		$this->mode		 = $mode;
 		// Initialization
@@ -64,13 +69,12 @@ class ajaxchat_module
 		add_form_key($this->form_key);
 
 		$display_vars = [
-			'title'	 => 'ACP_AJAX_CHAT_TITLE',
+			'title'	 => 'ACP_AJAX_CHAT',
 			'vars'	 => [
 				'legend1'						=> 'AJAX_CHAT_SETTINGS',
 				'display_ajax_chat'				=> ['lang' => 'DISPLAY_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
 				'index_display_ajax_chat'		=> ['lang' => 'INDEX_DISPLAY_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
 				'whois_chatting'				=> ['lang' => 'WHOIS_CHATTING', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
-				'rule_ajax_chat'				=> ['lang' => 'RULE_AJAX_CHAT', 'validate' => 'string', 'type' => 'text:40:255', 'explain' => true],
 				'ajax_chat_archive_amount'		=> ['lang' => 'ARCHIVE_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:500', 'explain' => true],
 				'ajax_chat_popup_amount'		=> ['lang' => 'POPUP_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true],
 				'ajax_chat_index_amount'		=> ['lang' => 'INDEX_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true],
@@ -82,22 +86,24 @@ class ajaxchat_module
 				'status_online_chat'			=> ['lang' => 'STATUS_ONLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true],
 				'status_idle_chat'				=> ['lang' => 'STATUS_IDLE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true],
 				'status_offline_chat'			=> ['lang' => 'STATUS_OFFLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true],
-				'legend2'						=> 'AJAX_CHAT_LOCATION',
+				'legend2'						=> 'AJAX_CHAT_RULES',
+				'rule_ajax_chat'				=> ['lang' => 'RULES_AJAX_CHAT', 'validate' => 'string', 'type' => 'textarea:4:70', 'explain' => true],
+				'legend3'						=> 'AJAX_CHAT_LOCATION',
 				'location_ajax_chat_override'	=> ['lang' => 'LOCATION_AJAX_CHAT_OVERRIDE', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
 				'location_ajax_chat'			=> ['lang' => 'LOCATION_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true],
-				'legend3'						=> 'AJAX_CHAT_POSTS',
+				'legend4'						=> 'AJAX_CHAT_POSTS',
 				'ajax_chat_forum_posts'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
 				'ajax_chat_forum_topic'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT_TOPIC', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
 				'ajax_chat_forum_reply'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT_REPLY', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
 				'ajax_chat_forum_edit'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT_EDIT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
 				'ajax_chat_forum_quote'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT_QUOTE', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
-				'legend4'						=> 'AJAX_CHAT_PRUNE',
+				'legend5'						=> 'AJAX_CHAT_PRUNE',
 				'prune_ajax_chat'				=> ['lang' => 'PRUNE_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
 				'prune_keep_ajax_chat'			=> ['lang' => 'PRUNE_KEEP_AJAX_CHAT', 'validate' => 'int', 'type' => 'number', 'explain' => false],
 				'prune_now'						=> ['lang' => 'PRUNE_NOW', 'validate' => 'bool', 'type' => 'custom', 'explain' => false, 'method' => 'prune_chat'],
 				'truncate_now'					=> ['lang' => 'TRUNCATE_NOW', 'validate' => 'bool', 'type' => 'custom', 'explain' => false, 'method' => 'truncate_chat'],
 				'ajax_chat_counter'				=> ['lang' => 'CHAT_COUNTER', 'validate' => 'bool', 'type' => 'custom', 'explain' => false, 'method' => 'chat_counter'],
-				'legend5'						=> 'ACP_SUBMIT_CHANGES'
+				'legend6'						=> 'ACP_SUBMIT_CHANGES'
 			],
 		];
 
@@ -122,20 +128,49 @@ class ajaxchat_module
 	}
 
 	/**
+	 * Chat rule.
+	 */
+	public function chat_rules()
+	{
+		$chat_rules = $this->request->variable('chat_rules', '', true);
+		$uid = $bitfield = $options = ''; // will be modified by generate_text_for_storage
+		$allow_bbcode = $this->request->variable('rules_parse_bbcode', true);
+		$allow_smilies = $this->request->variable('rules_parse_smilies', true);
+		$allow_urls = $this->request->variable('rules_parse_urls', true);
+		generate_text_for_storage($chat_rules, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
+
+		$sql_ary = array(
+			'chat_rules'		=> $chat_rules,
+			'bbcode_uid'		=> $uid,
+			'bbcode_bitfield'	=> $bitfield,
+			'bbcode_options'	=> $options,
+		);
+
+		$sql = 'INSERT INTO ' . CHAT_RULES . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
+		$this->db->sql_query($sql);
+		$chat_rule  = '<dd><textarea id="chat_rules" name="config[rule_ajax_chat]" rows="4" cols="70" >' . $chat_rules . '</textarea></dd>
+			<dd><label><input type="checkbox" class="radio" name="chat_rules_parse_bbcode" checked="checked" /> ' . $this->user->lang['PARSE_BBCODE'] . '</label>
+			<label><input type="checkbox" class="radio" name="chat_rules_parse_smilies" checked="checked" /> ' . $this->user->lang['PARSE_SMILIES'] . '</label>
+			<label><input type="checkbox" class="radio" name="chat_rules_parse_urls" checked="checked" /> ' . $this->user->lang['PARSE_URLS'] . '</label></dd>';
+  return $chat_rule;
+	}
+
+	/**
 	 * Counter for Ajax Chat messages.
 	 */
 	public function chat_counter()
 	{
-		$sql			 = 'SELECT COUNT(*) '
-				. 'FROM ' . CHAT_TABLE . '';
-		$result			 = $this->db->sql_query($sql);
-		$row			 = $this->db->sql_fetchrow($result);
+		$sql = 'SELECT COUNT(*)
+			FROM ' . CHAT_TABLE . '';
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
 		$chat_counter	 = '<div style="width: 75px; height: auto; border: 1px solid #CCCCCC; text-align: right; padding: 0 2px; word-wrap: initial; overflow: hidden;">' . $row['COUNT(*)'] . '</div>';
 		return $chat_counter;
 	}
 
 	/**
-	 * prune function.
+	 * Prune chat table function.
 	 *
 	 * @param string $value The value
 	 * @param string $key The key
@@ -176,7 +211,7 @@ class ajaxchat_module
 
 				if ($this->request->is_ajax())
 				{
-					trigger_error($this->user->lang['PRUNE_CHAT_SUCESS']);
+					trigger_error($this->user->lang['PRUNE_CHAT_SUCCESS']);
 				}
 			}
 		}
@@ -185,7 +220,7 @@ class ajaxchat_module
 	}
 
 	/**
-	 * prune function.
+	 * Truncate chat table function.
 	 *
 	 * @param string $value The value
 	 * @param string $key The key
@@ -219,7 +254,7 @@ class ajaxchat_module
 
 				if ($this->request->is_ajax())
 				{
-					trigger_error($this->user->lang['TRUNCATE_CHAT_SUCESS']);
+					trigger_error($this->user->lang['TRUNCATE_CHAT_SUCCESS']);
 				}
 			}
 		}

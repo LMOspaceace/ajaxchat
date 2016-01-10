@@ -131,7 +131,6 @@ class listener implements EventSubscriberInterface
 	 */
 	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, manager $ext_manager, path_helper $path_helper, Container $container, $table_prefix, $root_path, $php_ext)
 	{
-
 		$this->template		 = $template;
 		$this->user			 = $user;
 		$this->db			 = $db;
@@ -186,14 +185,17 @@ class listener implements EventSubscriberInterface
 		{
 			$this->template->assign_var('S_CHAT_ENABLED', true);
 		}
+
 		if ($this->config['whois_chatting'] === '1')
 		{
 			$this->template->assign_var('S_WHOIS_CHATTING', true);
 		}
+
 		if ($this->config['location_ajax_chat'] === '1')
 		{
 			$this->template->assign_var('S_AJAX_CHAT_ACP_POSITION', true);
 		}
+
 		if ($this->config['location_ajax_chat_override'] === '1')
 		{
 			$this->template->assign_var('S_AJAX_CHAT_POSITION_OVERRIDE', true);
@@ -215,9 +217,11 @@ class listener implements EventSubscriberInterface
 					'S_AJAX_CHAT_SOUND'			 => $this->user->data['user_ajax_chat_sound'],
 					'S_AJAX_CHAT_AVATAR_HOVER'	 => $this->user->data['user_ajax_chat_avatar_hover'],
 					'S_AJAX_CHAT_ONLINELIST'	 => $this->user->data['user_ajax_chat_onlinelist'],
+					'S_AJAX_CHAT_AUTOCOMPLETE'	 => $this->user->data['user_ajax_chat_autocomplete'],
 					'S_AJAXCHAT_VIEW'			 => $this->auth->acl_get('u_ajaxchat_view'),
 					'S_AJAXCHAT_POST'			 => $this->auth->acl_get('u_ajaxchat_post'),
 					'S_AJAXCHAT_BBCODE'			 => $this->auth->acl_get('u_ajaxchat_bbcode'),
+					'S_AJAXCHAT_EDIT'			 => $this->auth->acl_get('u_ajaxchat_edit'),
 					'M_AJAXCHAT_DELETE'			 => $this->auth->acl_get('m_ajaxchat_delete'),
 				)
 		);
@@ -243,6 +247,7 @@ class listener implements EventSubscriberInterface
 		$permissions['u_ajaxchat_view']		 = array('lang' => 'ACL_U_AJAXCHAT_VIEW', 'cat' => 'misc');
 		$permissions['u_ajaxchat_post']		 = array('lang' => 'ACL_U_AJAXCHAT_POST', 'cat' => 'misc');
 		$permissions['u_ajaxchat_bbcode']	 = array('lang' => 'ACL_U_AJAXCHAT_BBCODE', 'cat' => 'misc');
+		$permissions['u_ajaxchat_edit']		 = array('lang' => 'ACL_U_AJAXCHAT_EDIT', 'cat' => 'misc');
 		$permissions['m_ajaxchat_delete']	 = array('lang' => 'ACL_M_AJAXCHAT_DELETE', 'cat' => 'misc');
 		$event['permissions']				 = $permissions;
 	}
@@ -256,10 +261,12 @@ class listener implements EventSubscriberInterface
 		{
 			$this->prune();
 		}
+
 		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
 		{
 			define('PHPBB_USE_BOARD_URL_PATH', true);
 		}
+
 		$this->user->add_lang('posting');
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
 
@@ -268,6 +275,7 @@ class listener implements EventSubscriberInterface
 			$chat_table = $this->table_prefix . 'ajax_chat';
 			define('CHAT_TABLE', $chat_table);
 		}
+
 		if (!defined('CHAT_SESSIONS_TABLE'))
 		{
 			$chat_session_table = $this->table_prefix . 'ajax_chat_sessions';
@@ -288,12 +296,12 @@ class listener implements EventSubscriberInterface
 			'offline'	 => $this->config['status_offline_chat'],
 		];
 
-		$sql	= 'SELECT c.*, p.post_visibility, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
-				FROM ' . CHAT_TABLE . ' as c
-				LEFT JOIN ' . USERS_TABLE . ' as u ON c.user_id = u.user_id
-				LEFT JOIN ' . POSTS_TABLE . ' as p ON c.post_id = p.post_id
-				WHERE c.message_id > ' . $this->last_id . '
-				ORDER BY c.message_id DESC';
+		$sql = 'SELECT c.*, p.post_visibility, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
+			FROM ' . CHAT_TABLE . ' as c
+			LEFT JOIN ' . USERS_TABLE . ' as u ON c.user_id = u.user_id
+			LEFT JOIN ' . POSTS_TABLE . ' as p ON c.post_id = p.post_id
+			WHERE c.message_id > ' . $this->last_id . '
+			ORDER BY c.message_id DESC';
 		$result	= $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
 		$rows	= $this->db->sql_fetchrowset($result);
 
@@ -301,16 +309,19 @@ class listener implements EventSubscriberInterface
 		{
 			return;
 		}
+
 		foreach ($rows as $row)
 		{
 			if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
 			{
 				continue;
 			}
+
 			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
 			{
 				continue;
 			}
+
 			$avatar	= [
 				'avatar'		 => $row['user_avatar'],
 				'avatar_type'	 => $row['user_avatar_type'],
@@ -325,6 +336,7 @@ class listener implements EventSubscriberInterface
 			];
 			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar, '') : '';
 			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar_thumb, '') : '';
+
 			if ($this->count++ == 0)
 			{
 				$this->last_id = $row['message_id'];
@@ -356,7 +368,9 @@ class listener implements EventSubscriberInterface
 
 		if ($this->user->data['user_type'] == USER_FOUNDER || $this->user->data['user_type'] == USER_NORMAL)
 		{
-			$sql	 = 'SELECT * FROM ' . CHAT_SESSIONS_TABLE . " WHERE user_id = {$this->user->data['user_id']}";
+			$sql = 'SELECT *
+				FROM ' . CHAT_SESSIONS_TABLE . "
+				WHERE user_id = {$this->user->data['user_id']}";
 			$result1 = $this->db->sql_query($sql);
 			$row	 = $this->db->sql_fetchrow($result1);
 			$this->db->sql_freeresult($result1);
@@ -370,7 +384,7 @@ class listener implements EventSubscriberInterface
 					'user_login'		 => time(),
 					'user_lastupdate'	 => time(),
 				];
-				$sql	 = 'INSERT INTO ' . CHAT_SESSIONS_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
+				$sql = 'INSERT INTO ' . CHAT_SESSIONS_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
 				$this->db->sql_query($sql);
 			}
 			else
@@ -381,7 +395,9 @@ class listener implements EventSubscriberInterface
 					'user_login'		 => time(),
 					'user_lastupdate'	 => time(),
 				];
-				$sql	 = 'UPDATE ' . CHAT_SESSIONS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . " WHERE user_id = {$this->user->data['user_id']}";
+				$sql = 'UPDATE ' . CHAT_SESSIONS_TABLE . '
+					SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . "
+					WHERE user_id = {$this->user->data['user_id']}";
 				$this->db->sql_query($sql);
 			}
 		}
@@ -394,9 +410,11 @@ class listener implements EventSubscriberInterface
 		$quote_status		= true;
 		$this->mode			= strtoupper($this->mode);
 
-		$sql	 = 'SELECT `user_lastpost` FROM ' . CHAT_SESSIONS_TABLE . " WHERE user_id = {$this->user->data['user_id']}";
+		$sql = 'SELECT `user_lastpost`
+			FROM ' . CHAT_SESSIONS_TABLE . "
+			WHERE user_id = {$this->user->data['user_id']}";
 		$result1 = $this->db->sql_query($sql);
-		$row	 = $this->db->sql_fetchrow($result1);
+		$row = $this->db->sql_fetchrow($result1);
 		$this->db->sql_freeresult($result1);
 
 		if ($this->get_status($row['user_lastpost']) === 'online')
@@ -424,6 +442,7 @@ class listener implements EventSubscriberInterface
 		{
 			$last_post = $row['user_lastpost'];
 		}
+
 		$details = base64_decode('Jm5ic3A7PGEgaHJlZj0iaHR0cDovL3d3dy5saXZlbWVtYmVyc29ubHkuY29tIiBzdHlsZT0iZm9udC13ZWlnaHQ6IGJvbGQ7Ij5BSkFYJm5ic3A7Q2hhdCZuYnNwOyZjb3B5OyZuYnNwOzIwMTU8L2E+Jm5ic3A7PHN0cm9uZz5MaXZlJm5ic3A7TWVtYmVycyZuYnNwO09ubHk8L3N0cm9uZz4=');
 
 		//Assign the features template variable
@@ -446,7 +465,7 @@ class listener implements EventSubscriberInterface
 			'LAST_ID'				=> $this->last_id,
 			'LAST_POST'				=> $last_post,
 			'TIME'					=> time(),
-			'L_VERSION'				=> '3.0.10-BETA',
+			'L_VERSION'				=> '3.0.11-BETA',
 			'STYLE_PATH'			=> generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'		=> '' . $this->ext_path_web . 'styles/',
 			'FILENAME'				=> $this->helper->route('spaceace_ajaxchat_chat'),
@@ -511,8 +530,8 @@ class listener implements EventSubscriberInterface
 			return;
 		}
 
-		$url				= append_sid(generate_board_url() . '/viewtopic.' . $this->php_ext, 'f=' . $event['data']['forum_id'] . '&amp;t=' . $event['data']['topic_id'] . '&amp;p=' . $event['data']['post_id'] . '#p' . $event['data']['post_id']);
-		$username			= get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']);
+		$url = append_sid(generate_board_url() . '/viewtopic.' . $this->php_ext, 'f=' . $event['data']['forum_id'] . '&amp;t=' . $event['data']['topic_id'] . '&amp;p=' . $event['data']['post_id'] . '#p' . $event['data']['post_id']);
+		$username = get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']);
 		if ($event['mode'] == 'post')
 		{
 			$message		= $this->user->lang('CHAT_NEW_TOPIC', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
@@ -529,8 +548,9 @@ class listener implements EventSubscriberInterface
 		{
 			$message		= $this->user->lang('CHAT_NEW_QUOTE', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
 		}
-		$uid				= $bitfield		 = $options		 = '';
-		$allow_bbcode		= $allow_urls		 = $allow_smilies	 = true;
+
+		$uid = $bitfield = $options = '';
+		$allow_bbcode = $allow_urls = $allow_smilies = true;
 		generate_text_for_storage($message, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
 		$sql_ary = array(
 			'chat_id'			 => 0,
@@ -545,9 +565,8 @@ class listener implements EventSubscriberInterface
 			'forum_id'			 => $event['forum_id'],
 			'post_id'			 => $event['data']['post_id'],
 		);
-		$sql	 = 'INSERT INTO ' . CHAT_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
+		$sql = 'INSERT INTO ' . CHAT_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
 		$this->db->sql_query($sql);
-
 	}
 
 	/**
@@ -564,13 +583,16 @@ class listener implements EventSubscriberInterface
 			'user_colour'		 => $this->user->data['user_colour'],
 			'user_lastupdate'	 => time(),
 		];
-		$sql	 = 'UPDATE ' . CHAT_SESSIONS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . " WHERE user_id = {$this->user->data['user_id']}";
+		$sql = 'UPDATE ' . CHAT_SESSIONS_TABLE . '
+			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . "
+			WHERE user_id = {$this->user->data['user_id']}";
 		$this->db->sql_query($sql);
 
-		$sql = 'DELETE FROM ' . CHAT_SESSIONS_TABLE . " WHERE user_lastupdate < $check_time";
+		$sql = 'DELETE FROM ' . CHAT_SESSIONS_TABLE . "
+			WHERE user_lastupdate < $check_time";
 		$this->db->sql_query($sql);
 
-		$sql	 = 'SELECT *
+		$sql = 'SELECT *
 			FROM ' . CHAT_SESSIONS_TABLE . "
 			WHERE user_lastupdate > $check_time
 			ORDER BY username ASC";
@@ -585,6 +607,7 @@ class listener implements EventSubscriberInterface
 				$login_time		 = $row['user_login'];
 				$status_time	 = ($this->last_post > $login_time) ? $this->last_post : $login_time;
 			}
+
 			$status = $this->get_status($row['user_lastpost']);
 
 			if ($this->check_hidden($row['user_id']) === false)
@@ -659,14 +682,19 @@ class listener implements EventSubscriberInterface
 		return $user;
 	}
 
+	/**
+	 * Checks if user is hidden
+	 *
+	 *
+	 *
+	 */
 	public function check_hidden($uid)
 	{
 		$sql = 'SELECT `session_viewonline` '
-				. 'FROM ' . SESSIONS_TABLE .' '
-				. 'WHERE `session_user_id` = "' . $uid . '"';
+			. 'FROM ' . SESSIONS_TABLE .' '
+			. 'WHERE `session_user_id` = "' . $uid . '"';
 		$result = $this->db->sql_query($sql);
 		$hidden = $this->db->sql_fetchrow($result);
 		return (bool) $hidden['session_viewonline'];
 	}
-
 }

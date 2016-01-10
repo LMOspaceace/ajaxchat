@@ -112,7 +112,7 @@
 											<!-- IF S_AJAXCHAT_POST -->
 												<form name="postform" id="chat-text" method="post" action="javascript:void(0);" onsubmit="handle_send('add', this)">
 													<!-- INCLUDE chat_font_colour_hold.html -->
-													<input type="text" tabindex="1" name="message" id="message" class="inputbox" size="28" />
+													<input type="text" tabindex="1" name="message" id="message" class="inputbox" size="28"<!-- IF not S_AJAX_CHAT_AUTOCOMPLETE --> autocomplete="off"<!-- ENDIF --> />
 													<br />
 													<br />
 													<input type="submit" class="btnmain" value="{L_SUBMIT}" title="{L_CHAT_SUBMIT_MESSAGE}" name="submit" tabindex="6" accesskey="s" />

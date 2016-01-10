@@ -224,7 +224,7 @@
 
 .chat-avatars {
 	float: left;
-	position:relative;
+	position: relative;
 	margin-right: 10px;
 	outline: none;
 	z-index: 0;
@@ -258,6 +258,7 @@ div.chat-avatars:hover span {
 	left: 40px;
 	padding: 2px 2px 0;
 	background: transparent;
+	width: 300px;
 }
 
 .chat li.row:hover {
@@ -384,4 +385,27 @@ div.chat-avatars:hover span {
 
 #chat_bbcodes #bbcode_wizard {
 	position: inherit;
+}
+
+/* bootlike additions */
+
+.bordernav {
+	border: 1px solid #E7E7E7;
+}
+
+#chat .post {
+	padding-bottom: 3px;
+	border-radius: 4px;
+}
+
+.chat .btnbl {
+	padding: 2px 10px;
+}
+
+.smfont {
+	font-size: inherit;
+}
+
+.chat.panel {
+	margin-bottom: 3px;
 }
