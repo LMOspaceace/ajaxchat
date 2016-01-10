@@ -152,7 +152,7 @@ class ajaxchat_module
 			<dd><label><input type="checkbox" class="radio" name="chat_rules_parse_bbcode" checked="checked" /> ' . $this->user->lang['PARSE_BBCODE'] . '</label>
 			<label><input type="checkbox" class="radio" name="chat_rules_parse_smilies" checked="checked" /> ' . $this->user->lang['PARSE_SMILIES'] . '</label>
 			<label><input type="checkbox" class="radio" name="chat_rules_parse_urls" checked="checked" /> ' . $this->user->lang['PARSE_URLS'] . '</label></dd>';
-  return $chat_rule;
+		return $chat_rule;
 	}
 
 	/**
