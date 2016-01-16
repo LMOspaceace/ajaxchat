@@ -278,7 +278,7 @@ class chat
 			'LAST_ID'				=> $this->last_id,
 			'LAST_POST'				=> $last_post,
 			'TIME'					=> time(),
-			'L_VERSION'				=> '3.0.11-BETA',
+			'L_VERSION'				=> '3.0.12-BETA',
 			'STYLE_PATH'			=> generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'		=> '' . $this->ext_path_web . 'styles/',
 			'FILENAME'				=> $this->helper->route('spaceace_ajaxchat_chat'),
@@ -332,8 +332,8 @@ class chat
 			$avatar_thumb = [
 				'avatar'		 => $row['user_avatar'],
 				'avatar_type'	 => $row['user_avatar_type'],
-				'avatar_height'	 => '',
-				'avatar_width'	 => 35,
+				'avatar_height'	 => 20,
+				'avatar_width'	 => '',
 			];
 			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar, '') : '';
 			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar_thumb, '') : '';
@@ -552,8 +552,8 @@ class chat
 			$avatar_thumb = [
 				'avatar'		 => $row['user_avatar'],
 				'avatar_type'	 => $row['user_avatar_type'],
-				'avatar_height'	 => '',
-				'avatar_width'	 => 35,
+				'avatar_height'	 => 20,
+				'avatar_width'	 => '',
 			];
 			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar, '') : '';
 			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar_thumb, '') : '';
@@ -695,8 +695,8 @@ class chat
 			$avatar_thumb = [
 				'avatar'		 => $row['user_avatar'],
 				'avatar_type'	 => $row['user_avatar_type'],
-				'avatar_height'	 => '',
-				'avatar_width'	 => 35,
+				'avatar_height'	 => 20,
+				'avatar_width'	 => '',
 			];
 			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar, '') : '';
 			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar_thumb, '') : '';
