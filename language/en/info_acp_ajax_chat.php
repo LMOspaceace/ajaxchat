@@ -104,5 +104,9 @@ $lang = array_merge(
 		'CHAT_COUNTER'								=> 'Number of chat messages in database',
 		'ROLE_MOD_CHAT'								=> 'Ajax Chat moderator',
 		'ROLE_MOD_CHAT_EXPLAIN'						=> 'Ajax Chat role for moderators.',
+		'AJAX_CHAT_NAV_LINK'						=> 'Display Chat Center link on menubar',
+		'AJAX_CHAT_NAV_LINK_EXPLAIN'				=> 'Display Chat Center link on menubar after the FAQ link.',
+		'AJAX_CHAT_QUICK_LINK'						=> 'Display Chat Center link in Quick Links',
+		'AJAX_CHAT_QUICK_LINK_EXPLAIN'				=> 'Display Chat Center link in the Quick Links drop menu.',
 	)
 );
