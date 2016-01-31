@@ -26,7 +26,7 @@
 											<!-- ENDIF -->
 										</div>
 										<div class="chat-names">
-											<!-- IF not S_IS_BOT -->
+											<!-- IF not S_IS_BOT and S_USER_LOGGED_IN and SCRIPT_NAME neq 'app/chat/archive' -->
 												<!-- IF chatrow.USER_COLOR -->
 													<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/color][/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
 												<!-- ELSE -->
@@ -164,7 +164,7 @@
 						<span class="span_chat_rule">{L_CHAT_RULE}</span><br /><span><b>{CHAT_RULES}</b></span>
 					</div>
 				<!-- ENDIF -->
-			<div class="<!-- IF S_WHOIS_CHATTING --><!-- IF S_AJAX_CHAT_ONLINELIST --> shouts<!-- ENDIF --><!-- ENDIF --><!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING --> chat_online_off<!-- ENDIF --><!-- IF S_CHAT or S_POPUP or SCRIPT_NAME == 'app/chat/archive' --> main<!-- ENDIF -->">
+			<div class="<!-- IF S_WHOIS_CHATTING --><!-- IF S_AJAX_CHAT_ONLINELIST and SCRIPT_NAME neq 'app/chat/archive' --> shouts<!-- ENDIF --><!-- ENDIF --><!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING --> chat_online_off<!-- ENDIF --><!-- IF S_CHAT or S_POPUP or SCRIPT_NAME == 'app/chat/archive' --> main<!-- ENDIF -->">
 				<div id="chat">
 					<!-- BEGIN chatrow -->
 						<div id="p{chatrow.MESSAGE_ID}" class="post bg{chatrow.CLASS}">
@@ -190,7 +190,7 @@
 												<!-- ENDIF -->
 											</div>
 											<div class="chat-names">
-												<!-- IF not S_IS_BOT -->
+												<!-- IF not S_IS_BOT and S_USER_LOGGED_IN and SCRIPT_NAME neq 'app/chat/archive' -->
 													<!-- IF chatrow.USER_COLOR -->
 														<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b][/color]', true);return false;" title="{L_RESPOND}">&#64;</a>
 													<!-- ELSE -->
