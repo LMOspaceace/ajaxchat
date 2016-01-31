@@ -2,77 +2,77 @@ services:
     spaceace.ajaxchat.listener:
         class: spaceace\ajaxchat\event\listener
         arguments:
-            - @template
-            - @user
-            - @dbal.conn
-            - @auth
-            - @request
-            - @controller.helper
-            - @config
-            - @ext.manager
-            - @path_helper
-            - @service_container
-            - %core.table_prefix%
-            - %core.root_path%
-            - %core.php_ext%
+            - '@template'
+            - '@user'
+            - '@dbal.conn'
+            - '@auth'
+            - '@request'
+            - '@controller.helper'
+            - '@config'
+            - '@ext.manager'
+            - '@path_helper'
+            - '@service_container'
+            - '%core.table_prefix%'
+            - '%core.root_path%'
+            - '%core.php_ext%'
         tags:
             - { name: event.listener }
     spaceace.ajaxchat.chat.controller:
         class: spaceace\ajaxchat\controller\chat
         arguments:
-            - @template
-            - @user
-            - @dbal.conn
-            - @auth
-            - @request
-            - @controller.helper
-            - @config
-            - @ext.manager
-            - @path_helper
-            - @service_container
-            - %core.table_prefix%
-            - %core.root_path%
-            - %core.php_ext%
+            - '@template'
+            - '@user'
+            - '@dbal.conn'
+            - '@auth'
+            - '@request'
+            - '@controller.helper'
+            - '@config'
+            - '@ext.manager'
+            - '@path_helper'
+            - '@service_container'
+            - '%core.table_prefix%'
+            - '%core.root_path%'
+            - '%core.php_ext%'
     spaceace.ajaxchat.popup.controller:
         class: spaceace\ajaxchat\controller\chat
         arguments:
-            - @template
-            - @user
-            - @dbal.conn
-            - @auth
-            - @request
-            - @controller.helper
-            - @config
-            - @ext.manager
-            - @path_helper
-            - @service_container
-            - %core.table_prefix%
-            - %core.root_path%
-            - %core.php_ext%
+            - '@template'
+            - '@user'
+            - '@dbal.conn'
+            - '@auth'
+            - '@request'
+            - '@controller.helper'
+            - '@config'
+            - '@ext.manager'
+            - '@path_helper'
+            - '@service_container'
+            - '%core.table_prefix%'
+            - '%core.root_path%'
+            - '%core.php_ext%'
     spaceace.ajaxchat.archive.controller:
         class: spaceace\ajaxchat\controller\chat
         arguments:
-            - @template
-            - @user
-            - @dbal.conn
-            - @auth
-            - @request
-            - @controller.helper
-            - @config
-            - @ext.manager
-            - @path_helper
-            - @service_container
-            - %core.table_prefix%
-            - %core.root_path%
-            - %core.php_ext%
+            - '@template'
+            - '@user'
+            - '@dbal.conn'
+            - '@auth'
+            - '@request'
+            - '@controller.helper'
+            - '@config'
+            - '@ext.manager'
+            - '@path_helper'
+            - '@service_container'
+            - '%core.table_prefix%'
+            - '%core.root_path%'
+            - '%core.php_ext%'
     spaceace.ajaxchat.cron.task.prune_ajaxchat:
         class: spaceace\ajaxchat\cron\task\prune_ajaxchat
         arguments:
-            - @config
-            - @dbal.conn
-            - @user
-            - @log
-            - %core.table_prefix%
+            - '@config'
+            - '@dbal.conn'
+            - '@user'
+            - '@log'
+            - '%core.table_prefix%'
         calls:
             - [set_name, [cron.task.prune_ajaxchat]]
         tags:

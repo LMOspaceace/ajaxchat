@@ -154,10 +154,13 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.page_header'						 => 'page_header',
-			'core.permissions'						 => 'add_permission',
-			'core.index_modify_page_title'			 => 'index',
-			'core.posting_modify_submit_post_after'	 => 'add_forum_id',
+			'core.page_header'							=> 'page_header',
+			'core.permissions'							=> 'add_permission',
+			'core.index_modify_page_title'				=> 'index',
+			'core.posting_modify_submit_post_after'		=> 'add_forum_id',
+			'core.acp_users_prefs_modify_data'			=> 'acp_users_chat_settings_get', // For the ACP user setting
+			'core.acp_users_prefs_modify_template_data'	=> 'acp_profile_ajax_chat_template', // For the ACP user setting
+			'core.acp_users_prefs_modify_sql'			=> 'ucp_profile_ajax_chat_set', // For the ACP user setting
 		);
 	}
 
@@ -186,6 +189,16 @@ class listener implements EventSubscriberInterface
 			$this->template->assign_var('S_CHAT_ENABLED', true);
 		}
 
+		if ($this->config['ajax_chat_nav_link'] === '1')
+		{
+			$this->template->assign_var('S_CHAT_NAV_LINK', true);
+		}
+
+		if ($this->config['ajax_chat_quick_link'] === '1')
+		{
+			$this->template->assign_var('S_CHAT_QUICK_LINK', true);
+		}
+
 		if ($this->config['whois_chatting'] === '1')
 		{
 			$this->template->assign_var('S_WHOIS_CHATTING', true);
@@ -203,27 +216,26 @@ class listener implements EventSubscriberInterface
 
 		//Declaring a few UCP switches and basic values
 		$this->template->assign_vars(
-				array(
-					'U_CHAT'					 => $this->helper->route('spaceace_ajaxchat_chat'),
-					'S_SHOUT'					 => true,
-					'DEFAULT_COLOR'				 => $this->config['default_color_ajax_chat'],
-					'CHAT_RULES'				 => $this->config['rule_ajax_chat'],
-					'SCRIPT_PATH'				 => $this->config['script_path'],
-					'COOKIE_NAME'				 => $this->config['cookie_name'].'_fonthold',
-					'EXT_PATH'					 => $this->ext_manager->get_extension_path('spaceace/ajaxchat', true),
-					'S_AJAX_CHAT_VIEW'			 => $this->user->data['user_ajax_chat_view'],
-					'S_AJAX_CHAT_AVATARS'		 => $this->user->data['user_ajax_chat_avatars'],
-					'S_AJAX_CHAT_POSITION'		 => $this->user->data['user_ajax_chat_position'],
-					'S_AJAX_CHAT_SOUND'			 => $this->user->data['user_ajax_chat_sound'],
-					'S_AJAX_CHAT_AVATAR_HOVER'	 => $this->user->data['user_ajax_chat_avatar_hover'],
-					'S_AJAX_CHAT_ONLINELIST'	 => $this->user->data['user_ajax_chat_onlinelist'],
-					'S_AJAX_CHAT_AUTOCOMPLETE'	 => $this->user->data['user_ajax_chat_autocomplete'],
-					'S_AJAXCHAT_VIEW'			 => $this->auth->acl_get('u_ajaxchat_view'),
-					'S_AJAXCHAT_POST'			 => $this->auth->acl_get('u_ajaxchat_post'),
-					'S_AJAXCHAT_BBCODE'			 => $this->auth->acl_get('u_ajaxchat_bbcode'),
-					'S_AJAXCHAT_EDIT'			 => $this->auth->acl_get('u_ajaxchat_edit'),
-					'M_AJAXCHAT_DELETE'			 => $this->auth->acl_get('m_ajaxchat_delete'),
-				)
+			array(
+				'U_CHAT'					 => $this->helper->route('spaceace_ajaxchat_chat'),
+				'S_SHOUT'					 => true,
+				'CHAT_RULES'				 => $this->config['rule_ajax_chat'],
+				'SCRIPT_PATH'				 => $this->config['script_path'],
+				'COOKIE_NAME'				 => $this->config['cookie_name'].'_fonthold',
+				'EXT_PATH'					 => $this->ext_manager->get_extension_path('spaceace/ajaxchat', true),
+				'S_AJAX_CHAT_VIEW'			 => $this->user->data['user_ajax_chat_view'],
+				'S_AJAX_CHAT_AVATARS'		 => $this->user->data['user_ajax_chat_avatars'],
+				'S_AJAX_CHAT_POSITION'		 => $this->user->data['user_ajax_chat_position'],
+				'S_AJAX_CHAT_SOUND'			 => $this->user->data['user_ajax_chat_sound'],
+				'S_AJAX_CHAT_AVATAR_HOVER'	 => $this->user->data['user_ajax_chat_avatar_hover'],
+				'S_AJAX_CHAT_ONLINELIST'	 => $this->user->data['user_ajax_chat_onlinelist'],
+				'S_AJAX_CHAT_AUTOCOMPLETE'	 => $this->user->data['user_ajax_chat_autocomplete'],
+				'S_AJAXCHAT_VIEW'			 => $this->auth->acl_get('u_ajaxchat_view'),
+				'S_AJAXCHAT_POST'			 => $this->auth->acl_get('u_ajaxchat_post'),
+				'S_AJAXCHAT_BBCODE'			 => $this->auth->acl_get('u_ajaxchat_bbcode'),
+				'S_AJAXCHAT_EDIT'			 => $this->auth->acl_get('u_ajaxchat_edit'),
+				'M_AJAXCHAT_DELETE'			 => $this->auth->acl_get('m_ajaxchat_delete'),
+			)
 		);
 
 		if (!$this->config['index_display_ajax_chat'])
@@ -465,7 +477,7 @@ class listener implements EventSubscriberInterface
 			'LAST_ID'				=> $this->last_id,
 			'LAST_POST'				=> $last_post,
 			'TIME'					=> time(),
-			'L_VERSION'				=> '3.0.12-BETA',
+			'L_VERSION'				=> '3.0.13-BETA',
 			'STYLE_PATH'			=> generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'		=> '' . $this->ext_path_web . 'styles/',
 			'FILENAME'				=> $this->helper->route('spaceace_ajaxchat_chat'),
@@ -474,10 +486,10 @@ class listener implements EventSubscriberInterface
 		]);
 
 		// Generate smiley listing
-		\generate_smilies('inline', 0);
+		generate_smilies('inline', 0);
 
 		// Build custom bbcodes array
-		\display_custom_bbcodes();
+		display_custom_bbcodes();
 
 		$this->whois_online();
 	}
@@ -567,6 +579,81 @@ class listener implements EventSubscriberInterface
 		);
 		$sql = 'INSERT INTO ' . CHAT_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
 		$this->db->sql_query($sql);
+	}
+
+	/**
+	 * Get user's options and display them in ACP Prefs View page
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function acp_users_chat_settings_get($event)
+	{
+		$data = $event['data'];
+		$user_row = $event['user_row'];
+		$data = array_merge($data, array(
+					'user_ajax_chat_view'			=> $this->request->variable('ajax_chat_view', (bool) $user_row['user_ajax_chat_view']),
+					'user_ajax_chat_avatars'		=> $this->request->variable('ajax_chat_avatars', (bool) $user_row['user_ajax_chat_avatars']),
+					'user_ajax_chat_position'		=> $this->request->variable('ajax_chat_position', (bool) $user_row['user_ajax_chat_position']),
+					'user_ajax_chat_sound'			=> $this->request->variable('ajax_chat_sound', (bool) $user_row['user_ajax_chat_sound']),
+					'user_ajax_chat_avatar_hover'	=> $this->request->variable('ajax_chat_avatar_hover', (bool) $user_row['user_ajax_chat_avatar_hover']),
+					'user_ajax_chat_onlinelist'		=> $this->request->variable('ajax_chat_onlinelist', (bool) $user_row['user_ajax_chat_onlinelist']),
+					'user_ajax_chat_autocomplete'	=> $this->request->variable('ajax_chat_autocomplete', (bool) $user_row['user_ajax_chat_autocomplete']),
+		));
+		$event['data'] = $data;
+	}
+
+	/**
+	 * Assign template data in the ACP
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function acp_profile_ajax_chat_template($event)
+	{
+		if ($this->config['display_ajax_chat'] === '1')
+		{
+			$this->template->assign_var('S_CHAT_ENABLED', true);
+		}
+
+		$this->user->add_lang_ext('spaceace/ajaxchat', 'info_ucp_ajax_chat');
+		$data = $event['data'];
+		$user_prefs_data = $event['user_prefs_data'];
+		$user_prefs_data = array_merge($user_prefs_data, array(
+			'S_AJAX_CHAT_VIEW'			=> $data['user_ajax_chat_view'],
+			'S_AJAX_CHAT_AVATARS'		=> $data['user_ajax_chat_avatars'],
+			'S_AJAX_CHAT_POSITION'		=> $data['user_ajax_chat_position'],
+			'S_AJAX_CHAT_SOUND'			=> $data['user_ajax_chat_sound'],
+			'S_AJAX_CHAT_AVATAR_HOVER'	=> $data['user_ajax_chat_avatar_hover'],
+			'S_AJAX_CHAT_ONLINELIST'	=> $data['user_ajax_chat_onlinelist'],
+			'S_AJAX_CHAT_AUTOCOMPLETE'	=> $data['user_ajax_chat_autocomplete'],
+		));
+		$event['user_prefs_data'] = $user_prefs_data;
+	}
+
+	/**
+	 * Add user options' state into the sql_array
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function ucp_profile_ajax_chat_set($event)
+	{
+		$data = $event['data'];
+		$sql_ary = $event['sql_ary'];
+		$sql_ary = array_merge($sql_ary, array(
+			'user_ajax_chat_view'			=> $event['data']['user_ajax_chat_view'],
+			'user_ajax_chat_avatars'		=> $event['data']['user_ajax_chat_avatars'],
+			'user_ajax_chat_position'		=> $event['data']['user_ajax_chat_position'],
+			'user_ajax_chat_sound'			=> $event['data']['user_ajax_chat_sound'],
+			'user_ajax_chat_avatar_hover'	=> $event['data']['user_ajax_chat_avatar_hover'],
+			'user_ajax_chat_onlinelist'		=> $event['data']['user_ajax_chat_onlinelist'],
+			'user_ajax_chat_autocomplete'	=> $event['data']['user_ajax_chat_autocomplete'],
+		));
+		$event['sql_ary'] = $sql_ary;
 	}
 
 	/**

@@ -75,6 +75,8 @@ class ajaxchat_module
 				'display_ajax_chat'				=> ['lang' => 'DISPLAY_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
 				'index_display_ajax_chat'		=> ['lang' => 'INDEX_DISPLAY_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
 				'whois_chatting'				=> ['lang' => 'WHOIS_CHATTING', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
+				'ajax_chat_nav_link'			=> ['lang' => 'AJAX_CHAT_NAV_LINK', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
+				'ajax_chat_quick_link'			=> ['lang' => 'AJAX_CHAT_QUICK_LINK', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
 				'ajax_chat_archive_amount'		=> ['lang' => 'ARCHIVE_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:500', 'explain' => true],
 				'ajax_chat_popup_amount'		=> ['lang' => 'POPUP_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true],
 				'ajax_chat_index_amount'		=> ['lang' => 'INDEX_AMOUNT_AJAX_CHAT', 'validate' => 'int', 'type' => 'number:5:150', 'explain' => true],

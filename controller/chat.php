@@ -278,7 +278,7 @@ class chat
 			'LAST_ID'				=> $this->last_id,
 			'LAST_POST'				=> $last_post,
 			'TIME'					=> time(),
-			'L_VERSION'				=> '3.0.12-BETA',
+			'L_VERSION'				=> '3.0.13-BETA',
 			'STYLE_PATH'			=> generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'		=> '' . $this->ext_path_web . 'styles/',
 			'FILENAME'				=> $this->helper->route('spaceace_ajaxchat_chat'),
@@ -287,10 +287,10 @@ class chat
 			'S_' . $this->mode		=> true,
 		]);
 		// Generate smiley listing
-		\generate_smilies('inline', 0);
+		generate_smilies('inline', 0);
 
 		// Build custom bbcodes array
-		\display_custom_bbcodes();
+		display_custom_bbcodes();
 
 		$this->whois_online();
 
@@ -407,7 +407,7 @@ class chat
 	/**
 	 * grabs the list of the active users participating in chat
 	 *
-	 * @return boolean
+	 * @return boolean|null
 	 */
 	private function whois_online()
 	{
@@ -514,7 +514,7 @@ class chat
 	/**
 	 * Refresher Read action
 	 *
-	 * @return bool
+	 * @return boolean|null
 	 */
 	private function readAction()
 	{
@@ -618,7 +618,7 @@ class chat
 	/**
 	 * Add & read action
 	 *
-	 * @return bool
+	 * @return boolean|null
 	 */
 	private function addAction()
 	{
@@ -739,7 +739,7 @@ class chat
 	/**
 	 * Post deletion method
 	 *
-	 * @return bool
+	 * @return boolean|null
 	 */
 	private function delAction()
 	{
