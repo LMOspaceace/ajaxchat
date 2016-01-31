@@ -65,7 +65,7 @@ class ucp_ajaxchat_module
 
 				if (!$this->config['location_ajax_chat_override'])
 				{
-					$chat_position1		= $this->request->variable('user_ajax_chat_position', (bool) $this->user->data['user_ajax_chat_position']);
+					$chat_position1		= $this->request->variable('ajax_chat_position', (bool) $this->user->data['user_ajax_chat_position']);
 				}
 				else
 				{
@@ -73,13 +73,13 @@ class ucp_ajaxchat_module
 				}
 
 				$data = array(
-					'user_ajax_chat_view'			=> $this->request->variable('user_ajax_chat_view', (bool) $this->user->data['user_ajax_chat_view']),
-					'user_ajax_chat_avatars'		=> $this->request->variable('user_ajax_chat_avatars', (bool) $this->user->data['user_ajax_chat_avatars']),
+					'user_ajax_chat_view'			=> $this->request->variable('ajax_chat_view', (bool) $this->user->data['user_ajax_chat_view']),
+					'user_ajax_chat_avatars'		=> $this->request->variable('ajax_chat_avatars', (bool) $this->user->data['user_ajax_chat_avatars']),
 					'user_ajax_chat_position'		=> $chat_position1,
-					'user_ajax_chat_sound'			=> $this->request->variable('user_ajax_chat_sound', (bool) $this->user->data['user_ajax_chat_sound']),
-					'user_ajax_chat_avatar_hover'	=> $this->request->variable('user_ajax_chat_avatar_hover', (bool) $this->user->data['user_ajax_chat_avatar_hover']),
-					'user_ajax_chat_onlinelist'		=> $this->request->variable('user_ajax_chat_onlinelist', (bool) $this->user->data['user_ajax_chat_onlinelist']),
-					'user_ajax_chat_autocomplete'	=> $this->request->variable('user_ajax_chat_autocomplete', (bool) $this->user->data['user_ajax_chat_autocomplete']),
+					'user_ajax_chat_sound'			=> $this->request->variable('ajax_chat_sound', (bool) $this->user->data['user_ajax_chat_sound']),
+					'user_ajax_chat_avatar_hover'	=> $this->request->variable('ajax_chat_avatar_hover', (bool) $this->user->data['user_ajax_chat_avatar_hover']),
+					'user_ajax_chat_onlinelist'		=> $this->request->variable('ajax_chat_onlinelist', (bool) $this->user->data['user_ajax_chat_onlinelist']),
+					'user_ajax_chat_autocomplete'	=> $this->request->variable('ajax_chat_autocomplete', (bool) $this->user->data['user_ajax_chat_autocomplete']),
 				);
 
 				$error  = array();
