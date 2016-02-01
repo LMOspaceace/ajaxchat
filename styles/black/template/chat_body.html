@@ -59,11 +59,7 @@
 				--!--{LAST_ID}--!--
 				<!-- IF S_AJAX_CHAT_SOUND -->
 					<!-- IF SOUND_ENABLED -->
-						<div class="chat_sound">
-							<object data="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/sounds/{SOUND_FILE}.swf" type="application/x-shockwave-flash">
-								<param name="movie" value="{EXT_STYLE_PATH}all/theme/sounds/{SOUND_FILE}.swf" />
-							</object>
-						</div>
+						<audio id="ajax_chat_sound" class="hidden chat_sound" src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/sounds/{SOUND_FILE}.mp3" autoplay ></audio>
 					<!-- ENDIF -->
 				<!-- ENDIF -->
 					<!-- IF S_WHOISONLINE -->
