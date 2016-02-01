@@ -671,7 +671,7 @@ class chat
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
 		{
-			exit;
+			return;
 		}
 
 		foreach ($rows as $row)
