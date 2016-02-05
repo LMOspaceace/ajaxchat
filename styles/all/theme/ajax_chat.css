@@ -261,6 +261,14 @@ div.chat-avatars:hover span {
 	width: 300px;
 }
 
+.big-avatar {
+	max-height: 128px;
+}
+
+.small-avatar {
+	max-height: 20px;
+}
+
 .chat li.row:hover {
 	background-color: transparent !important;
 }
@@ -408,4 +416,19 @@ div.chat-avatars:hover span {
 
 .chat.panel {
 	margin-bottom: 3px;
+}
+
+/* Subway additions */
+#chat .subway .post-buttons .icon-button:before {
+	top: 5px;
+}
+
+#chat .subway .post-buttons .button {
+	height: 24px;
+	width: 24px;
+}
+
+.subway #chat .post {
+	margin-bottom: 5px;
+	padding: 5px;
 }
