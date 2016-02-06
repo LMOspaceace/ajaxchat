@@ -249,6 +249,7 @@ div.chat-avatars:hover {
 
 .chat-avatars span img {
 	border-width: 0;
+	height: auto;
 }
 
 div.chat-avatars:hover span {
@@ -267,6 +268,10 @@ div.chat-avatars:hover span {
 
 .small-avatar {
 	max-height: 20px;
+}
+
+.chat-avatars img {
+	height: 20px;
 }
 
 .chat li.row:hover {
