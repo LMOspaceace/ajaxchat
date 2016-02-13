@@ -26,6 +26,24 @@
 			</dd>
 		</dl>
 	<!-- ENDIF -->
+	<!-- IF not S_AJAX_CHAT_VIEWFORUM_OVERRIDE -->
+		<dl>
+			<dt><label for="ajax_chat_viewforum0">{L_USER_AJAX_CHAT_VIEWFORUM}{L_COLON}</label></dt>
+			<dd>
+				<label for="ajax_chat_viewforum1"><input type="radio" name="ajax_chat_viewforum" id="ajax_chat_viewforum1" value="1"<!-- IF S_AJAX_CHAT_VIEWFORUM --> checked="checked"<!-- ENDIF --> /> {L_YES}</label> 
+				<label for="ajax_chat_viewforum0"><input type="radio" name="ajax_chat_viewforum" id="ajax_chat_viewforum0" value="0"<!-- IF not S_AJAX_CHAT_VIEWFORUM --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+			</dd>
+		</dl>
+	<!-- ENDIF -->
+	<!-- IF not S_AJAX_CHAT_VIEWTOPIC_OVERRIDE -->
+		<dl>
+			<dt><label for="ajax_chat_viewtopic0">{L_USER_AJAX_CHAT_VIEWTOPIC}{L_COLON}</label></dt>
+			<dd>
+				<label for="ajax_chat_ajax_chat_viewtopic1"><input type="radio" name="ajax_chat_viewtopic" id="ajax_chat_viewtopic1" value="1"<!-- IF S_AJAX_CHAT_VIEWTOPIC --> checked="checked"<!-- ENDIF --> /> {L_YES}</label> 
+				<label for="ajax_chat_ajax_chat_viewtopic0"><input type="radio" name="ajax_chat_viewtopic" id="ajax_chat_viewtopic0" value="0"<!-- IF not S_AJAX_CHAT_VIEWTOPIC --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+			</dd>
+		</dl>
+	<!-- ENDIF -->
 	<dl>
 		<dt><label for="ajax_chat_avatars0">{L_USER_AJAX_CHAT_AVATARS}{L_COLON}</label></dt>
 		<dd>

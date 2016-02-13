@@ -27,6 +27,10 @@ class install_ajaxchat extends \phpbb\db\migration\migration
 			array('config.add', array('rule_ajax_chat', '')),
 			array('config.add', array('location_ajax_chat', '1')),
 			array('config.add', array('location_ajax_chat_override', '0')),
+			array('config.add', array('viewforum_ajax_chat', '1')),
+			array('config.add', array('viewforum_ajax_chat_override', '0')),
+			array('config.add', array('viewtopic_ajax_chat', '1')),
+			array('config.add', array('viewtopic_ajax_chat_override', '0')),
 			array('config.add', array('ajax_chat_archive_amount', '200')),
 			array('config.add', array('ajax_chat_popup_amount', '60')),
 			array('config.add', array('ajax_chat_index_amount', '60')),
@@ -148,20 +152,14 @@ class install_ajaxchat extends \phpbb\db\migration\migration
 					),
 					'PRIMARY_KEY'	=> 'user_id',
 				),
-				$this->table_prefix . 'ajax_chat_rules'	=> array(
-					'COLUMNS'		=> array(
-						'chat_rules'		=> array('MTEXT_UNI', ''),
-						'bbcode_uid'		=> array('VCHAR:8', ''),
-						'bbcode_bitfield'	=> array('VCHAR:255', ''),
-						'bbcode_options'	=> array('UINT:11', 7),
-					),
-				),
 			),
 			'add_columns'	=> array(
 				$this->table_prefix . 'users' => array(
 					'user_ajax_chat_view'			=> array('UINT:1', 1),
 					'user_ajax_chat_avatars'		=> array('UINT:1', 1),
 					'user_ajax_chat_position'		=> array('UINT:1', 1),
+					'user_ajax_chat_viewforum'		=> array('UINT:1', 0),
+					'user_ajax_chat_viewtopic'		=> array('UINT:1', 0),
 					'user_ajax_chat_sound'			=> array('UINT:1', 1),
 					'user_ajax_chat_avatar_hover'	=> array('UINT:1', 1),
 					'user_ajax_chat_onlinelist'		=> array('UINT:1', 1),
@@ -177,13 +175,14 @@ class install_ajaxchat extends \phpbb\db\migration\migration
 			'drop_tables'	=> array(
 				$this->table_prefix . 'ajax_chat',
 				$this->table_prefix . 'ajax_chat_sessions',
-				$this->table_prefix . 'ajax_chat_rules',
 			),
 			'drop_columns'	=> array(
 				$this->table_prefix . 'users' => array(
 					'user_ajax_chat_view',
 					'user_ajax_chat_avatars',
 					'user_ajax_chat_position',
+					'user_ajax_chat_viewforum',
+					'user_ajax_chat_viewtopic',
 					'user_ajax_chat_sound',
 					'user_ajax_chat_avatar_hover',
 					'user_ajax_chat_onlinelist',

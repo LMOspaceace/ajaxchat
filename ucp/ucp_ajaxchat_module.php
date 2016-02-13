@@ -72,10 +72,30 @@ class ucp_ajaxchat_module
 					$chat_position1		= '0';
 				}
 
+				if (!$this->config['viewforum_ajax_chat_override'])
+				{
+					$chat_viewforum1		= $this->request->variable('ajax_chat_viewforum', (bool) $this->user->data['user_ajax_chat_viewforum']);
+				}
+				else
+				{
+					$chat_viewforum1		= '0';
+				}
+
+				if (!$this->config['viewtopic_ajax_chat_override'])
+				{
+					$chat_viewtopic1		= $this->request->variable('ajax_chat_viewtopic', (bool) $this->user->data['user_ajax_chat_viewtopic']);
+				}
+				else
+				{
+					$chat_viewtopic1		= '0';
+				}
+
 				$data = array(
 					'user_ajax_chat_view'			=> $this->request->variable('ajax_chat_view', (bool) $this->user->data['user_ajax_chat_view']),
 					'user_ajax_chat_avatars'		=> $this->request->variable('ajax_chat_avatars', (bool) $this->user->data['user_ajax_chat_avatars']),
 					'user_ajax_chat_position'		=> $chat_position1,
+					'user_ajax_chat_viewforum'		=> $chat_viewforum1,
+					'user_ajax_chat_viewtopic'		=> $chat_viewtopic1,
 					'user_ajax_chat_sound'			=> $this->request->variable('ajax_chat_sound', (bool) $this->user->data['user_ajax_chat_sound']),
 					'user_ajax_chat_avatar_hover'	=> $this->request->variable('ajax_chat_avatar_hover', (bool) $this->user->data['user_ajax_chat_avatar_hover']),
 					'user_ajax_chat_onlinelist'		=> $this->request->variable('ajax_chat_onlinelist', (bool) $this->user->data['user_ajax_chat_onlinelist']),
@@ -103,12 +123,32 @@ class ucp_ajaxchat_module
 						$chat_position2		= '0';
 					}
 
+					if (!$this->config['viewforum_ajax_chat_override'])
+					{
+						$chat_viewforum2		= $post['ajax_chat_viewforum'];
+					}
+					else
+					{
+						$chat_viewforum2		= '0';
+					}
+
+					if (!$this->config['viewtopic_ajax_chat_override'])
+					{
+						$chat_viewtopic2		= $post['ajax_chat_viewtopic'];
+					}
+					else
+					{
+						$chat_viewtopic2		= '0';
+					}
+
 					if (!sizeof($error))
 					{
 						$sql_ary = array(
 							'user_ajax_chat_view'			=> $post['ajax_chat_view'],
 							'user_ajax_chat_avatars'		=> $post['ajax_chat_avatars'],
 							'user_ajax_chat_position'		=> $chat_position2,
+							'user_ajax_chat_viewforum'		=> $chat_viewforum2,
+							'user_ajax_chat_viewtopic'		=> $chat_viewtopic2,
 							'user_ajax_chat_sound'			=> $post['ajax_chat_sound'],
 							'user_ajax_chat_sound'			=> $post['ajax_chat_sound'],
 							'user_ajax_chat_avatar_hover'	=> $post['ajax_chat_avatar_hover'],
@@ -138,6 +178,8 @@ class ucp_ajaxchat_module
 					'S_AJAX_CHAT_VIEW'			=> $data['user_ajax_chat_view'],
 					'S_AJAX_CHAT_AVATARS'		=> $data['user_ajax_chat_avatars'],
 					'S_AJAX_CHAT_POSITION'		=> $data['user_ajax_chat_position'],
+					'S_AJAX_CHAT_VIEWFORUM'		=> $data['user_ajax_chat_viewforum'],
+					'S_AJAX_CHAT_VIEWTOPIC'		=> $data['user_ajax_chat_viewtopic'],
 					'S_AJAX_CHAT_SOUND'			=> $data['user_ajax_chat_sound'],
 					'S_AJAX_CHAT_AVATAR_HOVER'	=> $data['user_ajax_chat_avatar_hover'],
 					'S_AJAX_CHAT_ONLINELIST'	=> $data['user_ajax_chat_onlinelist'],

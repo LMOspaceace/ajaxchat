@@ -93,6 +93,8 @@ class ajaxchat_module
 				'legend3'						=> 'AJAX_CHAT_LOCATION',
 				'location_ajax_chat_override'	=> ['lang' => 'LOCATION_AJAX_CHAT_OVERRIDE', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
 				'location_ajax_chat'			=> ['lang' => 'LOCATION_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true],
+				'viewforum_ajax_chat_override'	=> ['lang' => 'VIEWFORUM_AJAX_CHAT_OVERRIDE', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
+				'viewtopic_ajax_chat_override'	=> ['lang' => 'VIEWTOPIC_AJAX_CHAT_OVERRIDE', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
 				'legend4'						=> 'AJAX_CHAT_POSTS',
 				'ajax_chat_forum_posts'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
 				'ajax_chat_forum_topic'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT_TOPIC', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
@@ -127,34 +129,6 @@ class ajaxchat_module
 		// Output page template file
 		$this->tpl_name		 = 'ajax_chat';
 		$this->page_title	 = $this->user->lang($display_vars['title']);
-	}
-
-	/**
-	 * Chat rule.
-	 */
-	public function chat_rules()
-	{
-		$chat_rules = $this->request->variable('chat_rules', '', true);
-		$uid = $bitfield = $options = ''; // will be modified by generate_text_for_storage
-		$allow_bbcode = $this->request->variable('rules_parse_bbcode', true);
-		$allow_smilies = $this->request->variable('rules_parse_smilies', true);
-		$allow_urls = $this->request->variable('rules_parse_urls', true);
-		generate_text_for_storage($chat_rules, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
-
-		$sql_ary = array(
-			'chat_rules'		=> $chat_rules,
-			'bbcode_uid'		=> $uid,
-			'bbcode_bitfield'	=> $bitfield,
-			'bbcode_options'	=> $options,
-		);
-
-		$sql = 'INSERT INTO ' . CHAT_RULES . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
-		$this->db->sql_query($sql);
-		$chat_rule  = '<dd><textarea id="chat_rules" name="config[rule_ajax_chat]" rows="4" cols="70" >' . $chat_rules . '</textarea></dd>
-			<dd><label><input type="checkbox" class="radio" name="chat_rules_parse_bbcode" checked="checked" /> ' . $this->user->lang['PARSE_BBCODE'] . '</label>
-			<label><input type="checkbox" class="radio" name="chat_rules_parse_smilies" checked="checked" /> ' . $this->user->lang['PARSE_SMILIES'] . '</label>
-			<label><input type="checkbox" class="radio" name="chat_rules_parse_urls" checked="checked" /> ' . $this->user->lang['PARSE_URLS'] . '</label></dd>';
-		return $chat_rule;
 	}
 
 	/**
