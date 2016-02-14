@@ -231,7 +231,7 @@ class listener implements EventSubscriberInterface
 			array(
 				'U_CHAT'					=> $this->helper->route('spaceace_ajaxchat_chat'),
 				'S_SHOUT'					=> true,
-				'CHAT_RULES'				=> htmlspecialchars_decode($this->request->variable['rule_ajax_chat']),
+				'CHAT_RULES'				=> htmlspecialchars_decode($this->config['rule_ajax_chat']),
 				'SCRIPT_PATH'				=> $this->config['script_path'],
 				'COOKIE_NAME'				=> $this->config['cookie_name'].'_fonthold',
 				'EXT_PATH'					=> $this->ext_manager->get_extension_path('spaceace/ajaxchat', true),
