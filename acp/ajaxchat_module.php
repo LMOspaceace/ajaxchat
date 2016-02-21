@@ -20,9 +20,6 @@ class ajaxchat_module
 	/** @var \phpbb\config\config */
 	public $new_config = [];
 
-	/** @var string form key */
-	public $form_key;
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -38,9 +35,15 @@ class ajaxchat_module
 	/** @var \phpbb\request\request */
 	protected $request;
 
+	/** @var string */
+	protected $phpbb_root_path;
+
+	/** @var string */
+	protected $php_ext;
+
 	public function main($id, $mode)
 	{
-		global $phpbb_container, $table_prefix;
+		global $phpbb_container, $table_prefix, $phpbb_root_path, $phpEx;
 
 		if (!defined('CHAT_TABLE'))
 		{
@@ -57,14 +60,18 @@ class ajaxchat_module
 		// Initialization
 		$this->auth		 = $phpbb_container->get('auth');
 		$this->config	 = $phpbb_container->get('config');
+		$this->config_text = $phpbb_container->get('config_text');
 		$this->db		 = $phpbb_container->get('dbal.conn');
 		$this->user		 = $phpbb_container->get('user');
 		$this->template	 = $phpbb_container->get('template');
 		$this->request	 = $phpbb_container->get('request');
-
+		$this->phpbb_root_path = $phpbb_root_path;
+		$this->php_ext = $phpEx;
+		// Add the posting lang file needed by BBCodes
+		$this->user->add_lang(array('posting'));
 		$this->u_action = $this->request->variable('action', '', true);
 
-		$submit			 = ($this->request->is_set_post('submit')) ? true : false;
+		$submit = ($this->request->is_set_post('submit')) ? true : false;
 		$this->form_key	 = 'acp_ajax_chat';
 		add_form_key($this->form_key);
 
@@ -88,26 +95,24 @@ class ajaxchat_module
 				'status_online_chat'			=> ['lang' => 'STATUS_ONLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true],
 				'status_idle_chat'				=> ['lang' => 'STATUS_IDLE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true],
 				'status_offline_chat'			=> ['lang' => 'STATUS_OFFLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true],
-				'legend2'						=> 'AJAX_CHAT_RULES',
-				'rule_ajax_chat'				=> ['lang' => 'RULES_AJAX_CHAT', 'validate' => 'string', 'type' => 'textarea:4:70', 'explain' => true],
-				'legend3'						=> 'AJAX_CHAT_LOCATION',
+				'legend2'						=> 'AJAX_CHAT_LOCATION',
 				'location_ajax_chat_override'	=> ['lang' => 'LOCATION_AJAX_CHAT_OVERRIDE', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
 				'location_ajax_chat'			=> ['lang' => 'LOCATION_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true],
 				'viewforum_ajax_chat_override'	=> ['lang' => 'VIEWFORUM_AJAX_CHAT_OVERRIDE', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
 				'viewtopic_ajax_chat_override'	=> ['lang' => 'VIEWTOPIC_AJAX_CHAT_OVERRIDE', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
-				'legend4'						=> 'AJAX_CHAT_POSTS',
+				'legend3'						=> 'AJAX_CHAT_POSTS',
 				'ajax_chat_forum_posts'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
 				'ajax_chat_forum_topic'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT_TOPIC', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
 				'ajax_chat_forum_reply'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT_REPLY', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
 				'ajax_chat_forum_edit'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT_EDIT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
 				'ajax_chat_forum_quote'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT_QUOTE', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
-				'legend5'						=> 'AJAX_CHAT_PRUNE',
+				'legend4'						=> 'AJAX_CHAT_PRUNE',
 				'prune_ajax_chat'				=> ['lang' => 'PRUNE_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
 				'prune_keep_ajax_chat'			=> ['lang' => 'PRUNE_KEEP_AJAX_CHAT', 'validate' => 'int', 'type' => 'number', 'explain' => false],
 				'prune_now'						=> ['lang' => 'PRUNE_NOW', 'validate' => 'bool', 'type' => 'custom', 'explain' => false, 'method' => 'prune_chat'],
 				'truncate_now'					=> ['lang' => 'TRUNCATE_NOW', 'validate' => 'bool', 'type' => 'custom', 'explain' => false, 'method' => 'truncate_chat'],
 				'ajax_chat_counter'				=> ['lang' => 'CHAT_COUNTER', 'validate' => 'bool', 'type' => 'custom', 'explain' => false, 'method' => 'chat_counter'],
-				'legend6'						=> 'ACP_SUBMIT_CHANGES'
+				'legend5'						=> 'ACP_SUBMIT_CHANGES'
 			],
 		];
 
@@ -252,6 +257,21 @@ class ajaxchat_module
 
 		validate_config_vars($display_vars['vars'], $cfg_array, $error);
 
+		// Get new chat rules text from the form
+		$data['chat_rules_text'] = $this->request->variable('ajax_chat_rule_text', '', true);
+
+		// Prepare chat rules text for storage
+		generate_text_for_storage(
+			$data['chat_rules_text'],
+			$data['chat_rules_uid'],
+			$data['chat_rules_bitfield'],
+			$data['chat_rules_options'],
+			!$this->request->variable('disable_bbcode', false),
+			!$this->request->variable('disable_magic_url', false),
+			!$this->request->variable('disable_smilies', false)
+		);
+
+		// Test if form key is valid
 		if (!check_form_key($this->form_key))
 		{
 			$error[] = $this->user->lang['FORM_INVALID'];
@@ -263,6 +283,14 @@ class ajaxchat_module
 			$submit = false;
 			return false;
 		}
+
+		// Store the chat rules settings to the config_table in the database
+		$this->config_text->set_array(array(
+			'chat_rules_text'			=> $data['chat_rules_text'],
+			'chat_rules_uid'			=> $data['chat_rules_uid'],
+			'chat_rules_bitfield'		=> $data['chat_rules_bitfield'],
+			'chat_rules_options'		=> $data['chat_rules_options'],
+		));
 
 		// We go through the display_vars to make sure no one is trying to set variables he/she is not allowed to...
 		foreach ($display_vars['vars'] as $config_name => $null)
@@ -349,10 +377,50 @@ class ajaxchat_module
 			]);
 		}
 
+		// Chat rules functions for ACP
+		// Include files needed for displaying BBCodes
+		if (!function_exists('display_custom_bbcodes'))
+		{
+			include($this->phpbb_root_path . 'includes/functions_display.' . $this->php_ext);
+		}
+
+		// Get chat rules data from the config_text table in the database
+		$data = $this->config_text->get_array(array(
+			'chat_rules_text',
+			'chat_rules_uid',
+			'chat_rules_bitfield',
+			'chat_rules_options',
+		));
+
+		// Prepare the chat rules text for editing inside the textbox
+		$ajax_chat_rule_text_edit = generate_text_for_edit($data['chat_rules_text'], $data['chat_rules_uid'], $data['chat_rules_options']);
+
+		// Output data to the template
 		$this->template->assign_vars([
 			'S_ERROR'	 => (sizeof($error)) ? true : false,
 			'ERROR_MSG'	 => implode('<br />', $error),
+
+			'AJAX_CHAT_RULE_TEXT'		=> $ajax_chat_rule_text_edit['text'],
+
+			'S_BBCODE_DISABLE_CHECKED'		=> !$ajax_chat_rule_text_edit['allow_bbcode'],
+			'S_SMILIES_DISABLE_CHECKED'		=> !$ajax_chat_rule_text_edit['allow_smilies'],
+			'S_MAGIC_URL_DISABLE_CHECKED'	=> !$ajax_chat_rule_text_edit['allow_urls'],
+
+			'BBCODE_STATUS'			=> $this->user->lang('BBCODE_IS_ON', '<a href="' . append_sid("{$this->phpbb_root_path}faq.{$this->php_ext}", 'mode=bbcode') . '">', '</a>'),
+			'SMILIES_STATUS'		=> $this->user->lang('SMILIES_ARE_ON'),
+			'IMG_STATUS'			=> $this->user->lang('IMAGES_ARE_ON'),
+			'FLASH_STATUS'			=> $this->user->lang('FLASH_IS_ON'),
+			'URL_STATUS'			=> $this->user->lang('URL_IS_ON'),
+
+			'S_BBCODE_ALLOWED'		=> true,
+			'S_SMILIES_ALLOWED'		=> true,
+			'S_BBCODE_IMG'			=> true,
+			'S_BBCODE_FLASH'		=> true,
+			'S_LINKS_ALLOWED'		=> true,
 			'U_ACTION'	 => $this->u_action]
 		);
+
+		// Assigning custom bbcodes
+		display_custom_bbcodes();
 	}
 }

@@ -43,6 +43,9 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\config\db */
 	protected $config;
 
+	/** @var \phpbb\config\db_text */
+	protected $config_text;
+
 	/** @var \phpbb\extension\manager "Extension Manager" */
 	protected $ext_manager;
 
@@ -129,7 +132,7 @@ class listener implements EventSubscriberInterface
 	 * @param string		$root_path
 	 * @param string		$php_ext
 	 */
-	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, manager $ext_manager, path_helper $path_helper, Container $container, $table_prefix, $root_path, $php_ext)
+	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, $config_text, manager $ext_manager, path_helper $path_helper, Container $container, $table_prefix, $root_path, $php_ext)
 	{
 		$this->template		 = $template;
 		$this->user			 = $user;
@@ -138,6 +141,7 @@ class listener implements EventSubscriberInterface
 		$this->request		 = $request;
 		$this->helper		 = $helper;
 		$this->config		 = $config;
+		$this->config_text = $config_text;
 		$this->root_path	 = $root_path;
 		$this->php_ext		 = $php_ext;
 		$this->ext_manager	 = $ext_manager;
@@ -226,12 +230,28 @@ class listener implements EventSubscriberInterface
 			$this->template->assign_var('S_AJAX_CHAT_VIEWTOPIC_OVERRIDE', true);
 		}
 
-		//Declaring a few UCP switches and basic values
+		// Get chat rules data from the config_text object
+		$chat_rules_data = $this->config_text->get_array(array(
+			'chat_rules_text',
+			'chat_rules_uid',
+			'chat_rules_bitfield',
+			'chat_rules_options',
+		));
+
+		// Prepare chat rules for display
+		$chat_rules = generate_text_for_display(
+			$chat_rules_data['chat_rules_text'],
+			$chat_rules_data['chat_rules_uid'],
+			$chat_rules_data['chat_rules_bitfield'],
+			$chat_rules_data['chat_rules_options']
+		);
+
+		// Declaring a few UCP switches and basic values
 		$this->template->assign_vars(
 			array(
 				'U_CHAT'					=> $this->helper->route('spaceace_ajaxchat_chat'),
 				'S_SHOUT'					=> true,
-				'CHAT_RULES'				=> htmlspecialchars_decode($this->config['rule_ajax_chat']),
+				'CHAT_RULES'				=> $chat_rules,
 				'SCRIPT_PATH'				=> $this->config['script_path'],
 				'COOKIE_NAME'				=> $this->config['cookie_name'].'_fonthold',
 				'EXT_PATH'					=> $this->ext_manager->get_extension_path('spaceace/ajaxchat', true),
@@ -491,7 +511,7 @@ class listener implements EventSubscriberInterface
 			'LAST_ID'				=> $this->last_id,
 			'LAST_POST'				=> $last_post,
 			'TIME'					=> time(),
-			'L_VERSION'				=> '3.0.14-BETA',
+			'L_VERSION'				=> '3.0.15-BETA',
 			'STYLE_PATH'			=> generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'		=> '' . $this->ext_path_web . 'styles/',
 			'FILENAME'				=> $this->helper->route('spaceace_ajaxchat_chat'),

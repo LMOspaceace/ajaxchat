@@ -128,6 +128,12 @@ div.chat-avatars:hover span {
 	padding: 6px 0 6px 21px;
 }
 
+.span_chat_rule {
+	font-weight: bold;
+	font-size: 1.1em;
+	color: #AA0000;
+}
+
 #chat_smilies {
 	margin-bottom: 5px;
 }

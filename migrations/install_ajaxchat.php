@@ -24,7 +24,6 @@ class install_ajaxchat extends \phpbb\db\migration\migration
 			// Add configs
 			array('config.add', array('display_ajax_chat', '1')),
 			array('config.add', array('whois_chatting', '1')),
-			array('config.add', array('rule_ajax_chat', '')),
 			array('config.add', array('location_ajax_chat', '1')),
 			array('config.add', array('location_ajax_chat_override', '0')),
 			array('config.add', array('viewforum_ajax_chat', '1')),
@@ -52,6 +51,10 @@ class install_ajaxchat extends \phpbb\db\migration\migration
 			array('config.add', array('prune_keep_ajax_chat', '300')),
 			array('config.add', array('ajax_chat_nav_link', '1')),
 			array('config.add', array('ajax_chat_quick_link', '0')),
+			array('config_text.add', array('chat_rules_text', '')),
+			array('config_text.add', array('chat_rules_uid', '')),
+			array('config_text.add', array('chat_rules_bitfield', '')),
+			array('config_text.add', array('chat_rules_options', OPTION_FLAG_BBCODE + OPTION_FLAG_SMILIES + OPTION_FLAG_LINKS)),
 			// Add chat bbcode part 1
 			array('custom', array(array($this, 'update_chat_bbcodes'))),
 			// Add the cron

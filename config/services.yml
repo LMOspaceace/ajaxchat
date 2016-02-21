@@ -9,6 +9,7 @@ services:
             - '@request'
             - '@controller.helper'
             - '@config'
+            - '@config_text'
             - '@ext.manager'
             - '@path_helper'
             - '@service_container'

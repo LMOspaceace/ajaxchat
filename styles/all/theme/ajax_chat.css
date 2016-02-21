@@ -437,3 +437,8 @@ div.chat-avatars:hover span {
 	margin-bottom: 5px;
 	padding: 5px;
 }
+
+/* Black additions */
+      .fachaticon .nav-link {
+            content: '\f075';   // fa-comment
+      }

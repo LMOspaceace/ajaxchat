@@ -134,71 +134,80 @@
 								</td>
 								<td align="center" class="cat nav" <!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING -->style="visibility: hidden; position: absolute;"<!-- ELSE -->width="15%"<!-- ENDIF -->>{L_WHOIS_CHATTING}</td>
 							</tr>
-						<tr>
-							<td class="row3" style="text-align:left;" height="220">
-								<div class="shouts">
-									<div id="chat">
-										<!-- BEGIN chatrow -->
-											<div id="p{chatrow.MESSAGE_ID}">
-												<table class="tablebg" cellpadding="6" cellspacing="0" width="100%">
-													<tr class="row{chatrow.CLASS}">
-														<td class="chat_profile">
-															<!-- IF M_AJAXCHAT_DELETE or U_ACP --><a href="javascript:void({chatrow.MESSAGE_ID})" title="{L_DELETE_POST}" onclick="delete_post('{chatrow.MESSAGE_ID}')"><span class="imageset icon_post_delete" title="{L_DELETE}">{L_DELETE}</span></a> <!-- ENDIF -->
-															<b class="postauthor">
-																<object>
-																	<div class="chat-avatars">
-																		<!-- IF S_AJAX_CHAT_AVATARS -->
-																			<!-- IF chatrow.USER_AVATAR -->
-																				<!-- IF S_AJAX_CHAT_AVATAR_HOVER -->
-																					<span>{chatrow.USER_AVATAR}</span>
+							<!-- IF CHAT_RULES and SCRIPT_NAME neq 'app/chat/archive' -->
+								<tr>
+									<td>
+										<div class="chat_rules">
+											<span class="span_chat_rule">{L_CHAT_RULE}</span><br /><span>{CHAT_RULES}</span>
+										</div>
+									</td>
+								</tr>
+							<!-- ENDIF -->
+							<tr>
+								<td class="row3" style="text-align:left;" height="220">
+									<div class="shouts">
+										<div id="chat">
+											<!-- BEGIN chatrow -->
+												<div id="p{chatrow.MESSAGE_ID}">
+													<table class="tablebg" cellpadding="6" cellspacing="0" width="100%">
+														<tr class="row{chatrow.CLASS}">
+															<td class="chat_profile">
+																<!-- IF M_AJAXCHAT_DELETE or U_ACP --><a href="javascript:void({chatrow.MESSAGE_ID})" title="{L_DELETE_POST}" onclick="delete_post('{chatrow.MESSAGE_ID}')"><span class="imageset icon_post_delete" title="{L_DELETE}">{L_DELETE}</span></a> <!-- ENDIF -->
+																<b class="postauthor">
+																	<object>
+																		<div class="chat-avatars">
+																			<!-- IF S_AJAX_CHAT_AVATARS -->
+																				<!-- IF chatrow.USER_AVATAR -->
+																					<!-- IF S_AJAX_CHAT_AVATAR_HOVER -->
+																						<span>{chatrow.USER_AVATAR}</span>
+																					<!-- ENDIF -->
+																						{chatrow.USER_AVATAR_THUMB}
+																				<!-- ELSE -->
+																					<!-- IF S_AJAX_CHAT_AVATAR_HOVER -->
+																						<span>
+																							<img src="{STYLE_PATH}/theme/images/no_avatar.gif" height="128" alt="" />
+																						</span>
+																					<!-- ENDIF -->
+																					<img src="{STYLE_PATH}/theme/images/no_avatar.gif" height="20" alt="" />
 																				<!-- ENDIF -->
-																					{chatrow.USER_AVATAR_THUMB}
-																			<!-- ELSE -->
-																				<!-- IF S_AJAX_CHAT_AVATAR_HOVER -->
-																					<span>
-																						<img src="{STYLE_PATH}/theme/images/no_avatar.gif" height="128" alt="" />
-																					</span>
-																				<!-- ENDIF -->
-																				<img src="{STYLE_PATH}/theme/images/no_avatar.gif" height="20" alt="" />
 																			<!-- ENDIF -->
+																		</div>
+																	</object>
+																	<!-- IF not S_IS_BOT and S_USER_LOGGED_IN and SCRIPT_NAME neq 'app/chat/archive' -->
+																		<!-- IF chatrow.USER_COLOR -->
+																			<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/color][/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
+																		<!-- ELSE -->
+																			<a href="#" onclick="insert_text('[b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
 																		<!-- ENDIF -->
-																	</div>
-																</object>
-																<!-- IF not S_IS_BOT and S_USER_LOGGED_IN and SCRIPT_NAME neq 'app/chat/archive' -->
-																	<!-- IF chatrow.USER_COLOR -->
-																		<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/color][/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
 																	<!-- ELSE -->
-																		<a href="#" onclick="insert_text('[b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
+																		&#64;
 																	<!-- ENDIF -->
-																<!-- ELSE -->
-																	&#64;
-																<!-- ENDIF -->
-																{chatrow.USERNAME_FULL}</b>
-																<br />
-																« {chatrow.TIME} »
-														</td>
-														<td>
-															 <div class="postbody">{chatrow.MESSAGE}</div>
-														</td>
-													</tr>
-												</table>
-											</div>
-										<!-- END chatrow -->
+																	{chatrow.USERNAME_FULL}</b>
+																	<br />
+																	« {chatrow.TIME} »
+															</td>
+															<td>
+																 <div class="postbody">{chatrow.MESSAGE}</div>
+															</td>
+														</tr>
+													</table>
+												</div>
+											<!-- END chatrow -->
+										</div>
 									</div>
-								</div>
-							</td>
-							<td class="row1" nowrap="nowrap" <!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING -->style="visibility: hidden; position: absolute;"<!-- ENDIF -->>
-								<div class="whois">
-									<div id="whois_online">
-										<!-- BEGIN whoisrow -->
-											<div class="whois_status<!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
-												<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="status_img" alt="{whoisrow.USER_STATUS}" />&nbsp;{whoisrow.USERNAME_FULL}&nbsp;
-											</div>
-										<!-- END whoisrow -->
+								</td>
+								<td class="row1" nowrap="nowrap" <!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING -->style="visibility: hidden; position: absolute;"<!-- ENDIF -->>
+									<div class="whois">
+										<div id="whois_online">
+											<!-- BEGIN whoisrow -->
+												<div class="whois_status<!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
+													<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/{whoisrow.USER_STATUS}.png" class="status_img" alt="{whoisrow.USER_STATUS}" />&nbsp;{whoisrow.USERNAME_FULL}&nbsp;
+												</div>
+											<!-- END whoisrow -->
+										</div>
 									</div>
-								</div>
-							</td>
-						</tr>
+								</td>
+							</tr>
 						<tr>
 							<td class="cat" colspan="2" align="center">
 								<span class="list chat-icon details">{L_DETAILS}</span>

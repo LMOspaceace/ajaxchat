@@ -102,38 +102,47 @@
 				<div class="left"><div class="right">
 				<div class="box">
 					<table class="tablebg" cellspacing="1" width="100%">
-							<tr>
-								<td align="center" class="cat nav" width="<!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING -->100%<!-- ELSE -->85%<!-- ENDIF -->">
-										<!-- IF SCRIPT_NAME neq 'app/chat/archive' -->
-											<!-- IF S_AJAXCHAT_POST -->
-												<form name="postform" id="chat-text" method="post" action="javascript:void(0);" onsubmit="handle_send('add', this)">
-													<!-- INCLUDE chat_font_colour_hold.html -->
-													<input type="text" tabindex="1" name="message" id="message" class="inputbox" size="28"<!-- IF not S_AJAX_CHAT_AUTOCOMPLETE --> autocomplete="off"<!-- ENDIF --> />
-													<br />
-													<br />
-													<input type="submit" class="btnmain" value="{L_SUBMIT}" title="{L_CHAT_SUBMIT_MESSAGE}" name="submit" tabindex="6" accesskey="s" />
-													<!-- IF S_AJAXCHAT_BBCODE -->
-														<input type="button" class="btnmain" id="bbcodes" value="{L_BBCODES}" />
-														<input type="button" class="btnmain" id="smilies" value="{L_SMILIES}" />
-													<!-- ENDIF -->
-													<input type="button" class="btnmain" onclick="popup('{FILENAME}/archive', 1025, 485); return false;" value="{L_CHAT_ARCHIVE}" title="{L_CHAT_ARCHIVE_EXPLAIN}" />
-													<input type="button" class="btnmain" onclick="popup('{FILENAME}/popup', 1025, 485); return false;" value="{L_CHAT_POPUP}" title="{L_CHAT_POPUP_EXPLAIN}" />
-													<!-- IF S_AJAXCHAT_BBCODE -->
-														<input type="button" class="btnmain" name="chat_bbpalette" id="chat_bbpalette" value="{L_CHAT_FONT_COLOR}" />
-													<!-- ENDIF -->
-												<!-- INCLUDE chat_buttons.html -->
-												</form>
-											<!-- ELSE -->
-												{L_NO_POST_IN_CHAT}
-											<!-- ENDIF -->
+						<tr>
+							<td align="center" class="cat nav" width="<!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING -->100%<!-- ELSE -->85%<!-- ENDIF -->">
+									<!-- IF SCRIPT_NAME neq 'app/chat/archive' -->
+										<!-- IF S_AJAXCHAT_POST -->
+											<form name="postform" id="chat-text" method="post" action="javascript:void(0);" onsubmit="handle_send('add', this)">
+												<!-- INCLUDE chat_font_colour_hold.html -->
+												<input type="text" tabindex="1" name="message" id="message" class="inputbox" size="28"<!-- IF not S_AJAX_CHAT_AUTOCOMPLETE --> autocomplete="off"<!-- ENDIF --> />
+												<br />
+												<br />
+												<input type="submit" class="btnmain" value="{L_SUBMIT}" title="{L_CHAT_SUBMIT_MESSAGE}" name="submit" tabindex="6" accesskey="s" />
+												<!-- IF S_AJAXCHAT_BBCODE -->
+													<input type="button" class="btnmain" id="bbcodes" value="{L_BBCODES}" />
+													<input type="button" class="btnmain" id="smilies" value="{L_SMILIES}" />
+												<!-- ENDIF -->
+												<input type="button" class="btnmain" onclick="popup('{FILENAME}/archive', 1025, 485); return false;" value="{L_CHAT_ARCHIVE}" title="{L_CHAT_ARCHIVE_EXPLAIN}" />
+												<input type="button" class="btnmain" onclick="popup('{FILENAME}/popup', 1025, 485); return false;" value="{L_CHAT_POPUP}" title="{L_CHAT_POPUP_EXPLAIN}" />
+												<!-- IF S_AJAXCHAT_BBCODE -->
+													<input type="button" class="btnmain" name="chat_bbpalette" id="chat_bbpalette" value="{L_CHAT_FONT_COLOR}" />
+												<!-- ENDIF -->
+											<!-- INCLUDE chat_buttons.html -->
+											</form>
 										<!-- ELSE -->
-											<!-- IF not S_USER_LOGGED_IN -->
-												<div class="input_message">{L_GUEST_MESSAGE}</div>
-											<!-- ENDIF -->
-									<!-- ENDIF -->
+											{L_NO_POST_IN_CHAT}
+										<!-- ENDIF -->
+									<!-- ELSE -->
+										<!-- IF not S_USER_LOGGED_IN -->
+											<div class="input_message">{L_GUEST_MESSAGE}</div>
+										<!-- ENDIF -->
+								<!-- ENDIF -->
+							</td>
+							<td align="center" class="cat nav" <!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING -->style="visibility: hidden; position: absolute;"<!-- ELSE -->width="15%"<!-- ENDIF -->>{L_WHOIS_CHATTING}</td>
+						</tr>
+						<!-- IF CHAT_RULES and SCRIPT_NAME neq 'app/chat/archive' -->
+							<tr>
+								<td>
+									<div class="chat_rules">
+										<span class="span_chat_rule">{L_CHAT_RULE}</span><br /><span>{CHAT_RULES}</span>
+									</div>
 								</td>
-								<td align="center" class="cat nav" <!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING -->style="visibility: hidden; position: absolute;"<!-- ELSE -->width="15%"<!-- ENDIF -->>{L_WHOIS_CHATTING}</td>
 							</tr>
+						<!-- ENDIF -->
 						<tr>
 							<td class="row" style="text-align:left;" height="220">
 								<div class="shouts">
