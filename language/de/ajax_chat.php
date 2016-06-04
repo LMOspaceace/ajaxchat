@@ -49,7 +49,7 @@ $lang = array_merge(
 		'CHAT_NEW_POST'					=> 'hat geantwortet auf: %s',
 		'CHAT_NEW_TOPIC'				=> 'hat ein neues Thema erstellt: %s',
 		'CHAT_POST_EDIT'				=> 'wurde bearbeitet: %s',
-		'CHAT_NEW_QUOTE'				=> 'has replied with a quote to: %s',
+		'CHAT_NEW_QUOTE'				=> 'hat mit einem Zitat geantwortet: %s',
 		'EMPTY'							=> 'Fehler: Du musst eine Nachricht einfügen.',
 		'GUEST_MESSAGE'					=> '<strong>Du musst registriert sein um den Chat verwenden zu können.</strong>',
 		'MESSAGE'						=> 'Nachricht',
@@ -69,6 +69,6 @@ $lang = array_merge(
 		'UPGRADE_BROWSER'				=> 'Status: Konnte kein XmlHttpRequest-Objekt erstellen.	Aktualisiere deinen Browser.',
 		'NO_POST_IN_CHAT'				=> 'Du hast keine Berechtigung Nachrichten im Chat zu schreiben.',
 		'DELETE_CHAT_COOKIE'			=> 'Cookies löschen',
-		'DELETE_CHAT_COOKIE_EXPLAIN'	=> 'This button deletes the font colour hold cookie.',
+		'DELETE_CHAT_COOKIE_EXPLAIN'	=> 'Die Schaltfläche löscht das "Schriftfarbe halten" Cookie.',
 	)
 );
