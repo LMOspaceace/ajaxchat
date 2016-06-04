@@ -44,12 +44,14 @@ $lang = array_merge(
 		'CHAT_TOP'						=> 'Oben',
 		'USER_AJAX_CHAT_VIEW'			=> 'Chat auf der Indexseite anzeigen',
 		'USER_AJAX_CHAT_POSITION'		=> 'Position des Chats auf der Indexseite',
+		'USER_AJAX_CHAT_VIEWFORUM'		=> 'Chat in Foren anzeigen',
+		'USER_AJAX_CHAT_VIEWTOPIC'		=> 'Chat in Themen anzeigen',
 		'USER_AJAX_CHAT_AVATARS'		=> 'Avatare im Chat anzeigen',
 		'USER_AJAX_CHAT_SOUND'			=> 'Höre Sounds im chat',
-		'USER_AJAX_CHAT_AVATAR_HOVER'	=> 'Zeige das volle Avatar-Bild beim Hovern an',
+		'USER_AJAX_CHAT_AVATAR_HOVER'		=> 'Zeige das volle Avatar-Bild beim Hovern an',
 		'USER_AJAX_CHAT_ONLINELIST'		=> 'Zeige die Online-Liste im Chat an',
-		'USER_AJAXCHAT'					=> 'Ajax Chat',
+		'USER_AJAXCHAT'				=> 'Ajax Chat',
 		'USER_AJAXCHAT_SETTINGS'		=> 'Ajax Chat Einstellungen',
-		'NO_VIEW_CHAT'					=> 'Du hast keine Berechtigung den Chat zu sehen.',
+		'NO_VIEW_CHAT'				=> 'Du hast keine Berechtigung den Chat zu sehen.',
 	)
 );
