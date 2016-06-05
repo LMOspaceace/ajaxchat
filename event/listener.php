@@ -230,6 +230,16 @@ class listener implements EventSubscriberInterface
 			$this->template->assign_var('S_AJAX_CHAT_VIEWTOPIC_OVERRIDE', true);
 		}
 
+		if ($this->config['ajax_chat_input_full'] === '1')
+		{
+			$this->template->assign_var('S_AJAX_CHAT_INPUT_FULL', true);
+		}
+
+		if ($this->config['ajax_chat_chatrow_full'] === '1')
+		{
+			$this->template->assign_var('S_AJAX_CHAT_CHATROW_FULL', true);
+		}
+
 		// Get chat rules data from the config_text object
 		$chat_rules_data = $this->config_text->get_array(array(
 			'chat_rules_text',
@@ -264,11 +274,11 @@ class listener implements EventSubscriberInterface
 				'S_AJAX_CHAT_AVATAR_HOVER'	=> $this->user->data['user_ajax_chat_avatar_hover'],
 				'S_AJAX_CHAT_ONLINELIST'	=> $this->user->data['user_ajax_chat_onlinelist'],
 				'S_AJAX_CHAT_AUTOCOMPLETE'	=> $this->user->data['user_ajax_chat_autocomplete'],
-				'S_AJAXCHAT_VIEW'			=> $this->auth->acl_get('u_ajaxchat_view'),
-				'S_AJAXCHAT_POST'			=> $this->auth->acl_get('u_ajaxchat_post'),
-				'S_AJAXCHAT_BBCODE'			=> $this->auth->acl_get('u_ajaxchat_bbcode'),
-				'S_AJAXCHAT_EDIT'			=> $this->auth->acl_get('u_ajaxchat_edit'),
-				'M_AJAXCHAT_DELETE'			=> $this->auth->acl_get('m_ajaxchat_delete'),
+				'S_AJAXCHAT_VIEW'			=> ($this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('u_ajaxchat_view')) ? true : false,
+				'S_AJAXCHAT_POST'			=> ($this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('u_ajaxchat_post')) ? true : false,
+				'S_AJAXCHAT_BBCODE'			=> ($this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('u_ajaxchat_bbcode')) ? true : false,
+				'M_AJAXCHAT_DELETE'			=> ($this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('m_ajaxchat_delete')) ? true : false,
+				'S_AJAX_CHAT_MESSAGES_DOWN'	=> $this->user->data['user_ajax_chat_messages_down'],
 			)
 		);
 
@@ -328,9 +338,6 @@ class listener implements EventSubscriberInterface
 			define('CHAT_SESSIONS_TABLE', $chat_session_table);
 		}
 
-		include_once $this->root_path . 'includes/functions_posting.' . $this->php_ext;
-		include_once $this->root_path . 'includes/functions_display.' . $this->php_ext;
-
 		$this->mode			 = $this->request->variable('mode', 'default');
 		$this->last_id		 = $this->request->variable('last_id', 0);
 		$this->last_time	 = $this->request->variable('last_time', 0);
@@ -346,9 +353,9 @@ class listener implements EventSubscriberInterface
 			FROM ' . CHAT_TABLE . ' as c
 			LEFT JOIN ' . USERS_TABLE . ' as u ON c.user_id = u.user_id
 			LEFT JOIN ' . POSTS_TABLE . ' as p ON c.post_id = p.post_id
-			WHERE c.message_id > ' . $this->last_id . '
+			WHERE c.message_id > ' . (int) $this->last_id . '
 			ORDER BY c.message_id DESC';
-		$result	= $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
+		$result	= $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_index_amount']);
 		$rows	= $this->db->sql_fetchrowset($result);
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
@@ -407,6 +414,8 @@ class listener implements EventSubscriberInterface
 				'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
 				'USER_AVATAR'		 => $row['avatar'],
 				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
+				'S_AJAXCHAT_EDIT'	 => $this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('m_edit') || $this->user->data['user_id'] === $row['user_id'],
+				'U_EDIT'			 => $this->helper->route('spaceace_ajaxchat_edit', array('chat_id' => $row['message_id'])),
 			]);
 		}
 
@@ -489,7 +498,7 @@ class listener implements EventSubscriberInterface
 			$last_post = $row['user_lastpost'];
 		}
 
-		$details = base64_decode('Jm5ic3A7PGEgaHJlZj0iaHR0cDovL3d3dy5saXZlbWVtYmVyc29ubHkuY29tIiBzdHlsZT0iZm9udC13ZWlnaHQ6IGJvbGQ7Ij5BSkFYJm5ic3A7Q2hhdCZuYnNwOyZjb3B5OyZuYnNwOzIwMTU8L2E+Jm5ic3A7PHN0cm9uZz5MaXZlJm5ic3A7TWVtYmVycyZuYnNwO09ubHk8L3N0cm9uZz4=');
+		add_form_key('ajax_chat_post');
 
 		//Assign the features template variable
 		$this->template->assign_vars([
@@ -506,23 +515,32 @@ class listener implements EventSubscriberInterface
 			'S_BBCODE_FLASH'		=> $flash_status,
 			'S_BBCODE_QUOTE'		=> $quote_status,
 			'S_BBCODE_URL'			=> $url_status,
-			'L_DETAILS'				=> $details,
 			'REFRESH_TIME'			=> $refresh,
 			'LAST_ID'				=> $this->last_id,
 			'LAST_POST'				=> $last_post,
 			'TIME'					=> time(),
-			'L_VERSION'				=> '3.0.15-BETA',
+			'L_VERSION'				=> '3.0.16',
 			'STYLE_PATH'			=> generate_board_url() . '/styles/' . $this->user->style['style_path'],
-			'EXT_STYLE_PATH'		=> '' . $this->ext_path_web . 'styles/',
+			'EXT_STYLE_PATH'		=> $this->ext_path_web . 'styles/',
 			'FILENAME'				=> $this->helper->route('spaceace_ajaxchat_chat'),
 			'S_GET_CHAT'			=> ($this->get) ? true : false,
 			'S_' . $this->mode		=> true,
 		]);
 
 		// Generate smiley listing
+		if (!function_exists('generate_smilies'))
+		{
+			include($this->root_path . 'includes/functions_posting.' . $this->php_ext);
+		}
+
 		generate_smilies('inline', 0);
 
 		// Build custom bbcodes array
+		if (!function_exists('display_custom_bbcodes'))
+		{
+			include($this->root_path . 'includes/functions_display.' . $this->php_ext);
+		}
+
 		display_custom_bbcodes();
 
 		$this->whois_online();
@@ -636,6 +654,7 @@ class listener implements EventSubscriberInterface
 					'user_ajax_chat_avatar_hover'	=> $this->request->variable('ajax_chat_avatar_hover', (bool) $user_row['user_ajax_chat_avatar_hover']),
 					'user_ajax_chat_onlinelist'		=> $this->request->variable('ajax_chat_onlinelist', (bool) $user_row['user_ajax_chat_onlinelist']),
 					'user_ajax_chat_autocomplete'	=> $this->request->variable('ajax_chat_autocomplete', (bool) $user_row['user_ajax_chat_autocomplete']),
+					'user_ajax_chat_messages_down'	=> $this->request->variable('ajax_chat_messages_down', (bool) $user_row['user_ajax_chat_messages_down']),
 		));
 		$event['data'] = $data;
 	}
@@ -667,6 +686,7 @@ class listener implements EventSubscriberInterface
 			'S_AJAX_CHAT_AVATAR_HOVER'	=> $data['user_ajax_chat_avatar_hover'],
 			'S_AJAX_CHAT_ONLINELIST'	=> $data['user_ajax_chat_onlinelist'],
 			'S_AJAX_CHAT_AUTOCOMPLETE'	=> $data['user_ajax_chat_autocomplete'],
+			'S_AJAX_CHAT_MESSAGES_DOWN'	=> $data['user_ajax_chat_messages_down'],
 		));
 		$event['user_prefs_data'] = $user_prefs_data;
 	}
@@ -692,6 +712,7 @@ class listener implements EventSubscriberInterface
 			'user_ajax_chat_avatar_hover'	=> $event['data']['user_ajax_chat_avatar_hover'],
 			'user_ajax_chat_onlinelist'		=> $event['data']['user_ajax_chat_onlinelist'],
 			'user_ajax_chat_autocomplete'	=> $event['data']['user_ajax_chat_autocomplete'],
+			'user_ajax_chat_messages_down'	=> $event['data']['user_ajax_chat_messages_down'],
 		));
 		$event['sql_ary'] = $sql_ary;
 	}
@@ -817,11 +838,12 @@ class listener implements EventSubscriberInterface
 	 */
 	public function check_hidden($uid)
 	{
-		$sql = 'SELECT `session_viewonline` '
-			. 'FROM ' . SESSIONS_TABLE .' '
-			. 'WHERE `session_user_id` = "' . $uid . '"';
-		$result = $this->db->sql_query($sql);
-		$hidden = $this->db->sql_fetchrow($result);
+		$sql = 'SELECT session_viewonline '
+			. 'FROM ' . SESSIONS_TABLE . ' '
+			. 'WHERE session_user_id = ' . (int) $uid;
+		$result	 = $this->db->sql_query($sql);
+		$hidden	 = $this->db->sql_fetchrow($result);
 		return (bool) $hidden['session_viewonline'];
 	}
+
 }

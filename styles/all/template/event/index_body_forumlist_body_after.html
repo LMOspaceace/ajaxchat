@@ -1,0 +1,13 @@
+<!-- IF S_AJAX_CHAT_VIEW -->
+	<!-- IF not S_AJAX_CHAT_POSITION and not S_AJAX_CHAT_POSITION_OVERRIDE -->
+		<!-- IF not S_USER_LOGGED_IN -->
+			<br />
+		<!-- ENDIF -->
+		<!-- INCLUDE chat_body.html -->
+	<!-- ELSEIF not S_AJAX_CHAT_ACP_POSITION and S_AJAX_CHAT_POSITION_OVERRIDE -->
+		<!-- IF not S_USER_LOGGED_IN -->
+			<br />
+		<!-- ENDIF -->
+		<!-- INCLUDE chat_body.html -->
+	<!-- ENDIF -->
+<!-- ENDIF -->

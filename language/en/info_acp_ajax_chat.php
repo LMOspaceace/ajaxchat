@@ -112,5 +112,11 @@ $lang = array_merge(
 		'AJAX_CHAT_NAV_LINK_EXPLAIN'				=> 'Display Chat Center link on menubar after the FAQ link.',
 		'AJAX_CHAT_QUICK_LINK'						=> 'Display Chat Center link in Quick Links',
 		'AJAX_CHAT_QUICK_LINK_EXPLAIN'				=> 'Display Chat Center link in the Quick Links drop menu.',
+		'AJAX_CHAT_UPDATED_SETTINGS'				=> 'Updated Ajax Chat settings',
+		'AJAX_CHAT_LAYOUT'							=> 'Chat Layout',
+		'AJAX_CHAT_INPUT_FULL'						=> 'Chat input with all available buttons',
+		'AJAX_CHAT_INPUT_FULL_EXPLAIN'				=> 'Disabling this will leave only the "Submit" button and message inputbox making it a very basic input like a shoutbox.',
+		'AJAX_CHAT_CHATROW_FULL'					=> 'Short message height',
+		'AJAX_CHAT_CHATROW_FULL_EXPLAIN'			=> 'Disabling this will set the chat message height to it`s original height. Enabling this will have the message height as short as possible while fitting more messages in view.',
 	)
 );

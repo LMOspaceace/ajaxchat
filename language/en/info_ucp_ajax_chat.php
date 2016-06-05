@@ -53,5 +53,6 @@ $lang = array_merge(
 		'USER_AJAXCHAT'					=> 'Ajax Chat',
 		'USER_AJAXCHAT_SETTINGS'		=> 'Ajax Chat Settings',
 		'NO_VIEW_CHAT'					=> 'You do not have permission to view chat.',
+		'AJAX_CHAT_MESSAGES_DOWN'		=> 'Display newest chat messages in the top or bottom of chat. Also moves the inputbox to the top or bottom',
 	)
 );

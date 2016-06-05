@@ -3,20 +3,25 @@
     "type": "phpbb-extension",
     "description": "Chat for phpBB 3.1",
     "homepage": "http://www.livemembersonly.com",
-    "version": "3.0.15-BETA",
-    "time": "2016-02-21",
+    "version": "3.0.16",
+    "time": "2016-06-05",
     "license": "GPL-2.0",
     "authors": [{
             "name": "spaceace",
             "email": "spaceace@livemembersonly.com",
             "homepage": "http://www.livemembersonly.com",
-            "role": "Lead Developer"
+            "role": "Extension Developer"
+        },
+        {
+            "name": "kasimi",
+            "homepage": "https://www.phpbb.com/community/memberlist.php?mode=viewprofile&u=1330603",
+            "role": "Extension Co-Developer"
         },
         {
             "name": "Kevin Roy",
             "email": "royk@myraytech.net",
             "homepage": "https://myraytech.net",
-            "role": "Author"
+            "role": "Extension Co-Developer"
         }],
     "require": {
         "php": ">= 5.4",

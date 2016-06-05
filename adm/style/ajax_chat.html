@@ -10,25 +10,25 @@
 
 <a id="maincontent"></a>
 
-<h1>{L_ACP_AJAX_CHAT}</h1>
+<h1>{{ lang('ACP_AJAX_CHAT') }}</h1>
 
-<p>{L_ACP_AJAX_CHAT_EXPLAIN}</p>
+<p>{{ lang('ACP_AJAX_CHAT_EXPLAIN') }}</p>
 
 <!-- IF S_ERROR -->
 	<div class="errorbox">
-		<h3>{L_WARNING}</h3>
+		<h3>{{ lang('WARNING') }}</h3>
 		<p>{ERROR_MSG}</p>
 	</div>
 <!-- ENDIF -->
 
 <form id="ajax_chat" method="post" action="{U_ACTION}">
 
-	<input class="button1" type="submit" id="submit_real" name="submit" value="{L_SUBMIT}" style="display:none;" />
+	<input class="button1" type="submit" id="submit_real" name="submit" value="{{ lang('SUBMIT') }}" style="display:none;" />
 
 	<fieldset>
-		<legend>{L_AJAX_CHAT_RULES}</legend>
+		<legend>{{ lang('AJAX_CHAT_RULES') }}</legend>
 
-		<p>{L_RULES_AJAX_CHAT_EXPLAIN}</p>
+		<p>{{ lang('RULES_AJAX_CHAT_EXPLAIN') }}</p>
 
 		<!-- INCLUDE acp_posting_buttons.html -->
 
@@ -39,17 +39,21 @@
 			</dd>
 			<dd style="margin-{S_CONTENT_FLOW_BEGIN}: 90px; margin-top: 5px;">
 				<!-- IF S_BBCODE_ALLOWED -->
-					<label><input type="checkbox" class="radio" name="disable_bbcode"<!-- IF S_BBCODE_DISABLE_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_DISABLE_BBCODE}</label>
+					<label><input type="checkbox" class="radio" name="disable_bbcode"<!-- IF S_BBCODE_DISABLE_CHECKED --> checked="checked"<!-- ENDIF --> /> {{ lang('DISABLE_BBCODE') }}</label>
 				<!-- ENDIF -->
 				<!-- IF S_SMILIES_ALLOWED -->
-					<label><input type="checkbox" class="radio" name="disable_smilies"<!-- IF S_SMILIES_DISABLE_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_DISABLE_SMILIES}</label>
+					<label><input type="checkbox" class="radio" name="disable_smilies"<!-- IF S_SMILIES_DISABLE_CHECKED --> checked="checked"<!-- ENDIF --> /> {{ lang('DISABLE_SMILIES') }}</label>
 				<!-- ENDIF -->
 				<!-- IF S_LINKS_ALLOWED -->
-					<label><input type="checkbox" class="radio" name="disable_magic_url"<!-- IF S_MAGIC_URL_DISABLE_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_DISABLE_MAGIC_URL}</label>
+					<label><input type="checkbox" class="radio" name="disable_magic_url"<!-- IF S_MAGIC_URL_DISABLE_CHECKED --> checked="checked"<!-- ENDIF --> /> {{ lang('DISABLE_MAGIC_URL') }}</label>
 				<!-- ENDIF -->
 			</dd>
-			<dd style="margin-{S_CONTENT_FLOW_BEGIN}: 90px; margin-top: 10px;"><strong>{L_OPTIONS}{L_COLON} </strong>{BBCODE_STATUS} :: {IMG_STATUS} :: {FLASH_STATUS} :: {URL_STATUS} :: {SMILIES_STATUS}</dd>
+			<dd style="margin-{S_CONTENT_FLOW_BEGIN}: 90px; margin-top: 10px;"><strong>{{ lang('OPTIONS') }}{{ lang('COLON') }} </strong>{BBCODE_STATUS} :: {IMG_STATUS} :: {FLASH_STATUS} :: {URL_STATUS} :: {SMILIES_STATUS}</dd>
 		</dl>
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
+		</p>
 	</fieldset>
 
 	<!-- BEGIN options -->
@@ -62,7 +66,7 @@
 		<!-- ELSE -->
 
 			<dl>
-				<dt><label for="{options.KEY}">{options.TITLE}{L_COLON}</label><!-- IF options.S_EXPLAIN --><br /><span>{options.TITLE_EXPLAIN}</span><!-- ENDIF --></dt>
+				<dt><label for="{options.KEY}">{options.TITLE}{{ lang('COLON') }}</label><!-- IF options.S_EXPLAIN --><br /><span>{options.TITLE_EXPLAIN}</span><!-- ENDIF --></dt>
 				<dd>{options.CONTENT}</dd>
 			</dl>
 
@@ -70,8 +74,8 @@
 	<!-- END options -->
 
 				<p class="submit-buttons">
-					<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
-					<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+					<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+					<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
 				</p>
 				{S_FORM_TOKEN}
 			</fieldset>

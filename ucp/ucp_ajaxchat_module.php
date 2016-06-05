@@ -100,13 +100,13 @@ class ucp_ajaxchat_module
 					'user_ajax_chat_avatar_hover'	=> $this->request->variable('ajax_chat_avatar_hover', (bool) $this->user->data['user_ajax_chat_avatar_hover']),
 					'user_ajax_chat_onlinelist'		=> $this->request->variable('ajax_chat_onlinelist', (bool) $this->user->data['user_ajax_chat_onlinelist']),
 					'user_ajax_chat_autocomplete'	=> $this->request->variable('ajax_chat_autocomplete', (bool) $this->user->data['user_ajax_chat_autocomplete']),
+					'user_ajax_chat_messages_down'	=> $this->request->variable('ajax_chat_messages_down', (bool) $this->user->data['user_ajax_chat_messages_down']),
 				);
 
 				$error  = array();
-				$submit = $this->request->variable('submit', false, false, \phpbb\request\request_interface::POST);
+				$submit = $this->request->is_set_post('submit');
 
 				add_form_key('ucp_ajax_chat');
-				$post = $this->request->get_super_global(\phpbb\request\request_interface::POST);
 				if ($submit)
 				{
 					if (!check_form_key('ucp_ajax_chat'))
@@ -116,7 +116,7 @@ class ucp_ajaxchat_module
 
 					if (!$this->config['location_ajax_chat_override'])
 					{
-						$chat_position2		= $post['ajax_chat_position'];
+						$chat_position2		= $this->request->variable('ajax_chat_position', 0);
 					}
 					else
 					{
@@ -125,7 +125,7 @@ class ucp_ajaxchat_module
 
 					if (!$this->config['viewforum_ajax_chat_override'])
 					{
-						$chat_viewforum2		= $post['ajax_chat_viewforum'];
+						$chat_viewforum2		= $this->request->variable('ajax_chat_viewforum', 0);
 					}
 					else
 					{
@@ -134,7 +134,7 @@ class ucp_ajaxchat_module
 
 					if (!$this->config['viewtopic_ajax_chat_override'])
 					{
-						$chat_viewtopic2		= $post['ajax_chat_viewtopic'];
+						$chat_viewtopic2		= $this->request->variable('ajax_chat_viewtopic', 0);
 					}
 					else
 					{
@@ -144,16 +144,17 @@ class ucp_ajaxchat_module
 					if (!sizeof($error))
 					{
 						$sql_ary = array(
-							'user_ajax_chat_view'			=> $post['ajax_chat_view'],
-							'user_ajax_chat_avatars'		=> $post['ajax_chat_avatars'],
+							'user_ajax_chat_view'			=> $this->request->variable('ajax_chat_view', 0),
+							'user_ajax_chat_avatars'		=> $this->request->variable('ajax_chat_avatars', 0),
 							'user_ajax_chat_position'		=> $chat_position2,
 							'user_ajax_chat_viewforum'		=> $chat_viewforum2,
 							'user_ajax_chat_viewtopic'		=> $chat_viewtopic2,
-							'user_ajax_chat_sound'			=> $post['ajax_chat_sound'],
-							'user_ajax_chat_sound'			=> $post['ajax_chat_sound'],
-							'user_ajax_chat_avatar_hover'	=> $post['ajax_chat_avatar_hover'],
-							'user_ajax_chat_onlinelist'		=> $post['ajax_chat_onlinelist'],
-							'user_ajax_chat_autocomplete'	=> $post['ajax_chat_autocomplete'],
+							'user_ajax_chat_sound'			=> $this->request->variable('ajax_chat_sound', 0),
+							'user_ajax_chat_sound'			=> $this->request->variable('ajax_chat_sound', 0),
+							'user_ajax_chat_avatar_hover'	=> $this->request->variable('ajax_chat_avatar_hover', 0),
+							'user_ajax_chat_onlinelist'		=> $this->request->variable('ajax_chat_onlinelist', 0),
+							'user_ajax_chat_autocomplete'	=> $this->request->variable('ajax_chat_autocomplete', 0),
+							'user_ajax_chat_messages_down'	=> $this->request->variable('ajax_chat_messages_down', 0),
 						);
 
 						if (sizeof($sql_ary))
@@ -184,6 +185,7 @@ class ucp_ajaxchat_module
 					'S_AJAX_CHAT_AVATAR_HOVER'	=> $data['user_ajax_chat_avatar_hover'],
 					'S_AJAX_CHAT_ONLINELIST'	=> $data['user_ajax_chat_onlinelist'],
 					'S_AJAX_CHAT_AUTOCOMPLETE'	=> $data['user_ajax_chat_autocomplete'],
+					'S_AJAX_CHAT_MESSAGES_DOWN'	=> $data['user_ajax_chat_messages_down'],
 				));
 				break;
 		}

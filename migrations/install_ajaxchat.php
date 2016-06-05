@@ -23,6 +23,8 @@ class install_ajaxchat extends \phpbb\db\migration\migration
 		return array(
 			// Add configs
 			array('config.add', array('display_ajax_chat', '1')),
+			array('config.add', array('ajax_chat_input_full', '1')),
+			array('config.add', array('ajax_chat_chatrow_full', '1')),
 			array('config.add', array('whois_chatting', '1')),
 			array('config.add', array('location_ajax_chat', '1')),
 			array('config.add', array('location_ajax_chat_override', '0')),
@@ -122,6 +124,7 @@ class install_ajaxchat extends \phpbb\db\migration\migration
 		$acp_manager->install_bbcodes($bbcode_data);
 	}
 
+	// Add chat DB tables and columns
 	public function update_schema()
 	{
 		return array(
@@ -167,11 +170,13 @@ class install_ajaxchat extends \phpbb\db\migration\migration
 					'user_ajax_chat_avatar_hover'	=> array('UINT:1', 1),
 					'user_ajax_chat_onlinelist'		=> array('UINT:1', 1),
 					'user_ajax_chat_autocomplete'	=> array('UINT:1', 0),
+					'user_ajax_chat_messages_down'	=> array('UINT:1', 1),
 				),
 			),
 		);
 	}
 
+	// Remove chat tables and columns
 	public function revert_schema()
 	{
 		return array(
@@ -190,6 +195,7 @@ class install_ajaxchat extends \phpbb\db\migration\migration
 					'user_ajax_chat_avatar_hover',
 					'user_ajax_chat_onlinelist',
 					'user_ajax_chat_autocomplete',
+					'user_ajax_chat_messages_down',
 				),
 			),
 		);

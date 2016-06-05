@@ -13,28 +13,28 @@ function setCookie(name, value, expires, path, domain, secure) {
 }
 
 //******************************************************************************************
-// This functions reads & returns the cookie value of the specified cookie (by cookie name) 
+// This functions reads & returns the cookie value of the specified cookie (by cookie name)
 //******************************************************************************************
 function getCookie(name) {
 	var start = document.cookie.indexOf(name + "=");
 	var len = start + name.length + 1;
-	if ((!start) && (name != document.cookie.substring(0, name.length))) {
+	if ((!start) && (name !== document.cookie.substring(0, name.length))) {
 		return null;
 	}
-	if (start == -1)
+	if (start === -1)
 		return null;
 	var end = document.cookie.indexOf(';', len);
-	if (end == -1)
+	if (end === -1)
 		end = document.cookie.length;
 	return unescape(document.cookie.substring(len, end));
 }
 
 function deletecookie(name)
 {
-  var cookie_date = new Date ( );  // current date & time
-  cookie_date.setTime ( cookie_date.getTime() - 1 );
-  document.cookie = cookie_name += "=; expires=" + cookie_date.toGMTString();
-  location.reload(true);
+	var cookie_date = new Date( );  // current date & time
+	cookie_date.setTime(cookie_date.getTime() - 1);
+	document.cookie = cookie_name += "=; expires=" + cookie_date.toGMTString();
+	location.reload(true);
 }
 
 var form_name = 'postform';
@@ -44,45 +44,31 @@ var xmlHttp = http_object();
 var type = 'receive';
 var d = new Date();
 var post_time = d.getTime();
-
-var interval = setInterval('handle_send("read", last_id);', read_interval);
+var interval = setInterval('handle_send("read", last_id);', read_interval* 1000);
 var name = getCookie(cookie_name);
+
 if (chatbbcodetrue)
 {
 	var blkopen = name;
-	
-	if (name === null || name == 'null')
+
+	if (name === null || name === 'null')
 	{
 		var blkopen = '';
 		var blkclose = '';
-	}
-	else
+	} else
 	{
 		var blkopen = name;
 		var blkclose = '[/color2]';
 	}
-}
-else
+} else
 {
 	var blkopen = '';
 	var blkclose = '';
 }
 
-$(window).load(function () {
-	$("#smilies").click(function () {
-		$("#chat_smilies").toggle(600);
-	});
-	$("#bbcodes").click(function () {
-		$("#chat_bbcodes").toggle(600);
-	});
-	$("#chat_bbpalette").click(function () {
-		$("#chat_colour_palette").toggle(600);
-	});
-});
-
 function handle_send(mode, f)
 {
-	if (xmlHttp.readyState == 4 || xmlHttp.readyState == 0)
+	if (xmlHttp.readyState === 4 || xmlHttp.readyState === 0)
 	{
 		indicator_switch('on');
 		type = 'receive';
@@ -92,7 +78,7 @@ function handle_send(mode, f)
 		param += '&last_post=' + post_time;
 		param += '&read_interval=' + read_interval;
 
-		if (mode == 'add' && document.postform.message.value != '')
+		if (mode === 'add' && document.postform.message.value !== '')
 		{
 			type = 'send';
 			for (var i = 0; i < f.elements.length; i++)
@@ -101,20 +87,30 @@ function handle_send(mode, f)
 				param += '&' + elem.name + '=' + blkopen + "" + encodeURIComponent(elem.value) + blkclose;
 			}
 			document.postform.message.value = '';
-		}
-		else if (mode == 'add' && document.postform.message.value == '')
-
+		} else if (mode === 'add' && document.postform.message.value === '')
 		{
 			alert(chat_empty);
 			return false;
-		}
-
-		else if (mode == 'delete')
+		} else if (mode === 'edit')
 		{
+			var message = document.getElementById('message').value;
+			type = 'edit';
+			mode += '/' + f;
+			param = '&submit=1&message=' + message;
+		} else if (mode === 'delete')
+		{
+			var parent = document.getElementById('chat');
+			var child = document.getElementById('p' + f);
+			parent.removeChild(child);
 			type = 'delete';
 			param += '&chat_id=' + f;
+		} else if (mode === 'quotemessage')
+		{
+			type = 'quotemessage';
+			param += '&chat_id=' + f;
 		}
-		xmlHttp.open("POST", query_url, true);
+
+		xmlHttp.open("POST", query_url + "/" + mode, true);
 		xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		xmlHttp.onreadystatechange = handle_return;
 		xmlHttp.send(param);
@@ -123,19 +119,44 @@ function handle_send(mode, f)
 
 function handle_return()
 {
-	if (xmlHttp.readyState == 4)
+	if (xmlHttp.readyState === 4)
 	{
-		if (type != 'delete')
-		{
+		results = xmlHttp.responseText.split('--!--');
 
-			results = xmlHttp.responseText.split('--!--');
+		if (type === 'quotemessage') {
+			if (results[0]) {
+				$text = document.getElementById('message').value;
+				document.getElementById('message').value = $text + results[0];
+				document.getElementById("message").focus();
+			}
+		} else if (type === 'edit') {
+			jQuery(function($) {
+
+				'use strict';
+
+				var opener = window.opener;
+				if (opener) {
+					$(opener.document).find('#p' + last_id).replaceWith(results[0]);
+				}
+
+				var popup = window.self;
+				popup.opener = window.self;
+				popup.close();
+			});
+		} else if (type !== 'delete') {
 			if (results[1])
 			{
-				if (last_id == 0)
+				jQuery(function($) {
+
+					'use strict';
+
+					$(fieldname).append(results[0]);
+				});
+
+				if (last_id === 0)
 				{
 					document.getElementById(fieldname).innerHTML = results[0];
-				}
-				else
+				} else
 				{
 					document.getElementById(fieldname).innerHTML = results[0] + document.getElementById(fieldname).innerHTML;
 				}
@@ -148,16 +169,28 @@ function handle_return()
 					{
 						read_interval = results[4];
 						window.clearInterval(interval);
-						
 						interval = setInterval('handle_send("read", last_id);', read_interval * 1000);
 						document.getElementById('update_seconds').innerHTML = read_interval;
 					}
-					
+
 				}
 			}
 		}
+		if (chatmessagedown)
+		{
+			setInterval(function(){
+				var $chatscroll = $('div.shout-body');
+				if($chatscroll.filter(function(){ return $(this).is(':hover'); }).length){$chatscroll.stop();}else {$chatscroll.scrollTop($('#chat').height());}
+			}, 200);
+		}
 		indicator_switch('off');
 	}
+}
+
+function edit_post(chat_id)
+{
+	//message = document.getElementId('message').value;
+	//console.log(message);
 }
 
 function delete_post(chatid)
@@ -166,16 +199,20 @@ function delete_post(chatid)
 	handle_send('delete', chatid);
 }
 
+function chatquote(chatid)
+{
+	handle_send('quotemessage', chatid);
+}
+
 function indicator_switch(mode)
 {
 	if (document.getElementById("act_indicator"))
 	{
 		var img = document.getElementById("act_indicator");
-		if (img.style.visibility == "hidden" && mode == 'on')
+		if (img.style.visibility === "hidden" && mode === 'on')
 		{
 			img.style.visibility = "visible";
-		}
-		else if (mode == 'off')
+		} else if (mode === 'off')
 		{
 			img.style.visibility = "hidden";
 		}
@@ -184,11 +221,10 @@ function indicator_switch(mode)
 	if (document.getElementById("check_indicator"))
 	{
 		var img = document.getElementById("check_indicator");
-		if (img.style.visibility == "hidden" && mode == 'off')
+		if (img.style.visibility === "hidden" && mode === 'off')
 		{
 			img.style.visibility = "visible";
-		}
-		else if (mode == 'on')
+		} else if (mode === 'on')
 		{
 			img.style.visibility = "hidden";
 		}
@@ -200,26 +236,22 @@ function http_object()
 	if (window.XMLHttpRequest)
 	{
 		return new XMLHttpRequest();
-	}
-	else if (window.ActiveXObject)
+	} else if (window.ActiveXObject)
 	{
 		try
 		{
 			return new ActiveXObject("Msxml2.XMLHTTP");
-		}
-		catch (e)
+		} catch (e)
 		{
 			try
 			{
 				return new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			catch (e)
+			} catch (e)
 			{
 				document.getElementById('p_status').innerHTML = (ie_no_ajax);
 			}
 		}
-	}
-	else
+	} else
 	{
 		document.getElementById('p_status').innerHTML = (upgrade_browser);
 	}
@@ -247,11 +279,40 @@ function addText(instext)
 		mess.selectionStart = startPos + instext.length;
 		mess.selectionEnd = endPos + instext.length;
 		mess.focus();
-	}
-	else
+	} else
 	{
 		mess.value += instext;
 		mess.focus();
 	}
 }
 //END;Whatever
+
+jQuery(function($) {
+
+	'use strict';
+
+	$(window).load(function () {
+		$("#smilies").click(function () {
+			$("#chat_smilies").toggle(600);
+		});
+		$("#bbcodes").click(function () {
+			$("#chat_bbcodes").toggle(600);
+		});
+		$("#chat_bbpalette").click(function () {
+			$("#chat_colour_palette").toggle(600);
+		});
+		if (chatmessagedown && type !== 'edit')
+		{
+			setInterval(function(){
+				var $chatscroll = $('div.shout-body');
+				if($chatscroll.filter(function(){ return $(this).is(':hover'); }).length){$chatscroll.stop();}else {$chatscroll.scrollTop($('#chat').height());}
+			}, 200);
+		}
+	});
+
+	var $chat_edit = $('#chat_edit');
+	$chat_edit.find('#submit').on('click', function(e) {
+		e.preventDefault();
+		handle_send('edit', $chat_edit.find('input[name=chat_id]').val());
+	});
+});

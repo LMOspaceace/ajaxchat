@@ -58,7 +58,7 @@ class prune_ajaxchat extends \phpbb\cron\task\base
 		$row  = $this->db->sql_fetchfield('message_id');
 		$this->db->sql_freeresult($result);
 		$sql1 = 'DELETE FROM ' . CHAT_TABLE . '
-			WHERE `message_id` <= ' . (int) $row . '';
+			WHERE message_id <= ' . (int) $row;
 		$this->db->sql_query($sql1);
 		// Add the log to the ACP.
 		$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'PRUNE_LOG_AJAXCHAT_AUTO', time());

@@ -41,10 +41,27 @@ class ajaxchat_module
 	/** @var string */
 	protected $php_ext;
 
+	protected $phpbb_log;
+
+	protected $root_path;
+
 	public function main($id, $mode)
 	{
-		global $phpbb_container, $table_prefix, $phpbb_root_path, $phpEx;
+		global $phpbb_container, $table_prefix, $phpbb_root_path, $phpEx, $phpbb_log, $root_path;
 
+		// Initialization
+		$this->auth		 = $phpbb_container->get('auth');
+		$this->config	 = $phpbb_container->get('config');
+		$this->config_text = $phpbb_container->get('config_text');
+		$this->db		 = $phpbb_container->get('dbal.conn');
+		$this->user		 = $phpbb_container->get('user');
+		$this->template	 = $phpbb_container->get('template');
+		$this->request	 = $phpbb_container->get('request');
+		$this->phpbb_root_path = $phpbb_root_path;
+		$this->php_ext = $phpEx;
+		$this->phpbb_log = $phpbb_log;
+		$this->root_path	= $root_path;
+		
 		if (!defined('CHAT_TABLE'))
 		{
 			$chat_table = $table_prefix . 'ajax_chat';
@@ -57,20 +74,14 @@ class ajaxchat_module
 		}
 		$this->id		 = $id;
 		$this->mode		 = $mode;
-		// Initialization
-		$this->auth		 = $phpbb_container->get('auth');
-		$this->config	 = $phpbb_container->get('config');
-		$this->config_text = $phpbb_container->get('config_text');
-		$this->db		 = $phpbb_container->get('dbal.conn');
-		$this->user		 = $phpbb_container->get('user');
-		$this->template	 = $phpbb_container->get('template');
-		$this->request	 = $phpbb_container->get('request');
-		$this->phpbb_root_path = $phpbb_root_path;
-		$this->php_ext = $phpEx;
+		if($this->request->variable('action', ''))
+		{
+		$this->action = $this->request->variable('action', '', true);
+		}
+		
 		// Add the posting lang file needed by BBCodes
 		$this->user->add_lang(array('posting'));
-		$this->u_action = $this->request->variable('action', '', true);
-
+		
 		$submit = ($this->request->is_set_post('submit')) ? true : false;
 		$this->form_key	 = 'acp_ajax_chat';
 		add_form_key($this->form_key);
@@ -95,31 +106,34 @@ class ajaxchat_module
 				'status_online_chat'			=> ['lang' => 'STATUS_ONLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true],
 				'status_idle_chat'				=> ['lang' => 'STATUS_IDLE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true],
 				'status_offline_chat'			=> ['lang' => 'STATUS_OFFLINE_CHAT', 'validate' => 'int', 'type' => 'number:0:9999', 'explain' => true],
-				'legend2'						=> 'AJAX_CHAT_LOCATION',
+				'legend2'						=> 'AJAX_CHAT_LAYOUT',
+				'ajax_chat_input_full'			=> ['lang' => 'AJAX_CHAT_INPUT_FULL', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
+				'ajax_chat_chatrow_full'		=> ['lang' => 'AJAX_CHAT_CHATROW_FULL', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
+				'legend3'						=> 'AJAX_CHAT_LOCATION',
 				'location_ajax_chat_override'	=> ['lang' => 'LOCATION_AJAX_CHAT_OVERRIDE', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
 				'location_ajax_chat'			=> ['lang' => 'LOCATION_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true],
 				'viewforum_ajax_chat_override'	=> ['lang' => 'VIEWFORUM_AJAX_CHAT_OVERRIDE', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
 				'viewtopic_ajax_chat_override'	=> ['lang' => 'VIEWTOPIC_AJAX_CHAT_OVERRIDE', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
-				'legend3'						=> 'AJAX_CHAT_POSTS',
+				'legend4'						=> 'AJAX_CHAT_POSTS',
 				'ajax_chat_forum_posts'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
 				'ajax_chat_forum_topic'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT_TOPIC', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
 				'ajax_chat_forum_reply'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT_REPLY', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
 				'ajax_chat_forum_edit'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT_EDIT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
 				'ajax_chat_forum_quote'			=> ['lang' => 'FORUM_POSTS_AJAX_CHAT_QUOTE', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => false],
-				'legend4'						=> 'AJAX_CHAT_PRUNE',
+				'legend5'						=> 'AJAX_CHAT_PRUNE',
 				'prune_ajax_chat'				=> ['lang' => 'PRUNE_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
 				'prune_keep_ajax_chat'			=> ['lang' => 'PRUNE_KEEP_AJAX_CHAT', 'validate' => 'int', 'type' => 'number', 'explain' => false],
 				'prune_now'						=> ['lang' => 'PRUNE_NOW', 'validate' => 'bool', 'type' => 'custom', 'explain' => false, 'method' => 'prune_chat'],
 				'truncate_now'					=> ['lang' => 'TRUNCATE_NOW', 'validate' => 'bool', 'type' => 'custom', 'explain' => false, 'method' => 'truncate_chat'],
 				'ajax_chat_counter'				=> ['lang' => 'CHAT_COUNTER', 'validate' => 'bool', 'type' => 'custom', 'explain' => false, 'method' => 'chat_counter'],
-				'legend5'						=> 'ACP_SUBMIT_CHANGES'
+				'legend6'						=> 'ACP_SUBMIT_CHANGES'
 			],
 		];
 
-		#region Submit
+		//region Submit
 		if ($submit)
 		{
-			$submit = $this->do_submit_stuff($display_vars);
+			$submit = $this->form_submition($display_vars);
 
 			// If the submit was valid, so still submitted
 			if ($submit)
@@ -127,7 +141,7 @@ class ajaxchat_module
 				trigger_error($this->user->lang('CONFIG_UPDATED') . adm_back_link($this->u_action), E_USER_NOTICE);
 			}
 		}
-		#endregion
+		//endregion
 
 		$this->generate_stuff_for_cfg_template($display_vars);
 
@@ -161,12 +175,12 @@ class ajaxchat_module
 	{
 		if (!confirm_box(true))
 		{
-			if ($this->u_action === 'prune_chat')
+			if (isset($this->action) && $this->action === 'prune_chat')
 			{
 				confirm_box(false, $this->user->lang['CONFIRM_PRUNE_AJAXCHAT'], build_hidden_fields([
 					'i'		 => $this->id,
 					'mode'	 => $this->mode,
-					'action' => $this->u_action,
+					'action' => $this->action,
 				]));
 			}
 		}
@@ -176,7 +190,7 @@ class ajaxchat_module
 			{
 				trigger_error($this->user->lang['NO_AUTH_OPERATION'] . adm_back_link($this->u_action), E_USER_WARNING);
 			}
-			if ($this->u_action === 'prune_chat')
+			if ($this->action === 'prune_chat')
 			{
 				$sql = 'SELECT message_id
 					FROM ' . CHAT_TABLE . '
@@ -185,8 +199,10 @@ class ajaxchat_module
 				$row = $this->db->sql_fetchfield('message_id');
 				$this->db->sql_freeresult($result);
 				$sql1 = 'DELETE FROM ' . CHAT_TABLE . '
-					WHERE `message_id` <= ' . (int) $row . '';
+					WHERE message_id <= ' . (int) $row;
 				$this->db->sql_query($sql1);
+				// Add the log to the ACP
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'PRUNE_LOG_AJAXCHAT', time());
 
 				if ($this->request->is_ajax())
 				{
@@ -195,7 +211,8 @@ class ajaxchat_module
 			}
 		}
 		$this->id = str_replace("\\", "-", $this->id);
-		return '<a href="' . append_sid('?i=' . $this->id . '&mode=' . $this->mode . '&action=prune_chat') . '" data-ajax="true"><input class="button2" type="submit" id="' . $key . '_enable" name="' . $key . '_enable" value="' . $this->user->lang['PRUNE_NOW'] . '" /></a>';
+		
+		return '<a href="' . append_sid($this->u_action . '&amp;action=prune_chat') . '" data-ajax="true"><input class="button2" type="submit" id="' . $key . '_enable" name="' . $key . '_enable" value="' . $this->user->lang['PRUNE_NOW'] . '" /></a>';
 	}
 
 	/**
@@ -209,12 +226,12 @@ class ajaxchat_module
 	{
 		if (!confirm_box(true))
 		{
-			if ($this->u_action === 'truncate_chat')
+			if (isset($this->action) && $this->action === 'truncate_chat')
 			{
 				confirm_box(false, $this->user->lang['CONFIRM_TRUNCATE_AJAXCHAT'], build_hidden_fields([
 					'i'		 => $this->id,
 					'mode'	 => $this->mode,
-					'action' => $this->u_action,
+					'action' => $this->action,
 				]));
 			}
 		}
@@ -224,10 +241,12 @@ class ajaxchat_module
 			{
 				trigger_error($this->user->lang['NO_AUTH_OPERATION'] . adm_back_link($this->u_action), E_USER_WARNING);
 			}
-			if ($this->u_action === 'truncate_chat')
+			if ($this->action === 'truncate_chat')
 			{
-				$sql1 = 'TRUNCATE ' . CHAT_TABLE . '';
+				$sql1 = 'TRUNCATE ' . CHAT_TABLE;
 				$this->db->sql_query($sql1);
+				// Add the log to the ACP
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'TRUNCATE_LOG_AJAXCHAT', time());
 
 				if ($this->request->is_ajax())
 				{
@@ -235,9 +254,9 @@ class ajaxchat_module
 				}
 			}
 		}
-		$this->id	 = str_replace("\\", "-", $this->id);
-		$action		 = append_sid('?i=' . $this->id . '&mode=' . $this->mode . '&action=truncate_chat');
-		return '<a href="' . $action . '" data-ajax="true"><input class="button2" type="submit" id="' . $key . '_enable" name="' . $key . '_enable" value="' . $this->user->lang['TRUNCATE_NOW'] . '" /></a>';
+		$this->id = str_replace("\\", "-", $this->id);
+		
+		return '<a href="' . append_sid($this->u_action . '&amp;action=truncate_chat') . '" data-ajax="true"><input class="button2" type="submit" id="' . $key . '_enable" name="' . $key . '_enable" value="' . $this->user->lang['TRUNCATE_NOW'] . '" /></a>';
 	}
 
 	/**
@@ -249,7 +268,7 @@ class ajaxchat_module
 	 * @param array $special_functions Assoziative Array with config values where special functions should run on submit instead of simply save the config value. Array should contain 'config_value' => function ($this) { function code here }, or 'config_value' => null if no function should run.
 	 * @return bool Submit valid or not.
 	 */
-	protected function do_submit_stuff($display_vars, $special_functions = [])
+	protected function form_submition($display_vars, $special_functions = [])
 	{
 		$this->new_config	 = $this->config;
 		$cfg_array			 = ($this->request->is_set('config')) ? $this->request->variable('config', ['' => ''], true) : $this->new_config;
@@ -314,6 +333,8 @@ class ajaxchat_module
 			$this->new_config[$config_name] = $cfg_array[$config_name];
 			$this->config->set($config_name, $cfg_array[$config_name]);
 		}
+		// Add the log to the ACP
+		$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'AJAX_CHAT_UPDATED_SETTINGS', time());
 		return true;
 	}
 
