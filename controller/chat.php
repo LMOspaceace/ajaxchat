@@ -11,7 +11,6 @@
 
 namespace spaceace\ajaxchat\controller;
 
-use phpbb\exception\http_exception;
 use phpbb\user;
 use phpbb\template\template;
 use phpbb\db\driver\driver_interface as db_driver;

@@ -61,7 +61,7 @@ class ajaxchat_module
 		$this->php_ext = $phpEx;
 		$this->phpbb_log = $phpbb_log;
 		$this->root_path	= $root_path;
-		
+
 		if (!defined('CHAT_TABLE'))
 		{
 			$chat_table = $table_prefix . 'ajax_chat';
@@ -74,14 +74,14 @@ class ajaxchat_module
 		}
 		$this->id		 = $id;
 		$this->mode		 = $mode;
-		if($this->request->variable('action', ''))
+		if ($this->request->variable('action', ''))
 		{
 		$this->action = $this->request->variable('action', '', true);
 		}
-		
+
 		// Add the posting lang file needed by BBCodes
 		$this->user->add_lang(array('posting'));
-		
+
 		$submit = ($this->request->is_set_post('submit')) ? true : false;
 		$this->form_key	 = 'acp_ajax_chat';
 		add_form_key($this->form_key);
@@ -211,7 +211,7 @@ class ajaxchat_module
 			}
 		}
 		$this->id = str_replace("\\", "-", $this->id);
-		
+
 		return '<a href="' . append_sid($this->u_action . '&amp;action=prune_chat') . '" data-ajax="true"><input class="button2" type="submit" id="' . $key . '_enable" name="' . $key . '_enable" value="' . $this->user->lang['PRUNE_NOW'] . '" /></a>';
 	}
 
@@ -255,7 +255,7 @@ class ajaxchat_module
 			}
 		}
 		$this->id = str_replace("\\", "-", $this->id);
-		
+
 		return '<a href="' . append_sid($this->u_action . '&amp;action=truncate_chat') . '" data-ajax="true"><input class="button2" type="submit" id="' . $key . '_enable" name="' . $key . '_enable" value="' . $this->user->lang['TRUNCATE_NOW'] . '" /></a>';
 	}
 
