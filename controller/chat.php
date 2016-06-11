@@ -244,7 +244,7 @@ class chat
 			'LAST_ID'			 => $this->last_id,
 			'LAST_POST'			 => $last_post,
 			'TIME'				 => time(),
-			'L_VERSION'			 => '3.0.16',
+			'L_VERSION'			 => '3.0.17',
 			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'	 => $this->ext_path_web . 'styles/',
 			'FILENAME'			 => $this->helper->route('spaceace_ajaxchat_chat'),
@@ -343,11 +343,8 @@ class chat
 				'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
 				'USER_AVATAR'		 => $row['avatar'],
 				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
-				'S_AJAXCHAT_EDIT'	 => $this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('m_edit') || $this->user->data['user_id'] === $row['user_id'],
+				'S_AJAXCHAT_EDIT'	 => $this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('u_ajaxchat_edit') || $this->user->data['user_id'] === $row['user_id'],
 				'U_EDIT'			 => $this->helper->route('spaceace_ajaxchat_edit', array('chat_id' => $row['message_id'])),
-			]);
-			$this->template->assign_vars([
-
 			]);
 		}
 		$this->db->sql_freeresult($result);
@@ -587,7 +584,7 @@ class chat
 				'MESSAGE'			 => generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']),
 				'U_EDIT'			 => $this->helper->route('spaceace_ajaxchat_edit', array('chat_id' => $row['message_id'])),
 				'TIME'				 => $this->user->format_date($row['time'], $time),
-				'S_AJAXCHAT_EDIT'	 => $this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('m_edit') || $this->user->data['user_id'] === $row['user_id'],
+				'S_AJAXCHAT_EDIT'	 => $this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('u_ajaxchat_edit') || $this->user->data['user_id'] === $row['user_id'],
 				'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
 				'USER_AVATAR'		 => $row['avatar'],
 				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
@@ -636,14 +633,14 @@ class chat
 		$row	 = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
-		if (!$row || ($this->user->data['user_type'] !== USER_FOUNDER && !$this->auth->acl_get('m_edit') && $this->user->data['user_id'] !== $row['user_id']))
+		if (!$row || ($this->user->data['user_type'] !== USER_FOUNDER && !$this->auth->acl_get('u_ajaxchat_edit') && $this->user->data['user_id'] !== $row['user_id']))
 		{
 			throw new \phpbb\exception\http_exception(403, 'NO_EDIT_PERMISSION');
 		}
 
 		if ($submit)
 		{
-			$text	 = $this->request->variable('message', '');
+			$text	 = $this->request->variable('message', '', true);
 			$uid = $bitfield = $flags = '';
 			$errors	 = generate_text_for_storage($text, $uid, $bitfield, $flags, true, true, true);
 			if (sizeof($errors))
@@ -736,7 +733,7 @@ class chat
 					'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
 					'USER_AVATAR'		 => $row['avatar'],
 					'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
-					'S_AJAXCHAT_EDIT'	 => $this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('m_edit') || $this->user->data['user_id'] === $row['user_id'],
+					'S_AJAXCHAT_EDIT'	 => $this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('u_ajaxchat_edit') || $this->user->data['user_id'] === $row['user_id'],
 					'U_EDIT'			 => $this->helper->route('spaceace_ajaxchat_edit', array('chat_id' => $row['message_id'])),
 				]);
 
@@ -890,7 +887,7 @@ class chat
 				'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
 				'USER_AVATAR'		 => $row['avatar'],
 				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
-				'S_AJAXCHAT_EDIT'	 => $this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('m_edit') || $this->user->data['user_id'] === $row['user_id'],
+				'S_AJAXCHAT_EDIT'	 => $this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('u_ajaxchat_edit') || $this->user->data['user_id'] === $row['user_id'],
 				'U_EDIT'			 => $this->helper->route('spaceace_ajaxchat_edit', array('chat_id' => $row['message_id'])),
 			]);
 		}
@@ -964,12 +961,15 @@ class chat
 				'',
 				'',
 			];
-			$texts			 = generate_text_for_edit($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']);
-			$cleaned_text	 = preg_replace($patterns, $replacement, html_entity_decode($texts['text'], ENT_QUOTES));
+			$texts				= generate_text_for_edit($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']);
+			$cleaned_text		= preg_replace($patterns, $replacement, html_entity_decode($texts['text'], ENT_QUOTES));
 
 			$new_text = '[quote="' . $row['username'] . '"] ' . $cleaned_text . ' [/quote]--!--';
 			$this->index();
-			echo $new_text;
+			$this->template->assign_vars([
+				'CHAT_QUOTE_TEXT'			=> $new_text,
+			]);
+			return $this->helper->render('chat_quote.html');
 		}
 	}
 

@@ -414,7 +414,7 @@ class listener implements EventSubscriberInterface
 				'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
 				'USER_AVATAR'		 => $row['avatar'],
 				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
-				'S_AJAXCHAT_EDIT'	 => $this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('m_edit') || $this->user->data['user_id'] === $row['user_id'],
+				'S_AJAXCHAT_EDIT'	 => $this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('u_ajaxchat_edit') || $this->user->data['user_id'] === $row['user_id'],
 				'U_EDIT'			 => $this->helper->route('spaceace_ajaxchat_edit', array('chat_id' => $row['message_id'])),
 			]);
 		}
@@ -519,7 +519,7 @@ class listener implements EventSubscriberInterface
 			'LAST_ID'				=> $this->last_id,
 			'LAST_POST'				=> $last_post,
 			'TIME'					=> time(),
-			'L_VERSION'				=> '3.0.16',
+			'L_VERSION'				=> '3.0.17',
 			'STYLE_PATH'			=> generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'		=> $this->ext_path_web . 'styles/',
 			'FILENAME'				=> $this->helper->route('spaceace_ajaxchat_chat'),
