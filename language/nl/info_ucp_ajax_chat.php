@@ -7,7 +7,7 @@
  * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
-*/
+ */
 /**
  * DO NOT CHANGE
 */
@@ -41,14 +41,18 @@ $lang = array_merge(
 	$lang, array(
 		'CHAT_BOTTOM'					=> 'Bodem',
 		'CHAT_TOP'						=> 'Boven',
-		'USER_AJAX_CHAT_VIEW'			=> 'Bekijk chat op index pagina',
+		'USER_AJAX_CHAT_VIEW'			=> 'Weergave chat op index pagina',
 		'USER_AJAX_CHAT_POSITION'		=> 'Positie op index om chat weer te geven',
-		'USER_AJAX_CHAT_AVATARS'		=> 'Laat avatars in chat zien',
+		'USER_AJAX_CHAT_VIEWFORUM'		=> 'Weergeven chat in forums',
+		'USER_AJAX_CHAT_VIEWTOPIC'		=> 'Weergeven chat in topics',
+		'USER_AJAX_CHAT_AVATARS'		=> 'Weergeven avatars in chat',
 		'USER_AJAX_CHAT_SOUND'			=> 'Hoor geluid in chat',
-		'USER_AJAX_CHAT_AVATAR_HOVER'	=> 'Laat volledige avatar afbeelding bij aanwijzen zien',
-		'USER_AJAX_CHAT_ONLINELIST'		=> 'Bekijk online list in chat',
+		'USER_AJAX_CHAT_AVATAR_HOVER'	=> 'Volledige avatar afbeelding weergeven bij aanwijzen',
+		'USER_AJAX_CHAT_ONLINELIST'		=> 'De online list weergave in chat',
+		'USER_AJAX_CHAT_AUTOCOMPLETE'	=> 'Chat invoervak AutoAanvullen',
 		'USER_AJAXCHAT'					=> 'Ajax Chat',
-		'USER_AJAXCHAT_SETTINGS'		=> 'Ajax Chatinstellingen',
-		'NO_VIEW_CHAT'					=> 'U bent niet gemachtigd om chat te bekijken.',
+		'USER_AJAXCHAT_SETTINGS'		=> 'Ajax Chat Instellingen',
+		'NO_VIEW_CHAT'					=> 'U hebt geen toestemming om te chat bekijken.',
+		'AJAX_CHAT_MESSAGES_DOWN'		=> 'Nieuwste chatberichten weergeven in de boven- of onderkant van de chat. Ook gaat de inputbox naar de boven- of onderkant',
 	)
 );
