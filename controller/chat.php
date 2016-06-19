@@ -277,8 +277,21 @@ class chat
 	 *
 	 * @return multi
 	 */
-	public function defaultAction()
+	public function defaultAction($page)
 	{
+		//Sets message amount depending on page being used
+		if ($page === 'popup')
+		{
+			$chat_message_total		= $this->config['ajax_chat_popup_amount'];
+		}
+		if ($page === 'chat')
+		{
+			$chat_message_total		= $this->config['ajax_chat_chat_amount'];
+		}
+		if ($page === 'archive')
+		{
+			$chat_message_total		= $this->config['ajax_chat_archive_amount'];
+		}
 		// sets a few variables before the actions
 		$this->mode			 = $this->request->variable('mode', 'default');
 		$this->last_id		 = $this->request->variable('last_id', 0);
@@ -292,7 +305,7 @@ class chat
 			LEFT JOIN ' . POSTS_TABLE . ' as p ON c.post_id = p.post_id
 			WHERE c.message_id > ' . (int) $this->last_id . '
 			ORDER BY c.message_id DESC';
-		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
+		$result	 = $this->db->sql_query_limit($sql, (int) $chat_message_total);
 		$rows	 = $this->db->sql_fetchrowset($result);
 
 		foreach ($rows as $row)
@@ -516,7 +529,7 @@ class chat
 			LEFT JOIN ' . POSTS_TABLE . ' as p ON c.post_id = p.post_id
 			WHERE c.message_id > ' . (int) $this->last_id . '
 			ORDER BY c.message_id DESC';
-		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
+		$result	 = $this->db->sql_query_limit($sql, (int) $chat_message_total);
 		$rows	 = $this->db->sql_fetchrowset($result);
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
@@ -823,7 +836,7 @@ class chat
 			LEFT JOIN ' . POSTS_TABLE . ' as p ON c.post_id = p.post_id
 			WHERE c.message_id > ' . (int) $this->last_id . '
 			ORDER BY c.message_id DESC';
-		$result	 = $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_chat_amount']);
+		$result	 = $this->db->sql_query_limit($sql, (int) $chat_message_total);
 		$rows	 = $this->db->sql_fetchrowset($result);
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))

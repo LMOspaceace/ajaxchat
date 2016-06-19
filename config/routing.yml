@@ -1,10 +1,10 @@
 spaceace_ajaxchat_popup:
     path: /chat/popup
-    defaults: {_controller: spaceace.ajaxchat.chat.controller:defaultAction}
+    defaults: {_controller: spaceace.ajaxchat.chat.controller:defaultAction, page: popup}
 
 spaceace_ajaxchat_archive:
     path: /chat/archive
-    defaults: {_controller: spaceace.ajaxchat.chat.controller:defaultAction}
+    defaults: {_controller: spaceace.ajaxchat.chat.controller:defaultAction, page: archive}
     
 spaceace_ajaxchat_edit:
     path: /chat/edit/{chat_id}
@@ -28,4 +28,4 @@ spaceace_ajaxchat_quote:
 
 spaceace_ajaxchat_chat:
     path: /chat
-    defaults: {_controller: spaceace.ajaxchat.chat.controller:defaultAction}
+    defaults: {_controller: spaceace.ajaxchat.chat.controller:defaultAction, page: chat}

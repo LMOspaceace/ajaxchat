@@ -38,17 +38,12 @@
 }
 
 #chat_colour_palette {
-	display: none;
 	text-align: center;
 	padding-bottom: 5px;
 }
 
 #chat_colour_palette table {
 	margin: 0 auto;
-}
-
-#chat_bbcodes {
-	display: none;
 }
 
 #ajaxchat .navbar.chatrules {
