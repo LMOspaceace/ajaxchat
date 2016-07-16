@@ -115,6 +115,9 @@ class listener implements EventSubscriberInterface
 	/** @var string */
 	protected $ext_path_web;
 
+	/** @var \spaceace\ajaxchat\controller\chat */
+	protected $chat;
+
 	/**
 	 * Constructor
 	 *
@@ -132,22 +135,23 @@ class listener implements EventSubscriberInterface
 	 * @param string		$root_path
 	 * @param string		$php_ext
 	 */
-	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, $config_text, manager $ext_manager, path_helper $path_helper, Container $container, $table_prefix, $root_path, $php_ext)
+	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, $config_text, manager $ext_manager, path_helper $path_helper, Container $container, $table_prefix, $root_path, $php_ext, \spaceace\ajaxchat\controller\chat $chat)
 	{
-		$this->template		 = $template;
-		$this->user			 = $user;
-		$this->db			 = $db;
-		$this->auth			 = $auth;
-		$this->request		 = $request;
-		$this->helper		 = $helper;
-		$this->config		 = $config;
-		$this->config_text = $config_text;
-		$this->root_path	 = $root_path;
-		$this->php_ext		 = $php_ext;
-		$this->ext_manager	 = $ext_manager;
-		$this->path_helper	 = $path_helper;
-		$this->container	 = $container;
-		$this->table_prefix	 = $table_prefix;
+		$this->template			= $template;
+		$this->user				= $user;
+		$this->db				= $db;
+		$this->auth				= $auth;
+		$this->request			= $request;
+		$this->helper			= $helper;
+		$this->config			= $config;
+		$this->config_text		= $config_text;
+		$this->root_path		= $root_path;
+		$this->php_ext			= $php_ext;
+		$this->ext_manager		= $ext_manager;
+		$this->path_helper		= $path_helper;
+		$this->container		= $container;
+		$this->table_prefix		= $table_prefix;
+		$this->chat				= $chat;
 	}
 
 	/**
@@ -414,7 +418,7 @@ class listener implements EventSubscriberInterface
 				'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
 				'USER_AVATAR'		 => $row['avatar'],
 				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
-				'S_AJAXCHAT_EDIT'	 => $this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('u_ajaxchat_edit') || $this->user->data['user_id'] === $row['user_id'],
+				'S_AJAXCHAT_EDIT'	 => $this->chat->can_edit_message($row['user_id']),
 				'U_EDIT'			 => $this->helper->route('spaceace_ajaxchat_edit', array('chat_id' => $row['message_id'])),
 			]);
 		}
@@ -519,7 +523,7 @@ class listener implements EventSubscriberInterface
 			'LAST_ID'				=> $this->last_id,
 			'LAST_POST'				=> $last_post,
 			'TIME'					=> time(),
-			'L_VERSION'				=> '3.0.17',
+			'L_VERSION'				=> '3.0.18',
 			'STYLE_PATH'			=> generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'		=> $this->ext_path_web . 'styles/',
 			'FILENAME'				=> $this->helper->route('spaceace_ajaxchat_chat'),
