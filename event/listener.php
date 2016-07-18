@@ -735,45 +735,39 @@ class listener implements EventSubscriberInterface
 			'user_colour'		 => $this->user->data['user_colour'],
 			'user_lastupdate'	 => time(),
 		];
-		$sql = 'UPDATE ' . CHAT_SESSIONS_TABLE . '
+		$sql	 = 'UPDATE ' . CHAT_SESSIONS_TABLE . '
 			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . "
 			WHERE user_id = {$this->user->data['user_id']}";
 		$this->db->sql_query($sql);
 
-		$sql = 'DELETE FROM ' . CHAT_SESSIONS_TABLE . "
-			WHERE user_lastupdate < $check_time";
+		$sql = 'DELETE FROM ' . CHAT_SESSIONS_TABLE . ' WHERE user_lastupdate <  ' . (int) $check_time;
 		$this->db->sql_query($sql);
 
-		$sql = 'SELECT *
-			FROM ' . CHAT_SESSIONS_TABLE . "
-			WHERE user_lastupdate > $check_time
-			ORDER BY username ASC";
+		$sql	 = 'SELECT *
+			FROM ' . CHAT_SESSIONS_TABLE . '
+			WHERE user_lastupdate > ' . (int) $check_time . '
+			ORDER BY username ASC';
 		$result	 = $this->db->sql_query($sql);
 
 		$status_time = time();
-		while ($row = $this->db->sql_fetchrow($result))
+		while ($row		 = $this->db->sql_fetchrow($result))
 		{
+			if ($this->check_hidden($row['user_id']) === false)
+			{
+				continue;
+			}
 			if ($row['user_id'] == $this->user->data['user_id'])
 			{
 				$this->last_post = $row['user_lastpost'];
 				$login_time		 = $row['user_login'];
 				$status_time	 = ($this->last_post > $login_time) ? $this->last_post : $login_time;
 			}
-
 			$status = $this->get_status($row['user_lastpost']);
-
-			if ($this->check_hidden($row['user_id']) === false)
-			{
-				continue;
-			}
-			else
-			{
-				$this->template->assign_block_vars('whoisrow', [
-					'USERNAME_FULL'	 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
-					'USER_COLOR'	 => $row['user_colour'],
-					'USER_STATUS'	 => $status,
-				]);
-			}
+			$this->template->assign_block_vars('whoisrow', [
+				'USERNAME_FULL'	 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
+				'USER_COLOR'	 => $row['user_colour'],
+				'USER_STATUS'	 => $status,
+			]);
 		}
 		$this->db->sql_freeresult($result);
 
