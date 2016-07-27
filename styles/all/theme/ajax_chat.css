@@ -422,6 +422,26 @@ div.chat-avatars:hover span {
 	margin-top: -4px;
 }
 
+/* ComBoot additions */
+.message-comboot {
+	line-height: 1.4em;
+	padding-top: 2px;
+	overflow: auto;
+}
+
+.whois-comboot h3 {
+	margin: 2px 0;
+	font-size: inherit;
+}
+
+#ajaxchat .btn-toolbar .btn, .btn-toolbar .btn-group, .btn-toolbar .input-group {
+	float: none !important;
+}
+
+#ajaxchat .btn {
+	padding: 0px 10px;
+}
+
 /*!
  *  Font Awesome 4.6.1 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
