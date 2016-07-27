@@ -162,6 +162,7 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
+			'core.viewonline_overwrite_location'		=> 'add_page_viewonline',
 			'core.page_header'							=> 'page_header',
 			'core.permissions'							=> 'add_permission',
 			'core.index_modify_page_title'				=> 'index',
@@ -172,6 +173,18 @@ class listener implements EventSubscriberInterface
 			'core.acp_users_prefs_modify_template_data'	=> 'acp_profile_ajax_chat_template', // For the ACP user setting
 			'core.acp_users_prefs_modify_sql'			=> 'ucp_profile_ajax_chat_set', // For the ACP user setting
 		);
+	}
+
+	/**
+	 * Modifies viewonline to show who is on what page
+	 */
+	public function add_page_viewonline($event)
+	{
+		if (strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/chat') === 0)
+		{
+			$event['location'] = $this->user->lang('CHAT');
+			$event['location_url'] = $this->helper->route('spaceace_ajaxchat_chat');
+		}
 	}
 
 	/**
@@ -523,7 +536,7 @@ class listener implements EventSubscriberInterface
 			'LAST_ID'				=> $this->last_id,
 			'LAST_POST'				=> $last_post,
 			'TIME'					=> time(),
-			'L_VERSION'				=> '3.0.18',
+			'L_VERSION'				=> '3.0.19',
 			'STYLE_PATH'			=> generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'		=> $this->ext_path_web . 'styles/',
 			'FILENAME'				=> $this->helper->route('spaceace_ajaxchat_chat'),

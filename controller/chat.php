@@ -257,7 +257,7 @@ class chat
 			'LAST_ID'			 => $this->last_id,
 			'LAST_POST'			 => $last_post,
 			'TIME'				 => time(),
-			'L_VERSION'			 => '3.0.18',
+			'L_VERSION'			 => '3.0.19',
 			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'	 => $this->ext_path_web . 'styles/',
 			'FILENAME'			 => $this->helper->route('spaceace_ajaxchat_chat'),
@@ -535,6 +535,7 @@ class chat
 		$this->last_time	 = $this->request->variable('last_time', 0);
 		$this->post_time	 = $this->request->variable('last_post', 0);
 		$this->read_interval = $this->request->variable('read_interval', 5000);
+		$chat_message_total  = "";
 
 		$sql	 = 'SELECT c.*, p.post_visibility, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
 			FROM ' . CHAT_TABLE . ' as c
@@ -804,7 +805,7 @@ class chat
 		$this->last_time	 = $this->request->variable('last_time', 0);
 		$this->post_time	 = $this->request->variable('last_post', 0);
 		$this->read_interval = $this->request->variable('read_interval', 5000);
-
+		$chat_message_total  = "";
 		$this->get	 = true;
 		$message	 = $this->request->variable('message', '', true);
 
