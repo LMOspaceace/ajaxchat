@@ -39,6 +39,7 @@
 				//]]>
 			</script>
 			<!-- INCLUDEJS @spaceace_ajaxchat/js/ajax_chat.js -->
+			<!-- EVENT spaceace_ajax_chat_chat_body_before -->
 			<div id="ajaxchat">
 				<div class="panel panel-info">
 					<div class="panel-heading">
@@ -55,12 +56,12 @@
 							<span>{CHAT_RULES}</span>
 						</div>
 					<!-- ENDIF -->
-		<div>
-				<div class="shout-body<!-- IF S_WHOIS_CHATTING --><!-- IF S_AJAX_CHAT_ONLINELIST and SCRIPT_NAME neq 'app/chat/archive' --> shouts<!-- ENDIF --><!-- ENDIF --><!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING --> chat_online_off<!-- ENDIF --><!-- IF S_CHAT or S_POPUP or SCRIPT_NAME == 'app/chat/archive' --> main<!-- ENDIF -->">
-					<div id="chat" <!-- IF not S_AJAX_CHAT_MESSAGES_DOWN -->class="chat-messages-down"<!-- ENDIF --> >
-						<!-- INCLUDE chat_body_chatrow.html -->
+				<div>
+					<div class="shout-body<!-- IF S_WHOIS_CHATTING --><!-- IF S_AJAX_CHAT_ONLINELIST and SCRIPT_NAME neq 'app/chat/archive' --> shouts<!-- ENDIF --><!-- ENDIF --><!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING --> chat_online_off<!-- ENDIF --><!-- IF S_CHAT or S_POPUP or SCRIPT_NAME == 'app/chat/archive' --> main<!-- ENDIF -->">
+						<div id="chat" <!-- IF not S_AJAX_CHAT_MESSAGES_DOWN -->class="chat-messages-down"<!-- ENDIF --> >
+							<!-- INCLUDE chat_body_chatrow.html -->
+						</div>
 					</div>
-				</div>
 					<!-- IF S_WHOISONLINE -->
 						<div class="whois whois-comboot<!-- IF S_CHAT or S_POPUP --> main<!-- ENDIF --><!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
 							<h3>
@@ -71,7 +72,7 @@
 							</div>
 						</div>
 					<!-- ENDIF -->
-		</div>
+				</div>
 				<div class="breadcrumb no-margin-bottom">
 					<!-- IF SCRIPT_NAME neq 'app/chat/archive' -->
 						<!-- IF not S_AJAX_CHAT_MESSAGES_DOWN -->
@@ -86,6 +87,7 @@
 					</div>
 				</div>
 			</div>
+			<!-- EVENT spaceace_ajax_chat_chat_body_after -->
 			<!-- IF SCRIPT_NAME == 'app/chat' -->
 				<!-- INCLUDE overall_footer.html -->
 			<!-- ENDIF -->

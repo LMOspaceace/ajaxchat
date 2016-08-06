@@ -440,12 +440,12 @@ class listener implements EventSubscriberInterface
 
 		if ($this->user->data['user_type'] == USER_FOUNDER || $this->user->data['user_type'] == USER_NORMAL)
 		{
-			$sql = 'SELECT *
-				FROM ' . CHAT_SESSIONS_TABLE . "
-				WHERE user_id = {$this->user->data['user_id']}";
-			$result1 = $this->db->sql_query($sql);
-			$row	 = $this->db->sql_fetchrow($result1);
-			$this->db->sql_freeresult($result1);
+			$sql	 = 'SELECT *
+				FROM ' . CHAT_SESSIONS_TABLE . '
+				WHERE user_id = ' . (int) $this->user->data['user_id'];
+			$result	 = $this->db->sql_query($sql);
+			$row	 = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
 
 			if ($row['user_id'] != $this->user->data['user_id'])
 			{
@@ -482,12 +482,10 @@ class listener implements EventSubscriberInterface
 		$quote_status		= true;
 		$this->mode			= strtoupper($this->mode);
 
-		$sql = 'SELECT `user_lastpost`
-			FROM ' . CHAT_SESSIONS_TABLE . "
-			WHERE user_id = {$this->user->data['user_id']}";
-		$result1 = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result1);
-		$this->db->sql_freeresult($result1);
+		$sql	 = 'SELECT user_lastpost FROM ' . CHAT_SESSIONS_TABLE . ' WHERE user_id = ' . (int) $this->user->data['user_id'];
+		$result	 = $this->db->sql_query($sql);
+		$row	 = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
 
 		if ($this->get_status($row['user_lastpost']) === 'online')
 		{
@@ -536,7 +534,7 @@ class listener implements EventSubscriberInterface
 			'LAST_ID'				=> $this->last_id,
 			'LAST_POST'				=> $last_post,
 			'TIME'					=> time(),
-			'L_VERSION'				=> '3.0.19',
+			'L_VERSION'				=> '3.0.20',
 			'STYLE_PATH'			=> generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'		=> $this->ext_path_web . 'styles/',
 			'FILENAME'				=> $this->helper->route('spaceace_ajaxchat_chat'),
