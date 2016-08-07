@@ -118,6 +118,12 @@ class listener implements EventSubscriberInterface
 	/** @var \spaceace\ajaxchat\controller\chat */
 	protected $chat;
 
+	/** @var bool */
+	public $is_phpbb32;
+
+	/** @var bool */
+	public $is_phpbb31;
+
 	/**
 	 * Constructor
 	 *
@@ -152,6 +158,14 @@ class listener implements EventSubscriberInterface
 		$this->container		= $container;
 		$this->table_prefix		= $table_prefix;
 		$this->chat				= $chat;
+
+		$this->is_phpbb31	= phpbb_version_compare($config['version'], '3.1.0@dev', '>=') && phpbb_version_compare($config['version'], '3.2.0@dev', '<');
+		$this->is_phpbb32	= phpbb_version_compare($config['version'], '3.2.0@dev', '>=') && phpbb_version_compare($config['version'], '3.3.0@dev', '<');
+
+		$this->template->assign_vars(array(
+			'IS_PHPBB31' => $this->is_phpbb31,
+			'IS_PHPBB32' => $this->is_phpbb32,
+		));
 	}
 
 	/**
