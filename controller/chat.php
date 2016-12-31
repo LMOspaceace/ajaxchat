@@ -768,8 +768,8 @@ class chat
 					'S_BBCODE_ALLOWED'	=> ($this->config['allow_bbcode'] && $this->config['auth_bbcode_pm'] && $this->auth->acl_get('u_ajaxchat_bbcode')) ? true : false,
 				]);
 
-                        }
-                        return $this->helper->render('chat_body_readadd.html', $this->user->lang['CHAT_EXPLAIN']);
+			}
+			return $this->helper->render('chat_body_readadd.html', $this->user->lang['CHAT_EXPLAIN']);
 
 		}
 		else
