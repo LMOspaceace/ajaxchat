@@ -94,7 +94,7 @@ class chat
 	protected $last_post = 0;
 
 	/** @var int */
-	protected $read_interval = 5;
+	protected $read_interval;
 
 	/** @var int */
 	protected $count = 0;
@@ -166,6 +166,7 @@ class chat
 			$chat_table = $this->table_prefix . 'ajax_chat';
 			define('CHAT_TABLE', $chat_table);
 		}
+
 		if (!defined('CHAT_SESSIONS_TABLE'))
 		{
 			$chat_session_table = $this->table_prefix . 'ajax_chat_sessions';
@@ -257,7 +258,7 @@ class chat
 			'LAST_ID'			 => $this->last_id,
 			'LAST_POST'			 => $last_post,
 			'TIME'				 => time(),
-			'L_VERSION'			 => '3.0.20',
+			'L_VERSION'			 => '3.0.21',
 			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'	 => $this->ext_path_web . 'styles/',
 			'FILENAME'			 => $this->helper->route('spaceace_ajaxchat_chat'),
@@ -297,14 +298,17 @@ class chat
 		{
 			$chat_message_total		= $this->config['ajax_chat_popup_amount'];
 		}
+
 		if ($page === 'chat')
 		{
 			$chat_message_total		= $this->config['ajax_chat_chat_amount'];
 		}
+
 		if ($page === 'archive')
 		{
 			$chat_message_total		= $this->config['ajax_chat_archive_amount'];
 		}
+
 		// sets a few variables before the actions
 		$this->mode			 = $this->request->variable('mode', 'default');
 		$this->last_id		 = $this->request->variable('last_id', 0);
@@ -327,10 +331,12 @@ class chat
 			{
 				continue;
 			}
+
 			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
 			{
 				continue;
 			}
+
 			$avatar				 = [
 				'avatar'		 => $row['user_avatar'],
 				'avatar_type'	 => $row['user_avatar_type'],
@@ -345,6 +351,7 @@ class chat
 			];
 			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar, '') : '';
 			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar_thumb, '') : '';
+
 			if ($this->count++ == 0)
 			{
 				$this->last_id = $row['message_id'];
@@ -430,8 +437,8 @@ class chat
 			'user_lastupdate'	 => time(),
 		];
 		$sql	 = 'UPDATE ' . CHAT_SESSIONS_TABLE . '
-			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . "
-			WHERE user_id = {$this->user->data['user_id']}";
+			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
+			WHERE user_id = ' . (int) $this->user->data['user_id'];
 		$this->db->sql_query($sql);
 
 		$sql = 'DELETE FROM ' . CHAT_SESSIONS_TABLE . ' WHERE user_lastupdate <  ' . (int) $check_time;
@@ -493,20 +500,6 @@ class chat
 	}
 
 	/**
-	 * Cleans the message
-	 *
-	 * @param string $message
-	 */
-	private function clean_message(&$message)
-	{
-		if (strpos($message, '---') !== false)
-		{
-			$message = str_replace('---', '–––', $message);
-			clean_message($message);
-		}
-	}
-
-	/**
 	 * Cleans the username
 	 *
 	 * @param string $user
@@ -534,7 +527,8 @@ class chat
 		$this->last_id		 = $this->request->variable('last_id', 0);
 		$this->last_time	 = $this->request->variable('last_time', 0);
 		$this->post_time	 = $this->request->variable('last_post', 0);
-		$this->read_interval = $this->request->variable('read_interval', 5000);
+		$this->read_interval     = $this->request->variable('read_interval', 5000);
+
 		$chat_message_total  = "";
 
 		$sql	 = 'SELECT c.*, p.post_visibility, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
@@ -546,10 +540,17 @@ class chat
 		$result	 = $this->db->sql_query_limit($sql, (int) $chat_message_total);
 		$rows	 = $this->db->sql_fetchrowset($result);
 
+		// No new messages check
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
 		{
-			return;
+					$this->template->assign_vars([
+						'S_READ'     => true
+						]);
+
+					$this->index();
+					return $this->helper->render('chat_body_readadd.html', $this->user->lang['CHAT_EXPLAIN']);
 		}
+
 		foreach ($rows as $row)
 		{
 			if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
@@ -617,7 +618,6 @@ class chat
 				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
 			]);
 		}
-		$this->db->sql_freeresult($result);
 
 		if ((time() - 60) > $this->last_time)
 		{
@@ -633,7 +633,6 @@ class chat
 		}
 
 		$this->get = true;
-
 		$this->index();
 		return $this->helper->render('chat_body_readadd.html', $this->user->lang['CHAT_EXPLAIN']);
 	}
@@ -769,8 +768,9 @@ class chat
 					'S_BBCODE_ALLOWED'	=> ($this->config['allow_bbcode'] && $this->config['auth_bbcode_pm'] && $this->auth->acl_get('u_ajaxchat_bbcode')) ? true : false,
 				]);
 
-				return $this->helper->render('chat_body_readadd.html', $this->user->lang['CHAT_EXPLAIN']);
-			}
+                        }
+                        return $this->helper->render('chat_body_readadd.html', $this->user->lang['CHAT_EXPLAIN']);
+
 		}
 		else
 		{
@@ -813,7 +813,7 @@ class chat
 		{
 			return;
 		}
-		$this->clean_message($message);
+		$this->$message;
 		$uid			 = $bitfield		 = $options		 = '';
 		$allow_bbcode	 = $this->auth->acl_get('u_ajaxchat_bbcode');
 		$allow_urls		 = $allow_smilies	 = true;
@@ -839,9 +839,9 @@ class chat
 			'user_lastpost'		 => time(),
 			'user_lastupdate'	 => time(),
 		];
-		$sql		 = 'UPDATE ' . CHAT_SESSIONS_TABLE . '
-			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary2) . "
-			WHERE user_id = {$this->user->data['user_id']}";
+		$sql	 = 'UPDATE ' . CHAT_SESSIONS_TABLE . '
+			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary2) . '
+			WHERE user_id = ' . (int) $this->user->data['user_id'];
 		$result		 = $this->db->sql_query($sql);
 
 		$sql	 = 'SELECT c.*, p.post_visibility, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
@@ -855,7 +855,12 @@ class chat
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
 		{
-			return;
+					$this->template->assign_vars([
+						'S_READ'     => true
+						]);
+
+					$this->index();
+					return $this->helper->render('chat_body_readadd.html', $this->user->lang['CHAT_EXPLAIN']);
 		}
 
 		foreach ($rows as $row)
@@ -919,7 +924,6 @@ class chat
 			]);
 		}
 		$this->db->sql_freeresult($result);
-
 		$this->index();
 		return $this->helper->render('chat_body_readadd.html', $this->user->lang['CHAT_EXPLAIN']);
 	}

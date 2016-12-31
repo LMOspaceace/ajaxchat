@@ -206,7 +206,6 @@ class listener implements EventSubscriberInterface
 	 */
 	public function page_header()
 	{
-
 		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
 		{
 			define('PHPBB_USE_BOARD_URL_PATH', true);
@@ -219,57 +218,6 @@ class listener implements EventSubscriberInterface
 		];
 
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
-
-		//Declares the ACP switches
-		if ($this->config['display_ajax_chat'] === '1')
-		{
-			$this->template->assign_var('S_CHAT_ENABLED', true);
-		}
-
-		if ($this->config['ajax_chat_nav_link'] === '1')
-		{
-			$this->template->assign_var('S_CHAT_NAV_LINK', true);
-		}
-
-		if ($this->config['ajax_chat_quick_link'] === '1')
-		{
-			$this->template->assign_var('S_CHAT_QUICK_LINK', true);
-		}
-
-		if ($this->config['whois_chatting'] === '1')
-		{
-			$this->template->assign_var('S_WHOIS_CHATTING', true);
-		}
-
-		if ($this->config['location_ajax_chat'] === '1')
-		{
-			$this->template->assign_var('S_AJAX_CHAT_ACP_POSITION', true);
-		}
-
-		if ($this->config['location_ajax_chat_override'] === '1')
-		{
-			$this->template->assign_var('S_AJAX_CHAT_POSITION_OVERRIDE', true);
-		}
-
-		if ($this->config['viewforum_ajax_chat_override'] === '1')
-		{
-			$this->template->assign_var('S_AJAX_CHAT_VIEWFORUM_OVERRIDE', true);
-		}
-
-		if ($this->config['viewtopic_ajax_chat_override'] === '1')
-		{
-			$this->template->assign_var('S_AJAX_CHAT_VIEWTOPIC_OVERRIDE', true);
-		}
-
-		if ($this->config['ajax_chat_input_full'] === '1')
-		{
-			$this->template->assign_var('S_AJAX_CHAT_INPUT_FULL', true);
-		}
-
-		if ($this->config['ajax_chat_chatrow_full'] === '1')
-		{
-			$this->template->assign_var('S_AJAX_CHAT_CHATROW_FULL', true);
-		}
 
 		// Get chat rules data from the config_text object
 		$chat_rules_data = $this->config_text->get_array(array(
@@ -290,26 +238,36 @@ class listener implements EventSubscriberInterface
 		// Declaring a few UCP switches and basic values
 		$this->template->assign_vars(
 			array(
-				'U_CHAT'					=> $this->helper->route('spaceace_ajaxchat_chat'),
-				'S_SHOUT'					=> true,
-				'CHAT_RULES'				=> $chat_rules,
-				'SCRIPT_PATH'				=> $this->config['script_path'],
-				'COOKIE_NAME'				=> $this->config['cookie_name'].'_fonthold',
-				'EXT_PATH'					=> $this->ext_manager->get_extension_path('spaceace/ajaxchat', true),
-				'S_AJAX_CHAT_VIEW'			=> $this->user->data['user_ajax_chat_view'],
-				'S_AJAX_CHAT_AVATARS'		=> $this->user->data['user_ajax_chat_avatars'],
-				'S_AJAX_CHAT_POSITION'		=> $this->user->data['user_ajax_chat_position'],
-				'S_AJAX_CHAT_VIEWFORUM'		=> $this->user->data['user_ajax_chat_viewforum'],
-				'S_AJAX_CHAT_VIEWTOPIC'		=> $this->user->data['user_ajax_chat_viewtopic'],
-				'S_AJAX_CHAT_SOUND'			=> $this->user->data['user_ajax_chat_sound'],
-				'S_AJAX_CHAT_AVATAR_HOVER'	=> $this->user->data['user_ajax_chat_avatar_hover'],
-				'S_AJAX_CHAT_ONLINELIST'	=> $this->user->data['user_ajax_chat_onlinelist'],
-				'S_AJAX_CHAT_AUTOCOMPLETE'	=> $this->user->data['user_ajax_chat_autocomplete'],
-				'S_AJAXCHAT_VIEW'			=> ($this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('u_ajaxchat_view')) ? true : false,
-				'S_AJAXCHAT_POST'			=> ($this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('u_ajaxchat_post')) ? true : false,
-				'S_AJAXCHAT_BBCODE'			=> ($this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('u_ajaxchat_bbcode')) ? true : false,
-				'M_AJAXCHAT_DELETE'			=> ($this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('m_ajaxchat_delete')) ? true : false,
-				'S_AJAX_CHAT_MESSAGES_DOWN'	=> $this->user->data['user_ajax_chat_messages_down'],
+				'U_CHAT'							=> $this->helper->route('spaceace_ajaxchat_chat'),
+				'S_SHOUT'							=> true,
+				'CHAT_RULES'						=> $chat_rules,
+				'AJAX_CHAT_SCRIPT_PATH'				=> $this->config['script_path'],
+				'AJAX_CHAT_COOKIE_NAME'				=> $this->config['cookie_name'].'_fonthold',
+				'AJAX_CHAT_EXT_PATH'				=> $this->ext_manager->get_extension_path('spaceace/ajaxchat', true),
+				'S_AJAX_CHAT_VIEW'					=> $this->user->data['user_ajax_chat_view'],
+				'S_AJAX_CHAT_AVATARS'				=> $this->user->data['user_ajax_chat_avatars'],
+				'S_AJAX_CHAT_POSITION'				=> $this->user->data['user_ajax_chat_position'],
+				'S_AJAX_CHAT_VIEWFORUM'				=> $this->user->data['user_ajax_chat_viewforum'],
+				'S_AJAX_CHAT_VIEWTOPIC'				=> $this->user->data['user_ajax_chat_viewtopic'],
+				'S_AJAX_CHAT_SOUND'					=> $this->user->data['user_ajax_chat_sound'],
+				'S_AJAX_CHAT_AVATAR_HOVER'			=> $this->user->data['user_ajax_chat_avatar_hover'],
+				'S_AJAX_CHAT_ONLINELIST'			=> $this->user->data['user_ajax_chat_onlinelist'],
+				'S_AJAX_CHAT_AUTOCOMPLETE'			=> $this->user->data['user_ajax_chat_autocomplete'],
+				'S_AJAXCHAT_VIEW'					=> ($this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('u_ajaxchat_view')) ? true : false,
+				'S_AJAXCHAT_POST'					=> ($this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('u_ajaxchat_post')) ? true : false,
+				'S_AJAXCHAT_BBCODE'					=> ($this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('u_ajaxchat_bbcode')) ? true : false,
+				'M_AJAXCHAT_DELETE'					=> ($this->user->data['user_type'] === USER_FOUNDER || $this->auth->acl_get('m_ajaxchat_delete')) ? true : false,
+				'S_AJAX_CHAT_MESSAGES_DOWN'			=> $this->user->data['user_ajax_chat_messages_down'],
+				'S_CHAT_ENABLED'					=> ($this->config['display_ajax_chat']) ? true : false,
+				'S_CHAT_NAV_LINK'					=> ($this->config['ajax_chat_nav_link']) ? true : false,
+				'S_CHAT_QUICK_LINK'					=> ($this->config['ajax_chat_quick_link']) ? true : false,
+				'S_WHOIS_CHATTING'					=> ($this->config['whois_chatting']) ? true : false,
+				'S_AJAX_CHAT_ACP_POSITION'			=> ($this->config['location_ajax_chat']) ? true : false,
+				'S_AJAX_CHAT_POSITION_OVERRIDE'		=> ($this->config['location_ajax_chat_override']) ? true : false,
+				'S_AJAX_CHAT_VIEWFORUM_OVERRIDE'	=> ($this->config['viewforum_ajax_chat_override']) ? true : false,
+				'S_AJAX_CHAT_VIEWTOPIC_OVERRIDE'	=> ($this->config['viewtopic_ajax_chat_override']) ? true : false,
+				'S_AJAX_CHAT_INPUT_FULL'			=> ($this->config['ajax_chat_input_full']) ? true : false,
+				'S_AJAX_CHAT_CHATROW_FULL'			=> ($this->config['ajax_chat_chatrow_full']) ? true : false,
 			)
 		);
 
@@ -391,7 +349,12 @@ class listener implements EventSubscriberInterface
 
 		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
 		{
-			return;
+					$this->template->assign_vars([
+						'S_READ'     => true
+						]);
+
+					$this->index();
+					return $this->helper->render('chat_body_readadd.html', $this->user->lang['CHAT_EXPLAIN']);
 		}
 
 		foreach ($rows as $row)
@@ -481,9 +444,9 @@ class listener implements EventSubscriberInterface
 					'user_login'		 => time(),
 					'user_lastupdate'	 => time(),
 				];
-				$sql = 'UPDATE ' . CHAT_SESSIONS_TABLE . '
-					SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . "
-					WHERE user_id = {$this->user->data['user_id']}";
+				$sql	 = 'UPDATE ' . CHAT_SESSIONS_TABLE . '
+					SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
+					WHERE user_id = ' . (int) $this->user->data['user_id'];
 				$this->db->sql_query($sql);
 			}
 		}
@@ -548,7 +511,7 @@ class listener implements EventSubscriberInterface
 			'LAST_ID'				=> $this->last_id,
 			'LAST_POST'				=> $last_post,
 			'TIME'					=> time(),
-			'L_VERSION'				=> '3.0.20',
+			'L_VERSION'				=> '3.0.21',
 			'STYLE_PATH'			=> generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'		=> $this->ext_path_web . 'styles/',
 			'FILENAME'				=> $this->helper->route('spaceace_ajaxchat_chat'),
@@ -604,19 +567,19 @@ class listener implements EventSubscriberInterface
 
 		if ($event['mode'] == 'reply' && $this->config['ajax_chat_forum_reply'])
 		{
-			$lang = $this->user->lang['CHAT_NEW_POST'];
+			$this->user->lang['CHAT_NEW_POST'];
 		}
 		else if ($event['mode'] == 'edit' && $this->config['ajax_chat_forum_edit'])
 		{
-			$lang = $this->user->lang['CHAT_POST_EDIT'];
+			$this->user->lang['CHAT_POST_EDIT'];
 		}
 		else if ($event['mode'] == 'post' && $this->config['ajax_chat_forum_topic'])
 		{
-			$lang = $this->user->lang['CHAT_NEW_TOPIC'];
+			$this->user->lang['CHAT_NEW_TOPIC'];
 		}
 		else if ($event['mode'] == 'quote' && $this->config['ajax_chat_forum_quote'])
 		{
-			$lang = $this->user->lang['CHAT_NEW_QUOTE'];
+			$this->user->lang['CHAT_NEW_QUOTE'];
 		}
 		else
 		{
@@ -627,19 +590,19 @@ class listener implements EventSubscriberInterface
 		$username = get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']);
 		if ($event['mode'] == 'post')
 		{
-			$message		= $this->user->lang('CHAT_NEW_TOPIC', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
+			$message = $this->user->lang('CHAT_NEW_TOPIC', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
 		}
 		else if ($event['mode'] == 'edit')
 		{
-			$message		= $this->user->lang('CHAT_POST_EDIT', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
+			$message = $this->user->lang('CHAT_POST_EDIT', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
 		}
 		else if ($event['mode'] == 'reply')
 		{
-			$message		= $this->user->lang('CHAT_NEW_POST', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
+			$message = $this->user->lang('CHAT_NEW_POST', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
 		}
 		else if ($event['mode'] == 'quote')
 		{
-			$message		= $this->user->lang('CHAT_NEW_QUOTE', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
+			$message = $this->user->lang('CHAT_NEW_QUOTE', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
 		}
 
 		$uid = $bitfield = $options = '';
@@ -761,8 +724,8 @@ class listener implements EventSubscriberInterface
 			'user_lastupdate'	 => time(),
 		];
 		$sql	 = 'UPDATE ' . CHAT_SESSIONS_TABLE . '
-			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . "
-			WHERE user_id = {$this->user->data['user_id']}";
+			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
+			WHERE user_id = ' . (int) $this->user->data['user_id'];
 		$this->db->sql_query($sql);
 
 		$sql = 'DELETE FROM ' . CHAT_SESSIONS_TABLE . ' WHERE user_lastupdate <  ' . (int) $check_time;
@@ -821,20 +784,6 @@ class listener implements EventSubscriberInterface
 			$status = 'idle';
 		}
 		return $status;
-	}
-
-	/**
-	 * Cleans the message
-	 *
-	 * @param string $message
-	 */
-	private function clean_message(&$message)
-	{
-		if (strpos($message, '---') !== false)
-		{
-			$message = str_replace('---', '–––', $message);
-			clean_message($message);
-		}
 	}
 
 	/**

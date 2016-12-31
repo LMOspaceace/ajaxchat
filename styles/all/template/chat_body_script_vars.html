@@ -1,0 +1,28 @@
+<script type="text/javascript">
+	// <![CDATA[
+		var last_time = {TIME};
+		var last_id = {LAST_ID};
+		var post_time = {LAST_POST};
+		var read_interval = ({REFRESH_TIME} * 1000);
+		var chat_empty = '{{ lang('EMPTY')|e('js') }}';
+		var ie_no_ajax = '{{ lang('IE_NO_AJAX')|e('js') }}';
+		var cookie_name = '{AJAX_CHAT_COOKIE_NAME}';
+		var upgrade_browser = '{{ lang('UPGRADE_BROWSER')|e('js') }}';
+		var query_url	= '{FILENAME}';
+		<!-- IF S_POPUP -->
+			var query_url = '{FILENAME}/popup';
+		<!-- ELSEIF S_ARCHIVE -->
+			var query_url = '{FILENAME}/archive';
+		<!-- ENDIF -->
+		<!-- IF S_AJAXCHAT_BBCODE -->
+			var chatbbcodetrue = true;
+		<!-- ELSE -->
+			var chatbbcodetrue = false;
+		<!-- ENDIF -->
+		<!-- IF S_AJAX_CHAT_MESSAGES_DOWN -->
+			var chatmessagedown = false;
+		<!-- ELSE -->
+			var chatmessagedown = true;
+		<!-- ENDIF -->
+	//]]>
+</script>

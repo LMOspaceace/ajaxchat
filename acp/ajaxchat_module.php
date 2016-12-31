@@ -124,7 +124,7 @@ class ajaxchat_module
 				'prune_ajax_chat'				=> ['lang' => 'PRUNE_AJAX_CHAT', 'validate' => 'bool', 'type' => 'radio:enabled_enabled', 'explain' => true],
 				'prune_keep_ajax_chat'			=> ['lang' => 'PRUNE_KEEP_AJAX_CHAT', 'validate' => 'int', 'type' => 'number', 'explain' => false],
 				'prune_now'						=> ['lang' => 'PRUNE_NOW', 'validate' => 'bool', 'type' => 'custom', 'explain' => false, 'method' => 'prune_chat'],
-				'truncate_now'					=> ['lang' => 'TRUNCATE_NOW', 'validate' => 'bool', 'type' => 'custom', 'explain' => false, 'method' => 'truncate_chat'],
+				'truncate_now'					=> ['lang' => 'TRUNCATE_NOW', 'validate' => 'bool', 'type' => 'custom', 'explain' => true, 'method' => 'truncate_chat'],
 				'ajax_chat_counter'				=> ['lang' => 'CHAT_COUNTER', 'validate' => 'bool', 'type' => 'custom', 'explain' => false, 'method' => 'chat_counter'],
 				'legend6'						=> 'ACP_SUBMIT_CHANGES'
 			],
@@ -206,7 +206,7 @@ class ajaxchat_module
 
 				if ($this->request->is_ajax())
 				{
-					trigger_error($this->user->lang['PRUNE_CHAT_SUCCESS']);
+					trigger_error($this->user->lang['PRUNE_CHAT_SUCCESS'] . adm_back_link($this->u_action));
 				}
 			}
 		}
@@ -250,7 +250,7 @@ class ajaxchat_module
 
 				if ($this->request->is_ajax())
 				{
-					trigger_error($this->user->lang['TRUNCATE_CHAT_SUCCESS']);
+					trigger_error($this->user->lang['TRUNCATE_CHAT_SUCCESS'] . adm_back_link($this->u_action));
 				}
 			}
 		}

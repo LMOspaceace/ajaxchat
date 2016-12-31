@@ -102,6 +102,7 @@ $lang = array_merge(
 		'PRUNE_CHAT_SUCCESS'						=> 'Chat table pruned successfully!',
 		'CONFIRM_PRUNE_AJAXCHAT'					=> 'Confirm that you really want to prune the chat database.',
 		'TRUNCATE_NOW'								=> 'Truncate Now',
+		'TRUNCATE_NOW_EXPLAIN'						=> 'Deletes all chat messages from the database table.',
 		'CONFIRM_TRUNCATE_AJAXCHAT'					=> 'Confirm that you really want to truncate the chat database.',
 		'TRUNCATE_LOG_AJAXCHAT'						=> 'Truncated chat table',
 		'TRUNCATE_CHAT_SUCCESS'						=> 'Chat table truncated',

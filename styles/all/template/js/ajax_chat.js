@@ -44,7 +44,7 @@ var xmlHttp = http_object();
 var type = 'receive';
 var d = new Date();
 var post_time = d.getTime();
-var interval = setInterval('handle_send("read", last_id);', read_interval* 1000);
+var interval = setInterval('handle_send("read", last_id);', read_interval);
 var name = getCookie(cookie_name);
 
 if (chatbbcodetrue)
@@ -185,12 +185,6 @@ function handle_return()
 		}
 		indicator_switch('off');
 	}
-}
-
-function edit_post(chat_id)
-{
-	//message = document.getElementId('message').value;
-	//console.log(message);
 }
 
 function delete_post(chatid)
