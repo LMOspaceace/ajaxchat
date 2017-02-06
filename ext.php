@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * Ajax Chat extension for phpBB.
@@ -10,7 +11,7 @@
 
 namespace spaceace\ajaxchat;
 
- /**
+/**
 * Extension class for custom enable/disable/purge actions
 */
 class ext extends \phpbb\extension\base
