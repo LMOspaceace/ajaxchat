@@ -146,13 +146,6 @@ function handle_return()
 		} else if (type !== 'delete') {
 			if (results[1])
 			{
-				jQuery(function($) {
-
-					'use strict';
-
-					$(fieldname).append(results[0]);
-				});
-
 				if (last_id === 0)
 				{
 					document.getElementById(fieldname).innerHTML = results[0];
