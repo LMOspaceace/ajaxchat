@@ -992,7 +992,7 @@ class chat
 				'',
 				'',
 			];
-			$texts				= generate_text_for_edit($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']);
+			$texts				= generate_text_for_edit($row['message'], $row['bbcode_uid'], (int) $row['bbcode_options']);
 			$cleaned_text		= preg_replace($patterns, $replacement, html_entity_decode($texts['text'], ENT_QUOTES));
 
 			$new_text = '[quote="' . $row['username'] . '"] ' . $cleaned_text . ' [/quote]--!--';
