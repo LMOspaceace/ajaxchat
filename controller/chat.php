@@ -908,8 +908,8 @@ class chat
 			{
 				$time = $this->user->data['user_dateformat'];
 			}
-                        $username_full         = $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST']));
-                        $username_full_cleaned = preg_replace('#(?<=href=")[\./]+?/(?=\w)#', generate_board_url() . '/', $username_full);
+			$username_full         = $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST']));
+			$username_full_cleaned = preg_replace('#(?<=href=")[\./]+?/(?=\w)#', generate_board_url() . '/', $username_full);
 
 			$this->template->assign_block_vars('chatrow', [
 				'MESSAGE_ID'		 => $row['message_id'],
