@@ -908,10 +908,12 @@ class chat
 			{
 				$time = $this->user->data['user_dateformat'];
 			}
+                        $username_full         = $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST']));
+                        $username_full_cleaned = preg_replace('#(?<=href=")[\./]+?/(?=\w)#', generate_board_url() . '/', $username_full);
 
 			$this->template->assign_block_vars('chatrow', [
 				'MESSAGE_ID'		 => $row['message_id'],
-				'USERNAME_FULL'		 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
+				'USERNAME_FULL'		 => $username_full_cleaned,
 				'USERNAME_A'		 => $row['username'],
 				'USER_COLOR'		 => $row['user_colour'],
 				'MESSAGE'			 => generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']),
