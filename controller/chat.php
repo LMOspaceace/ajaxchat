@@ -14,6 +14,7 @@ namespace spaceace\ajaxchat\controller;
 use phpbb\user;
 use phpbb\template\template;
 use phpbb\db\driver\driver_interface as db_driver;
+use phpbb\exception\http_exception;
 use phpbb\auth\auth;
 use phpbb\request\request;
 use phpbb\controller\helper;
@@ -70,7 +71,10 @@ class chat
 	protected $php_ext;
 
 	/** @var string */
-	protected $table_prefix;
+	protected $chat_session_table;
+
+	/** @var string */
+	protected $chat_table;
 
 	/** @var int */
 	protected $default_delay = 15;
@@ -131,21 +135,22 @@ class chat
 	 * @param string		$root_path
 	 * @param string		$php_ext
 	 */
-	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, manager $ext_manager, path_helper $path_helper, Container $container, $table_prefix, $root_path, $php_ext)
+	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, manager $ext_manager, path_helper $path_helper, Container $container, $chat_table, $chat_session_table, $root_path, $php_ext)
 	{
-		$this->template		 = $template;
-		$this->user			 = $user;
-		$this->db			 = $db;
-		$this->auth			 = $auth;
-		$this->request		 = $request;
-		$this->helper		 = $helper;
-		$this->config		 = $config;
-		$this->root_path	 = $root_path;
-		$this->php_ext		 = $php_ext;
-		$this->ext_manager	 = $ext_manager;
-		$this->path_helper	 = $path_helper;
-		$this->container	 = $container;
-		$this->table_prefix	 = $table_prefix;
+		$this->template				= $template;
+		$this->user					= $user;
+		$this->db					= $db;
+		$this->auth					= $auth;
+		$this->request				= $request;
+		$this->helper				= $helper;
+		$this->config				= $config;
+		$this->root_path			= $root_path;
+		$this->php_ext				= $php_ext;
+		$this->ext_manager			= $ext_manager;
+		$this->path_helper			= $path_helper;
+		$this->container			= $container;
+		$this->chat_table			= $chat_table;
+		$this->chat_session_table	= $chat_session_table;
 		$this->user->add_lang('posting');
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
 		// sets desired status times
@@ -161,22 +166,9 @@ class chat
 			'offline'	 => $this->config['delay_offline_chat'],
 		];
 
-		if (!defined('CHAT_TABLE'))
-		{
-			$chat_table = $this->table_prefix . 'ajax_chat';
-			define('CHAT_TABLE', $chat_table);
-		}
-
-		if (!defined('CHAT_SESSIONS_TABLE'))
-		{
-			$chat_session_table = $this->table_prefix . 'ajax_chat_sessions';
-			define('CHAT_SESSIONS_TABLE', $chat_session_table);
-		}
-
 		$this->ext_path		 = $this->ext_manager->get_extension_path('spaceace/ajaxchat', true);
 		$this->ext_path_web	 = $this->path_helper->update_web_root_path($this->ext_path);
 
-		//fixes smilies and avatar not loading properly on index page
 		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
 		{
 			define('PHPBB_USE_BOARD_URL_PATH', true);
@@ -206,7 +198,7 @@ class chat
 		$url_status		 = ($this->config['allow_post_links']) ? true : false;
 		$quote_status	 = true;
 
-		$sql	 = 'SELECT user_lastpost FROM ' . CHAT_SESSIONS_TABLE . ' WHERE user_id = ' . (int) $this->user->data['user_id'];
+		$sql	 = 'SELECT user_lastpost FROM ' . $this->chat_session_table . ' WHERE user_id = ' . (int) $this->user->data['user_id'];
 		$result	 = $this->db->sql_query($sql);
 		$row	 = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -293,31 +285,12 @@ class chat
 	 */
 	public function defaultAction($page)
 	{
-		//Sets message amount depending on page being used
-		if ($page === 'popup')
-		{
-			$chat_message_total		= $this->config['ajax_chat_popup_amount'];
-		}
+		$chat_message_total = $this->set_chat_msg_total($page);
 
-		if ($page === 'chat')
-		{
-			$chat_message_total		= $this->config['ajax_chat_chat_amount'];
-		}
-
-		if ($page === 'archive')
-		{
-			$chat_message_total		= $this->config['ajax_chat_archive_amount'];
-		}
-
-		// sets a few variables before the actions
-		$this->mode			 = $this->request->variable('mode', 'default');
-		$this->last_id		 = $this->request->variable('last_id', 0);
-		$this->last_time	 = $this->request->variable('last_time', 0);
-		$this->post_time	 = $this->request->variable('last_post', 0);
-		$this->read_interval = $this->request->variable('read_interval', 5000);
+		$this->request_variables();
 
 		$sql	 = 'SELECT c.*, p.post_visibility, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
-			FROM ' . CHAT_TABLE . ' as c
+			FROM ' . $this->chat_table . ' as c
 			LEFT JOIN ' . USERS_TABLE . ' as u ON c.user_id = u.user_id
 			LEFT JOIN ' . POSTS_TABLE . ' as p ON c.post_id = p.post_id
 			WHERE c.message_id > ' . (int) $this->last_id . '
@@ -385,7 +358,7 @@ class chat
 		if ($this->user->data['user_type'] == USER_FOUNDER || $this->user->data['user_type'] == USER_NORMAL)
 		{
 			$sql	 = 'SELECT *
-				FROM ' . CHAT_SESSIONS_TABLE . '
+				FROM ' . $this->chat_session_table . '
 				WHERE user_id = ' . (int) $this->user->data['user_id'];
 			$result	 = $this->db->sql_query($sql);
 			$row	 = $this->db->sql_fetchrow($result);
@@ -400,7 +373,7 @@ class chat
 					'user_login'		 => time(),
 					'user_lastupdate'	 => time(),
 				];
-				$sql	 = 'INSERT INTO ' . CHAT_SESSIONS_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
+				$sql	 = 'INSERT INTO ' . $this->chat_session_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
 				$this->db->sql_query($sql);
 			}
 			else
@@ -411,7 +384,7 @@ class chat
 					'user_login'		 => time(),
 					'user_lastupdate'	 => time(),
 				];
-				$sql	 = 'UPDATE ' . CHAT_SESSIONS_TABLE . '
+				$sql	 = 'UPDATE ' . $this->chat_session_table . '
 					SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
 					WHERE user_id = ' .  (int) $this->user->data['user_id'];
 				$this->db->sql_query($sql);
@@ -436,16 +409,16 @@ class chat
 			'user_colour'		 => $this->user->data['user_colour'],
 			'user_lastupdate'	 => time(),
 		];
-		$sql	 = 'UPDATE ' . CHAT_SESSIONS_TABLE . '
+		$sql	 = 'UPDATE ' . $this->chat_session_table . '
 			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
 			WHERE user_id = ' . (int) $this->user->data['user_id'];
 		$this->db->sql_query($sql);
 
-		$sql = 'DELETE FROM ' . CHAT_SESSIONS_TABLE . ' WHERE user_lastupdate <  ' . (int) $check_time;
+		$sql = 'DELETE FROM ' . $this->chat_session_table . ' WHERE user_lastupdate <  ' . (int) $check_time;
 		$this->db->sql_query($sql);
 
 		$sql	 = 'SELECT *
-			FROM ' . CHAT_SESSIONS_TABLE . '
+			FROM ' . $this->chat_session_table . '
 			WHERE user_lastupdate > ' . (int) $check_time . '
 			ORDER BY username ASC';
 		$result	 = $this->db->sql_query($sql);
@@ -522,17 +495,12 @@ class chat
 	 */
 	public function readAction()
 	{
-		// sets a few variables before the actions
-		$this->mode			 = $this->request->variable('mode', 'default');
-		$this->last_id		 = $this->request->variable('last_id', 0);
-		$this->last_time	 = $this->request->variable('last_time', 0);
-		$this->post_time	 = $this->request->variable('last_post', 0);
-		$this->read_interval     = $this->request->variable('read_interval', 5000);
+		$this->request_variables();
 
 		$chat_message_total  = "";
 
 		$sql	 = 'SELECT c.*, p.post_visibility, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
-			FROM ' . CHAT_TABLE . ' as c
+			FROM ' . $this->chat_table . ' as c
 			LEFT JOIN ' . USERS_TABLE . ' as u ON c.user_id = u.user_id
 			LEFT JOIN ' . POSTS_TABLE . ' as p ON c.post_id = p.post_id
 			WHERE c.message_id > ' . (int) $this->last_id . '
@@ -626,7 +594,7 @@ class chat
 				'user_colour'		 => $this->user->data['user_colour'],
 				'user_lastupdate'	 => time(),
 			];
-			$sql	 = 'UPDATE ' . CHAT_SESSIONS_TABLE . '
+			$sql	 = 'UPDATE ' . $this->chat_session_table . '
 				SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
 				WHERE user_id = ' . (int) $this->user->data['user_id'];
 			$result	 = $this->db->sql_query($sql);
@@ -644,16 +612,12 @@ class chat
 	 */
 	public function editAction($chat_id)
 	{
-		// sets a few variables before the actions
-		$this->mode			 = $this->request->variable('mode', 'default');
-		$this->last_id		 = $chat_id;
-		$this->last_time	 = $this->request->variable('last_time', 0);
-		$this->post_time	 = $this->request->variable('last_post', 0);
-		$this->read_interval = $this->request->variable('read_interval', 5000);
-		$submit				 = $this->request->is_set_post('submit');
+		$this->request_variables();
 
+		$submit				 = $this->request->is_set_post('submit');
+		$this->last_id		 = $chat_id;
 		$sql	= 'SELECT message, user_id, bbcode_uid, bbcode_bitfield, bbcode_options
-			FROM ' . CHAT_TABLE . '
+			FROM ' . $this->chat_table . '
 			WHERE message_id = ' . (int) $chat_id;
 		$result	 = $this->db->sql_query($sql);
 		$row	 = $this->db->sql_fetchrow($result);
@@ -661,7 +625,7 @@ class chat
 
 		if (!$row || ($this->user->data['user_type'] !== USER_FOUNDER && !$this->auth->acl_get('u_ajaxchat_edit') && $this->user->data['user_id'] !== $row['user_id']))
 		{
-			throw new \phpbb\exception\http_exception(403, 'NO_EDIT_PERMISSION');
+			throw new http_exception(403, 'NO_EDIT_PERMISSION');
 		}
 
 		if ($submit)
@@ -683,13 +647,13 @@ class chat
 					'bbcode_bitfield'	 => $bitfield,
 					'bbcode_options'	 => $flags
 				];
-				$sql	 = 'UPDATE ' . CHAT_TABLE . '
+				$sql	 = 'UPDATE ' . $this->chat_table . '
 						SET ' . $this->db->sql_build_array('UPDATE', $sql_ary)
 						. ' WHERE message_id = ' . (int) $chat_id;
 				$this->db->sql_query($sql);
 
 				$sql	 = 'SELECT c.*, p.post_visibility, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
-					FROM ' . CHAT_TABLE . ' as c
+					FROM ' . $this->chat_table . ' as c
 					LEFT JOIN ' . USERS_TABLE . ' as u ON c.user_id = u.user_id
 					LEFT JOIN ' . POSTS_TABLE . ' as p ON c.post_id = p.post_id
 					WHERE c.message_id = ' . (int) $chat_id . '
@@ -799,12 +763,7 @@ class chat
 			return;
 		}
 
-		// sets a few variables before the actions
-		$this->mode			 = $this->request->variable('mode', 'default');
-		$this->last_id		 = $this->request->variable('last_id', 0);
-		$this->last_time	 = $this->request->variable('last_time', 0);
-		$this->post_time	 = $this->request->variable('last_post', 0);
-		$this->read_interval = $this->request->variable('read_interval', 5000);
+		$this->request_variables();
 		$chat_message_total  = "";
 		$this->get	 = true;
 		$message	 = $this->request->variable('message', '', true);
@@ -830,7 +789,7 @@ class chat
 			'bbcode_options'	 => $options,
 			'time'				 => time(),
 		];
-		$sql	 = 'INSERT INTO ' . CHAT_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
+		$sql	 = 'INSERT INTO ' . $this->chat_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
 		$this->db->sql_query($sql);
 
 		$sql_ary2	 = [
@@ -839,13 +798,13 @@ class chat
 			'user_lastpost'		 => time(),
 			'user_lastupdate'	 => time(),
 		];
-		$sql	 = 'UPDATE ' . CHAT_SESSIONS_TABLE . '
+		$sql	 = 'UPDATE ' . $this->chat_session_table . '
 			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary2) . '
 			WHERE user_id = ' . (int) $this->user->data['user_id'];
 		$result		 = $this->db->sql_query($sql);
 
 		$sql	 = 'SELECT c.*, p.post_visibility, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
-			FROM ' . CHAT_TABLE . ' as c
+			FROM ' . $this->chat_table . ' as c
 			LEFT JOIN ' . USERS_TABLE . ' as u ON c.user_id = u.user_id
 			LEFT JOIN ' . POSTS_TABLE . ' as p ON c.post_id = p.post_id
 			WHERE c.message_id > ' . (int) $this->last_id . '
@@ -949,7 +908,7 @@ class chat
 			return;
 		}
 
-		$sql = 'DELETE FROM ' . CHAT_TABLE . ' WHERE message_id = ' . (int) $chat_id;
+		$sql = 'DELETE FROM ' . $this->chat_table . ' WHERE message_id = ' . (int) $chat_id;
 		$this->db->sql_query($sql);
 		return;
 	}
@@ -978,7 +937,7 @@ class chat
 		}
 
 		$sql	 = 'SELECT username, message, bbcode_uid, bbcode_bitfield, bbcode_options
-			FROM ' . CHAT_TABLE . '
+			FROM ' . $this->chat_table . '
 			WHERE message_id = ' . (int) $chat_id;
 		$result	 = $this->db->sql_query($sql);
 		$row	 = $this->db->sql_fetchrow($result);
@@ -1006,4 +965,30 @@ class chat
 		}
 	}
 
+	public function request_variables()
+	{
+		// sets a few variables before the actions
+		$this->mode			 = $this->request->variable('mode', 'default');
+		$this->last_id		 = $this->request->variable('last_id', 0);
+		$this->last_time	 = $this->request->variable('last_time', 0);
+		$this->post_time	 = $this->request->variable('last_post', 0);
+		$this->read_interval     = $this->request->variable('read_interval', 5000);
+	}
+
+	protected function set_chat_msg_total($page)
+	{
+		//Sets message amount depending on page being used
+		if ($page === 'popup')
+		{
+			return $this->config['ajax_chat_popup_amount'];
+		}
+		else if ($page === 'chat')
+		{
+			return $this->config['ajax_chat_chat_amount'];
+		}
+		else if ($page === 'archive')
+		{
+			return $this->config['ajax_chat_archive_amount'];
+		}
+	}
 }
