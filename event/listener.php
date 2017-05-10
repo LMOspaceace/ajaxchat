@@ -20,6 +20,7 @@ use phpbb\controller\helper;
 use phpbb\config\db;
 use phpbb\path_helper;
 use phpbb\extension\manager;
+use spaceace\ajaxchat\controller\chat;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -141,26 +142,26 @@ class listener implements EventSubscriberInterface
 	 * @param string		$root_path
 	 * @param string		$php_ext
 	 */
-	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, $config_text, manager $ext_manager, path_helper $path_helper, Container $container, $table_prefix, $root_path, $php_ext, \spaceace\ajaxchat\controller\chat $chat)
+	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, $config_text, manager $ext_manager, path_helper $path_helper, Container $container, $chat_table, $chat_session_table, $root_path, $php_ext, chat $chat)
 	{
-		$this->template			= $template;
-		$this->user				= $user;
-		$this->db				= $db;
-		$this->auth				= $auth;
-		$this->request			= $request;
-		$this->helper			= $helper;
-		$this->config			= $config;
-		$this->config_text		= $config_text;
-		$this->root_path		= $root_path;
-		$this->php_ext			= $php_ext;
-		$this->ext_manager		= $ext_manager;
-		$this->path_helper		= $path_helper;
-		$this->container		= $container;
-		$this->table_prefix		= $table_prefix;
-		$this->chat				= $chat;
-
-		$this->is_phpbb31	= phpbb_version_compare($config['version'], '3.1.0@dev', '>=') && phpbb_version_compare($config['version'], '3.2.0@dev', '<');
-		$this->is_phpbb32	= phpbb_version_compare($config['version'], '3.2.0@dev', '>=') && phpbb_version_compare($config['version'], '3.3.0@dev', '<');
+		$this->template				= $template;
+		$this->user					= $user;
+		$this->db					= $db;
+		$this->auth					= $auth;
+		$this->request				= $request;
+		$this->helper				= $helper;
+		$this->config				= $config;
+		$this->config_text			= $config_text;
+		$this->root_path			= $root_path;
+		$this->php_ext				= $php_ext;
+		$this->ext_manager			= $ext_manager;
+		$this->path_helper			= $path_helper;
+		$this->container			= $container;
+		$this->chat_table			= $chat_table;
+		$this->chat_session_table	= $chat_session_table;
+		$this->chat					= $chat;
+		$this->is_phpbb31			= phpbb_version_compare($config['version'], '3.1.0@dev', '>=') && phpbb_version_compare($config['version'], '3.2.0@dev', '<');
+		$this->is_phpbb32			= phpbb_version_compare($config['version'], '3.2.0@dev', '>=') && phpbb_version_compare($config['version'], '3.3.0@dev', '<');
 
 		$this->template->assign_vars(array(
 			'IS_PHPBB31' => $this->is_phpbb31,
@@ -206,10 +207,6 @@ class listener implements EventSubscriberInterface
 	 */
 	public function page_header()
 	{
-		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
-		{
-			define('PHPBB_USE_BOARD_URL_PATH', true);
-		}
 
 		$this->times = [
 			'online'	 => $this->config['status_online_chat'],
@@ -275,6 +272,7 @@ class listener implements EventSubscriberInterface
 		{
 			$this->template->assign_var('S_AJAX_CHAT_VIEW', $this->config['index_display_ajax_chat']);
 		}
+		
 	}
 
 	/**
@@ -306,26 +304,12 @@ class listener implements EventSubscriberInterface
 		{
 			$this->prune();
 		}
-
 		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
 		{
 			define('PHPBB_USE_BOARD_URL_PATH', true);
 		}
-
 		$this->user->add_lang('posting');
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
-
-		if (!defined('CHAT_TABLE'))
-		{
-			$chat_table = $this->table_prefix . 'ajax_chat';
-			define('CHAT_TABLE', $chat_table);
-		}
-
-		if (!defined('CHAT_SESSIONS_TABLE'))
-		{
-			$chat_session_table = $this->table_prefix . 'ajax_chat_sessions';
-			define('CHAT_SESSIONS_TABLE', $chat_session_table);
-		}
 
 		$this->mode			 = $this->request->variable('mode', 'default');
 		$this->last_id		 = $this->request->variable('last_id', 0);
@@ -339,7 +323,7 @@ class listener implements EventSubscriberInterface
 		];
 
 		$sql = 'SELECT c.*, p.post_visibility, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
-			FROM ' . CHAT_TABLE . ' as c
+			FROM ' . $this->chat_table . ' as c
 			LEFT JOIN ' . USERS_TABLE . ' as u ON c.user_id = u.user_id
 			LEFT JOIN ' . POSTS_TABLE . ' as p ON c.post_id = p.post_id
 			WHERE c.message_id > ' . (int) $this->last_id . '
@@ -418,7 +402,7 @@ class listener implements EventSubscriberInterface
 		if ($this->user->data['user_type'] == USER_FOUNDER || $this->user->data['user_type'] == USER_NORMAL)
 		{
 			$sql	 = 'SELECT *
-				FROM ' . CHAT_SESSIONS_TABLE . '
+				FROM ' . $this->chat_session_table . '
 				WHERE user_id = ' . (int) $this->user->data['user_id'];
 			$result	 = $this->db->sql_query($sql);
 			$row	 = $this->db->sql_fetchrow($result);
@@ -433,7 +417,7 @@ class listener implements EventSubscriberInterface
 					'user_login'		 => time(),
 					'user_lastupdate'	 => time(),
 				];
-				$sql = 'INSERT INTO ' . CHAT_SESSIONS_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
+				$sql = 'INSERT INTO ' . $this->chat_session_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
 				$this->db->sql_query($sql);
 			}
 			else
@@ -444,98 +428,14 @@ class listener implements EventSubscriberInterface
 					'user_login'		 => time(),
 					'user_lastupdate'	 => time(),
 				];
-				$sql	 = 'UPDATE ' . CHAT_SESSIONS_TABLE . '
+				$sql	 = 'UPDATE ' . $this->chat_session_table . '
 					SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
 					WHERE user_id = ' . (int) $this->user->data['user_id'];
 				$this->db->sql_query($sql);
 			}
 		}
-
-		$bbcode_status		= ($this->config['allow_bbcode'] && $this->config['auth_bbcode_pm'] && $this->auth->acl_get('u_ajaxchat_bbcode')) ? true : false;
-		$smilies_status		= ($this->config['allow_smilies'] && $this->config['auth_smilies_pm'] && $this->auth->acl_get('u_pm_smilies')) ? true : false;
-		$img_status			= ($this->config['auth_img_pm'] && $this->auth->acl_get('u_pm_img')) ? true : false;
-		$flash_status		= ($this->config['auth_flash_pm'] && $this->auth->acl_get('u_pm_flash')) ? true : false;
-		$url_status			= ($this->config['allow_post_links']) ? true : false;
-		$quote_status		= true;
-		$this->mode			= strtoupper($this->mode);
-
-		$sql	 = 'SELECT user_lastpost FROM ' . CHAT_SESSIONS_TABLE . ' WHERE user_id = ' . (int) $this->user->data['user_id'];
-		$result	 = $this->db->sql_query($sql);
-		$row	 = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);
-
-		if ($this->get_status($row['user_lastpost']) === 'online')
-		{
-			$refresh = $this->config['refresh_online_chat'];
-		}
-		else if ($this->get_status($row['user_lastpost']) === 'idle')
-		{
-			$refresh = $this->config['refresh_idle_chat'];
-		}
-		else if ($this->user->data['user_id'] === ANONYMOUS || $this->get_status($row['user_lastpost']) === 'offline')
-		{
-			$refresh = $this->config['refresh_offline_chat'];
-		}
-		else
-		{
-			$refresh = $this->config['refresh_offline_chat'];
-		}
-
-		if ($this->user->data['user_id'] === ANONYMOUS || $row['user_lastpost'] === null)
-		{
-			$last_post = 0;
-		}
-		else
-		{
-			$last_post = $row['user_lastpost'];
-		}
-
-		add_form_key('ajax_chat_post');
-
-		//Assign the features template variable
-		$this->template->assign_vars([
-			'BBCODE_STATUS'			=> ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
-			'IMG_STATUS'			=> ($img_status) ? $this->user->lang['IMAGES_ARE_ON'] : $this->user->lang['IMAGES_ARE_OFF'],
-			'FLASH_STATUS'			=> ($flash_status) ? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
-			'SMILIES_STATUS'		=> ($smilies_status) ? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
-			'URL_STATUS'			=> ($url_status) ? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
-			'S_LINKS_ALLOWED'		=> $url_status,
-			'S_COMPOSE_PM'			=> true,
-			'S_BBCODE_ALLOWED'		=> $bbcode_status,
-			'S_SMILIES_ALLOWED'		=> $smilies_status,
-			'S_BBCODE_IMG'			=> $img_status,
-			'S_BBCODE_FLASH'		=> $flash_status,
-			'S_BBCODE_QUOTE'		=> $quote_status,
-			'S_BBCODE_URL'			=> $url_status,
-			'REFRESH_TIME'			=> $refresh,
-			'LAST_ID'				=> $this->last_id,
-			'LAST_POST'				=> $last_post,
-			'TIME'					=> time(),
-			'L_VERSION'				=> '3.0.22',
-			'STYLE_PATH'			=> generate_board_url() . '/styles/' . $this->user->style['style_path'],
-			'EXT_STYLE_PATH'		=> $this->ext_path_web . 'styles/',
-			'FILENAME'				=> $this->helper->route('spaceace_ajaxchat_chat'),
-			'S_GET_CHAT'			=> ($this->get) ? true : false,
-			'S_' . $this->mode		=> true,
-		]);
-
-		// Generate smiley listing
-		if (!function_exists('generate_smilies'))
-		{
-			include($this->root_path . 'includes/functions_posting.' . $this->php_ext);
-		}
-
-		generate_smilies('inline', 0);
-
-		// Build custom bbcodes array
-		if (!function_exists('display_custom_bbcodes'))
-		{
-			include($this->root_path . 'includes/functions_display.' . $this->php_ext);
-		}
-
-		display_custom_bbcodes();
-
-		$this->whois_online();
+		
+		$this->chat->index();
 	}
 
 	/**
@@ -549,18 +449,6 @@ class listener implements EventSubscriberInterface
 		if (!$this->config['ajax_chat_forum_posts'])
 		{
 			return;
-		}
-
-		if (!defined('CHAT_TABLE'))
-		{
-			$chat_table = $this->table_prefix . 'ajax_chat';
-			define('CHAT_TABLE', $chat_table);
-		}
-
-		if (!defined('CHAT_SESSIONS_TABLE'))
-		{
-			$chat_session_table = $this->table_prefix . 'ajax_chat_sessions';
-			define('CHAT_SESSIONS_TABLE', $chat_session_table);
 		}
 
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
@@ -621,7 +509,7 @@ class listener implements EventSubscriberInterface
 			'forum_id'			 => $event['forum_id'],
 			'post_id'			 => $event['data']['post_id'],
 		);
-		$sql = 'INSERT INTO ' . CHAT_TABLE . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
+		$sql = 'INSERT INTO ' . $this->chat_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
 		$this->db->sql_query($sql);
 	}
 
@@ -709,62 +597,7 @@ class listener implements EventSubscriberInterface
 		$event['sql_ary'] = $sql_ary;
 	}
 
-	/**
-	 * grabs the list of the active users participating in chat
-	 *
-	 * @return boolean
-	 */
-	private function whois_online()
-	{
-		$check_time = time() - $this->session_time;
-
-		$sql_ary = [
-			'username'			 => $this->user->data['username'],
-			'user_colour'		 => $this->user->data['user_colour'],
-			'user_lastupdate'	 => time(),
-		];
-		$sql	 = 'UPDATE ' . CHAT_SESSIONS_TABLE . '
-			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
-			WHERE user_id = ' . (int) $this->user->data['user_id'];
-		$this->db->sql_query($sql);
-
-		$sql = 'DELETE FROM ' . CHAT_SESSIONS_TABLE . ' WHERE user_lastupdate <  ' . (int) $check_time;
-		$this->db->sql_query($sql);
-
-		$sql	 = 'SELECT *
-			FROM ' . CHAT_SESSIONS_TABLE . '
-			WHERE user_lastupdate > ' . (int) $check_time . '
-			ORDER BY username ASC';
-		$result	 = $this->db->sql_query($sql);
-
-		$status_time = time();
-		while ($row		 = $this->db->sql_fetchrow($result))
-		{
-			if ($this->check_hidden($row['user_id']) === false)
-			{
-				continue;
-			}
-			if ($row['user_id'] == $this->user->data['user_id'])
-			{
-				$this->last_post = $row['user_lastpost'];
-				$login_time		 = $row['user_login'];
-				$status_time	 = ($this->last_post > $login_time) ? $this->last_post : $login_time;
-			}
-			$status = $this->get_status($row['user_lastpost']);
-			$this->template->assign_block_vars('whoisrow', [
-				'USERNAME_FULL'	 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
-				'USER_COLOR'	 => $row['user_colour'],
-				'USER_STATUS'	 => $status,
-			]);
-		}
-		$this->db->sql_freeresult($result);
-
-		$this->template->assign_vars([
-			'LAST_TIME'		 => time(),
-			'S_WHOISONLINE'	 => true,
-		]);
-		return false;
-	}
+	
 
 	/**
 	 * Calculate the status of each user

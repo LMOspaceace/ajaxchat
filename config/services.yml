@@ -1,3 +1,7 @@
+parameters:
+    chat_table: '%core.table_prefix%ajax_chat'
+    chat_session_table: '%core.table_prefix%ajax_chat_sessions'
+    
 services:
     spaceace.ajaxchat.listener:
         class: spaceace\ajaxchat\event\listener
@@ -13,7 +17,8 @@ services:
             - '@ext.manager'
             - '@path_helper'
             - '@service_container'
-            - '%core.table_prefix%'
+            - '%chat_table%'
+            - '%chat_session_table%'
             - '%core.root_path%'
             - '%core.php_ext%'
             - '@spaceace.ajaxchat.chat.controller'
@@ -32,39 +37,8 @@ services:
             - '@ext.manager'
             - '@path_helper'
             - '@service_container'
-            - '%core.table_prefix%'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-    spaceace.ajaxchat.popup.controller:
-        class: spaceace\ajaxchat\controller\chat
-        arguments:
-            - '@template'
-            - '@user'
-            - '@dbal.conn'
-            - '@auth'
-            - '@request'
-            - '@controller.helper'
-            - '@config'
-            - '@ext.manager'
-            - '@path_helper'
-            - '@service_container'
-            - '%core.table_prefix%'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-    spaceace.ajaxchat.archive.controller:
-        class: spaceace\ajaxchat\controller\chat
-        arguments:
-            - '@template'
-            - '@user'
-            - '@dbal.conn'
-            - '@auth'
-            - '@request'
-            - '@controller.helper'
-            - '@config'
-            - '@ext.manager'
-            - '@path_helper'
-            - '@service_container'
-            - '%core.table_prefix%'
+            - '%chat_table%'
+            - '%chat_session_table%'
             - '%core.root_path%'
             - '%core.php_ext%'
     spaceace.ajaxchat.cron.task.prune_ajaxchat:
