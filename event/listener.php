@@ -272,7 +272,6 @@ class listener implements EventSubscriberInterface
 		{
 			$this->template->assign_var('S_AJAX_CHAT_VIEW', $this->config['index_display_ajax_chat']);
 		}
-		
 	}
 
 	/**
@@ -431,7 +430,6 @@ class listener implements EventSubscriberInterface
 				$this->db->sql_query($sql);
 			}
 		}
-		
 		$this->chat->index();
 	}
 
@@ -593,8 +591,6 @@ class listener implements EventSubscriberInterface
 		));
 		$event['sql_ary'] = $sql_ary;
 	}
-
-	
 
 	/**
 	 * Calculate the status of each user

@@ -72,7 +72,7 @@ class chat
 
 	/** @var string */
 	protected $chat_session_table;
-	
+
 	/** @var string */
 	protected $chat_table;
 
@@ -168,7 +168,7 @@ class chat
 
 		$this->ext_path		 = $this->ext_manager->get_extension_path('spaceace/ajaxchat', true);
 		$this->ext_path_web	 = $this->path_helper->update_web_root_path($this->ext_path);
-		
+
 		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
 		{
 			define('PHPBB_USE_BOARD_URL_PATH', true);
@@ -613,7 +613,7 @@ class chat
 	public function editAction($chat_id)
 	{
 		$this->request_variables();
-		
+
 		$submit				 = $this->request->is_set_post('submit');
 		$this->last_id		 = $chat_id;
 		$sql	= 'SELECT message, user_id, bbcode_uid, bbcode_bitfield, bbcode_options
@@ -868,7 +868,7 @@ class chat
 				$time = $this->user->data['user_dateformat'];
 			}
 			$username_full         = $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST']));
-            $username_full_cleaned = preg_replace('#(?<=href=")[\./]+?/(?=\w)#', generate_board_url() . '/', $username_full);
+			$username_full_cleaned = preg_replace('#(?<=href=")[\./]+?/(?=\w)#', generate_board_url() . '/', $username_full);
 
 			$this->template->assign_block_vars('chatrow', [
 				'MESSAGE_ID'		 => $row['message_id'],
@@ -965,7 +965,8 @@ class chat
 		}
 	}
 
-	public function request_variables() {
+	public function request_variables()
+	{
 		// sets a few variables before the actions
 		$this->mode			 = $this->request->variable('mode', 'default');
 		$this->last_id		 = $this->request->variable('last_id', 0);
@@ -974,20 +975,20 @@ class chat
 		$this->read_interval     = $this->request->variable('read_interval', 5000);
 	}
 
-	protected function set_chat_msg_total($page) {
+	protected function set_chat_msg_total($page)
+	{
 		//Sets message amount depending on page being used
 		if ($page === 'popup')
 		{
 			return $this->config['ajax_chat_popup_amount'];
 		}
-		elseif ($page === 'chat')
+		else if ($page === 'chat')
 		{
 			return $this->config['ajax_chat_chat_amount'];
 		}
-		elseif ($page === 'archive')
+		else if ($page === 'archive')
 		{
 			return $this->config['ajax_chat_archive_amount'];
 		}
 	}
-
 }
