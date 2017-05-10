@@ -965,7 +965,7 @@ class chat
 		}
 	}
 
-	protected function request_variables() {
+	public function request_variables() {
 		// sets a few variables before the actions
 		$this->mode			 = $this->request->variable('mode', 'default');
 		$this->last_id		 = $this->request->variable('last_id', 0);

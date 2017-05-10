@@ -311,10 +311,7 @@ class listener implements EventSubscriberInterface
 		$this->user->add_lang('posting');
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
 
-		$this->mode			 = $this->request->variable('mode', 'default');
-		$this->last_id		 = $this->request->variable('last_id', 0);
-		$this->last_time	 = $this->request->variable('last_time', 0);
-		$this->post_time	 = $this->request->variable('last_post', 0);
+		$this->chat->request_variables();
 
 		$this->times = [
 			'online'	 => $this->config['status_online_chat'],
@@ -337,7 +334,7 @@ class listener implements EventSubscriberInterface
 						'S_READ'     => true
 						]);
 
-					$this->index();
+					$this->chat->index();
 					return $this->helper->render('chat_body_readadd.html', $this->user->lang['CHAT_EXPLAIN']);
 		}
 
