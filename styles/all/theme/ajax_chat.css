@@ -160,19 +160,6 @@
 	overflow: auto;
 }
 
-.users {
-	width: 90%;
-	text-align: left;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.user {
-	width: 95%;
-	font-size: 1.2em;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-}
-
 .chatinput {
 	width: 60% !important;
 	margin-bottom: 4px;

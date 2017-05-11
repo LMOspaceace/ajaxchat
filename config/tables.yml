@@ -1,0 +1,3 @@
+parameters:
+    tables.ajax_chat: %core.table_prefix%ajax_chat
+    tables.ajax_chat_sessions: %core.table_prefix%ajax_chat_sessions

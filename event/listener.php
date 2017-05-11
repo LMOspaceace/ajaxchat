@@ -18,10 +18,7 @@ use phpbb\auth\auth;
 use phpbb\request\request;
 use phpbb\controller\helper;
 use phpbb\config\db;
-use phpbb\path_helper;
 use phpbb\extension\manager;
-use spaceace\ajaxchat\controller\chat;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -31,7 +28,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class listener implements EventSubscriberInterface
 {
-
 	/** @var \phpbb\template\template */
 	protected $template;
 
@@ -40,21 +36,6 @@ class listener implements EventSubscriberInterface
 
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
-
-	/** @var \phpbb\config\db */
-	protected $config;
-
-	/** @var \phpbb\config\db_text */
-	protected $config_text;
-
-	/** @var \phpbb\extension\manager "Extension Manager" */
-	protected $ext_manager;
-
-	/** @var \phpbb\path_helper */
-	protected $path_helper;
-
-	/** @var \Symfony\Component\DependencyInjection\Container "Service Container" */
-	protected $container;
 
 	/** @var \phpbb\auth\auth */
 	protected $auth;
@@ -65,56 +46,20 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
-	/** @var core.root_path */
-	protected $root_path;
+	/** @var \phpbb\config\db */
+	protected $config;
+
+	/** @var \phpbb\config\db_text */
+	protected $config_text;
+
+	/** @var \phpbb\extension\manager "Extension Manager" */
+	protected $ext_manager;
 
 	/** @var core.php_ext */
 	protected $php_ext;
 
-	/** @var string */
-	protected $table_prefix;
-
-	/** @var int */
-	protected $default_delay = 15;
-
-	/** @var int */
-	protected $session_time = 300;
-
-	/** @var array */
-	protected $times = [];
-
-	/** @var int */
-	protected $last_time = 0;
-
-	/** @var array */
-	protected $delay = [];
-
-	/** @var int */
-	protected $last_id = 0;
-
-	/** @var int */
-	protected $last_post = 0;
-
-	/** @var int */
-	protected $read_interval = 5;
-
-	/** @var int */
-	protected $count = 0;
-
-	/** @var bool */
-	protected $get = false;
-
-	/** @var bool */
-	protected $init = false;
-
-	/** @var string */
-	protected $mode;
-
-	/** @var string */
-	protected $ext_path;
-
-	/** @var string */
-	protected $ext_path_web;
+	/** @var tables.ajax_chat */
+	protected $ajax_chat_table;
 
 	/** @var \spaceace\ajaxchat\controller\chat */
 	protected $chat;
@@ -136,32 +81,27 @@ class listener implements EventSubscriberInterface
 	 * @param helper		$helper
 	 * @param db			$config
 	 * @param manager		$ext_manager
-	 * @param path_helper	$path_helper
-	 * @param Container		$container
-	 * @param string		$table_prefix
-	 * @param string		$root_path
 	 * @param string		$php_ext
 	 */
-	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request, helper $helper, db $config, $config_text, manager $ext_manager, path_helper $path_helper, Container $container, $chat_table, $chat_session_table, $root_path, $php_ext, chat $chat)
+	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request,
+								helper $helper, db $config, $config_text, manager $ext_manager,
+								$php_ext, $ajax_chat_table, \spaceace\ajaxchat\controller\chat $chat)
 	{
-		$this->template				= $template;
-		$this->user					= $user;
-		$this->db					= $db;
-		$this->auth					= $auth;
-		$this->request				= $request;
-		$this->helper				= $helper;
-		$this->config				= $config;
-		$this->config_text			= $config_text;
-		$this->root_path			= $root_path;
-		$this->php_ext				= $php_ext;
-		$this->ext_manager			= $ext_manager;
-		$this->path_helper			= $path_helper;
-		$this->container			= $container;
-		$this->chat_table			= $chat_table;
-		$this->chat_session_table	= $chat_session_table;
-		$this->chat					= $chat;
-		$this->is_phpbb31			= phpbb_version_compare($config['version'], '3.1.0@dev', '>=') && phpbb_version_compare($config['version'], '3.2.0@dev', '<');
-		$this->is_phpbb32			= phpbb_version_compare($config['version'], '3.2.0@dev', '>=') && phpbb_version_compare($config['version'], '3.3.0@dev', '<');
+		$this->template			= $template;
+		$this->user				= $user;
+		$this->db				= $db;
+		$this->auth				= $auth;
+		$this->request			= $request;
+		$this->helper			= $helper;
+		$this->config			= $config;
+		$this->config_text		= $config_text;
+		$this->php_ext			= $php_ext;
+		$this->ext_manager		= $ext_manager;
+		$this->ajax_chat_table	= $ajax_chat_table;
+		$this->chat				= $chat;
+
+		$this->is_phpbb31	= phpbb_version_compare($config['version'], '3.1.0@dev', '>=') && phpbb_version_compare($config['version'], '3.2.0@dev', '<');
+		$this->is_phpbb32	= phpbb_version_compare($config['version'], '3.2.0@dev', '>=') && phpbb_version_compare($config['version'], '3.3.0@dev', '<');
 
 		$this->template->assign_vars(array(
 			'IS_PHPBB31' => $this->is_phpbb31,
@@ -207,12 +147,10 @@ class listener implements EventSubscriberInterface
 	 */
 	public function page_header()
 	{
-
-		$this->times = [
-			'online'	 => $this->config['status_online_chat'],
-			'idle'		 => $this->config['status_idle_chat'],
-			'offline'	 => $this->config['status_offline_chat'],
-		];
+		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
+		{
+			define('PHPBB_USE_BOARD_URL_PATH', true);
+		}
 
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
 
@@ -299,138 +237,19 @@ class listener implements EventSubscriberInterface
 	 */
 	public function index()
 	{
+		if (!$this->auth->acl_get('u_ajaxchat_view'))
+		{
+			return;
+		}
+		
 		if ($this->config['prune_ajax_chat'] === true)
 		{
 			$this->prune();
 		}
-		if (!defined('PHPBB_USE_BOARD_URL_PATH'))
-		{
-			define('PHPBB_USE_BOARD_URL_PATH', true);
-		}
+
 		$this->user->add_lang('posting');
-		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
 
-		$this->chat->request_variables();
-
-		$this->times = [
-			'online'	 => $this->config['status_online_chat'],
-			'idle'		 => $this->config['status_idle_chat'],
-			'offline'	 => $this->config['status_offline_chat'],
-		];
-
-		$sql = 'SELECT c.*, p.post_visibility, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
-			FROM ' . $this->chat_table . ' as c
-			LEFT JOIN ' . USERS_TABLE . ' as u ON c.user_id = u.user_id
-			LEFT JOIN ' . POSTS_TABLE . ' as p ON c.post_id = p.post_id
-			WHERE c.message_id > ' . (int) $this->last_id . '
-			ORDER BY c.message_id DESC';
-		$result	= $this->db->sql_query_limit($sql, (int) $this->config['ajax_chat_index_amount']);
-		$rows	= $this->db->sql_fetchrowset($result);
-
-		if (!sizeof($rows) && ((time() - 60) < $this->last_time))
-		{
-					$this->template->assign_vars([
-						'S_READ'     => true
-						]);
-
-					$this->chat->index();
-					return $this->helper->render('chat_body_readadd.html', $this->user->lang['CHAT_EXPLAIN']);
-		}
-
-		foreach ($rows as $row)
-		{
-			if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
-			{
-				continue;
-			}
-
-			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
-			{
-				continue;
-			}
-
-			$avatar	= [
-				'avatar'		 => $row['user_avatar'],
-				'avatar_type'	 => $row['user_avatar_type'],
-				'avatar_height'	 => $row['user_avatar_height'],
-				'avatar_width'	 => $row['user_avatar_width'],
-			];
-			$avatar_thumb = [
-				'avatar'		 => $row['user_avatar'],
-				'avatar_type'	 => $row['user_avatar_type'],
-				'avatar_height'	 => 20,
-				'avatar_width'	 => '',
-			];
-			$row['avatar']		 = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar, '') : '';
-			$row['avatar_thumb'] = ($this->user->optionget('viewavatars')) ? phpbb_get_avatar($avatar_thumb, '') : '';
-
-			if ($this->count++ == 0)
-			{
-				$this->last_id = $row['message_id'];
-			}
-
-			if ($this->config['ajax_chat_time_setting'])
-			{
-				$time = $this->config['ajax_chat_time_setting'];
-			}
-			else
-			{
-				$time = $this->user->data['user_dateformat'];
-			}
-
-			$this->template->assign_block_vars('chatrow', [
-				'MESSAGE_ID'		 => $row['message_id'],
-				'USERNAME_FULL'		 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
-				'USERNAME_A'		 => $row['username'],
-				'USER_COLOR'		 => $row['user_colour'],
-				'MESSAGE'			 => generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']),
-				'TIME'				 => $this->user->format_date($row['time'], $time),
-				'CLASS'				 => ($row['message_id'] % 2) ? 1 : 2,
-				'USER_AVATAR'		 => $row['avatar'],
-				'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
-				'S_AJAXCHAT_EDIT'	 => $this->chat->can_edit_message($row['user_id']),
-				'U_EDIT'			 => $this->helper->route('spaceace_ajaxchat_edit', array('chat_id' => $row['message_id'])),
-			]);
-		}
-
-		$this->db->sql_freeresult($result);
-
-		if ($this->user->data['user_type'] == USER_FOUNDER || $this->user->data['user_type'] == USER_NORMAL)
-		{
-			$sql	 = 'SELECT *
-				FROM ' . $this->chat_session_table . '
-				WHERE user_id = ' . (int) $this->user->data['user_id'];
-			$result	 = $this->db->sql_query($sql);
-			$row	 = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			if ($row['user_id'] != $this->user->data['user_id'])
-			{
-				$sql_ary = [
-					'user_id'			 => $this->user->data['user_id'],
-					'username'			 => $this->user->data['username'],
-					'user_colour'		 => $this->user->data['user_colour'],
-					'user_login'		 => time(),
-					'user_lastupdate'	 => time(),
-				];
-				$sql = 'INSERT INTO ' . $this->chat_session_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
-				$this->db->sql_query($sql);
-			}
-			else
-			{
-				$sql_ary = [
-					'username'			 => $this->user->data['username'],
-					'user_colour'		 => $this->user->data['user_colour'],
-					'user_login'		 => time(),
-					'user_lastupdate'	 => time(),
-				];
-				$sql	 = 'UPDATE ' . $this->chat_session_table . '
-					SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
-					WHERE user_id = ' . (int) $this->user->data['user_id'];
-				$this->db->sql_query($sql);
-			}
-		}
-		$this->chat->index();
+		$this->chat->defaultAction('index');
 	}
 
 	/**
@@ -441,28 +260,26 @@ class listener implements EventSubscriberInterface
 	 */
 	public function add_forum_id($event)
 	{
-		if (!$this->config['ajax_chat_forum_posts'])
+		if (!$this->config['ajax_chat_forum_posts'] || !$this->auth->acl_get('f_noapprove', $event['forum_id']))
 		{
 			return;
-		}
+		}		
 
-		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
-
-		if ($event['mode'] == 'reply' && $this->config['ajax_chat_forum_reply'])
+		if ($event['mode'] == 'post' && $this->config['ajax_chat_forum_topic'])
 		{
-			$this->user->lang['CHAT_NEW_POST'];
+			$mode_lang = 'CHAT_NEW_TOPIC';
 		}
 		else if ($event['mode'] == 'edit' && $this->config['ajax_chat_forum_edit'])
 		{
-			$this->user->lang['CHAT_POST_EDIT'];
+			$mode_lang = 'CHAT_POST_EDIT';
 		}
-		else if ($event['mode'] == 'post' && $this->config['ajax_chat_forum_topic'])
+		else if ($event['mode'] == 'reply' && $this->config['ajax_chat_forum_reply'])
 		{
-			$this->user->lang['CHAT_NEW_TOPIC'];
+			$mode_lang = 'CHAT_NEW_POST';
 		}
 		else if ($event['mode'] == 'quote' && $this->config['ajax_chat_forum_quote'])
 		{
-			$this->user->lang['CHAT_NEW_QUOTE'];
+			$mode_lang = 'CHAT_NEW_QUOTE';
 		}
 		else
 		{
@@ -470,23 +287,8 @@ class listener implements EventSubscriberInterface
 		}
 
 		$url = append_sid(generate_board_url() . '/viewtopic.' . $this->php_ext, 'f=' . $event['data']['forum_id'] . '&amp;t=' . $event['data']['topic_id'] . '&amp;p=' . $event['data']['post_id'] . '#p' . $event['data']['post_id']);
-		$username = get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']);
-		if ($event['mode'] == 'post')
-		{
-			$message = $this->user->lang('CHAT_NEW_TOPIC', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
-		}
-		else if ($event['mode'] == 'edit')
-		{
-			$message = $this->user->lang('CHAT_POST_EDIT', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
-		}
-		else if ($event['mode'] == 'reply')
-		{
-			$message = $this->user->lang('CHAT_NEW_POST', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
-		}
-		else if ($event['mode'] == 'quote')
-		{
-			$message = $this->user->lang('CHAT_NEW_QUOTE', '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
-		}
+		$username = $this->chat->clean_username(get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']));
+		$message = $this->user->lang($mode_lang, '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
 
 		$uid = $bitfield = $options = '';
 		$allow_bbcode = $allow_urls = $allow_smilies = true;
@@ -504,7 +306,7 @@ class listener implements EventSubscriberInterface
 			'forum_id'			 => $event['forum_id'],
 			'post_id'			 => $event['data']['post_id'],
 		);
-		$sql = 'INSERT INTO ' . $this->chat_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
+		$sql = 'INSERT INTO ' . $this->ajax_chat_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
 		$this->db->sql_query($sql);
 	}
 
@@ -591,57 +393,4 @@ class listener implements EventSubscriberInterface
 		));
 		$event['sql_ary'] = $sql_ary;
 	}
-
-	/**
-	 * Calculate the status of each user
-	 *
-	 * @param int $last
-	 * @return string
-	 */
-	private function get_status($last)
-	{
-		$status = 'online';
-		if ($last < (time() - $this->times['offline']))
-		{
-			$status = 'offline';
-		}
-		else if ($last < (time() - $this->times['idle']))
-		{
-			$status = 'idle';
-		}
-		return $status;
-	}
-
-	/**
-	 * Cleans the username
-	 *
-	 * @param string $user
-	 * @return string
-	 */
-	private function clean_username($user)
-	{
-		if (strpos($user, '---') !== false)
-		{
-			$user = str_replace('---', '–––', $user);
-			clean_username($user);
-		}
-		return $user;
-	}
-
-	/**
-	 * Checks if user is hidden
-	 *
-	 *
-	 *
-	 */
-	public function check_hidden($uid)
-	{
-		$sql = 'SELECT session_viewonline '
-			. 'FROM ' . SESSIONS_TABLE . ' '
-			. 'WHERE session_user_id = ' . (int) $uid;
-		$result	 = $this->db->sql_query($sql);
-		$hidden	 = $this->db->sql_fetchrow($result);
-		return (bool) $hidden['session_viewonline'];
-	}
-
 }
