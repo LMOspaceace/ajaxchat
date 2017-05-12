@@ -22,7 +22,7 @@ class ucp_ajaxchat_info
 			'modes'	=> array(
 				'settings' => array(
 					'title' => 'USER_AJAXCHAT_SETTINGS',
-					'auth'  => 'ext_spaceace/ajaxchat && acl_u_chgprofileinfo',
+					'auth'  => 'ext_spaceace/ajaxchat && acl_u_chgprofileinfo && acl_u_ajaxchat_view',
 					'cat'   => array('USER_AJAXCHAT')
 				),
 			),

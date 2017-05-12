@@ -287,8 +287,8 @@ class listener implements EventSubscriberInterface
 		}
 
 		$url = append_sid(generate_board_url() . '/viewtopic.' . $this->php_ext, 'f=' . $event['data']['forum_id'] . '&amp;t=' . $event['data']['topic_id'] . '&amp;p=' . $event['data']['post_id'] . '#p' . $event['data']['post_id']);
-		$username = $this->chat->clean_username(get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']));
 		$message = $this->user->lang($mode_lang, '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
+		$message = '[i]' . $message . '[/i]';
 
 		$uid = $bitfield = $options = '';
 		$allow_bbcode = $allow_urls = $allow_smilies = true;

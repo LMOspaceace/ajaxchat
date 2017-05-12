@@ -96,6 +96,9 @@ class chat
 	protected $get = false;
 
 	/** @var string */
+	protected $page = '';
+
+	/** @var string */
 	protected $ext_path;
 
 	/** @var string */
@@ -252,6 +255,7 @@ class chat
 			'FILENAME'			 => $this->helper->route('spaceace_ajaxchat_chat'),
 			'S_CHAT'			 => (!$this->get) ? true : false,
 			'S_GET_CHAT'		 => ($this->get) ? true : false,
+			'CHAT_PAGE'          => $this->page,
 		]);
 
 		$this->whois_online();
@@ -289,6 +293,8 @@ class chat
 		{
 			trigger_error($this->user->lang['NOT_AUTHORISED']);
 		}
+
+		$this->page = $page;
 		
 		//Sets message amount depending on page being used
 		if ($page == 'index' || $page == 'popup' || $page == 'chat' || $page == 'archive')
