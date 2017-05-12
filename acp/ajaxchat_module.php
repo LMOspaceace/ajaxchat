@@ -57,7 +57,7 @@ class ajaxchat_module
 		$this->user		 = $phpbb_container->get('user');
 		$this->template	 = $phpbb_container->get('template');
 		$this->request	 = $phpbb_container->get('request');
-		$this->ajax_chat_table	 = $phpbb_container->get('tables.ajax_chat');
+		$this->ajax_chat_table	 = $phpbb_container->getParameter('tables.ajax_chat');
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $phpEx;
 		$this->phpbb_log = $phpbb_log;
