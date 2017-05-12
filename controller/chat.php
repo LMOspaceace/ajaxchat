@@ -69,9 +69,6 @@ class chat
 	protected $table_prefix;
 
 	/** @var int */
-	protected $default_delay = 15;
-
-	/** @var int */
 	protected $session_time = 300;
 
 	/** @var array */
@@ -304,10 +301,7 @@ class chat
 		}
 
 		// sets a few variables before the actions
-		$this->last_id		 = $this->request->variable('last_id', 0);
-		$this->last_time	 = $this->request->variable('last_time', 0);
-		$this->post_time	 = $this->request->variable('last_post', 0);
-		$this->read_interval = $this->request->variable('read_interval', 5000);
+		$this->request_variables();
 
 		$sql	 = $this->get_chat_rows_sql();
 		$result	 = $this->db->sql_query_limit($sql, (int) $chat_message_total);
@@ -462,10 +456,7 @@ class chat
 		}
 
 		// sets a few variables before the actions
-		$this->last_id		 = $this->request->variable('last_id', 0);
-		$this->last_time	 = $this->request->variable('last_time', 0);
-		$this->post_time	 = $this->request->variable('last_post', 0);
-		$this->read_interval     = $this->request->variable('read_interval', 5000);
+		$this->request_variables();
 
 		$chat_message_total  = "";
 
@@ -665,10 +656,7 @@ class chat
 		}
 
 		// sets a few variables before the actions
-		$this->last_id		 = $this->request->variable('last_id', 0);
-		$this->last_time	 = $this->request->variable('last_time', 0);
-		$this->post_time	 = $this->request->variable('last_post', 0);
-		$this->read_interval = $this->request->variable('read_interval', 5000);
+		$this->request_variables();
 		$chat_message_total  = "";
 		$this->get	 = true;
 		$message	 = $this->request->variable('message', '', true);
@@ -921,5 +909,14 @@ class chat
 				$this->db->sql_query($sql);
 			}
 		}
+	}
+
+	public function request_variables()
+	{
+		// sets a few variables before the actions
+		$this->last_id		 = $this->request->variable('last_id', 0);
+		$this->last_time	 = $this->request->variable('last_time', 0);
+		$this->post_time	 = $this->request->variable('last_post', 0);
+		$this->read_interval     = $this->request->variable('read_interval', 5000);
 	}
 }
