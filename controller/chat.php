@@ -396,9 +396,9 @@ class chat
 			}
 			$status = $this->get_status($row['user_lastpost']);
 			$this->template->assign_block_vars('whoisrow', [
-				'USERNAME_FULL'	 => $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
-				'USER_COLOR'	 => $row['user_colour'],
-				'USER_STATUS'	 => $status,
+				'USERNAME_FULL'	=> $this->clean_username(get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], $this->user->lang['GUEST'])),
+				'USER_COLOR'	=> $row['user_colour'],
+				'USER_STATUS'	=> $status,
 			]);
 		}
 		$this->db->sql_freeresult($result);
