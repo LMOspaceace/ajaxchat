@@ -294,7 +294,7 @@ class chat
 		}
 
 		$this->page = $page;
-		
+
 		//Sets message amount depending on page being used
 		if ($page == 'index' || $page == 'popup' || $page == 'chat' || $page == 'archive')
 		{
@@ -311,7 +311,7 @@ class chat
 		$sql	 = $this->get_chat_rows_sql();
 		$result	 = $this->db->sql_query_limit($sql, (int) $chat_message_total);
 		$rows	 = $this->db->sql_fetchrowset($result);
-		
+
 		if ($page == 'index')
 		{
 			if (!sizeof($rows) && ((time() - 60) < $this->last_time))
@@ -778,7 +778,8 @@ class chat
 		$this->db->sql_query($sql);
 
 		$this->template->assign_var('CHAT_DEL_MESSAGE_ID', $chat_id);
-		return $this->helper->render('chat_body_delete.html', $this->user->lang['CHAT_EXPLAIN']);;
+
+		return $this->helper->render('chat_body_delete.html', $this->user->lang['CHAT_EXPLAIN']);
 	}
 
 	public function check_hidden($uid)

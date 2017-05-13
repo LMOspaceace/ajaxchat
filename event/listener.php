@@ -241,7 +241,7 @@ class listener implements EventSubscriberInterface
 		{
 			return;
 		}
-		
+
 		if ($this->config['prune_ajax_chat'] === true)
 		{
 			$this->prune();
@@ -263,7 +263,7 @@ class listener implements EventSubscriberInterface
 		if (!$this->config['ajax_chat_forum_posts'] || !$this->auth->acl_get('f_noapprove', $event['forum_id']))
 		{
 			return;
-		}		
+		}
 
 		if ($event['mode'] == 'post' && $this->config['ajax_chat_forum_topic'])
 		{
