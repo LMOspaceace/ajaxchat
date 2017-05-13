@@ -202,7 +202,7 @@ function handle_error(http_status, status_text, type) {
 			error_text = chat_error_view;
 		}
 	}
-	$('#chat-text').after('<div class="error">' + eerrot_text +'</div>');
+	$('#chat-text').after('<div class="error">' + error_text +'</div>');
 }
 
 function delete_post(chatid)
