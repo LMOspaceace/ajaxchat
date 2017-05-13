@@ -68,8 +68,10 @@ $lang = array_merge(
 		'BBCODES'			 			=> 'ББкоды',
 		'IE_NO_AJAX'					=> 'Ваша версия Internet Explorer не поддерживает AJAX.',
 		'UPGRADE_BROWSER'				=> 'Статус: Невозможно создать XmlHttpRequest Object.	Обновите свой браузер.',
-		'NO_POST_IN_CHAT'				=> 'У вас нет права отвечать в чате.',
-		'NO_EDIT_PERMISSION'			=> 'У вас нет права редактировать это сообщение.',
+		'NO_POST_IN_CHAT'				=> 'Вы не можете отвечать в чате.',
+		'NO_DEL_PERMISSION'				=> 'Вы не можете удалять сообщения',
+		'NO_EDIT_PERMISSION'			=> 'Вы не можете редактировать это сообщение.',
+		'NO_VIEW_PERMISSION'			=> 'У вас нет права видеть чат.',
 		'DELETE_CHAT_COOKIE'			=> 'Удалить куки',
 		'DELETE_CHAT_COOKIE_EXPLAIN'	=> 'Эта кнопка удаляет куки сохранения цвета.',
 		// @copyright line. No translations below this line.

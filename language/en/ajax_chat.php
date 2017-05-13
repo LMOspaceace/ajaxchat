@@ -69,7 +69,9 @@ $lang = array_merge(
 		'IE_NO_AJAX'					=> 'Your version of Internet Explorer does not support AJAX.',
 		'UPGRADE_BROWSER'				=> 'Status: Could not create XmlHttpRequest Object.	Consider upgrading your browser.',
 		'NO_POST_IN_CHAT'				=> 'You do not have permission to post in chat.',
+		'NO_DEL_PERMISSION'				=> 'You do not have permission to delete message.',
 		'NO_EDIT_PERMISSION'			=> 'You do not have permission to edit this message.',
+		'NO_VIEW_PERMISSION'			=> 'You do not have permission to view chat.',
 		'DELETE_CHAT_COOKIE'			=> 'Delete cookie',
 		'DELETE_CHAT_COOKIE_EXPLAIN'	=> 'This button deletes the font colour hold cookie.',
 		// @copyright line. No translations below this line.

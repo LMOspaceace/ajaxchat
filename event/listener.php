@@ -287,7 +287,8 @@ class listener implements EventSubscriberInterface
 		}
 
 		$url = append_sid(generate_board_url() . '/viewtopic.' . $this->php_ext, 'f=' . $event['data']['forum_id'] . '&amp;t=' . $event['data']['topic_id'] . '&amp;p=' . $event['data']['post_id'] . '#p' . $event['data']['post_id']);
-		$message = $this->user->lang($mode_lang, '[url=' . $url . ']' . $event['post_data']['post_subject'] . '[/url]');
+		$subject = ($event['post_data']['post_subject']) ? $event['post_data']['post_subject'] : $this->user->lang['POST_SUBJECT'];
+		$message = $this->user->lang($mode_lang, '[url=' . $url . ']' . $subject . '[/url]');
 		$message = '[i]' . $message . '[/i]';
 
 		$uid = $bitfield = $options = '';

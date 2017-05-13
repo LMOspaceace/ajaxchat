@@ -14,6 +14,7 @@ namespace spaceace\ajaxchat\controller;
 use phpbb\user;
 use phpbb\template\template;
 use phpbb\db\driver\driver_interface as db_driver;
+use phpbb\exception\http_exception;
 use phpbb\auth\auth;
 use phpbb\request\request;
 use phpbb\controller\helper;
@@ -259,7 +260,6 @@ class chat
 		]);
 
 		$this->whois_online();
-		return;
 	}
 
 	public function chat_smilies_and_bbcodes()
@@ -279,7 +279,6 @@ class chat
 		}
 
 		display_custom_bbcodes();
-		return;
 	}
 
 	/**
@@ -291,7 +290,7 @@ class chat
 	{
 		if (!$this->auth->acl_get('u_ajaxchat_view'))
 		{
-			trigger_error($this->user->lang['NOT_AUTHORISED']);
+			throw new http_exception(403, 'NO_VIEW_PERMISSION');
 		}
 
 		$this->page = $page;
@@ -328,10 +327,10 @@ class chat
 
 		foreach ($rows as $row)
 		{
-			if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
+			/*if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
 			{
 				continue;
-			}
+			}*/
 
 			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
 			{
@@ -408,7 +407,6 @@ class chat
 			'LAST_TIME'		 => time(),
 			'S_WHOISONLINE'	 => true,
 		]);
-		return false;
 	}
 
 	/**
@@ -458,7 +456,7 @@ class chat
 	{
 		if (!$this->auth->acl_get('u_ajaxchat_view'))
 		{
-			trigger_error($this->user->lang['NOT_AUTHORISED']);
+			throw new http_exception(403, 'NO_VIEW_PERMISSION');
 		}
 
 		// sets a few variables before the actions
@@ -483,10 +481,10 @@ class chat
 
 		foreach ($rows as $row)
 		{
-			if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
+			/*if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
 			{
 				continue;
-			}
+			}*/
 
 			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
 			{
@@ -540,7 +538,7 @@ class chat
 	{
 		if (!$this->auth->acl_get('u_ajaxchat_view'))
 		{
-			trigger_error($this->user->lang['NOT_AUTHORISED']);
+			throw new http_exception(403, 'NO_VIEW_PERMISSION');
 		}
 
 		// sets a few variables before the actions
@@ -559,7 +557,7 @@ class chat
 
 		if (!$row || ($this->user->data['user_type'] !== USER_FOUNDER && !$this->auth->acl_get('u_ajaxchat_edit') && $this->user->data['user_id'] !== $row['user_id']))
 		{
-			throw new \phpbb\exception\http_exception(403, 'NO_EDIT_PERMISSION');
+			throw new http_exception(403, 'NO_EDIT_PERMISSION');
 		}
 
 		if ($submit)
@@ -586,24 +584,26 @@ class chat
 						. ' WHERE message_id = ' . (int) $chat_id;
 				$this->db->sql_query($sql);
 
-				$sql	 = 'SELECT c.*, p.post_visibility, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
+				$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
 					FROM ' . $this->ajax_chat_table . ' as c
 					LEFT JOIN ' . $this->users_table . ' as u ON c.user_id = u.user_id
-					LEFT JOIN ' . $this->posts_table . ' as p ON c.post_id = p.post_id
 					WHERE c.message_id = ' . (int) $chat_id . '
 					ORDER BY c.message_id DESC';
 				$result	 = $this->db->sql_query($sql);
 				$row	 = $this->db->sql_fetchrow($result);
 				$this->db->sql_freeresult($result);
 
+				/*
+				, p.post_visibility
+				LEFT JOIN ' . $this->posts_table . ' as p ON c.post_id = p.post_id
 				if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
 				{
 					return;
-				}
+				}*/
 
 				if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
 				{
-					return;
+					throw new http_exception(403, 'NO_EDIT_PERMISSION');
 				}
 
 				if ($this->count++ === 0)
@@ -656,9 +656,14 @@ class chat
 	 */
 	public function addAction()
 	{
-		if (!$this->auth->acl_get('u_ajaxchat_view') || !$this->auth->acl_get('u_ajaxchat_post') && $this->user->data['user_type'] !== USER_FOUNDER)
+		if (!$this->auth->acl_get('u_ajaxchat_view'))
 		{
-			trigger_error($this->user->lang['NOT_AUTHORISED']);
+			throw new http_exception(403, 'NO_VIEW_PERMISSION');
+		}
+
+		if (!$this->auth->acl_get('u_ajaxchat_post') && $this->user->data['user_type'] !== USER_FOUNDER)
+		{
+			throw new http_exception(403, 'NO_POST_IN_CHAT');
 		}
 
 		// sets a few variables before the actions
@@ -669,7 +674,7 @@ class chat
 
 		if (!$message)
 		{
-			return;
+			throw new http_exception(403, 'EMPTY');
 		}
 
 		$uid			 = $bitfield		 = $options		 = '';
@@ -718,7 +723,7 @@ class chat
 
 		foreach ($rows as $row)
 		{
-			if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
+			/*if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
 			{
 				continue;
 			}
@@ -726,7 +731,7 @@ class chat
 			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
 			{
 				continue;
-			}
+			}*/
 
 			if ($this->count++ == 0)
 			{
@@ -754,24 +759,26 @@ class chat
 	{
 		if (!$this->auth->acl_get('u_ajaxchat_view'))
 		{
-			trigger_error($this->user->lang['NOT_AUTHORISED']);
+			throw new http_exception(403, 'NO_VIEW_PERMISSION');
 		}
 
 		$this->get	 = true;
 		$chat_id	 = $this->request->variable('chat_id', 0);
 		if (!$chat_id)
 		{
-			return;
+			throw new http_exception(403, 'NO_DEL_PERMISSION');
 		}
 
 		if (!$this->auth->acl_get('a_') && !$this->auth->acl_get('m_ajaxchat_delete'))
 		{
-			return;
+			throw new http_exception(403, 'NO_DEL_PERMISSION');
 		}
 
 		$sql = 'DELETE FROM ' . $this->ajax_chat_table . ' WHERE message_id = ' . (int) $chat_id;
 		$this->db->sql_query($sql);
-		return;
+
+		$this->template->assign_var('CHAT_DEL_MESSAGE_ID', $chat_id);
+		return $this->helper->render('chat_body_delete.html', $this->user->lang['CHAT_EXPLAIN']);;
 	}
 
 	public function check_hidden($uid)
@@ -794,7 +801,7 @@ class chat
 		$chat_id	 = $this->request->variable('chat_id', 0);
 		if (!$chat_id)
 		{
-			return;
+			throw new http_exception(403, 'EMPTY');
 		}
 
 		$sql	 = 'SELECT username, message, bbcode_uid, bbcode_bitfield, bbcode_options
@@ -828,12 +835,13 @@ class chat
 
 	public function get_chat_rows_sql()
 	{
-		$sql	 = 'SELECT c.*, p.post_visibility, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
+		$sql	 = 'SELECT c.*, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
 			FROM ' . $this->ajax_chat_table . ' as c
 			LEFT JOIN ' . $this->users_table . ' as u ON c.user_id = u.user_id
-			LEFT JOIN ' . $this->posts_table . ' as p ON c.post_id = p.post_id
 			WHERE c.message_id > ' . (int) $this->last_id . '
 			ORDER BY c.message_id DESC';
+			//, p.post_visibility
+			//LEFT JOIN ' . $this->posts_table . ' as p ON c.post_id = p.post_id
 		return $sql;
 	}
 
