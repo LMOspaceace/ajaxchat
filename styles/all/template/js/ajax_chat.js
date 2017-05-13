@@ -130,6 +130,7 @@ function handle_return()
 					$text = document.getElementById('message').value;
 					document.getElementById('message').value = $text + results[0];
 					document.getElementById("message").focus();
+					$('#chat').find('.username, .username-coloured').attr('title', chat_username_title);
 				}
 			} else if (type === 'edit') {
 				jQuery(function($) {
@@ -144,6 +145,7 @@ function handle_return()
 					var popup = window.self;
 					popup.opener = window.self;
 					popup.close();
+					$('#chat').find('.username, .username-coloured').attr('title', chat_username_title);
 				});
 			} else if (type !== 'delete') {
 				if (results[1])
@@ -169,6 +171,7 @@ function handle_return()
 						}
 
 					}
+					$('#chat').find('.username, .username-coloured').attr('title', chat_username_title);
 				}
 			} else if (type == 'delete') {
 				var parent = document.getElementById('chat');
@@ -301,6 +304,18 @@ function addText(instext)
 }
 //END;Whatever
 
+function parseColor(color) {
+    var arr=[]; color.replace(/[\d+\.]+/g, function(v) { arr.push(parseFloat(v)); });
+    return {
+        hex: "#" + arr.slice(0, 3).map(toHex).join(""),
+        opacity: arr.length == 4 ? arr[3] : 1
+    };
+}
+function toHex(int) {
+    var hex = int.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
 jQuery(function($) {
 
 	'use strict';
@@ -328,5 +343,20 @@ jQuery(function($) {
 	$chat_edit.find('#submit').on('click', function(e) {
 		e.preventDefault();
 		handle_send('edit', $chat_edit.find('input[name=chat_id]').val());
+	});
+
+	$('#chat').find('.username, .username-coloured').attr('title', chat_username_title);
+
+	$('#chat').on('click', '.username, .username-coloured', function(e) {
+		e.preventDefault();
+
+		var username = $(this).text(),
+			user_colour = ($(this).hasClass('username-coloured')) ? parseColor($(this).css('color')).hex : false;
+
+		if (user_colour) {
+			insert_text('[color=' + user_colour + '][b]@' + username + '[/b][/color], ');
+		} else {
+			insert_text('[b]@' + username + '[/b], ');
+		}
 	});
 });

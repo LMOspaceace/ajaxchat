@@ -764,12 +764,8 @@ class chat
 
 		$this->get	 = true;
 		$chat_id	 = $this->request->variable('chat_id', 0);
-		if (!$chat_id)
-		{
-			throw new http_exception(403, 'NO_DEL_PERMISSION');
-		}
 
-		if (!$this->auth->acl_get('a_') && !$this->auth->acl_get('m_ajaxchat_delete'))
+		if (!$chat_id || !$this->auth->acl_get('a_') && !$this->auth->acl_get('m_ajaxchat_delete'))
 		{
 			throw new http_exception(403, 'NO_DEL_PERMISSION');
 		}

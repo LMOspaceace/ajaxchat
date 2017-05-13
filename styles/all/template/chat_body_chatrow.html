@@ -22,9 +22,9 @@
 				<div class="chat-usernames">
 					<!-- IF not S_IS_BOT and S_USER_LOGGED_IN and CHAT_PAGE neq 'archive' -->
 						<!-- IF chatrow.USER_COLOR -->
-							<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b][/color]', true);return false;" title="{L_RESPOND}">&#64;</a>
+							<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}[/b][/color],&nbsp;', true);return false;" title="{L_RESPOND}">&#64;</a>
 						<!-- ELSE -->
-							<a href="#" onclick="insert_text('[b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
+							<a href="#" onclick="insert_text('[b]&#64;{chatrow.USERNAME_A}[/b],&nbsp;', true);return false;" title="{L_RESPOND}">&#64;</a>
 						<!-- ENDIF -->
 					<!-- ELSE -->
 						&#64;
