@@ -138,7 +138,7 @@ class listener implements EventSubscriberInterface
 		if (strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/chat') === 0)
 		{
 			$event['location'] = $this->user->lang('CHAT');
-			$event['location_url'] = $this->helper->route('spaceace_ajaxchat_chat');
+			$event['location_url'] = $this->helper->route('spaceace_ajaxchat_chat', array('tslash' => ''));
 		}
 	}
 
@@ -173,7 +173,7 @@ class listener implements EventSubscriberInterface
 		// Declaring a few UCP switches and basic values
 		$this->template->assign_vars(
 			array(
-				'U_CHAT'							=> $this->helper->route('spaceace_ajaxchat_chat'),
+				'U_CHAT'							=> $this->helper->route('spaceace_ajaxchat_chat', array('tslash' => '')),
 				'S_SHOUT'							=> true,
 				'CHAT_RULES'						=> $chat_rules,
 				'AJAX_CHAT_SCRIPT_PATH'				=> $this->config['script_path'],

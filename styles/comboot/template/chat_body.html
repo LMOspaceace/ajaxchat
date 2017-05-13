@@ -3,10 +3,10 @@
 		<!-- IF S_GET_CHAT -->
 			<!-- INCLUDE chat_body_readadd.html -->
 		<!-- ELSE -->
-			<!-- IF SCRIPT_NAME == 'app/chat' -->
+			<!-- IF CHAT_PAGE == 'chat' -->
 				<!-- INCLUDE overall_header.html -->
 			<!-- ENDIF -->
-			<!-- IF SCRIPT_NAME == 'app/chat/popup' or SCRIPT_NAME == 'app/chat/archive' -->
+			<!-- IF CHAT_PAGE == 'popup' or CHAT_PAGE == 'archive' -->
 				<!-- INCLUDE simple_header.html -->
 				<div>
 			<!-- ENDIF -->
@@ -17,26 +17,26 @@
 				<div class="panel panel-info">
 					<div class="panel-heading">
 						<h3 class="panel-title chat-header-link"><!-- IF SCRIPT_NAME == 'index' --><a href="{U_CHAT}">{{ lang('CHAT_EXPLAIN') }}</a><!-- ELSE -->{{ lang('CHAT_EXPLAIN') }}<!-- ENDIF --></h3>
-						<!-- IF SCRIPT_NAME neq 'app/chat/archive' -->
+						<!-- IF CHAT_PAGE neq 'archive' -->
 							<!-- IF S_AJAX_CHAT_MESSAGES_DOWN -->
 								<!-- INCLUDE chat_body_input.html -->
 							<!-- ENDIF -->
 						<!-- ENDIF -->
 					</div>
 				</div>
-					<!-- IF CHAT_RULES and SCRIPT_NAME neq 'app/chat/archive' -->
+					<!-- IF CHAT_RULES and CHAT_PAGE neq 'archive' -->
 						<div class="navbar chatrules">
 							<span>{CHAT_RULES}</span>
 						</div>
 					<!-- ENDIF -->
 				<div>
-					<div class="shout-body<!-- IF S_WHOIS_CHATTING --><!-- IF S_AJAX_CHAT_ONLINELIST and SCRIPT_NAME neq 'app/chat/archive' --> shouts<!-- ENDIF --><!-- ENDIF --><!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING --> chat_online_off<!-- ENDIF --><!-- IF S_CHAT or S_POPUP or SCRIPT_NAME == 'app/chat/archive' --> main<!-- ENDIF -->">
+					<div class="shout-body<!-- IF S_WHOIS_CHATTING --><!-- IF S_AJAX_CHAT_ONLINELIST and CHAT_PAGE neq 'archive' --> shouts<!-- ENDIF --><!-- ENDIF --><!-- IF not S_AJAX_CHAT_ONLINELIST or CHAT_PAGE == 'archive' or not S_WHOIS_CHATTING --> chat_online_off<!-- ENDIF --><!-- IF S_CHAT or S_POPUP or CHAT_PAGE == 'archive' --> main<!-- ENDIF -->">
 						<div id="chat" <!-- IF not S_AJAX_CHAT_MESSAGES_DOWN -->class="chat-messages-down"<!-- ENDIF --> >
 							<!-- INCLUDE chat_body_chatrow.html -->
 						</div>
 					</div>
 					<!-- IF S_WHOISONLINE -->
-						<div class="whois whois-comboot<!-- IF S_CHAT or S_POPUP --> main<!-- ENDIF --><!-- IF not S_AJAX_CHAT_ONLINELIST or SCRIPT_NAME == 'app/chat/archive' or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
+						<div class="whois whois-comboot<!-- IF S_CHAT or S_POPUP --> main<!-- ENDIF --><!-- IF not S_AJAX_CHAT_ONLINELIST or CHAT_PAGE == 'archive' or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
 							<h3>
 								{{ lang('WHOIS_CHATTING') }}
 							</h3>
@@ -47,7 +47,7 @@
 					<!-- ENDIF -->
 				</div>
 				<div class="breadcrumb no-margin-bottom">
-					<!-- IF SCRIPT_NAME neq 'app/chat/archive' -->
+					<!-- IF CHAT_PAGE neq 'archive' -->
 						<!-- IF not S_AJAX_CHAT_MESSAGES_DOWN -->
 							<!-- INCLUDE chat_body_input.html -->
 						<!-- ENDIF -->
@@ -61,10 +61,10 @@
 				</div>
 			</div>
 			<!-- EVENT spaceace_ajax_chat_chat_body_after -->
-			<!-- IF SCRIPT_NAME == 'app/chat' -->
+			<!-- IF CHAT_PAGE == 'chat' -->
 				<!-- INCLUDE overall_footer.html -->
 			<!-- ENDIF -->
-			<!-- IF SCRIPT_NAME == 'app/chat/popup' or SCRIPT_NAME == 'app/chat/archive' -->
+			<!-- IF CHAT_PAGE == 'popup' or CHAT_PAGE == 'archive' -->
 				</div>
 				<!-- INCLUDE simple_footer.html -->
 			<!-- ENDIF -->

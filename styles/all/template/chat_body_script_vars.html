@@ -17,15 +17,7 @@
 		<!-- ELSEIF S_ARCHIVE -->
 			var query_url = '{FILENAME}/archive';
 		<!-- ENDIF -->
-		<!-- IF S_AJAXCHAT_BBCODE -->
-			var chatbbcodetrue = true;
-		<!-- ELSE -->
-			var chatbbcodetrue = false;
-		<!-- ENDIF -->
-		<!-- IF S_AJAX_CHAT_MESSAGES_DOWN -->
-			var chatmessagedown = false;
-		<!-- ELSE -->
-			var chatmessagedown = true;
-		<!-- ENDIF -->
+		var chatbbcodetrue = <!-- IF S_AJAXCHAT_BBCODE -->true<!-- ELSE -->false<!-- ENDIF -->;
+		var chatmessagedown = <!-- IF S_AJAX_CHAT_MESSAGES_DOWN -->false<!-- ELSE -->true<!-- ENDIF -->;
 	//]]>
 </script>

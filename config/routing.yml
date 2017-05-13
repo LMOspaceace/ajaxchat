@@ -1,31 +1,39 @@
 spaceace_ajaxchat_popup:
-    path: /chat/popup
+    path: /chat/popup{tslash}
     defaults: {_controller: spaceace.ajaxchat.chat.controller:defaultAction, page: popup}
+    requirements: { tslash : "/?" }
 
 spaceace_ajaxchat_archive:
-    path: /chat/archive
+    path: /chat/archive{tslash}
     defaults: {_controller: spaceace.ajaxchat.chat.controller:defaultAction, page: archive}
+    requirements: { tslash : "/?" }
     
 spaceace_ajaxchat_edit:
-    path: /chat/edit/{chat_id}
+    path: /chat/edit/{chat_id}{tslash}
     defaults: {_controller: spaceace.ajaxchat.chat.controller:editAction}
+    requirements: { tslash : "/?" }
 
 spaceace_ajaxchat_read:
-    path: /chat/read
+    path: /chat/read{tslash}
     defaults: {_controller: spaceace.ajaxchat.chat.controller:readAction}
+    requirements: { tslash : "/?" }
 
 spaceace_ajaxchat_add:
-    path: /chat/add
+    path: /chat/add{tslash}
     defaults: {_controller: spaceace.ajaxchat.chat.controller:addAction}
+    requirements: { tslash : "/?" }
 
 spaceace_ajaxchat_delete:
-    path: /chat/delete
+    path: /chat/delete{tslash}
     defaults: {_controller: spaceace.ajaxchat.chat.controller:delAction}
+    requirements: { tslash : "/?" }
     
 spaceace_ajaxchat_quote:
-    path: /chat/quotemessage
+    path: /chat/quotemessage{tslash}
     defaults: {_controller: spaceace.ajaxchat.chat.controller:chat_quote}
+    requirements: { tslash : "/?" }
 
 spaceace_ajaxchat_chat:
-    path: /chat
+    path: /chat{tslash}
     defaults: {_controller: spaceace.ajaxchat.chat.controller:defaultAction, page: chat}
+    requirements: { tslash : "/?" }

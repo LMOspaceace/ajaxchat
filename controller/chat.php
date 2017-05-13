@@ -253,7 +253,7 @@ class chat
 			'L_VERSION'			 => '3.0.22',
 			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
 			'EXT_STYLE_PATH'	 => $this->ext_path_web . 'styles/',
-			'FILENAME'			 => $this->helper->route('spaceace_ajaxchat_chat'),
+			'FILENAME'			 => $this->helper->route('spaceace_ajaxchat_chat', array('tslash' => '')),
 			'S_CHAT'			 => (!$this->get) ? true : false,
 			'S_GET_CHAT'		 => ($this->get) ? true : false,
 			'CHAT_PAGE'          => $this->page,
@@ -882,7 +882,7 @@ class chat
 			'USER_AVATAR'		 => $row['avatar'],
 			'USER_AVATAR_THUMB'	 => $row['avatar_thumb'],
 			'S_AJAXCHAT_EDIT'	 => $this->can_edit_message($row['user_id']),
-			'U_EDIT'			 => $this->helper->route('spaceace_ajaxchat_edit', array('chat_id' => $row['message_id'])),
+			'U_EDIT'			 => $this->helper->route('spaceace_ajaxchat_edit', array('chat_id' => $row['message_id'], 'tslash' => '')),
 		]);
 	}
 

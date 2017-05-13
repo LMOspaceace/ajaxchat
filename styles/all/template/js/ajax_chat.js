@@ -184,7 +184,9 @@ function handle_return()
 			}
 			indicator_switch('off');
 		} else {
-			window.clearInterval(interval);
+			if (type == 'receive') {
+				window.clearInterval(interval);
+			}
 			handle_error(xmlHttp.status, xmlHttp.statusText, type);
 		}
 	}

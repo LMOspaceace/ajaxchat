@@ -20,7 +20,7 @@
 					<!-- ENDIF -->
 				</div>
 				<div class="chat-usernames">
-					<!-- IF not S_IS_BOT and S_USER_LOGGED_IN and SCRIPT_NAME neq 'app/chat/archive' -->
+					<!-- IF not S_IS_BOT and S_USER_LOGGED_IN and CHAT_PAGE neq 'archive' -->
 						<!-- IF chatrow.USER_COLOR -->
 							<a href="#" style="color: #{chatrow.USER_COLOR}" onclick="insert_text('[color=#{chatrow.USER_COLOR}][b]&#64;{chatrow.USERNAME_A}&nbsp;:&nbsp;[/color][/b]', true);return false;" title="{L_RESPOND}">&#64;</a>
 						<!-- ELSE -->
