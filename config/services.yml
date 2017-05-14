@@ -23,6 +23,7 @@ services:
         class: spaceace\ajaxchat\controller\chat
         arguments:
             - '@template'
+            - '@template_context'
             - '@user'
             - '@dbal.conn'
             - '@auth'

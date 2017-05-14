@@ -13,6 +13,7 @@ namespace spaceace\ajaxchat\controller;
 
 use phpbb\user;
 use phpbb\template\template;
+use phpbb\template\context;
 use phpbb\db\driver\driver_interface as db_driver;
 use phpbb\exception\http_exception;
 use phpbb\auth\auth;
@@ -35,6 +36,9 @@ class chat
 
 	/** @var \phpbb\template\template */
 	protected $template;
+
+	/** @var \phpbb\template\context */
+	protected $context;
 
 	/** @var \phpbb\user */
 	protected $user;
@@ -133,27 +137,28 @@ class chat
 	 * @param string		$root_path
 	 * @param string		$php_ext
 	 */
-	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request,
+	public function __construct(template $template, context $context, user $user, db_driver $db, auth $auth, request $request,
 								helper $helper, db $config, manager $ext_manager, path_helper $path_helper,
 								$table_prefix, $root_path, $php_ext,
 								$posts_table, $users_table, $ajax_chat_table, $ajax_chat_sessions_table)
 	{
-		$this->template		 = $template;
-		$this->user			 = $user;
-		$this->db			 = $db;
-		$this->auth			 = $auth;
-		$this->request		 = $request;
-		$this->helper		 = $helper;
-		$this->config		 = $config;
-		$this->root_path	 = $root_path;
-		$this->php_ext		 = $php_ext;
-		$this->ext_manager	 = $ext_manager;
-		$this->path_helper	 = $path_helper;
-		$this->table_prefix = $table_prefix;
-		$this->posts_table = $posts_table;
-		$this->users_table = $users_table;
-		$this->ajax_chat_table = $ajax_chat_table;
-		$this->ajax_chat_sessions_table = $ajax_chat_sessions_table;
+		$this->template		= $template;
+		$this->context		= $context;
+		$this->user			= $user;
+		$this->db			= $db;
+		$this->auth			= $auth;
+		$this->request		= $request;
+		$this->helper		= $helper;
+		$this->config		= $config;
+		$this->root_path	= $root_path;
+		$this->php_ext		= $php_ext;
+		$this->ext_manager	= $ext_manager;
+		$this->path_helper	= $path_helper;
+		$this->table_prefix	= $table_prefix;
+		$this->posts_table	= $posts_table;
+		$this->users_table	= $users_table;
+		$this->ajax_chat_table			= $ajax_chat_table;
+		$this->ajax_chat_sessions_table	= $ajax_chat_sessions_table;
 
 		$this->user->add_lang('posting');
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
@@ -264,21 +269,27 @@ class chat
 
 	public function chat_smilies_and_bbcodes()
 	{
+		$dataref = $this->context->get_data_ref();
 		// Generate smiley listing
-		if (!function_exists('generate_smilies'))
+		if (!isset($dataref['smiley']))
 		{
-			include($this->root_path . 'includes/functions_posting.' . $this->php_ext);
+			if (!function_exists('generate_smilies'))
+			{
+				include($this->root_path . 'includes/functions_posting.' . $this->php_ext);
+			}
+			generate_smilies('inline', 0);
 		}
-
-		generate_smilies('inline', 0);
 
 		// Build custom bbcodes array
-		if (!function_exists('display_custom_bbcodes'))
+		if (!isset($dataref['custom_tags']))
 		{
-			include($this->root_path . 'includes/functions_display.' . $this->php_ext);
+			if (!function_exists('display_custom_bbcodes'))
+			{
+				include($this->root_path . 'includes/functions_display.' . $this->php_ext);
+			}
+			display_custom_bbcodes();
 		}
-
-		display_custom_bbcodes();
+		unset($dataref);
 	}
 
 	/**
