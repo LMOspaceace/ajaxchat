@@ -388,6 +388,12 @@ class chat
 			{
 				continue;
 			}
+
+			if (!$this->auth->acl_get('u_viewonline') && $row['user_id'] != $this->user->data['user_id'])
+			{
+				continue;
+			}
+
 			if ($row['user_id'] == $this->user->data['user_id'])
 			{
 				$this->last_post = $row['user_lastpost'];
