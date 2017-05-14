@@ -41,7 +41,7 @@ $lang = array_merge(
 	$lang, array(
 		'CHAT_BOTTOM'					=> 'Внизу',
 		'CHAT_TOP'						=> 'Вверху',
-		'USER_AJAX_CHAT_VIEW'			=> 'Включить чат на главной',
+		'USER_AJAX_CHAT_VIEW'			=> 'Включить чат на главной странице конференции',
 		'USER_AJAX_CHAT_POSITION'		=> 'Позиция на главной странице конференции для отображения чата',
 		'USER_AJAX_CHAT_VIEWFORUM'		=> 'Включить чат при просмотре форумов',
 		'USER_AJAX_CHAT_VIEWTOPIC'		=> 'Включить чат при просмотре тем',
