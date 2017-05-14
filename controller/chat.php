@@ -377,6 +377,7 @@ class chat
 			'username'			 => $this->user->data['username'],
 			'user_colour'		 => $this->user->data['user_colour'],
 			'user_lastupdate'	 => time(),
+			'session_viewonline' => $this->user->data['session_viewonline'],
 		];
 		$sql	 = 'UPDATE ' . $this->ajax_chat_sessions_table . '
 			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
@@ -393,9 +394,9 @@ class chat
 		$result	 = $this->db->sql_query($sql);
 
 		$status_time = time();
-		while ($row		 = $this->db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
-			if (empty($this->auth->acl_get_list((int) $row['user_id'], 'u_ajaxchat_view')) || ($this->check_hidden($row['user_id']) === false && (!$this->auth->acl_get('u_viewonline') && $row['user_id'] != $this->user->data['user_id'])))
+			if (empty($this->auth->acl_get_list((int) $row['user_id'], 'u_ajaxchat_view')) || (!(bool) $row['session_viewonline'] && (!$this->auth->acl_get('u_viewonline') && $row['user_id'] != $this->user->data['user_id'])))
 			{
 				continue;
 			}
@@ -790,16 +791,6 @@ class chat
 		return $this->helper->render('chat_body_delete.html', $this->user->lang['CHAT_EXPLAIN']);
 	}
 
-	public function check_hidden($uid)
-	{
-		$sql	 = 'SELECT session_viewonline '
-				. 'FROM ' . $this->table_prefix . 'sessions' . ' '
-				. 'WHERE session_user_id = ' . (int) $uid;
-		$result	 = $this->db->sql_query($sql);
-		$hidden	 = $this->db->sql_fetchrow($result);
-		return (bool) $hidden['session_viewonline'];
-	}
-
 	/**
 	 * Quote function
 	 *
@@ -914,6 +905,7 @@ class chat
 					'user_colour'		 => $this->user->data['user_colour'],
 					'user_login'		 => time(),
 					'user_lastupdate'	 => time(),
+					'session_viewonline' => $this->user->data['session_viewonline'],
 				];
 				$sql	 = 'INSERT INTO ' . $this->ajax_chat_sessions_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
 				$this->db->sql_query($sql);
@@ -925,6 +917,7 @@ class chat
 					'user_colour'		 => $this->user->data['user_colour'],
 					'user_login'		 => time(),
 					'user_lastupdate'	 => time(),
+					'session_viewonline' => $this->user->data['session_viewonline'],
 				];
 				$sql	 = 'UPDATE ' . $this->ajax_chat_sessions_table . '
 					SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
