@@ -395,12 +395,7 @@ class chat
 		$status_time = time();
 		while ($row		 = $this->db->sql_fetchrow($result))
 		{
-			if ($this->check_hidden($row['user_id']) === false)
-			{
-				continue;
-			}
-
-			if (!$this->auth->acl_get('u_viewonline') && $row['user_id'] != $this->user->data['user_id'])
+			if (empty($this->auth->acl_get_list((int) $row['user_id'], 'u_ajaxchat_view')) || ($this->check_hidden($row['user_id']) === false && (!$this->auth->acl_get('u_viewonline') && $row['user_id'] != $this->user->data['user_id'])))
 			{
 				continue;
 			}
