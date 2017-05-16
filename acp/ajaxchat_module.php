@@ -57,21 +57,12 @@ class ajaxchat_module
 		$this->user		 = $phpbb_container->get('user');
 		$this->template	 = $phpbb_container->get('template');
 		$this->request	 = $phpbb_container->get('request');
+		$this->ajax_chat_table	 = $phpbb_container->getParameter('tables.ajax_chat');
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $phpEx;
 		$this->phpbb_log = $phpbb_log;
 		$this->root_path	= $root_path;
 
-		if (!defined('CHAT_TABLE'))
-		{
-			$chat_table = $table_prefix . 'ajax_chat';
-			define('CHAT_TABLE', $chat_table);
-		}
-		if (!defined('CHAT_RULES'))
-		{
-			$chat_rules = $table_prefix . 'ajax_chat_rules';
-			define('CHAT_RULES', $chat_rules);
-		}
 		$this->id		 = $id;
 		$this->mode		 = $mode;
 		if ($this->request->variable('action', ''))
@@ -156,7 +147,7 @@ class ajaxchat_module
 	public function chat_counter()
 	{
 		$sql = 'SELECT COUNT(*)
-			FROM ' . CHAT_TABLE . '';
+			FROM ' . $this->ajax_chat_table . '';
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -193,12 +184,12 @@ class ajaxchat_module
 			if ($this->action === 'prune_chat')
 			{
 				$sql = 'SELECT message_id
-					FROM ' . CHAT_TABLE . '
+					FROM ' . $this->ajax_chat_table . '
 					ORDER BY message_id DESC ';
 				$result = $this->db->sql_query_limit($sql, 1, $this->config['prune_keep_ajax_chat']);
 				$row = $this->db->sql_fetchfield('message_id');
 				$this->db->sql_freeresult($result);
-				$sql1 = 'DELETE FROM ' . CHAT_TABLE . '
+				$sql1 = 'DELETE FROM ' . $this->ajax_chat_table . '
 					WHERE message_id <= ' . (int) $row;
 				$this->db->sql_query($sql1);
 				// Add the log to the ACP
@@ -243,7 +234,7 @@ class ajaxchat_module
 			}
 			if ($this->action === 'truncate_chat')
 			{
-				$sql1 = 'TRUNCATE ' . CHAT_TABLE;
+				$sql1 = 'TRUNCATE ' . $this->ajax_chat_table;
 				$this->db->sql_query($sql1);
 				// Add the log to the ACP
 				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'TRUNCATE_LOG_AJAXCHAT', time());
@@ -270,7 +261,10 @@ class ajaxchat_module
 	 */
 	protected function form_submition($display_vars, $special_functions = [])
 	{
-		$this->new_config	 = $this->config;
+		foreach ($this->config as $key => $value)
+		{
+			$this->new_config[$key] = $value;
+		}
 		$cfg_array			 = ($this->request->is_set('config')) ? $this->request->variable('config', ['' => ''], true) : $this->new_config;
 		$error				 = isset($error) ? $error : [];
 

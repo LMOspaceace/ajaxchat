@@ -24,7 +24,9 @@
 								<!-- ENDIF -->
 								<!-- EVENT spaceace_ajax_chat_buttons_mid -->
 								<input type="button" class="button" onclick="popup('{FILENAME}/archive', 1000, 565); return false;" value="{{ lang('CHAT_ARCHIVE') }}" title="{{ lang('CHAT_ARCHIVE_EXPLAIN') }}" />
-								<input type="button" class="button" onclick="popup('{FILENAME}/popup', 1000, 665); return false;" value="{{ lang('CHAT_POPUP') }}" title="{{ lang('CHAT_POPUP_EXPLAIN') }}" />
+								<!-- IF CHAT_PAGE != 'popup' -->
+									<input type="button" class="button" onclick="popup('{FILENAME}/popup', 1000, 665); return false;" value="{{ lang('CHAT_POPUP') }}" title="{{ lang('CHAT_POPUP_EXPLAIN') }}" />
+								<!-- ENDIF -->
 								<!-- IF S_AJAXCHAT_BBCODE -->
 									<input type="button" class="button" name="chat_bbpalette" id="chat_bbpalette" value="{{ lang('CHAT_FONT_COLOR') }}" />
 								<!-- ENDIF -->

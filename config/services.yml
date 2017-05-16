@@ -1,7 +1,6 @@
-parameters:
-    chat_table: '%core.table_prefix%ajax_chat'
-    chat_session_table: '%core.table_prefix%ajax_chat_sessions'
-    
+imports:
+    - { resource: tables.yml }
+
 services:
     spaceace.ajaxchat.listener:
         class: spaceace\ajaxchat\event\listener
@@ -15,12 +14,8 @@ services:
             - '@config'
             - '@config_text'
             - '@ext.manager'
-            - '@path_helper'
-            - '@service_container'
-            - '%chat_table%'
-            - '%chat_session_table%'
-            - '%core.root_path%'
             - '%core.php_ext%'
+            - '%tables.ajax_chat%'
             - '@spaceace.ajaxchat.chat.controller'
         tags:
             - { name: event.listener }
@@ -28,6 +23,7 @@ services:
         class: spaceace\ajaxchat\controller\chat
         arguments:
             - '@template'
+            - '@template_context'
             - '@user'
             - '@dbal.conn'
             - '@auth'
@@ -36,11 +32,13 @@ services:
             - '@config'
             - '@ext.manager'
             - '@path_helper'
-            - '@service_container'
-            - '%chat_table%'
-            - '%chat_session_table%'
+            - '%core.table_prefix%'
             - '%core.root_path%'
             - '%core.php_ext%'
+            - '%tables.posts%'
+            - '%tables.users%'
+            - '%tables.ajax_chat%'
+            - '%tables.ajax_chat_sessions%'
     spaceace.ajaxchat.cron.task.prune_ajaxchat:
         class: spaceace\ajaxchat\cron\task\prune_ajaxchat
         arguments:
@@ -48,7 +46,7 @@ services:
             - '@dbal.conn'
             - '@user'
             - '@log'
-            - '%core.table_prefix%'
+            - '%tables.ajax_chat%'
         calls:
             - [set_name, [cron.task.prune_ajaxchat]]
         tags:

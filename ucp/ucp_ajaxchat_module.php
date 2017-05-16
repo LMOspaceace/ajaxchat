@@ -45,7 +45,7 @@ class ucp_ajaxchat_module
 	public function __construct()
 	{
 		global $db, $config, $user, $auth, $template, $phpbb_root_path, $phpEx;
-		global $request;
+		global $request, $phpbb_container;
 		$this->db			= $db;
 		$this->config		= $config;
 		$this->user			= $user;
@@ -54,6 +54,7 @@ class ucp_ajaxchat_module
 		$this->request		= $request;
 		$this->root_path	= $phpbb_root_path;
 		$this->php_ext		= $phpEx;
+		$this->users_table	= $phpbb_container->getParameter('tables.users');
 	}
 
 	public function main($id, $mode)
@@ -159,7 +160,7 @@ class ucp_ajaxchat_module
 
 						if (sizeof($sql_ary))
 						{
-							$sql = 'UPDATE ' . USERS_TABLE . '
+							$sql = 'UPDATE ' . $this->users_table . '
 										SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
 										WHERE user_id = ' . (int) $this->user->data['user_id'];
 							$this->db->sql_query($sql);

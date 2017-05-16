@@ -160,19 +160,6 @@
 	overflow: auto;
 }
 
-.users {
-	width: 90%;
-	text-align: left;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.user {
-	width: 95%;
-	font-size: 1.2em;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-}
-
 .chatinput {
 	width: 60% !important;
 	margin-bottom: 4px;
@@ -264,8 +251,11 @@ div.chat-avatars:hover span {
 	padding-top: 2px;
 }
 
-.chat-avatars img {
-	height: 20px;
+.chat-avatars > img {
+	width: auto !important;
+	height: auto !important;
+	max-width: 25px;
+	max-height: 20px;
 }
 
 .chat li.row:hover {
@@ -290,7 +280,11 @@ div.chat-avatars:hover span {
 .chat-postbody .message blockquote, .chat-postbody .codebox {
 	margin-right: 30px;
 	margin-bottom: 4px;
-	width: 60%;
+	width: 80%;
+}
+
+.chat-postbody .message blockquote {
+	width: calc(100% - 65px);
 }
 
 .chat .button {
@@ -587,4 +581,9 @@ div.chat-avatars:hover span {
 
 #ajaxchat .forabg ul.topiclist li.header dt, .forumbg ul.topiclist li.header dt {
 	width: 100%;
+}
+
+/*BBCodes*/
+#ajaxchat .message ul, #ajaxchat .message ol {
+	margin: 0.8em 0 0.9em 3em;
 }
