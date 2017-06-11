@@ -19,7 +19,7 @@
 						<ul class="topiclist">
 							<li class="header">
 								<dl class="row-item">
-									<dt><div class="chat-header-link"><!-- IF SCRIPT_NAME == 'index' --><a href="{U_CHAT}">{{ lang('CHAT_EXPLAIN') }}</a><!-- ELSE -->{{ lang('CHAT_EXPLAIN') }}<!-- ENDIF --></div></dt>
+									<dt><div class="chat-header-link"><!-- IF CHAT_PAGE == 'index' --><a href="{U_CHAT}">{{ lang('CHAT_EXPLAIN') }}</a><!-- ELSE -->{{ lang('CHAT_EXPLAIN') }}<!-- ENDIF --></div></dt>
 									<dd></dd>
 								</dl>
 							</li>
@@ -37,13 +37,13 @@
 						</div>
 					<!-- ENDIF -->
 				<div>
-					<div class="shout-body<!-- IF S_WHOIS_CHATTING --><!-- IF S_AJAX_CHAT_ONLINELIST and CHAT_PAGE neq 'archive' --> shouts<!-- ENDIF --><!-- ENDIF --><!-- IF not S_AJAX_CHAT_ONLINELIST or CHAT_PAGE == 'archive' or not S_WHOIS_CHATTING --> chat_online_off<!-- ENDIF --><!-- IF S_CHAT or S_POPUP or CHAT_PAGE == 'archive' --> main<!-- ENDIF -->">
+					<div class="shout-body<!-- IF S_WHOIS_CHATTING --><!-- IF S_AJAX_CHAT_ONLINELIST and CHAT_PAGE neq 'archive' --> shouts<!-- ENDIF --><!-- ENDIF --><!-- IF not S_AJAX_CHAT_ONLINELIST or CHAT_PAGE == 'archive' or not S_WHOIS_CHATTING --> chat_online_off<!-- ENDIF --><!-- IF SCRIPT_NAME != 'index' --><!-- IF S_CHAT or S_POPUP or CHAT_PAGE == 'archive' --> main<!-- ENDIF --><!-- ENDIF -->">
 						<div id="chat" <!-- IF not S_AJAX_CHAT_MESSAGES_DOWN -->class="chat-messages-down"<!-- ENDIF --> >
 							<!-- INCLUDE chat_body_chatrow.html -->
 						</div>
 					</div>
 					<!-- IF S_WHOISONLINE -->
-						<div class="whois<!-- IF S_CHAT or S_POPUP --> main<!-- ENDIF --><!-- IF not S_AJAX_CHAT_ONLINELIST or CHAT_PAGE == 'archive' or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
+						<div class="whois<!-- IF SCRIPT_NAME != 'index' --><!-- IF S_CHAT or S_POPUP --> main<!-- ENDIF --><!-- ENDIF --><!-- IF not S_AJAX_CHAT_ONLINELIST or CHAT_PAGE == 'archive' or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
 							<h3>
 								{{ lang('WHOIS_CHATTING') }}
 							</h3>
