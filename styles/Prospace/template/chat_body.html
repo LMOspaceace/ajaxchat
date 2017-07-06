@@ -1,80 +1,80 @@
-<!-- IF S_CHAT_ENABLED -->
-	<!-- IF S_AJAXCHAT_VIEW -->
-		<!-- IF S_GET_CHAT -->
-			<!-- INCLUDE chat_body_readadd.html -->
-		<!-- ELSE -->
-			<!-- IF CHAT_PAGE == 'chat' -->
-				<!-- INCLUDE overall_header.html -->
-			<!-- ENDIF -->
-			<!-- IF CHAT_PAGE == 'popup' or CHAT_PAGE == 'archive' -->
-				<!-- INCLUDE simple_header.html -->
+{% if S_CHAT_ENABLED %}
+	{% if S_AJAXCHAT_VIEW %}
+		{% if S_GET_CHAT %}
+			{% INCLUDE 'chat_body_readadd.html' %}
+		{% else %}
+			{% if CHAT_PAGE == 'chat' %}
+				{% INCLUDE 'overall_header.html' %}
+			{% endif %}
+			{% if CHAT_PAGE == 'popup' or CHAT_PAGE == 'archive' %}
+				{% INCLUDE 'simple_header.html' %}
 				<div>
-			<!-- ENDIF -->
-			<!-- INCLUDE chat_body_script_vars.html -->
-			<!-- INCLUDEJS @spaceace_ajaxchat/js/ajax_chat.js -->
-			<!-- EVENT spaceace_ajax_chat_chat_body_before -->
+			{% endif %}
+			{% INCLUDE 'chat_body_script_vars.html' %}
+			{% INCLUDEJS '@spaceace_ajaxchat/js/ajax_chat.js' %}
+			{% EVENT spaceace_ajax_chat_chat_body_before %}
 			<div id="ajaxchat">
 				<div class="forabg">
 					<div class="inner">
 						<ul class="topiclist">
 							<li class="header">
 								<dl class="row-item">
-									<dt><div class="chat-header-link"><!-- IF CHAT_PAGE == 'index' --><a href="{U_CHAT}">{{ lang('CHAT_EXPLAIN') }}</a><!-- ELSE -->{{ lang('CHAT_EXPLAIN') }}<!-- ENDIF --></div></dt>
+									<dt><div class="chat-header-link">{% if CHAT_PAGE == 'index' %}<a href="{{ U_CHAT }}">{{ lang('CHAT_EXPLAIN') }}</a>{% else %}{{ lang('CHAT_EXPLAIN') }}{% endif %}</div></dt>
 									<dd></dd>
 								</dl>
 							</li>
 						</ul>
-						<!-- IF CHAT_PAGE neq 'archive' -->
-							<!-- IF S_AJAX_CHAT_MESSAGES_DOWN -->
-								<!-- INCLUDE chat_body_input.html -->
-							<!-- ENDIF -->
-						<!-- ENDIF -->
+						{% if CHAT_PAGE neq 'archive' %}
+							{% if S_AJAX_CHAT_MESSAGES_DOWN %}
+								{% INCLUDE 'chat_body_input.html' %}
+							{% endif %}
+						{% endif %}
 					</div>
 				</div>
-					<!-- IF CHAT_RULES and CHAT_PAGE neq 'archive' -->
+					{% if CHAT_RULES and CHAT_PAGE neq 'archive' %}
 						<div class="navbar chatrules">
-							<span>{CHAT_RULES}</span>
+							<span>{{ CHAT_RULES }}</span>
 						</div>
-					<!-- ENDIF -->
+					{% endif %}
 				<div>
-					<div class="shout-body<!-- IF S_WHOIS_CHATTING --><!-- IF S_AJAX_CHAT_ONLINELIST and CHAT_PAGE neq 'archive' --> shouts<!-- ENDIF --><!-- ENDIF --><!-- IF not S_AJAX_CHAT_ONLINELIST or CHAT_PAGE == 'archive' or not S_WHOIS_CHATTING --> chat_online_off<!-- ENDIF --><!-- IF SCRIPT_NAME != 'index' --><!-- IF S_CHAT or S_POPUP or CHAT_PAGE == 'archive' --> main<!-- ENDIF --><!-- ENDIF -->">
-						<div id="chat" <!-- IF not S_AJAX_CHAT_MESSAGES_DOWN -->class="chat-messages-down"<!-- ENDIF --> >
-							<!-- INCLUDE chat_body_chatrow.html -->
+					<div class="shout-body{% if S_WHOIS_CHATTING %}{% if S_AJAX_CHAT_ONLINELIST and CHAT_PAGE neq 'archive' %} shouts{% endif %}{% endif %}{% if not S_AJAX_CHAT_ONLINELIST or CHAT_PAGE == 'archive' or not S_WHOIS_CHATTING %} chat_online_off{% endif %}{% if S_CHAT or S_POPUP or CHAT_PAGE == 'archive' %} main{% endif %}">
+						<div id="chat" {% if not S_AJAX_CHAT_MESSAGES_DOWN %}class="chat-messages-down"{% endif %} >
+							{% INCLUDE 'chat_body_chatrow.html' %}
 						</div>
 					</div>
-					<!-- IF S_WHOISONLINE -->
-						<div class="whois<!-- IF SCRIPT_NAME != 'index' --><!-- IF S_CHAT or S_POPUP --> main<!-- ENDIF --><!-- ENDIF --><!-- IF not S_AJAX_CHAT_ONLINELIST or CHAT_PAGE == 'archive' or not S_WHOIS_CHATTING --> whois_online_off<!-- ENDIF -->">
+					{% if S_WHOISONLINE %}
+						<div class="whois{% if S_CHAT or S_POPUP %} main{% endif %}{% if not S_AJAX_CHAT_ONLINELIST or CHAT_PAGE == 'archive' or not S_WHOIS_CHATTING %} whois_online_off{% endif %}">
 							<h3>
 								{{ lang('WHOIS_CHATTING') }}
 							</h3>
 							<div id="whois_online">
-								<!-- INCLUDE chat_body_whois.html -->
+								{% INCLUDE 'chat_body_whois.html' %}
 							</div>
 						</div>
-					<!-- ENDIF -->
+					{% endif %}
 				</div>
 				<div class="chatnavbar navbar">
-					<!-- IF CHAT_PAGE neq 'archive' -->
-						<!-- IF not S_AJAX_CHAT_MESSAGES_DOWN -->
-							<!-- INCLUDE chat_body_input.html -->
-						<!-- ENDIF -->
-					<!-- ENDIF -->
+					{% if CHAT_PAGE neq 'archive' %}
+						{% if not S_AJAX_CHAT_MESSAGES_DOWN %}
+							{% INCLUDE 'chat_body_input.html' %}
+						{% endif %}
+					{% endif %}
 					<div class="chatform">
 						<span class="list chat-icon details">{{ lang('DETAILS') }}</span>
-						<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="check_indicator" title="{{ lang('VERSION') }}" />
-						<img src="{BOARD_URL}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" alt="act_indicator" title="{{ lang('VERSION') }}" />
-						<strong>&nbsp;{{ lang('UPDATES') }}&nbsp;<span id="update_seconds">{REFRESH_TIME}</span>&nbsp;{{ lang('UNIT') }}</strong>
+						<img src="{{ BOARD_URL }}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="check_indicator" title="{{ lang('VERSION') }}" />
+						<img src="{{ BOARD_URL }}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" alt="act_indicator" title="{{ lang('VERSION') }}" />
+						<strong>&nbsp;{{ lang('UPDATES') }}&nbsp;<span id="update_seconds">{{ REFRESH_TIME }}</span>&nbsp;{{ lang('UNIT') }}</strong>
 					</div>
 				</div>
 			</div>
-			<!-- EVENT spaceace_ajax_chat_chat_body_after -->
-			<!-- IF CHAT_PAGE == 'chat' -->
-				<!-- INCLUDE overall_footer.html -->
-			<!-- ENDIF -->
-			<!-- IF CHAT_PAGE == 'popup' or CHAT_PAGE == 'archive' -->
+			{% EVENT spaceace_ajax_chat_chat_body_after %}
+			{% if CHAT_PAGE == 'chat' %}
+				{% INCLUDE 'overall_footer.html' %}
+			{% endif %}
+			{% if CHAT_PAGE == 'popup' or CHAT_PAGE == 'archive' %}
 				</div>
-				<!-- INCLUDE simple_footer.html -->
-			<!-- ENDIF -->
-		<!-- ENDIF -->
-	<!-- ENDIF -->
-<!-- ENDIF -->
+				{% INCLUDE 'simple_footer.html' %}
+			{% endif %}
+		{% endif %}
+	{% endif %}
+{% endif %}

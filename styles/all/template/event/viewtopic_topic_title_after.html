@@ -1,11 +1,11 @@
-<!-- IF S_AJAX_CHAT_VIEW -->
-	<!-- IF S_AJAX_CHAT_VIEWTOPIC_OVERRIDE or S_AJAX_CHAT_VIEWTOPIC -->
-		<!-- IF S_AJAX_CHAT_POSITION and not S_AJAX_CHAT_POSITION_OVERRIDE -->
-			<!-- INCLUDE chat_body.html -->
+{% if S_AJAX_CHAT_VIEW %}
+	{% if S_AJAX_CHAT_VIEWTOPIC_OVERRIDE or S_AJAX_CHAT_VIEWTOPIC %}
+		{% if S_AJAX_CHAT_POSITION and not S_AJAX_CHAT_POSITION_OVERRIDE %}
+			{% INCLUDE 'chat_body.html' %}
 			<br />
-		<!-- ELSEIF S_AJAX_CHAT_ACP_POSITION and S_AJAX_CHAT_POSITION_OVERRIDE -->
-			<!-- INCLUDE chat_body.html -->
+		{% elseif S_AJAX_CHAT_ACP_POSITION and S_AJAX_CHAT_POSITION_OVERRIDE %}
+			{% INCLUDE 'chat_body.html' %}
 			<br />
-		<!-- ENDIF -->
-	<!-- ENDIF -->
-<!-- ENDIF -->
+		{% endif %}
+	{% endif %}
+{% endif %}

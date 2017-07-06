@@ -1,33 +1,33 @@
-<!-- INCLUDE simple_header.html -->
+{% INCLUDE 'simple_header.html' %}
 <script type="text/javascript">
 // <![CDATA[
-var last_time = {TIME};
-var last_id = {LAST_ID};
-var read_interval = ({REFRESH_TIME} * 1000);
-var cookie_name = '{AJAX_CHAT_COOKIE_NAME}';
-var query_url	= '{FILENAME}';
-<!-- IF S_AJAXCHAT_BBCODE -->
+var last_time = {{ TIME }};
+var last_id = {{ LAST_ID }};
+var read_interval = ({{ REFRESH_TIME }} * 1000);
+var cookie_name = '{{ AJAX_CHAT_COOKIE_NAME }}';
+var query_url	= '{{ FILENAME }}';
+{% if S_AJAXCHAT_BBCODE %}
 	var chatbbcodetrue = true;
-<!-- ELSE -->
+{% else %}
 	var chatbbcodetrue = false;
-<!-- ENDIF -->
-<!-- IF S_AJAX_CHAT_MESSAGES_DOWN -->
+{% endif %}
+{% if S_AJAX_CHAT_MESSAGES_DOWN %}
 	var chatmessagedown = false;
-<!-- ELSE -->
+{% else %}
 	var chatmessagedown = true;
-<!-- ENDIF -->
+{% endif %}
 //]]>
 </script>
-<!-- INCLUDEJS @spaceace_ajaxchat/js/ajax_chat.js -->
+{% INCLUDEJS '@spaceace_ajaxchat/js/ajax_chat.js' %}
 <form method="post" action="" id="chat_edit">
 	<div class="panel chat_edit">
 		<div class="inner">
 				<h2>{{ lang('CHAT_EDIT') }}</h2>
 				<fieldset class="fields1">
 				<div>
-					<textarea id="message" style="height: 9em;" name="message" rows="7" cols="76" tabindex="3" class="inputbox" >{MESSAGE}</textarea>
+					<textarea id="message" style="height: 9em;" name="message" rows="7" cols="76" tabindex="3" class="inputbox" >{{ MESSAGE }}</textarea>
 				</div>
-					<input type="hidden" name="chat_id" value="{CHAT_ID}" />
+					<input type="hidden" name="chat_id" value="{{ CHAT_ID }}" />
 				</fieldset>
 				<fieldset class="submit-buttons">
 					<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
@@ -37,4 +37,4 @@ var query_url	= '{FILENAME}';
 	</div>
 </form>
 
-<!-- INCLUDE simple_footer.html -->
+{% INCLUDE 'simple_footer.html' %}

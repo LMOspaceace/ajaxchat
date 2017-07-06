@@ -40,7 +40,7 @@
 								{
 									color = String(numberList[r]) + String(numberList[g]) + String(numberList[b]);
 									document.write('<td bgcolor="#' + color + '" style="width: ' + width + 'px; height: ' + height + 'px;">');
-									document.write('<div onmouseover="this.style.cursor=\'pointer\'" onmousedown="setCookie(\'' + cookie_name + '\', \'[color2=#' + color + ']\',\'1000\'); blkopen = \'[color2=#' + color + ']\'; hilite(\'#' + color + ' \'); blkclose = \'[/color2]\'; return false;"><img src="{BOARD_URL}images/spacer.gif" width="' + width + '" height="' + height + '" alt="#' + color + '" title="#' + color + '" /></div>');
+									document.write('<div onmouseover="this.style.cursor=\'pointer\'" onmousedown="setCookie(\'' + cookie_name + '\', \'[color2=#' + color + ']\',\'1000\'); blkopen = \'[color2=#' + color + ']\'; hilite(\'#' + color + ' \'); blkclose = \'[/color2]\'; return false;"><img src="{{ BOARD_URL }}images/spacer.gif" width="' + width + '" height="' + height + '" alt="#' + color + '" title="#' + color + '" /></div>');
 									document.writeln('</td>');
 								}
 								if (dir == 'v')
