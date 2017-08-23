@@ -1,17 +1,17 @@
 <?php
 /**
-*
-* Ajax Chat extension for the phpBB Forum Software package.
-* French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
-*
-* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * Ajax Chat. An extension for the phpBB Forum Software package.
+ * French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
+ *
+ * @copyright (c) 2017 spaceace <http://www.livemembersonly.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 /**
-* DO NOT CHANGE
-*/
+ * DO NOT CHANGE
+ */
 if (!defined('IN_PHPBB'))
 {
 	exit;

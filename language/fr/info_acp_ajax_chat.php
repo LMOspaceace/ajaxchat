@@ -1,17 +1,17 @@
 <?php
 /**
-*
-* Ajax Chat extension for the phpBB Forum Software package.
-* French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
-*
-* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * Ajax Chat. An extension for the phpBB Forum Software package.
+ * French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
+ *
+ * @copyright (c) 2017 spaceace <http://www.livemembersonly.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 /**
-* DO NOT CHANGE
-*/
+ * DO NOT CHANGE
+ */
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -103,6 +103,7 @@ $lang = array_merge(
 		'PRUNE_CHAT_SUCCESS'						=> 'La table de la messagerie a été purgée avec succès !',
 		'CONFIRM_PRUNE_AJAXCHAT'					=> 'Merci de confirmer la purge des messages de la messagerie.',
 		'TRUNCATE_NOW'								=> 'Vider la table maintenant',
+		'TRUNCATE_NOW_EXPLAIN'						=> 'Permet de supprimer tous les messages de la messagerie instantanée présents dans la table de la base de données.',
 		'CONFIRM_TRUNCATE_AJAXCHAT'					=> 'Merci de confirmer la suppression des données de la table de la messagerie.',
 		'TRUNCATE_LOG_AJAXCHAT'						=> 'Table de la messagerie vidée',
 		'TRUNCATE_CHAT_SUCCESS'						=> 'La table de la messagerie a été vidée avec succès !',

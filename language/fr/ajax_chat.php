@@ -1,17 +1,17 @@
 <?php
 /**
-*
-* Ajax Chat extension for the phpBB Forum Software package.
-* French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
-*
-* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * Ajax Chat. An extension for the phpBB Forum Software package.
+ * French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
+ *
+ * @copyright (c) 2017 spaceace <http://www.livemembersonly.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 /**
-* DO NOT CHANGE
-*/
+ * DO NOT CHANGE
+ */
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -70,7 +70,9 @@ $lang = array_merge(
 		'IE_NO_AJAX'					=> 'Votre navigateur ne supporte pas le language AJAX.',
 		'UPGRADE_BROWSER'				=> 'Statut : impossible de créer l’objet JavaScript XmlHttpRequest. Veuillez mettre à jour votre navigateur.',
 		'NO_POST_IN_CHAT'				=> 'Des permissions sont nécessaires pour utiliser la messagerie instantanée.',
+		'NO_DEL_PERMISSION'				=> 'Des permissions sont nécessaires pour supprimer ce message.',
 		'NO_EDIT_PERMISSION'			=> 'Des permissions sont nécessaires pour modifier ce message de la messagerie instantanée.',
+		'NO_VIEW_PERMISSION'			=> 'Des permissions sont nécessaires pour voir la messagerie instantanée.',
 		'DELETE_CHAT_COOKIE'			=> 'Supprimer le cookie',
 		'DELETE_CHAT_COOKIE_EXPLAIN'	=> 'Le bouton ci-dessous réinitialise la couleur par défaut de la police.',
 		// @copyright line. No translations below this line.
