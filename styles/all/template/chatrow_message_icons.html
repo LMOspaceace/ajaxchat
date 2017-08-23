@@ -1,0 +1,13 @@
+<span class="pull-right top-pad">
+	{% EVENT spaceace_ajax_chat_chatrow_icons_before %}
+	{% if S_BBCODE_ALLOWED %}
+		<a href="javascript:void(0)" onClick="chatquote('{{ chatrow.MESSAGE_ID }}')" title="{{ lang('CHAT_QUOTE') }}"><i class="fa fa-quote-left fa-fw"></i></a>
+	{% endif %}
+	{% if chatrow.S_AJAXCHAT_EDIT %}
+		<a href="javascript:void(0)" onClick="popup('{{ chatrow.U_EDIT }}', 600, 250)" title="{{ lang('CHAT_EDIT') }}" ><i class="fa fa-pencil-square-o fa-fw"></i></a>
+	{% endif %}
+	{% if M_AJAXCHAT_DELETE or U_ACP %}
+		<a href="javascript:void(0)" title="{{ lang('DELETE_CHAT_MESSAGE') }}" onClick="delete_post('{{ chatrow.MESSAGE_ID }}')"><i class="fa fa-trash-o fa-fw"></i></a>
+	{% endif %}
+	{% EVENT spaceace_ajax_chat_chatrow_icons_after %}
+</span>

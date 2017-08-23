@@ -1,0 +1,5 @@
+{% if S_CHAT_ENABLED and S_CHAT_NAV_LINK and CHAT_PAGE neq 'chat' %}
+	{% if S_AJAXCHAT_VIEW %}
+		<li><a href="{{ U_CHAT }}" title="{{ lang('CHAT_EXPLAIN') }}" role="menuitem"><i class="fa fa-comments fa-fw" aria-hidden="true"></i> {{ lang('CHAT_EXPLAIN') }}</a></li>
+	{% endif %}
+{% endif %}

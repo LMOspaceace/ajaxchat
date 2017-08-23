@@ -1,0 +1,11 @@
+{% if S_AJAX_CHAT_VIEW %}
+	{% if S_AJAX_CHAT_VIEWFORUM_OVERRIDE or S_AJAX_CHAT_VIEWFORUM and loops.topicrow|length %}
+		{% if S_AJAX_CHAT_POSITION and not S_AJAX_CHAT_POSITION_OVERRIDE %}
+			{% INCLUDE 'chat_body.html' %}
+			<br />
+		{% elseif S_AJAX_CHAT_ACP_POSITION and S_AJAX_CHAT_POSITION_OVERRIDE %}
+			{% INCLUDE 'chat_body.html' %}
+			<br />
+		{% endif %}
+	{% endif %}
+{% endif %}

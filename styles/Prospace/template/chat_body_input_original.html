@@ -1,0 +1,25 @@
+<ul class="chat topiclist forums nobg">
+	<li class="row nobg">
+		<dl class="row-item">
+			<dt class="chatform">
+				{% if not S_IS_BOT %}
+					{% if S_AJAXCHAT_POST %}
+						<form name="postform" id="chat-text" method="post" action="javascript:void(0);" onsubmit="handle_send('add', this)">
+							<fieldset>
+								{{ S_FORM_TOKEN }}
+								<input type="submit" class="button nomargin" value="{{ lang('SUBMIT') }}" title="{{ lang('CHAT_SUBMIT_MESSAGE') }}" name="submit" tabindex="6" accesskey="s" />
+								<input type="text" tabindex="1" name="message" id="message" class="inputbox chatinput nomargin"{% if not S_AJAX_CHAT_AUTOCOMPLETE %} autocomplete="off"{% endif %} />
+							</fieldset>
+						</form>
+					{% else %}
+						{{ lang('NO_POST_IN_CHAT') }}
+					{% endif %}
+				{% else %}
+					<div class="input_message">{{ lang('GUEST_MESSAGE') }}</div>
+				{% endif %}
+			</dt>
+			<dd>
+			</dd>
+		</dl>
+	</li>
+</ul>

@@ -1,0 +1,13 @@
+{% if S_READ or S_ADD %}
+	{% INCLUDE 'chat_body_chatrow.html' %}
+	--!--{{ LAST_ID }}--!--
+	{% if S_AJAX_CHAT_SOUND %}
+		{% if SOUND_ENABLED %}
+			<audio id="ajax_chat_sound" class="hidden chat_sound" src="{{ BOARD_URL }}ext/spaceace/ajaxchat/styles/all/theme/sounds/{{ SOUND_FILE }}.mp3" autoplay ></audio>
+		{% endif %}
+	{% endif %}
+	{% if S_WHOISONLINE %}
+		{% INCLUDE 'chat_body_whois.html' %}
+	{% endif %}
+	--!--{{ LAST_TIME }}--!--{{ REFRESH_TIME }}--!--{{ LAST_POST }}
+{% endif %}

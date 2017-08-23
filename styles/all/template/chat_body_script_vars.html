@@ -1,0 +1,24 @@
+<script type="text/javascript">
+	// <![CDATA[
+		var last_time = {{ TIME }};
+		var last_id = {{ LAST_ID }};
+		var post_time = {{ LAST_POST }};
+		var read_interval = ({{ REFRESH_TIME }} * 1000);
+		var chat_empty = '{{ lang('EMPTY')|e('js') }}';
+		var ie_no_ajax = '{{ lang('IE_NO_AJAX')|e('js') }}';
+		var cookie_name = '{{ AJAX_CHAT_COOKIE_NAME }}';
+		var upgrade_browser = '{{ lang('UPGRADE_BROWSER')|e('js') }}';
+		var query_url	= '{{ FILENAME }}';
+		var chat_error_del = '{{ lang('NO_DEL_PERMISSION')|e('js') }}';
+		var chat_error_post = '{{ lang('NO_POST_IN_CHAT')|e('js') }}';
+		var chat_error_view = '{{ lang('NO_VIEW_PERMISSION')|e('js') }}';
+		var chat_username_title = '{{ lang('RESPOND')|e('js') }}';
+		{% if S_POPUP %}
+			var query_url = '{{ FILENAME }}/popup';
+		{% elseif S_ARCHIVE %}
+			var query_url = '{{ FILENAME }}/archive';
+		{% endif %}
+		var chatbbcodetrue = {% if S_AJAXCHAT_BBCODE %}true{% else %}false{% endif %};
+		var chatmessagedown = {% if S_AJAX_CHAT_MESSAGES_DOWN %}false{% else %}true{% endif %};
+	//]]>
+</script>

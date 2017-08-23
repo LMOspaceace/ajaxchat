@@ -1,13 +1,13 @@
 <?php
 
 /**
-*
-* Ajax Chat extension for phpBB.
-*
-* @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * Ajax Chat extension for phpBB.
+ *
+ * @copyright (c) 2015 spaceace <http://www.livemembersonly.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 namespace spaceace\ajaxchat\ucp;
 
@@ -22,7 +22,7 @@ class ucp_ajaxchat_info
 			'modes'	=> array(
 				'settings' => array(
 					'title' => 'USER_AJAXCHAT_SETTINGS',
-					'auth'  => 'ext_spaceace/ajaxchat && acl_u_chgprofileinfo',
+					'auth'  => 'ext_spaceace/ajaxchat && acl_u_chgprofileinfo && acl_u_ajaxchat_view',
 					'cat'   => array('USER_AJAXCHAT')
 				),
 			),

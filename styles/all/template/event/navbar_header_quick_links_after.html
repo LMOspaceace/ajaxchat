@@ -1,0 +1,9 @@
+{% if S_CHAT_ENABLED and S_CHAT_QUICK_LINK and CHAT_PAGE neq 'chat' %}
+	{% if S_AJAXCHAT_VIEW %}
+		{% if IS_PHPBB31 %}
+			<li class="list chat-icon"><a href="{{ U_CHAT }}" title="{{ lang('CHAT_EXPLAIN') }}" role="menuitem">{{ lang('CHAT_EXPLAIN') }}</a></li>
+		{% elseif IS_PHPBB32 %}
+			<li><a href="{{ U_CHAT }}" title="{{ lang('CHAT_EXPLAIN') }}" role="menuitem"><i class="icon fa-comments fa-fw" aria-hidden="true"></i>{{ lang('CHAT_EXPLAIN') }}</a></li>
+		{% endif %}
+	{% endif %}
+{% endif %}

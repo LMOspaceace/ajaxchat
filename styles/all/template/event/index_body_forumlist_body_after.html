@@ -1,0 +1,13 @@
+{% if S_AJAX_CHAT_VIEW %}
+	{% if not S_AJAX_CHAT_POSITION and not S_AJAX_CHAT_POSITION_OVERRIDE %}
+		{% if not S_USER_LOGGED_IN %}
+			<br />
+		{% endif %}
+		{% INCLUDE 'chat_body.html' %}
+	{% elseif not S_AJAX_CHAT_ACP_POSITION and S_AJAX_CHAT_POSITION_OVERRIDE %}
+		{% if not S_USER_LOGGED_IN %}
+			<br />
+		{% endif %}
+		{% INCLUDE 'chat_body.html' %}
+	{% endif %}
+{% endif %}

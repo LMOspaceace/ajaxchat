@@ -1,0 +1,5 @@
+{% if S_AJAX_CHAT_INPUT_FULL %}
+	{% INCLUDE 'chat_body_input_full.html' %}
+{% else %}
+	{% INCLUDE 'chat_body_input_original.html' %}
+{% endif %}
