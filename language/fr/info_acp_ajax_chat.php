@@ -120,5 +120,6 @@ $lang = array_merge(
 		'AJAX_CHAT_INPUT_FULL_EXPLAIN'				=> 'Permet d’activer l’affichage de tous les boutons de l’interface de la messagerie instantanée. Si désactivé, seuls le bouton « Envoyer » ainsi que le champ de saisie du texte seront affichés.',
 		'AJAX_CHAT_CHATROW_FULL'					=> 'Hauteur de l’affichage des messages',
 		'AJAX_CHAT_CHATROW_FULL_EXPLAIN'			=> 'Permet de maximiser le nombre de messages affichés dans la messagerie instantanée en limitant autant que faire se peut la hauteur de ces derniers. Si désactivé, la hauteur de l’affichage des messages sera celle par défaut.',
+		'VERSION'									=> 'Version',
 	)
 );
