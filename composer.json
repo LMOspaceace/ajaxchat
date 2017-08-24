@@ -3,8 +3,8 @@
     "type": "phpbb-extension",
     "description": "Chat for phpBB 3.1",
     "homepage": "http://www.livemembersonly.com",
-    "version": "3.0.24",
-    "time": "2017-06-11",
+    "version": "3.0.25",
+    "time": "2017-08-23",
     "license": "GPL-2.0",
     "authors": [{
             "name": "spaceace",
@@ -25,16 +25,16 @@
         }],
     "require": {
         "php": ">= 5.4",
-        "phpbb/phpbb": "3.1.*@dev"
+        "phpbb/phpbb": ">=3.1.0,<3.3"
     },
     "require-dev": {
         "phpbb/epv": "dev-master",
-        "phpbb/phpbb": "~3.1.0"
+        "phpbb/phpbb": ">=3.1.0,<3.3"
     },
     "extra": {
         "display-name": "Ajax Chat",
         "soft-require": {
-            "phpbb/phpbb": "3.1.*@dev"
+            "phpbb/phpbb": ">=3.1.0,<3.3"
         },
         "version-check": {
             "host": "www.livemembersonly.com",

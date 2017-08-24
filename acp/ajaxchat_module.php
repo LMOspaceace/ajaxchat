@@ -11,6 +11,8 @@
 
 namespace spaceace\ajaxchat\acp;
 
+use \spaceace\ajaxchat\ext;
+
 class ajaxchat_module
 {
 
@@ -191,19 +193,27 @@ class ajaxchat_module
 				$this->db->sql_freeresult($result);
 				$sql1 = 'DELETE FROM ' . $this->ajax_chat_table . '
 					WHERE message_id <= ' . (int) $row;
-				$this->db->sql_query($sql1);
-				// Add the log to the ACP
-				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'PRUNE_LOG_AJAXCHAT', time());
+				$result = $this->db->sql_query($sql1);
 
-				if ($this->request->is_ajax())
+				if ($this->request->is_ajax() && $result)
 				{
-					trigger_error($this->user->lang['PRUNE_CHAT_SUCCESS'] . adm_back_link($this->u_action));
+					// Add the log to the ACP
+					$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'PRUNE_LOG_AJAXCHAT', time());
+					$json_response = new \phpbb\json_response;
+					$json_response->send(array(
+						'MESSAGE_TITLE'	=> $this->user->lang('INFORMATION'),
+						'MESSAGE_TEXT'	=> $this->user->lang('PRUNE_CHAT_SUCCESS'),
+						'REFRESH_DATA'	=> array(
+						'time'			=> 3,
+						'url'			=> html_entity_decode($this->u_action)
+						)
+					));
 				}
 			}
 		}
 		$this->id = str_replace("\\", "-", $this->id);
 
-		return '<a href="' . append_sid($this->u_action . '&amp;action=prune_chat') . '" data-ajax="true"><input class="button2" type="submit" id="' . $key . '_enable" name="' . $key . '_enable" value="' . $this->user->lang['PRUNE_NOW'] . '" /></a>';
+		return '<a href="' . append_sid($this->u_action . '&amp;action=prune_chat') . '" data-ajax="true" data-refresh="true"><input class="button2" type="submit" id="' . $key . '_enable" name="' . $key . '_enable" value="' . $this->user->lang['PRUNE_NOW'] . '" /></a>';
 	}
 
 	/**
@@ -235,19 +245,26 @@ class ajaxchat_module
 			if ($this->action === 'truncate_chat')
 			{
 				$sql1 = 'TRUNCATE ' . $this->ajax_chat_table;
-				$this->db->sql_query($sql1);
-				// Add the log to the ACP
-				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'TRUNCATE_LOG_AJAXCHAT', time());
-
-				if ($this->request->is_ajax())
+				$result = $this->db->sql_query($sql1);
+				if ($this->request->is_ajax() && $result)
 				{
-					trigger_error($this->user->lang['TRUNCATE_CHAT_SUCCESS'] . adm_back_link($this->u_action));
+					// Add the log to the ACP
+					$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'TRUNCATE_LOG_AJAXCHAT', time());
+					$json_response = new \phpbb\json_response;
+					$json_response->send(array(
+						'MESSAGE_TITLE'	=> $this->user->lang('INFORMATION'),
+						'MESSAGE_TEXT'	=> $this->user->lang('TRUNCATE_CHAT_SUCCESS'),
+						'REFRESH_DATA'	=> array(
+						'time'			=> 3,
+						'url'			=> html_entity_decode($this->u_action)
+						)
+					));
 				}
 			}
 		}
 		$this->id = str_replace("\\", "-", $this->id);
 
-		return '<a href="' . append_sid($this->u_action . '&amp;action=truncate_chat') . '" data-ajax="true"><input class="button2" type="submit" id="' . $key . '_enable" name="' . $key . '_enable" value="' . $this->user->lang['TRUNCATE_NOW'] . '" /></a>';
+		return '<a href="' . append_sid($this->u_action . '&amp;action=truncate_chat') . '" data-ajax="true" data-refresh="true"><input class="button2" type="submit" id="' . $key . '_enable" name="' . $key . '_enable" value="' . $this->user->lang['TRUNCATE_NOW'] . '" /></a>';
 	}
 
 	/**
@@ -432,6 +449,7 @@ class ajaxchat_module
 			'S_BBCODE_IMG'			=> true,
 			'S_BBCODE_FLASH'		=> true,
 			'S_LINKS_ALLOWED'		=> true,
+			'AJAX_CHAT_VERSION'		=> ext::AJAX_CHAT_VERSION,
 			'U_ACTION'	 => $this->u_action]
 		);
 

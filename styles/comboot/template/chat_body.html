@@ -30,13 +30,13 @@
 						</div>
 					{% endif %}
 				<div>
-					<div class="shout-body{% if S_WHOIS_CHATTING %}{% if S_AJAX_CHAT_ONLINELIST and CHAT_PAGE neq 'archive' %} shouts{% endif %}{% endif %}{% if not S_AJAX_CHAT_ONLINELIST or CHAT_PAGE == 'archive' or not S_WHOIS_CHATTING %} chat_online_off{% endif %}{% if S_CHAT or S_POPUP or CHAT_PAGE == 'archive' %} main{% endif %}">
+					<div class="shout-body{% if S_WHOIS_CHATTING %}{% if S_AJAX_CHAT_ONLINELIST and CHAT_PAGE neq 'archive' %} shouts{% endif %}{% endif %}{% if not S_AJAX_CHAT_ONLINELIST or CHAT_PAGE == 'archive' or not S_WHOIS_CHATTING %} chat_online_off{% endif %}{% if SCRIPT_NAME != 'index' %}{% if S_CHAT or S_POPUP or CHAT_PAGE == 'archive' %} main{% endif %}{% endif %}">
 						<div id="chat" {% if not S_AJAX_CHAT_MESSAGES_DOWN %}class="chat-messages-down"{% endif %} >
 							{% INCLUDE 'chat_body_chatrow.html' %}
 						</div>
 					</div>
 					{% if S_WHOISONLINE %}
-						<div class="whois whois-comboot{% if S_CHAT or S_POPUP %} main{% endif %}{% if not S_AJAX_CHAT_ONLINELIST or CHAT_PAGE == 'archive' or not S_WHOIS_CHATTING %} whois_online_off{% endif %}">
+						<div class="whois whois-comboot{% if SCRIPT_NAME != 'index' %}{% if S_CHAT or S_POPUP %} main{% endif %}{% endif %}{% if not S_AJAX_CHAT_ONLINELIST or CHAT_PAGE == 'archive' or not S_WHOIS_CHATTING %} whois_online_off{% endif %}">
 							<h3>
 								{{ lang('WHOIS_CHATTING') }}
 							</h3>
@@ -54,8 +54,8 @@
 					{% endif %}
 					<div class="chatform">
 						<span class="list chat-icon details">{{ lang('DETAILS') }}</span>
-						<img src="{{ BOARD_URL }}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="check_indicator" title="{{ lang('VERSION') }}" />
-						<img src="{{ BOARD_URL }}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" alt="act_indicator" title="{{ lang('VERSION') }}" />
+						<img src="{{ BOARD_URL }}ext/spaceace/ajaxchat/styles/all/theme/images/check_indicator.gif" id="check_indicator" alt="check_indicator" title="{{ lang('AJAX_CHAT_VERSION') }}" />
+						<img src="{{ BOARD_URL }}ext/spaceace/ajaxchat/styles/all/theme/images/act_indicator.gif" id="act_indicator" alt="act_indicator" title="{{ lang('AJAX_CHAT_VERSION') }}" />
 						<strong>&nbsp;{{ lang('UPDATES') }}&nbsp;<span id="update_seconds">{{ REFRESH_TIME }}</span>&nbsp;{{ lang('UNIT') }}</strong>
 					</div>
 				</div>

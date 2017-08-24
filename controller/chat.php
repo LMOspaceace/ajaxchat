@@ -22,6 +22,7 @@ use phpbb\controller\helper;
 use phpbb\config\db;
 use phpbb\path_helper;
 use phpbb\extension\manager;
+use \spaceace\ajaxchat\ext;
 
 /**
  * Main Chat Controller
@@ -142,23 +143,23 @@ class chat
 								$table_prefix, $root_path, $php_ext,
 								$posts_table, $users_table, $ajax_chat_table, $ajax_chat_sessions_table)
 	{
-		$this->template		= $template;
+		$this->template		 = $template;
 		$this->context		= $context;
-		$this->user			= $user;
-		$this->db			= $db;
-		$this->auth			= $auth;
-		$this->request		= $request;
-		$this->helper		= $helper;
-		$this->config		= $config;
-		$this->root_path	= $root_path;
-		$this->php_ext		= $php_ext;
-		$this->ext_manager	= $ext_manager;
-		$this->path_helper	= $path_helper;
-		$this->table_prefix	= $table_prefix;
-		$this->posts_table	= $posts_table;
-		$this->users_table	= $users_table;
-		$this->ajax_chat_table			= $ajax_chat_table;
-		$this->ajax_chat_sessions_table	= $ajax_chat_sessions_table;
+		$this->user			 = $user;
+		$this->db			 = $db;
+		$this->auth			 = $auth;
+		$this->request		 = $request;
+		$this->helper		 = $helper;
+		$this->config		 = $config;
+		$this->root_path	 = $root_path;
+		$this->php_ext		 = $php_ext;
+		$this->ext_manager	 = $ext_manager;
+		$this->path_helper	 = $path_helper;
+		$this->table_prefix = $table_prefix;
+		$this->posts_table = $posts_table;
+		$this->users_table = $users_table;
+		$this->ajax_chat_table = $ajax_chat_table;
+		$this->ajax_chat_sessions_table = $ajax_chat_sessions_table;
 
 		$this->user->add_lang('posting');
 		$this->user->add_lang_ext('spaceace/ajaxchat', 'ajax_chat');
@@ -209,7 +210,9 @@ class chat
 		$url_status		 = ($this->config['allow_post_links']) ? true : false;
 		$quote_status	 = true;
 
-		$sql	 = 'SELECT user_lastpost FROM ' . $this->ajax_chat_sessions_table . ' WHERE user_id = ' . (int) $this->user->data['user_id'];
+		$sql	 = 'SELECT user_lastpost
+			FROM ' . $this->ajax_chat_sessions_table . '
+			WHERE user_id = ' . (int) $this->user->data['user_id'];
 		$result	 = $this->db->sql_query($sql);
 		$row	 = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -238,30 +241,30 @@ class chat
 
 		//Assign the features template variable
 		$this->template->assign_vars([
-			'BBCODE_STATUS'		 => ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
-			'IMG_STATUS'		 => ($img_status) ? $this->user->lang['IMAGES_ARE_ON'] : $this->user->lang['IMAGES_ARE_OFF'],
-			'FLASH_STATUS'		 => ($flash_status) ? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
-			'SMILIES_STATUS'	 => ($smilies_status) ? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
-			'URL_STATUS'		 => ($url_status) ? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
-			'S_LINKS_ALLOWED'	 => $url_status,
-			'S_COMPOSE_PM'		 => true,
-			'S_BBCODE_ALLOWED'	 => $bbcode_status,
-			'S_SMILIES_ALLOWED'	 => $smilies_status,
-			'S_BBCODE_IMG'		 => $img_status,
-			'S_BBCODE_FLASH'	 => $flash_status,
-			'S_BBCODE_QUOTE'	 => $quote_status,
-			'S_BBCODE_URL'		 => $url_status,
-			'REFRESH_TIME'		 => $refresh,
-			'LAST_ID'			 => $this->last_id,
-			'LAST_POST'			 => $last_post,
-			'TIME'				 => time(),
-			'L_VERSION'			 => '3.0.24',
-			'STYLE_PATH'		 => generate_board_url() . '/styles/' . $this->user->style['style_path'],
-			'EXT_STYLE_PATH'	 => $this->ext_path_web . 'styles/',
-			'FILENAME'			 => $this->helper->route('spaceace_ajaxchat_chat', array('tslash' => '')),
-			'S_CHAT'			 => (!$this->get) ? true : false,
-			'S_GET_CHAT'		 => ($this->get) ? true : false,
-			'CHAT_PAGE'          => $this->page,
+			'BBCODE_STATUS'			=> ($bbcode_status) ? sprintf($this->user->lang['BBCODE_IS_ON'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : sprintf($this->user->lang['BBCODE_IS_OFF'], '<a href="' . append_sid("{$this->root_path}faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
+			'IMG_STATUS'			=> ($img_status) ? $this->user->lang['IMAGES_ARE_ON'] : $this->user->lang['IMAGES_ARE_OFF'],
+			'FLASH_STATUS'			=> ($flash_status) ? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
+			'SMILIES_STATUS'		=> ($smilies_status) ? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
+			'URL_STATUS'			=> ($url_status) ? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
+			'S_LINKS_ALLOWED'		=> $url_status,
+			'S_COMPOSE_PM'			=> true,
+			'S_BBCODE_ALLOWED'		=> $bbcode_status,
+			'S_SMILIES_ALLOWED'		=> $smilies_status,
+			'S_BBCODE_IMG'			=> $img_status,
+			'S_BBCODE_FLASH'		=> $flash_status,
+			'S_BBCODE_QUOTE'		=> $quote_status,
+			'S_BBCODE_URL'			=> $url_status,
+			'REFRESH_TIME'			=> $refresh,
+			'LAST_ID'				=> $this->last_id,
+			'LAST_POST'				=> $last_post,
+			'TIME'					=> time(),
+			'L_AJAX_CHAT_VERSION'	=> ext::AJAX_CHAT_VERSION,
+			'STYLE_PATH'			=> generate_board_url() . '/styles/' . $this->user->style['style_path'],
+			'EXT_STYLE_PATH'		=> $this->ext_path_web . 'styles/',
+			'FILENAME'				=> $this->helper->route('spaceace_ajaxchat_chat', array('tslash' => '')),
+			'S_CHAT'				=> (!$this->get) ? true : false,
+			'S_GET_CHAT'			=> ($this->get) ? true : false,
+			'CHAT_PAGE'         	=> $this->page,
 		]);
 
 		$this->whois_online();
@@ -384,7 +387,9 @@ class chat
 			WHERE user_id = ' . (int) $this->user->data['user_id'];
 		$this->db->sql_query($sql);
 
-		$sql = 'DELETE FROM ' . $this->ajax_chat_sessions_table . ' WHERE user_lastupdate <  ' . (int) $check_time;
+		$sql = 'DELETE
+			FROM ' . $this->ajax_chat_sessions_table . '
+			WHERE user_lastupdate <  ' . (int) $check_time;
 		$this->db->sql_query($sql);
 
 		$sql	 = 'SELECT *

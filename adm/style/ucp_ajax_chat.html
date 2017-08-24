@@ -1,0 +1,75 @@
+{% if S_CHAT_ENABLED %}
+	<fieldset>
+		<legend>{{ lang('USER_AJAXCHAT_SETTINGS') }}</legend>
+		<dl>
+			<dt><label for="ajax_chat_view0">{{ lang('USER_AJAX_CHAT_VIEW') }}{{ lang('COLON') }}</label></dt>
+			<dd>
+				<label for="ajax_chat_view1"><input type="radio" name="ajax_chat_view" id="view_chat1" value="1"{% if S_AJAX_CHAT_VIEW %} checked="checked"{% endif %} /> {{ lang('YES') }}</label> 
+				<label for="ajax_chat_view0"><input type="radio" name="ajax_chat_view" id="view_chat0" value="0"{% if not S_AJAX_CHAT_VIEW %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="ajax_chat_position0">{{ lang('USER_AJAX_CHAT_POSITION') }}{{ lang('COLON') }}</label></dt>
+			<dd>
+				<label for="ajax_chat_position1"><input type="radio" name="ajax_chat_position" id="ajax_chat_position1" value="1"{% if S_AJAX_CHAT_POSITION %} checked="checked"{% endif %} /> {{ lang('CHAT_TOP') }}</label> 
+				<label for="ajax_chat_position0"><input type="radio" name="ajax_chat_position" id="ajax_chat_position0" value="0"{% if not S_AJAX_CHAT_POSITION %} checked="checked"{% endif %} /> {{ lang('CHAT_BOTTOM') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="ajax_chat_messages_down0">{{ lang('AJAX_CHAT_MESSAGES_DOWN') }}{{ lang('COLON') }}</label></dt>
+			<dd>
+				<label for="ajax_chat_messages_down1"><input type="radio" name="ajax_chat_messages_down" id="ajax_chat_messages_down1" value="1"{% if S_AJAX_CHAT_MESSAGES_DOWN %} checked="checked"{% endif %} /> {{ lang('CHAT_TOP') }}</label> 
+				<label for="ajax_chat_messages_down0"><input type="radio" name="ajax_chat_messages_down" id="ajax_chat_messages_down0" value="0"{% if not S_AJAX_CHAT_MESSAGES_DOWN %} checked="checked"{% endif %} /> {{ lang('CHAT_BOTTOM') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="ajax_chat_viewforum0">{{ lang('USER_AJAX_CHAT_VIEWFORUM') }}{{ lang('COLON') }}</label></dt>
+			<dd>
+				<label for="ajax_chat_viewforum1"><input type="radio" name="ajax_chat_viewforum" id="ajax_chat_viewforum1" value="1"{% if S_AJAX_CHAT_VIEWFORUM %} checked="checked"{% endif %} /> {{ lang('YES') }}</label> 
+				<label for="ajax_chat_viewforum0"><input type="radio" name="ajax_chat_viewforum" id="ajax_chat_viewforum0" value="0"{% if not S_AJAX_CHAT_VIEWFORUM %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="ajax_chat_viewtopic0">{{ lang('USER_AJAX_CHAT_VIEWTOPIC') }}{{ lang('COLON') }}</label></dt>
+			<dd>
+				<label for="ajax_chat_ajax_chat_viewtopic1"><input type="radio" name="ajax_chat_viewtopic" id="ajax_chat_viewtopic1" value="1"{% if S_AJAX_CHAT_VIEWTOPIC %} checked="checked"{% endif %} /> {{ lang('YES') }}</label> 
+				<label for="ajax_chat_ajax_chat_viewtopic0"><input type="radio" name="ajax_chat_viewtopic" id="ajax_chat_viewtopic0" value="0"{% if not S_AJAX_CHAT_VIEWTOPIC %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="ajax_chat_avatars0">{{ lang('USER_AJAX_CHAT_AVATARS') }}{{ lang('COLON') }}</label></dt>
+			<dd>
+				<label for="ajax_chat_avatars1"><input type="radio" name="ajax_chat_avatars" id="ajax_chat_avatars1" value="1"{% if S_AJAX_CHAT_AVATARS %} checked="checked"{% endif %} /> {{ lang('YES') }}</label> 
+				<label for="ajax_chat_avatars0"><input type="radio" name="ajax_chat_avatars" id="ajax_chat_avatars0" value="0"{% if not S_AJAX_CHAT_AVATARS %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="ajax_chat_avatar_hover0">{{ lang('USER_AJAX_CHAT_AVATAR_HOVER') }}{{ lang('COLON') }}</label></dt>
+			<dd>
+				<label for="ajax_chat_avatar_hover1"><input type="radio" name="ajax_chat_avatar_hover" id="ajax_chat_avatar_hover1" value="1"{% if S_AJAX_CHAT_AVATAR_HOVER %} checked="checked"{% endif %} /> {{ lang('YES') }}</label> 
+				<label for="ajax_chat_avatar_hover0"><input type="radio" name="ajax_chat_avatar_hover" id="ajax_chat_avatar_hover0" value="0"{% if not S_AJAX_CHAT_AVATAR_HOVER %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="ajax_chat_sound0">{{ lang('USER_AJAX_CHAT_SOUND') }}{{ lang('COLON') }}</label></dt>
+			<dd>
+				<label for="ajax_chat_sound1"><input type="radio" name="ajax_chat_sound" id="ajax_chat_sound1" value="1"{% if S_AJAX_CHAT_SOUND %} checked="checked"{% endif %} /> {{ lang('YES') }}</label> 
+				<label for="ajax_chat_sound0"><input type="radio" name="ajax_chat_sound" id="ajax_chat_sound0" value="0"{% if not S_AJAX_CHAT_SOUND %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="ajax_chat_onlinelist0">{{ lang('USER_AJAX_CHAT_ONLINELIST') }}{{ lang('COLON') }}</label></dt>
+			<dd>
+				<label for="ajax_chat_onlinelist1"><input type="radio" name="ajax_chat_onlinelist" id="ajax_chat_onlinelist1" value="1"{% if S_AJAX_CHAT_ONLINELIST %} checked="checked"{% endif %} /> {{ lang('YES') }}</label> 
+				<label for="ajax_chat_onlinelist0"><input type="radio" name="ajax_chat_onlinelist" id="ajax_chat_onlinelist0" value="0"{% if not S_AJAX_CHAT_ONLINELIST %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="ajax_chat_autocomplete0">{{ lang('USER_AJAX_CHAT_AUTOCOMPLETE') }}{{ lang('COLON') }}</label></dt>
+			<dd>
+				<label for="ajax_chat_autocomplete1"><input type="radio" name="ajax_chat_autocomplete" id="ajax_chat_autocomplete1" value="1"{% if S_AJAX_CHAT_AUTOCOMPLETE %} checked="checked"{% endif %} /> {{ lang('YES') }}</label> 
+				<label for="ajax_chat_autocomplete0"><input type="radio" name="ajax_chat_autocomplete" id="ajax_chat_autocomplete0" value="0"{% if not S_AJAX_CHAT_AUTOCOMPLETE %} checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+	</fieldset>
+{% endif %}

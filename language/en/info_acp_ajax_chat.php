@@ -119,5 +119,6 @@ $lang = array_merge(
 		'AJAX_CHAT_INPUT_FULL_EXPLAIN'				=> 'Disabling this will leave only the "Submit" button and message inputbox making it a very basic input like a shoutbox.',
 		'AJAX_CHAT_CHATROW_FULL'					=> 'Short message height',
 		'AJAX_CHAT_CHATROW_FULL_EXPLAIN'			=> 'Disabling this will set the chat message height to it`s original height. Enabling this will have the message height as short as possible while fitting more messages in view.',
+		'VERSION'									=> 'Version',
 	)
 );
