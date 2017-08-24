@@ -242,11 +242,6 @@ class listener implements EventSubscriberInterface
 			return;
 		}
 
-		if ($this->config['prune_ajax_chat'] === true)
-		{
-			$this->prune();
-		}
-
 		$this->user->add_lang('posting');
 
 		$this->chat->defaultAction('index');

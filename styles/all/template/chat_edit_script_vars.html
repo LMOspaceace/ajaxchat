@@ -1,0 +1,13 @@
+<script type="text/javascript">
+	// <![CDATA[
+		var last_time = {{ TIME }};
+		var last_id = {{ LAST_ID }};
+		var read_interval = ({{ REFRESH_TIME }} * 1000);
+		var cookie_name = '{{ AJAX_CHAT_COOKIE_NAME }}';
+		var query_url	= '{{ FILENAME }}';
+		var chat_username_title = '{{ lang('RESPOND')|e('js') }}';
+		var chatbbcodetrue = {% if S_AJAXCHAT_BBCODE %}true{% else %}false{% endif %};
+		var chatmessagedown = {% if S_AJAX_CHAT_MESSAGES_DOWN %}false{% else %}true{% endif %};
+		var chat_username_title = '{{ lang('RESPOND')|e('js') }}';
+	//]]>
+</script>

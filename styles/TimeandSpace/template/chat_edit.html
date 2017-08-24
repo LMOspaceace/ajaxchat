@@ -1,23 +1,7 @@
 {% INCLUDE 'simple_header.html' %}
-<script type="text/javascript">
-// <![CDATA[
-var last_time = {{ TIME }};
-var last_id = {{ LAST_ID }};
-var read_interval = ({{ REFRESH_TIME }} * 1000);
-var cookie_name = '{{ AJAX_CHAT_COOKIE_NAME }}';
-var query_url	= '{{ FILENAME }}';
-{% if S_AJAXCHAT_BBCODE %}
-	var chatbbcodetrue = true;
-{% else %}
-	var chatbbcodetrue = false;
-{% endif %}
-{% if S_AJAX_CHAT_MESSAGES_DOWN %}
-	var chatmessagedown = false;
-{% else %}
-	var chatmessagedown = true;
-{% endif %}
-//]]>
-</script>
+
+{% INCLUDE 'chat_edit_script_vars.html' %}
+
 {% INCLUDEJS '@spaceace_ajaxchat/js/ajax_chat.js' %}
 <form method="post" action="" id="chat_edit">
 	<div class="panel chat_edit">

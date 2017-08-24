@@ -46,24 +46,13 @@ var d = new Date();
 var post_time = d.getTime();
 var interval = setInterval('handle_send("read", last_id);', read_interval);
 var name = getCookie(cookie_name);
+var blkopen = '';
+var blkclose = '';
 
-if (chatbbcodetrue)
-{
-	var blkopen = name;
+if (chatbbcodetrue && name !== null && name !== 'null') {
 
-	if (name === null || name === 'null')
-	{
-		var blkopen = '';
-		var blkclose = '';
-	} else
-	{
-		var blkopen = name;
-		var blkclose = '[/color2]';
-	}
-} else
-{
-	var blkopen = '';
-	var blkclose = '';
+	blkopen = name;
+	blkclose = '[/color2]';
 }
 
 function handle_send(mode, f)
@@ -99,9 +88,9 @@ function handle_send(mode, f)
 			param = '&submit=1&message=' + message;
 		} else if (mode === 'delete')
 		{
-			//var parent = document.getElementById('chat');
-			//var child = document.getElementById('p' + f);
-			//parent.removeChild(child);
+			var parent = document.getElementById('chat');
+			var child = document.getElementById('p' + f);
+			parent.removeChild(child);
 			type = 'delete';
 			param += '&chat_id=' + f;
 		} else if (mode === 'quotemessage')
@@ -212,7 +201,7 @@ function handle_error(http_status, status_text, type) {
 
 function delete_post(chatid)
 {
-	//document.getElementById('p' + chatid).style.display = 'none';
+	document.getElementById('p' + chatid).style.display = 'none';
 	handle_send('delete', chatid);
 }
 

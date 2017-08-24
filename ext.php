@@ -16,6 +16,8 @@ namespace spaceace\ajaxchat;
 */
 class ext extends \phpbb\extension\base
 {
+	const AJAX_CHAT_VERSION = '3.0.25';
+
 	public function is_enableable()
 	{
 		$config = $this->container->get('config');
