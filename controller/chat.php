@@ -71,7 +71,7 @@ class chat
 	/** @var core.php_ext */
 	protected $php_ext;
 
-	/** @var core.php_ext */
+	/* @var string table_prefix */
 	protected $table_prefix;
 
 	/** @var int */
@@ -341,11 +341,6 @@ class chat
 
 		foreach ($rows as $row)
 		{
-			/*if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
-			{
-				continue;
-			}*/
-
 			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
 			{
 				continue;
@@ -499,11 +494,6 @@ class chat
 
 		foreach ($rows as $row)
 		{
-			/*if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
-			{
-				continue;
-			}*/
-
 			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
 			{
 				continue;
@@ -610,14 +600,6 @@ class chat
 				$result	 = $this->db->sql_query($sql);
 				$row	 = $this->db->sql_fetchrow($result);
 				$this->db->sql_freeresult($result);
-
-				/*
-				, p.post_visibility
-				LEFT JOIN ' . $this->posts_table . ' as p ON c.post_id = p.post_id
-				if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
-				{
-					return;
-				}*/
 
 				if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
 				{
@@ -741,16 +723,6 @@ class chat
 
 		foreach ($rows as $row)
 		{
-			/*if ($row['forum_id'] && !$row['post_visibility'] == ITEM_APPROVED && !$this->auth->acl_get('m_approve', $row['forum_id']))
-			{
-				continue;
-			}
-
-			if ($row['forum_id'] && !$this->auth->acl_get('f_read', $row['forum_id']))
-			{
-				continue;
-			}*/
-
 			if ($this->count++ == 0)
 			{
 				$this->last_id = $row['message_id'];
@@ -845,8 +817,6 @@ class chat
 			LEFT JOIN ' . $this->users_table . ' as u ON c.user_id = u.user_id
 			WHERE c.message_id > ' . (int) $this->last_id . '
 			ORDER BY c.message_id DESC';
-			//, p.post_visibility
-			//LEFT JOIN ' . $this->posts_table . ' as p ON c.post_id = p.post_id
 		return $sql;
 	}
 

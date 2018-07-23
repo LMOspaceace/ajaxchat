@@ -2,10 +2,10 @@
 /**
  *
  * Ajax Chat. An extension for the phpBB Forum Software package.
- * French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
+ * French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & by Galixte (http://www.galixte.com)
  *
- * @copyright (c) 2017 spaceace <http://www.livemembersonly.com>
- * @license GNU General Public License, version 2 (GPL-2.0)
+ * @copyright (c) 2018 spaceace <http://www.livemembersonly.com>
+ * @license GNU General Public License, version 2 (GPL-2.0-only)
  *
  */
 

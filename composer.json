@@ -1,12 +1,13 @@
 {
     "name": "spaceace/ajaxchat",
     "type": "phpbb-extension",
-    "description": "Chat for phpBB 3.1",
-    "homepage": "http://www.livemembersonly.com",
-    "version": "3.0.25",
-    "time": "2017-08-23",
+    "description": "Chat for phpBB 3.1 and 3.2",
+    "homepage": "https://www.livemembersonly.com",
+    "version": "3.0.26",
+    "time": "2017-09-24",
     "license": "GPL-2.0",
-    "authors": [{
+    "authors": [
+        {
             "name": "spaceace",
             "email": "spaceace@livemembersonly.com",
             "homepage": "https://www.livemembersonly.com",
@@ -22,10 +23,12 @@
             "email": "royk@myraytech.net",
             "homepage": "https://myraytech.net",
             "role": "Extension Co-Developer"
-        }],
+        }
+    ],
     "require": {
         "php": ">= 5.4",
-        "phpbb/phpbb": ">=3.1.0,<3.3"
+        "phpbb/phpbb": ">=3.1.0,<3.3",
+        "composer/installers": "~1.0.0"
     },
     "require-dev": {
         "phpbb/epv": "dev-master",
@@ -37,9 +40,9 @@
             "phpbb/phpbb": ">=3.1.0,<3.3"
         },
         "version-check": {
-            "host": "www.livemembersonly.com",
-            "directory": "/version",
-            "filename": "ajaxchat.json"
+            "host": "www.phpbb.com",
+            "directory": "/customise/db/extension/ajax_chat",
+            "filename": "version_check"
         }
     }
 }

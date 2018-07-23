@@ -48,7 +48,7 @@ class acp_manager
 				}
 
 				$sql = 'UPDATE ' . BBCODES_TABLE . '
-					SET bbcode_order = ' . $order . '
+					SET bbcode_order = ' . (int) $order . '
 					WHERE bbcode_id = ' . (int) $bbcode_id;
 				$this->db->sql_query($sql);
 			}
@@ -130,10 +130,10 @@ class acp_manager
 				'second_pass_replace'	=> $data['second_pass_replace']
 			);
 
-			$sql		= 'SELECT bbcode_id
+			$sql = 'SELECT bbcode_id
 				FROM ' . BBCODES_TABLE . "
-				WHERE LOWER(bbcode_tag) = '" . strtolower($bbcode_name) . "'
-				OR LOWER(bbcode_tag) = '" . strtolower($bbcode_array['bbcode_tag']) . "'";
+				WHERE LOWER(bbcode_tag) = '" . $this->db->sql_escape(strtolower($bbcode_name)) . "'
+				OR LOWER(bbcode_tag) = '" . $this->db->sql_escape(strtolower($bbcode_array['bbcode_tag'])) . "'";
 			$result	 = $this->db->sql_query($sql);
 			$row_exists = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
@@ -144,7 +144,7 @@ class acp_manager
 
 				$sql = 'UPDATE ' . BBCODES_TABLE . '
 					SET ' . $this->db->sql_build_array('UPDATE', $bbcode_array) . '
-					WHERE bbcode_id = ' . $bbcode_id;
+					WHERE bbcode_id = ' . (int) $bbcode_id;
 				$this->db->sql_query($sql);
 			}
 			else
