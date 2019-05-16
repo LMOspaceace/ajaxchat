@@ -10,11 +10,9 @@
 
 <a id="maincontent"></a>
 
-<h1>{{ lang('ACP_AJAX_CHAT') }}</h1>
+<h1>{{ lang('ACP_AJAX_CHAT') }} {{ AJAX_CHAT_VERSION }}</h1>
 
 <p>{{ lang('ACP_AJAX_CHAT_EXPLAIN') }}</p>
-
-<img style="float: {{ S_CONTENT_FLOW_END }};" src="https://img.shields.io/badge/{{ lang('VERSION') }}-{{ AJAX_CHAT_VERSION }}-blue.svg?style=plastic" /><br />
 
 {% if S_ERROR %}
 	<div class="errorbox">

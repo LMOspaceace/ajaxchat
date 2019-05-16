@@ -62,7 +62,6 @@ $lang = array_merge(
 		'CHAT_AMOUNT_AJAX_CHAT'						=> 'Chat messages',
 		'CHAT_AMOUNT_AJAX_CHAT_EXPLAIN'				=> 'Amount of chat messages to display. Between 5 and 150. Default is 60.',
 		'AJAX_CHAT_RULES'							=> 'Chat rules',
-		'RULES_AJAX_CHAT'							=> 'Insert a simple rule for chat',
 		'RULES_AJAX_CHAT_EXPLAIN'					=> 'You are able to enter the rules for chat here. Or you can enter a URL of a page/post containing your chat rules.',
 		'AJAX_CHAT_LOCATION'						=> 'Chat location',
 		'LOCATION_AJAX_CHAT_OVERRIDE'				=> 'Override user’s chat position',

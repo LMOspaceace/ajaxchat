@@ -25,9 +25,7 @@
 					</div>
 				</div>
 					{% if CHAT_RULES and CHAT_PAGE neq 'archive' %}
-						<div class="navbar chatrules">
-							<span>{{ CHAT_RULES }}</span>
-						</div>
+						{% INCLUDE 'chat_body_chat_rules.html' %}
 					{% endif %}
 				<div>
 					<div class="shout-body{% if S_WHOIS_CHATTING %}{% if S_AJAX_CHAT_ONLINELIST and CHAT_PAGE neq 'archive' %} shouts{% endif %}{% endif %}{% if not S_AJAX_CHAT_ONLINELIST or CHAT_PAGE == 'archive' or not S_WHOIS_CHATTING %} chat_online_off{% endif %}{% if SCRIPT_NAME != 'index' %}{% if S_CHAT or S_POPUP or CHAT_PAGE == 'archive' %} main{% endif %}{% endif %}">

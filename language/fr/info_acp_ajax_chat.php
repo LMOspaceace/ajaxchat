@@ -2,10 +2,10 @@
 /**
  *
  * Ajax Chat. An extension for the phpBB Forum Software package.
- * French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & Galixte (http://www.galixte.com)
+ * French translation by stratege1401 (http://www.forum.fasx.org/phpbb/) & by Galixte (http://www.galixte.com)
  *
- * @copyright (c) 2017 spaceace <http://www.livemembersonly.com>
- * @license GNU General Public License, version 2 (GPL-2.0)
+ * @copyright (c) 2018 spaceace <http://www.livemembersonly.com>
+ * @license GNU General Public License, version 2 (GPL-2.0-only)
  *
  */
 
@@ -63,7 +63,6 @@ $lang = array_merge(
 		'CHAT_AMOUNT_AJAX_CHAT'						=> 'Messages de la messagerie instantanée',
 		'CHAT_AMOUNT_AJAX_CHAT_EXPLAIN'				=> 'Nombres des messages à afficher sur la page dédiée à la messagerie instantanée. Entre 5 et 150, et par défaut à 60.',
 		'AJAX_CHAT_RULES'							=> 'Règles de la messagerie instantanée',
-		'RULES_AJAX_CHAT'							=> 'Définir une règle simple',
 		'RULES_AJAX_CHAT_EXPLAIN'					=> 'Permet de saisir les règles pour la messagerie instantanée. Il est possible de saisir une adresse URL vers un sujet stipulant vos règles, telle que : page/message-contenant-vos-regles.',
 		'AJAX_CHAT_LOCATION'						=> 'Emplacement de la messagerie instantanée',
 		'LOCATION_AJAX_CHAT_OVERRIDE'				=> 'Outrepasser le choix de l’emplacement sur la page « Index »',
